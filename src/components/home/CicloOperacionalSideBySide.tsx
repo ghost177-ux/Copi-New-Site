@@ -1,3 +1,5 @@
+import { Rocket } from "lucide-react";
+
 export function CicloOperacionalSideBySide() {
   return (
     <section
@@ -12,7 +14,7 @@ export function CicloOperacionalSideBySide() {
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-12 lg:flex-row lg:items-center lg:gap-[2%]">
         
         {/* ========================================================
-            COLUNA ESQUERDA (45%): IMAGEM TRANSPARENTE PURA + FOGUETE
+            COLUNA ESQUERDA (45%): IMAGEM TRANSPARENTE PURA + FOGUETE LUCIDE
         ======================================================== */}
         <div className="flex w-full items-center justify-center lg:w-[45%]">
           <div className="relative flex w-full max-w-[460px] sm:max-w-[480px] lg:max-w-[500px] aspect-square items-center justify-center">
@@ -25,100 +27,18 @@ export function CicloOperacionalSideBySide() {
             />
 
             {/* ====================================================
-                ANIMAÇÃO ORBITAL DO FOGUETE COM TRILHA PONTILHADA
-                Perfeitamente centralizada sobre o relógio da imagem
+                ANIMAÇÃO ORBITAL DO FOGUETE LUCIDE
+                Órbita perfeitamente sincronizada em torno do relógio central
             ==================================================== */}
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <div className="relative size-[30%] aspect-square flex items-center justify-center animate-[spin_10s_linear_infinite]">
-                
-                {/* Trilha do Foguete (Dashed + Solid matching reference image) */}
-                <svg
-                  className="absolute inset-0 size-full"
-                  viewBox="0 0 100 100"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Trilha Pontilhada (Lado Esquerdo) */}
-                  <path
-                    d="M 50 10 A 40 40 0 0 0 50 90"
-                    stroke="#5B5B5B"
-                    strokeWidth="3.2"
-                    strokeLinecap="round"
-                    strokeDasharray="3 6"
-                    className="opacity-85"
-                  />
+              {/* Trilha Guia Circular Pontilhada Limpa */}
+              <div className="absolute size-[25%] sm:size-[24%] rounded-full border border-dashed border-slate-400/50" />
 
-                  {/* Trilha Sólida (Lado Direito) */}
-                  <path
-                    d="M 50 90 A 40 40 0 0 0 50 10"
-                    stroke="#5B5B5B"
-                    strokeWidth="3.2"
-                    strokeLinecap="round"
-                    className="opacity-85"
-                  />
-                </svg>
-
-                {/* Foguete Estilizado com Rastro de Propulsão */}
-                <div
-                  className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 flex items-center justify-center"
-                  style={{ transform: "rotate(-45deg)" }}
-                >
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="drop-shadow-xs"
-                  >
-                    {/* Linhas de exaustão */}
-                    <line
-                      x1="3"
-                      y1="17"
-                      x2="7"
-                      y2="17"
-                      stroke="#5B5B5B"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="1"
-                      y1="19.5"
-                      x2="6"
-                      y2="19.5"
-                      stroke="#5B5B5B"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                    <line
-                      x1="4"
-                      y1="22"
-                      x2="8"
-                      y2="22"
-                      stroke="#5B5B5B"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-
-                    {/* Corpo e bico do foguete */}
-                    <path
-                      d="M 7 17 C 7 14 11 11 15 8 C 19 5 21 3 21 3 C 21 3 19 5 16 9 C 13 13 10 17 7 17 Z"
-                      fill="#5B5B5B"
-                    />
-                    <path
-                      d="M 21 3 C 15 5 9 10 7 17 C 8 18 10 19 11 19 C 18 17 23 11 21 3 Z"
-                      fill="#5B5B5B"
-                      stroke="#374151"
-                      strokeWidth="0.8"
-                    />
-                    {/* Janela circular branca */}
-                    <circle cx="14" cy="10" r="2.2" fill="#FFFFFF" />
-                    <circle cx="14" cy="10" r="1.1" fill="#5B5B5B" />
-
-                    {/* Aletas */}
-                    <path d="M 7 14 L 4 15 L 6 18 Z" fill="#4B5563" />
-                    <path d="M 14 21 L 15 24 L 18 22 Z" fill="#4B5563" />
-                  </svg>
+              {/* Container Orbital com rotação suave e contínua de 360 graus */}
+              <div className="relative size-[25%] sm:size-[24%] aspect-square flex items-center justify-center animate-[spin_12s_linear_infinite]">
+                {/* Ícone Lucide Rocket Limpo em cinza escuro sólido, alinhado tangencialmente à órbita */}
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center justify-center">
+                  <Rocket className="size-5 sm:size-5.5 text-slate-600 fill-slate-600/30 stroke-[2] rotate-45 drop-shadow-xs" />
                 </div>
               </div>
             </div>
