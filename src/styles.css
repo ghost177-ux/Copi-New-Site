@@ -112,10 +112,10 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --brand-blue: oklch(0.71 0.145 222);
-  --brand-green: oklch(0.76 0.19 129);
-  --brand-green-hover: oklch(0.69 0.18 129);
-  --brand-green-foreground: oklch(0.18 0.025 245);
+  --brand-blue: #3BBCEC;
+  --brand-green: #65B32E;
+  --brand-green-hover: #549b24;
+  --brand-green-foreground: #FFFFFF;
   --varejo: #3BBCEC;
   --varejo-hover: #28abd9;
   --auto: #FCC42C;
@@ -123,10 +123,10 @@
   --food: #FC4242;
   --food-hover: #e03535;
   --surface-ice: #F8FAFC;
-  --ink: oklch(0.17 0.023 245);
-  --ink-foreground: oklch(0.98 0.005 230);
-  --ink-muted: oklch(0.72 0.018 235);
-  --ink-border: oklch(1 0 0 / 16%);
+  --ink: #0F172A;
+  --ink-foreground: #F8FAFC;
+  --ink-muted: #94A3B8;
+  --ink-border: rgba(255, 255, 255, 0.12);
   --surface-soft: #F8FAFC;
 }
 
@@ -229,3 +229,26 @@
   .segment-enter { animation: none; }
   *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
+
+/* Explicit Brand & Segment Utilities */
+.text-varejo { color: #3BBCEC; }
+.text-auto { color: #FCC42C; }
+.text-food { color: #FC4242; }
+
+.bg-varejo { background-color: #3BBCEC; }
+.bg-auto { background-color: #FCC42C; }
+.bg-food { background-color: #FC4242; }
+
+.border-varejo { border-color: #3BBCEC; }
+.border-auto { border-color: #FCC42C; }
+.border-food { border-color: #FC4242; }
+
+.bg-brand-green { background-color: #65B32E; color: #FFFFFF; }
+.bg-brand-green:hover { background-color: #549b24; }
+.text-brand-green { color: #65B32E; }
+.border-brand-green { border-color: #65B32E; }
+
+.shadow-brand-glow {
+  box-shadow: 0 10px 30px -10px rgba(101, 179, 46, 0.4);
+}
+
