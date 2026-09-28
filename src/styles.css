@@ -19,6 +19,7 @@
  */
 
 @theme inline {
+  --font-sans: "Manrope", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,28 +60,40 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-hover: var(--brand-green-hover);
+  --color-brand-green-foreground: var(--brand-green-foreground);
+  --color-varejo: var(--varejo);
+  --color-auto: var(--auto);
+  --color-food: var(--food);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-border: var(--ink-border);
+  --color-surface-soft: var(--surface-soft);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.25rem;
+  --background: oklch(0.995 0.002 230);
+  --foreground: oklch(0.19 0.025 245);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.19 0.025 245);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted: oklch(0.965 0.006 230);
+  --muted-foreground: oklch(0.49 0.025 245);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
+  --border: oklch(0.9 0.012 230);
+  --input: oklch(0.84 0.018 230);
   --ring: oklch(0.704 0.04 256.788);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -95,6 +108,18 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+  --brand-blue: oklch(0.71 0.145 222);
+  --brand-green: oklch(0.76 0.19 129);
+  --brand-green-hover: oklch(0.69 0.18 129);
+  --brand-green-foreground: oklch(0.18 0.025 245);
+  --varejo: oklch(0.72 0.145 222);
+  --auto: oklch(0.84 0.16 86);
+  --food: oklch(0.64 0.225 26);
+  --ink: oklch(0.17 0.023 245);
+  --ink-foreground: oklch(0.98 0.005 230);
+  --ink-muted: oklch(0.72 0.018 235);
+  --ink-border: oklch(1 0 0 / 16%);
+  --surface-soft: oklch(0.975 0.01 220);
 }
 
 .dark {
@@ -140,5 +165,59 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+    text-rendering: optimizeLegibility;
   }
+
+  html { scroll-behavior: smooth; }
+
+  button, a, input { letter-spacing: 0; }
+}
+
+@utility fluid-gutter {
+  padding-inline: 3%;
+  @media (min-width: 770px) { padding-inline: 5%; }
+  @media (min-width: 1771px) { padding-inline: 10%; }
+}
+
+@utility nav-link {
+  position: relative;
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: var(--foreground);
+  transition: color 180ms ease;
+  &:hover { color: var(--brand-blue); }
+}
+
+@utility eyebrow {
+  font-size: 0.72rem;
+  line-height: 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+}
+
+@utility segment-glow {
+  position: absolute;
+  inset: 9% 0 9% 9%;
+  opacity: 0.11;
+  clip-path: polygon(22% 0, 100% 0, 100% 78%, 75% 100%, 0 100%, 0 22%);
+}
+
+@utility segment-glow-varejo { background: var(--varejo); }
+@utility segment-glow-auto { background: var(--auto); }
+@utility segment-glow-food { background: var(--food); }
+
+@keyframes segment-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@utility segment-enter { animation: segment-enter 420ms ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .segment-enter { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
 }
