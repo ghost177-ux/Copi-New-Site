@@ -134,20 +134,20 @@ export function EcossistemaIntegrado() {
       {/* Diagrama Interativo Core */}
       <div className="relative z-10 mx-auto mt-16 w-full max-w-6xl">
         {/* ========================================================
-            DESKTOP LAYOUT (Duas colunas de 3 cards flanqueando o círculo central)
+            DESKTOP LAYOUT (Duas colunas de 3 cards flanqueando o círculo central compacto)
         ======================================================== */}
-        <div className="relative hidden items-center justify-between gap-6 lg:flex min-h-[460px]">
-          {/* Linhas Conectoras SVG Vetoriais Conectadas Diretamente às Bordas do Círculo */}
+        <div className="relative hidden items-center justify-between gap-6 lg:flex min-h-[300px]">
+          {/* Linhas Conectoras SVG Vetoriais Conectadas com Precisão às Bordas do Círculo Compacto */}
           <svg
             className="pointer-events-none absolute inset-0 z-0 size-full"
-            viewBox="0 0 1152 460"
+            viewBox="0 0 1152 272"
             preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Conectores do lado esquerdo ancorados na borda do círculo central */}
-            {/* Card 1 (Frente de Caixa) -> Borda superior-esquerda do círculo */}
+            {/* Lado Esquerdo Ancorado na Periferia do Círculo */}
+            {/* Card 1 (Frente de Caixa) -> Arco superior-esquerdo do círculo */}
             <path
-              d="M 288 55 C 365 55, 385 125, 452 125"
+              d="M 288 36 C 365 36, 425 55, 495 55"
               fill="none"
               stroke={activeNodeId === "pdv" ? "#F59E0B" : "#CBD5E1"}
               strokeWidth={activeNodeId === "pdv" ? "2.5" : "1.5"}
@@ -156,16 +156,16 @@ export function EcossistemaIntegrado() {
             />
             {/* Card 2 (Fiscal) -> Borda lateral-esquerda do círculo */}
             <path
-              d="M 288 230 L 406 230"
+              d="M 288 136 L 462 136"
               fill="none"
               stroke={activeNodeId === "fiscal" ? "#10B981" : "#CBD5E1"}
               strokeWidth={activeNodeId === "fiscal" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "fiscal" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
-            {/* Card 3 (Estoque) -> Borda inferior-esquerda do círculo */}
+            {/* Card 3 (Estoque) -> Arco inferior-esquerdo do círculo */}
             <path
-              d="M 288 405 C 365 405, 385 335, 452 335"
+              d="M 288 236 C 365 236, 425 217, 495 217"
               fill="none"
               stroke={activeNodeId === "estoque" ? "#3BBCEC" : "#CBD5E1"}
               strokeWidth={activeNodeId === "estoque" ? "2.5" : "1.5"}
@@ -173,10 +173,10 @@ export function EcossistemaIntegrado() {
               className="transition-all duration-300"
             />
 
-            {/* Conectores do lado direito ancorados na borda do círculo central */}
-            {/* Card 4 (Financeiro) -> Borda superior-direita do círculo */}
+            {/* Lado Direito Ancorado na Periferia do Círculo */}
+            {/* Card 4 (Financeiro) -> Arco superior-direito do círculo */}
             <path
-              d="M 864 55 C 787 55, 767 125, 700 125"
+              d="M 864 36 C 787 36, 727 55, 657 55"
               fill="none"
               stroke={activeNodeId === "financeiro" ? "#8B5CF6" : "#CBD5E1"}
               strokeWidth={activeNodeId === "financeiro" ? "2.5" : "1.5"}
@@ -185,16 +185,16 @@ export function EcossistemaIntegrado() {
             />
             {/* Card 5 (Mobile) -> Borda lateral-direita do círculo */}
             <path
-              d="M 864 230 L 746 230"
+              d="M 864 136 L 690 136"
               fill="none"
               stroke={activeNodeId === "mobile" ? "#F43F5E" : "#CBD5E1"}
               strokeWidth={activeNodeId === "mobile" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "mobile" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
-            {/* Card 6 (Backup) -> Borda inferior-direita do círculo */}
+            {/* Card 6 (Backup) -> Arco inferior-direito do círculo */}
             <path
-              d="M 864 405 C 787 405, 767 335, 700 335"
+              d="M 864 236 C 787 236, 727 217, 657 217"
               fill="none"
               stroke={activeNodeId === "backup" ? "#2563EB" : "#CBD5E1"}
               strokeWidth={activeNodeId === "backup" ? "2.5" : "1.5"}
@@ -204,7 +204,7 @@ export function EcossistemaIntegrado() {
           </svg>
 
           {/* Coluna Esquerda (3 Cards Compactos) */}
-          <div className="relative z-10 flex w-72 flex-col gap-6">
+          <div className="relative z-10 flex w-72 flex-col gap-7">
             {leftNodes.map((node) => {
               const Icon = node.icon;
               const isActive = activeNodeId === node.id;
@@ -214,7 +214,7 @@ export function EcossistemaIntegrado() {
                   onMouseEnter={() => setActiveNodeId(node.id)}
                   onClick={() => setActiveNodeId(node.id)}
                   className={cn(
-                    "group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-4.5 shadow-xs transition-all duration-300",
+                    "group flex h-[72px] cursor-pointer items-center gap-3.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-xs transition-all duration-300",
                     node.borderHover,
                     isActive
                       ? "scale-[1.03] shadow-md border-indigo-300 ring-2 ring-indigo-200/50"
@@ -224,51 +224,53 @@ export function EcossistemaIntegrado() {
                   {/* Ícone com fundo pastel */}
                   <div
                     className={cn(
-                      "flex size-12 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110",
+                      "flex size-10 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110",
                       node.iconBg,
                       node.iconColor,
                     )}
                   >
-                    <Icon className="size-6" />
+                    <Icon className="size-5" />
                   </div>
 
                   {/* Título e Breve Descrição */}
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-950">
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-950 leading-tight">
                       {node.title}
                     </h3>
-                    <p className="mt-0.5 text-xs text-slate-500 truncate">{node.shortDesc}</p>
+                    <p className="mt-0.5 text-xs text-slate-500 truncate leading-tight">
+                      {node.shortDesc}
+                    </p>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Elemento Central: Círculo Ampliado e Autocontido */}
+          {/* Elemento Central: Círculo Compacto e Elegante (Scale Down) */}
           <div className="relative z-20 flex items-center justify-center">
-            {/* Halo de luz difusa suave atrás do círculo */}
-            <div className="absolute -inset-4 rounded-full bg-indigo-500/15 blur-2xl -z-10" />
+            {/* Halo de luz suave proporcional */}
+            <div className="absolute -inset-3 rounded-full bg-indigo-500/10 blur-xl -z-10" />
 
-            {/* Círculo Principal Autocontido (rounded-full) */}
-            <div className="group relative flex size-80 sm:size-84 flex-col items-center justify-center rounded-full border-4 border-indigo-300/70 bg-white p-8 text-center shadow-[0_0_55px_-5px_rgba(99,102,241,0.25)] transition-all duration-500 hover:scale-105 hover:border-indigo-400 hover:shadow-[0_0_75px_-5px_rgba(99,102,241,0.35)]">
+            {/* Círculo Principal Compacto (rounded-full) */}
+            <div className="group relative flex size-[228px] flex-col items-center justify-center rounded-full border-3 border-indigo-300/70 bg-white p-5 text-center shadow-[0_0_40px_-5px_rgba(99,102,241,0.2)] transition-all duration-500 hover:scale-105 hover:border-indigo-400 hover:shadow-[0_0_55px_-5px_rgba(99,102,241,0.28)]">
               {/* 1. Imagem Oficial Logo Dominus Centralizada */}
-              <div className="flex items-center justify-center h-20 w-full px-2">
+              <div className="flex items-center justify-center h-12 w-full px-2">
                 <img
                   src="/Logo-dominus.png"
                   alt="Dominus"
-                  className="max-h-full max-w-[210px] sm:max-w-[230px] object-contain transition-transform duration-500 group-hover:scale-105"
+                  className="max-h-full max-w-[140px] object-contain transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
-              {/* 2. Diretamente Abaixo da Logo, Dentro do Mesmo Círculo: Texto em Caixa Alta */}
-              <p className="mt-3 max-w-[200px] text-center text-[10.5px] sm:text-[11.5px] font-black uppercase tracking-wider text-slate-800 leading-snug">
+              {/* 2. Diretamente Abaixo da Logo, Dentro do Círculo: Tipografia Original Proporcional */}
+              <p className="mt-1.5 max-w-[145px] text-center text-[9px] font-black uppercase tracking-wider text-slate-800 leading-tight">
                 SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
               </p>
             </div>
           </div>
 
           {/* Coluna Direita (3 Cards Compactos) */}
-          <div className="relative z-10 flex w-72 flex-col gap-6">
+          <div className="relative z-10 flex w-72 flex-col gap-7">
             {rightNodes.map((node) => {
               const Icon = node.icon;
               const isActive = activeNodeId === node.id;
@@ -278,7 +280,7 @@ export function EcossistemaIntegrado() {
                   onMouseEnter={() => setActiveNodeId(node.id)}
                   onClick={() => setActiveNodeId(node.id)}
                   className={cn(
-                    "group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-4.5 shadow-xs transition-all duration-300",
+                    "group flex h-[72px] cursor-pointer items-center gap-3.5 rounded-2xl border border-slate-200/80 bg-white px-4 py-3 shadow-xs transition-all duration-300",
                     node.borderHover,
                     isActive
                       ? "scale-[1.03] shadow-md border-indigo-300 ring-2 ring-indigo-200/50"
@@ -288,20 +290,22 @@ export function EcossistemaIntegrado() {
                   {/* Ícone com fundo pastel */}
                   <div
                     className={cn(
-                      "flex size-12 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110",
+                      "flex size-10 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110",
                       node.iconBg,
                       node.iconColor,
                     )}
                   >
-                    <Icon className="size-6" />
+                    <Icon className="size-5" />
                   </div>
 
                   {/* Título e Breve Descrição */}
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-950">
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-950 leading-tight">
                       {node.title}
                     </h3>
-                    <p className="mt-0.5 text-xs text-slate-500 truncate">{node.shortDesc}</p>
+                    <p className="mt-0.5 text-xs text-slate-500 truncate leading-tight">
+                      {node.shortDesc}
+                    </p>
                   </div>
                 </div>
               );
@@ -313,19 +317,19 @@ export function EcossistemaIntegrado() {
             MOBILE & TABLET ADAPTIVE VIEW (< lg)
         ======================================================== */}
         <div className="flex flex-col items-center gap-8 lg:hidden">
-          {/* Círculo Central Autocontido no Topo */}
-          <div className="group relative flex size-72 sm:size-80 flex-col items-center justify-center rounded-full border-4 border-indigo-300/70 bg-white p-7 text-center shadow-xl">
+          {/* Círculo Central Compacto no Topo */}
+          <div className="group relative flex size-56 sm:size-60 flex-col items-center justify-center rounded-full border-3 border-indigo-300/70 bg-white p-5 text-center shadow-lg">
             {/* Logo */}
-            <div className="flex items-center justify-center h-16 w-full">
+            <div className="flex items-center justify-center h-11 w-full">
               <img
                 src="/Logo-dominus.png"
                 alt="Dominus"
-                className="max-h-full max-w-[190px] sm:max-w-[210px] object-contain"
+                className="max-h-full max-w-[130px] object-contain"
               />
             </div>
 
             {/* Texto dentro do círculo */}
-            <p className="mt-3 max-w-[180px] sm:max-w-[200px] text-center text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-slate-800 leading-snug">
+            <p className="mt-1.5 max-w-[140px] text-center text-[9px] font-black uppercase tracking-wider text-slate-800 leading-tight">
               SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
             </p>
           </div>
@@ -337,16 +341,16 @@ export function EcossistemaIntegrado() {
               return (
                 <div
                   key={node.id}
-                  className="flex items-center gap-3.5 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs"
+                  className="flex items-center gap-3.5 rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-xs"
                 >
                   <div
                     className={cn(
-                      "flex size-11 shrink-0 items-center justify-center rounded-xl",
+                      "flex size-10 shrink-0 items-center justify-center rounded-xl",
                       node.iconBg,
                       node.iconColor,
                     )}
                   >
-                    <Icon className="size-5.5" />
+                    <Icon className="size-5" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-bold text-slate-900">{node.title}</h4>
