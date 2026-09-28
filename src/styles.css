@@ -127,7 +127,7 @@
   --ink-foreground: oklch(0.98 0.005 230);
   --ink-muted: oklch(0.72 0.018 235);
   --ink-border: oklch(1 0 0 / 16%);
-  --surface-soft: oklch(0.975 0.01 220);
+  --surface-soft: #F8FAFC;
 }
 
 .dark {

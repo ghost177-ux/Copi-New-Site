@@ -144,9 +144,9 @@ function Index() {
             </a>
           </div>
           <nav aria-label="Atendimento" className="hidden items-center gap-5 md:flex">
-            <a href="#faq" className="hover:text-brand-green">FAQ</a>
-            <a href="#suporte" className="hover:text-brand-green">Central de Ajuda</a>
-            <a href="#suporte" className="hover:text-brand-green">Suporte</a>
+            <a href="#faq" className="hover:text-brand-blue focus-visible:text-brand-blue">FAQ</a>
+            <a href="#suporte" className="hover:text-brand-blue focus-visible:text-brand-blue">Central de Ajuda</a>
+            <a href="#suporte" className="hover:text-brand-blue focus-visible:text-brand-blue">Suporte</a>
           </nav>
         </div>
 
