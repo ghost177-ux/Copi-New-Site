@@ -77,7 +77,7 @@ const segments = [
     icon: UtensilsCrossed,
     tone: "food",
   },
-];
+] as const;
 
 const searchOptions = [
   { label: "Loja de roupas", segment: "varejo" as const },
