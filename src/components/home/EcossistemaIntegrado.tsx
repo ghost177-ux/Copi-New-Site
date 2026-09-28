@@ -1,8 +1,6 @@
 import {
   Rocket,
   Check,
-  Zap,
-  ArrowRight,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -277,16 +275,13 @@ const orbitalNodes: OrbitalNode[] = [
 ];
 
 export function EcossistemaIntegrado() {
-  const [activeNodeId, setActiveNodeId] = useState<number>(1);
+  const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
   const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
-
-  const activeNode =
-    orbitalNodes.find((n) => n.id === (hoveredNodeId ?? activeNodeId)) ?? orbitalNodes[0];
 
   return (
     <section
       id="ecossistema"
-      className="fluid-gutter relative w-full overflow-hidden border-b border-[#E2EEF2] bg-[#F4F9FB] py-16 sm:py-24"
+      className="fluid-gutter relative w-full overflow-hidden border-b border-[#E2EEF2] bg-[#F4F9FB] pt-16 sm:pt-24 pb-28 sm:pb-36"
     >
       {/* Luzes difusas sutis estilo enterprise no tom azul claro */}
       <div className="pointer-events-none absolute -left-28 top-1/4 size-[420px] rounded-full bg-cyan-100/30 blur-3xl" />
@@ -310,8 +305,8 @@ export function EcossistemaIntegrado() {
           PALCO ORBITAL RESPONSIVO (Sem quebras de layout)
       ======================================================== */}
       <div className="relative z-10 mx-auto mt-10 flex flex-col items-center justify-center w-full max-w-5xl">
-        {/* Container Escalonável proporcionalmente */}
-        <div className="relative flex items-center justify-center h-[340px] xs:h-[400px] sm:h-[460px] md:h-[540px] lg:h-[580px] w-full overflow-visible">
+        {/* Container Escalonável proporcionalmente com folga inferior para popovers */}
+        <div className="relative flex items-center justify-center h-[360px] xs:h-[420px] sm:h-[480px] md:h-[560px] lg:h-[620px] w-full overflow-visible mb-6 sm:mb-10">
           {/* Estágio com Coordenadas 580x580 Fixas e Escala Dinâmica */}
           <div className="relative size-[580px] shrink-0 scale-[0.58] xs:scale-[0.68] sm:scale-[0.78] md:scale-[0.92] lg:scale-100 origin-center transition-transform duration-300">
             {/* SVG com Órbita Exata R=190 e Arcos Conectores */}
@@ -476,8 +471,7 @@ export function EcossistemaIntegrado() {
             ====================================================== */}
             {orbitalNodes.map((node) => {
               const Icon = node.icon;
-              const isSelected = (hoveredNodeId ?? activeNodeId) === node.id;
-              const isHovered = hoveredNodeId === node.id;
+              const isCardOpen = hoveredNodeId === node.id || activeNodeId === node.id;
 
               return (
                 <div
@@ -487,12 +481,11 @@ export function EcossistemaIntegrado() {
                     top: `${node.cy}px`,
                   }}
                   className="absolute -translate-x-1/2 -translate-y-1/2 z-20"
-                  onMouseEnter={() => {
-                    setHoveredNodeId(node.id);
-                    setActiveNodeId(node.id);
-                  }}
+                  onMouseEnter={() => setHoveredNodeId(node.id)}
                   onMouseLeave={() => setHoveredNodeId(null)}
-                  onClick={() => setActiveNodeId(node.id)}
+                  onClick={() =>
+                    setActiveNodeId((prev) => (prev === node.id ? null : node.id))
+                  }
                 >
                   {/* Botão Ícone Circular Limpo (Sem Número Indicador) */}
                   <button
@@ -502,7 +495,7 @@ export function EcossistemaIntegrado() {
                       "group relative flex size-14 sm:size-15 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all duration-300 cursor-pointer",
                       node.bgColor,
                       node.borderColor,
-                      isSelected
+                      isCardOpen
                         ? "scale-115 shadow-xl ring-4 ring-sky-200/70"
                         : "hover:scale-110 hover:shadow-lg",
                     )}
@@ -516,10 +509,10 @@ export function EcossistemaIntegrado() {
                   </button>
 
                   {/* ====================================================
-                      POPOVER FLUTUANTE EM HOVER (ABRE SEMPRE ABAIXO - SEM PULO)
+                      POPOVER FLUTUANTE (ABRE SEMPRE ABAIXO - SEM PULO)
                   ==================================================== */}
-                  {isHovered && (
-                    <div className="animate-in fade-in-0 zoom-in-95 pointer-events-none absolute top-full mt-3 left-1/2 -translate-x-1/2 z-50 w-72 sm:w-76 rounded-2xl border border-slate-200/90 bg-white/98 p-4 shadow-2xl backdrop-blur-md hidden lg:block">
+                  {isCardOpen && (
+                    <div className="animate-in fade-in-0 zoom-in-95 pointer-events-none absolute top-full mt-3 left-1/2 -translate-x-1/2 z-50 w-72 sm:w-76 rounded-2xl border border-slate-200/90 bg-white/98 p-4 shadow-2xl backdrop-blur-md">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                         <span
                           className={cn(
@@ -579,92 +572,6 @@ export function EcossistemaIntegrado() {
               );
             })}
           </div>
-        </div>
-
-        {/* ========================================================
-            CARD DE DETALHES SINCRONIZADO LIMPO
-        ======================================================== */}
-        <div className="mt-3 w-full max-w-xl rounded-2xl border border-[#D7E8EE] bg-white/95 p-5 shadow-sm backdrop-blur-xs transition-all duration-300">
-          <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
-            <div
-              className={cn(
-                "flex size-10 shrink-0 items-center justify-center rounded-xl border",
-                activeNode.bgColor,
-                activeNode.borderColor,
-              )}
-            >
-              <activeNode.icon className={cn("size-5", activeNode.iconColor)} />
-            </div>
-            <div>
-              <span
-                className={cn(
-                  "text-[10px] font-bold uppercase tracking-wider",
-                  activeNode.iconColor,
-                )}
-              >
-                {activeNode.category}
-              </span>
-              <h4 className="text-base font-bold text-slate-900 leading-tight">
-                {activeNode.title}
-              </h4>
-            </div>
-          </div>
-
-          <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600">
-            {activeNode.subtitle}
-          </p>
-
-          {/* Conteúdo Específico */}
-          {activeNode.isPartnerCluster ? (
-            <div className="mt-3 grid grid-cols-3 gap-2 border-t border-slate-100 pt-3">
-              {partnerList.map((partner) => (
-                <div
-                  key={partner.name}
-                  className={cn(
-                    "flex flex-col items-center justify-center rounded-lg p-2 text-center",
-                    partner.isPlaceholder
-                      ? "border border-dashed border-emerald-200 bg-emerald-50/40 text-emerald-600"
-                      : "border border-emerald-100 bg-emerald-50/70 text-emerald-700",
-                  )}
-                >
-                  <span className="text-[10px] font-black uppercase">{partner.name}</span>
-                  <span className="text-[8.5px] text-emerald-600/80 leading-none">
-                    {partner.tag}
-                  </span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <ul className="mt-3 grid gap-1.5 sm:grid-cols-2 border-t border-slate-100 pt-3 text-xs text-slate-600">
-              {activeNode.features?.map((feat) => (
-                <li key={feat} className="flex items-start gap-1.5 text-[11px] sm:text-xs">
-                  <Check className="size-3.5 text-brand-green shrink-0 mt-0.5" />
-                  <span>{feat}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* Rodapé da Seção com CTA Rápido */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#D7E8EE] bg-white/95 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8 w-full max-w-4xl">
-          <div>
-            <h4 className="text-sm font-bold text-slate-900">
-              Pronto para colocar o Ciclo Operacional Dominus na sua empresa?
-            </h4>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Converse com quem entende a rotina do seu negócio e agende uma demonstração.
-            </p>
-          </div>
-          <a
-            href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Ciclo%20Operacional%20Dominus"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-brand-green px-6 py-2.5 text-xs font-bold text-white shadow-brand-glow transition-all hover:bg-brand-green/90 hover:scale-[1.02]"
-          >
-            <span>Falar com Especialista</span>
-            <ArrowRight className="size-3.5" />
-          </a>
         </div>
       </div>
     </section>
