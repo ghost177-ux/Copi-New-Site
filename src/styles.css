@@ -67,6 +67,10 @@
   --color-varejo: var(--varejo);
   --color-auto: var(--auto);
   --color-food: var(--food);
+  --color-varejo-hover: var(--varejo-hover);
+  --color-auto-hover: var(--auto-hover);
+  --color-food-hover: var(--food-hover);
+  --color-surface-ice: var(--surface-ice);
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
   --color-ink-muted: var(--ink-muted);
@@ -112,14 +116,18 @@
   --brand-green: oklch(0.76 0.19 129);
   --brand-green-hover: oklch(0.69 0.18 129);
   --brand-green-foreground: oklch(0.18 0.025 245);
-  --varejo: oklch(0.72 0.145 222);
-  --auto: oklch(0.84 0.16 86);
-  --food: oklch(0.64 0.225 26);
+  --varejo: #3BBCEC;
+  --varejo-hover: #28abd9;
+  --auto: #FCC42C;
+  --auto-hover: #e5b024;
+  --food: #FC4242;
+  --food-hover: #e03535;
+  --surface-ice: #F8FAFC;
   --ink: oklch(0.17 0.023 245);
   --ink-foreground: oklch(0.98 0.005 230);
   --ink-muted: oklch(0.72 0.018 235);
   --ink-border: oklch(1 0 0 / 16%);
-  --surface-soft: oklch(0.975 0.01 220);
+  --surface-soft: #F8FAFC;
 }
 
 .dark {
