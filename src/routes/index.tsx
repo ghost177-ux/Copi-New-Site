@@ -42,6 +42,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { EcossistemaIntegrado } from "@/components/home/EcossistemaIntegrado";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -1104,6 +1105,11 @@ function Index() {
           </div>
         </div>
       </section>
+
+      {/* ========================================================
+          ECOSSISTEMA INTEGRADO (Diagrama de Fluxo Automatizado)
+      ======================================================== */}
+      <EcossistemaIntegrado />
 
       {/* ========================================================
           3. SEÇÃO RECURSOS & PILARES DE GESTÃO (#recursos)
