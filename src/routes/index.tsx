@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { EcossistemaIntegrado } from "@/components/home/EcossistemaIntegrado";
+import { CicloOperacionalSideBySide } from "@/components/home/CicloOperacionalSideBySide";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
@@ -1110,6 +1111,11 @@ function Index() {
           ECOSSISTEMA INTEGRADO (Diagrama de Fluxo Automatizado)
       ======================================================== */}
       <EcossistemaIntegrado />
+
+      {/* ========================================================
+          CICLO OPERACIONAL DOMINUS (Side-by-Side Híbrido com Animação)
+      ======================================================== */}
+      <CicloOperacionalSideBySide />
 
       {/* ========================================================
           3. SEÇÃO RECURSOS & PILARES DE GESTÃO (#recursos)
