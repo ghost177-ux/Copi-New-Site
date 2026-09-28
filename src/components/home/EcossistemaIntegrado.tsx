@@ -3,12 +3,11 @@ import {
   Check,
   Zap,
   ArrowRight,
-  Info,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-// Ícones Customizados Refinados para cada Nó
+// Ícones Customizados Refinados para cada Nó do Ciclo Operacional
 function ClipboardBoxIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -155,7 +154,7 @@ const partnerList = [
 
 interface OrbitalNode {
   id: number;
-  tag: string;
+  category: string;
   title: string;
   subtitle: string;
   icon: typeof ClipboardBoxIcon;
@@ -166,7 +165,6 @@ interface OrbitalNode {
   // Coordenadas calculadas no viewBox de 580x580 com raio R=190 e centro (290, 290)
   cx: number;
   cy: number;
-  popoverPlacement: "top" | "top-right" | "bottom-right" | "bottom" | "bottom-left" | "top-left";
   features?: string[];
   isPartnerCluster?: boolean;
 }
@@ -174,7 +172,7 @@ interface OrbitalNode {
 const orbitalNodes: OrbitalNode[] = [
   {
     id: 1,
-    tag: "01 • Separação",
+    category: "Separação",
     title: "Pedidos & Separação",
     subtitle: "Conferência ágil de pedidos e expedição blindada contra erros.",
     icon: ClipboardBoxIcon,
@@ -184,7 +182,6 @@ const orbitalNodes: OrbitalNode[] = [
     borderColor: "border-emerald-300",
     cx: 290,
     cy: 100,
-    popoverPlacement: "top",
     features: [
       "Separação por lote e pedidos prioritários",
       "Conferência via leitor de código de barras",
@@ -193,7 +190,7 @@ const orbitalNodes: OrbitalNode[] = [
   },
   {
     id: 2,
-    tag: "02 • Fiscal",
+    category: "Fiscal",
     title: "Emissão Fiscal",
     subtitle: "NF-e, NFC-e e QR Code transmitidos em contingência automática.",
     icon: InvoiceQrIcon,
@@ -203,7 +200,6 @@ const orbitalNodes: OrbitalNode[] = [
     borderColor: "border-amber-300",
     cx: 455,
     cy: 195,
-    popoverPlacement: "top-right",
     features: [
       "Emissão ultrarrápida homologada na SEFAZ",
       "Contingência offline automática sem travamentos",
@@ -212,7 +208,7 @@ const orbitalNodes: OrbitalNode[] = [
   },
   {
     id: 3,
-    tag: "03 • Inteligência",
+    category: "Inteligência",
     title: "Gestão e BI",
     subtitle: "DRE consolidado, curva ABC de produtos e gráficos em tempo real.",
     icon: DashboardFunnelIcon,
@@ -222,7 +218,6 @@ const orbitalNodes: OrbitalNode[] = [
     borderColor: "border-cyan-300",
     cx: 455,
     cy: 385,
-    popoverPlacement: "bottom-right",
     features: [
       "Demonstrativo de Resultado (DRE) em tempo real",
       "Curva ABC e giro de estoque automatizado",
@@ -231,7 +226,7 @@ const orbitalNodes: OrbitalNode[] = [
   },
   {
     id: 4,
-    tag: "04 • Integrações",
+    category: "Integrações",
     title: "Gateway de Pagamentos & Marketplaces",
     subtitle: "Conexões nativas com os principais parceiros do mercado.",
     icon: PartnerClusterIcon,
@@ -241,12 +236,11 @@ const orbitalNodes: OrbitalNode[] = [
     borderColor: "border-emerald-300",
     cx: 290,
     cy: 480,
-    popoverPlacement: "bottom",
     isPartnerCluster: true,
   },
   {
     id: 5,
-    tag: "05 • Entrega",
+    category: "Entrega",
     title: "Logística Integrada",
     subtitle: "Despacho com rotas inteligentes e rastreamento com pin GPS.",
     icon: DeliveryScooterPinIcon,
@@ -256,7 +250,6 @@ const orbitalNodes: OrbitalNode[] = [
     borderColor: "border-amber-300",
     cx: 125,
     cy: 385,
-    popoverPlacement: "bottom-left",
     features: [
       "Gestão de frotas e motoboys próprios",
       "Rastreamento de entrega com pin GPS",
@@ -265,7 +258,7 @@ const orbitalNodes: OrbitalNode[] = [
   },
   {
     id: 6,
-    tag: "06 • Vendas",
+    category: "Vendas",
     title: "Frente de Caixa",
     subtitle: "PDV veloz com atalhos, TEF e pagamento por aproximação.",
     icon: PosTerminalCardIcon,
@@ -275,7 +268,6 @@ const orbitalNodes: OrbitalNode[] = [
     borderColor: "border-cyan-300",
     cx: 125,
     cy: 195,
-    popoverPlacement: "top-left",
     features: [
       "Checkout em menos de 1.5s por cliente",
       "TEF integrado e Pix dinâmico no balcão",
@@ -294,43 +286,35 @@ export function EcossistemaIntegrado() {
   return (
     <section
       id="ecossistema"
-      className="fluid-gutter relative w-full overflow-hidden border-b border-indigo-100/80 bg-linear-to-b from-[#F7F4FF] via-[#F3F0FF] to-[#F7F4FF] py-16 sm:py-24"
+      className="fluid-gutter relative w-full overflow-hidden border-b border-[#E2EEF2] bg-[#F4F9FB] py-16 sm:py-24"
     >
-      {/* Luzes difusas sutis estilo enterprise */}
-      <div className="pointer-events-none absolute -left-28 top-1/4 size-[420px] rounded-full bg-purple-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -right-28 bottom-1/4 size-[420px] rounded-full bg-indigo-200/40 blur-3xl" />
+      {/* Luzes difusas sutis estilo enterprise no tom azul claro */}
+      <div className="pointer-events-none absolute -left-28 top-1/4 size-[420px] rounded-full bg-cyan-100/30 blur-3xl" />
+      <div className="pointer-events-none absolute -right-28 bottom-1/4 size-[420px] rounded-full bg-sky-100/30 blur-3xl" />
 
-      {/* Header Centralizado */}
+      {/* Header Centralizado e Limpo (Sem pill de status redundante) */}
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        {/* Badge 'Ciclo Operacional Dominus' */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200/90 bg-white/95 px-4 py-1.5 shadow-xs backdrop-blur-xs">
-          <span className="flex size-2 rounded-full bg-indigo-600 animate-pulse" />
-          <span className="text-xs font-bold uppercase tracking-wider text-indigo-950">
-            Ciclo Operacional Dominus
-          </span>
-        </div>
-
         {/* Título Principal */}
-        <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
+        <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
           Tudo o que sua empresa precisa para operar sem atritos
         </h2>
 
         {/* Subtítulo */}
-        <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
-          Do pedido no balcão à expedição e emissão fiscal, passe o mouse ou toque nos nós orbitais
-          para visualizar os detalhes de cada etapa.
+        <p className="mt-3.5 text-base leading-relaxed text-slate-600 sm:text-lg">
+          Do pedido no balcão à expedição e emissão fiscal, passe o mouse nos nós orbitais para
+          visualizar os detalhes de cada etapa.
         </p>
       </div>
 
       {/* ========================================================
-          PALCO ORBITAL RESPONSIVO (Não quebra em mobile nem tablet)
+          PALCO ORBITAL RESPONSIVO (Sem quebras de layout)
       ======================================================== */}
-      <div className="relative z-10 mx-auto mt-8 flex flex-col items-center justify-center w-full max-w-5xl">
-        {/* Container Escalonável proporcionalmente que preserva a órbita exata em qualquer viewport */}
+      <div className="relative z-10 mx-auto mt-10 flex flex-col items-center justify-center w-full max-w-5xl">
+        {/* Container Escalonável proporcionalmente */}
         <div className="relative flex items-center justify-center h-[340px] xs:h-[400px] sm:h-[460px] md:h-[540px] lg:h-[580px] w-full overflow-visible">
-          {/* Estágio com Coordenadas 580x580 Fixas e Escala Dinâmica por Breakpoint */}
+          {/* Estágio com Coordenadas 580x580 Fixas e Escala Dinâmica */}
           <div className="relative size-[580px] shrink-0 scale-[0.58] xs:scale-[0.68] sm:scale-[0.78] md:scale-[0.92] lg:scale-100 origin-center transition-transform duration-300">
-            {/* SVG com Órbita Exata R=190 e Arcos Conectores Alinhados às Posições */}
+            {/* SVG com Órbita Exata R=190 e Arcos Conectores */}
             <svg
               className="pointer-events-none absolute inset-0 size-full"
               viewBox="0 0 580 580"
@@ -378,10 +362,10 @@ export function EcossistemaIntegrado() {
                 cy="290"
                 r="190"
                 fill="none"
-                stroke="#E2E8F0"
+                stroke="#D7E8EE"
                 strokeWidth="1.5"
                 strokeDasharray="4 4"
-                className="opacity-70"
+                className="opacity-80"
               />
 
               {/* 1 ➔ 2: Top (Green) para Top-Right (Yellow) */}
@@ -451,11 +435,11 @@ export function EcossistemaIntegrado() {
             <div className="absolute top-[290px] left-[290px] -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center">
               {/* Trilha do Foguete Orbitante */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="size-[240px] rounded-full border border-indigo-200/50 border-dashed" />
+                <div className="size-[240px] rounded-full border border-sky-200/50 border-dashed" />
                 {/* Rotação Contínua com Foguete */}
                 <div className="absolute size-[240px] animate-[spin_18s_linear_infinite]">
                   <div
-                    className="absolute -top-3 left-1/2 -translate-x-1/2 flex size-6.5 items-center justify-center rounded-full bg-linear-to-tr from-indigo-600 to-purple-600 text-white shadow-xs"
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 flex size-6.5 items-center justify-center rounded-full bg-linear-to-tr from-sky-500 to-indigo-600 text-white shadow-xs"
                     style={{ transform: "rotate(45deg)" }}
                   >
                     <Rocket className="size-3.5" />
@@ -464,12 +448,12 @@ export function EcossistemaIntegrado() {
               </div>
 
               {/* Halo Suave */}
-              <div className="absolute -inset-3 rounded-full bg-indigo-500/10 blur-xl -z-10" />
+              <div className="absolute -inset-3 rounded-full bg-sky-400/10 blur-xl -z-10" />
 
               {/* Círculo Central Compacto (rounded-full) */}
-              <div className="group relative flex size-44 sm:size-48 flex-col items-center justify-center rounded-full border-3 border-indigo-300/70 bg-white p-4 text-center shadow-[0_0_35px_-5px_rgba(99,102,241,0.22)] transition-all duration-500 hover:scale-105 hover:border-indigo-400">
+              <div className="group relative flex size-44 sm:size-48 flex-col items-center justify-center rounded-full border-3 border-sky-300/80 bg-white p-4 text-center shadow-[0_0_35px_-5px_rgba(59,188,236,0.18)] transition-all duration-500 hover:scale-105 hover:border-sky-400">
                 {/* Efeito sutil no contorno interno */}
-                <div className="pointer-events-none absolute inset-1.5 rounded-full border border-dashed border-indigo-200/60 animate-[spin_40s_linear_infinite]" />
+                <div className="pointer-events-none absolute inset-1.5 rounded-full border border-dashed border-sky-200/60 animate-[spin_40s_linear_infinite]" />
 
                 {/* Logo Dominus perfeitamente centralizada */}
                 <div className="relative z-10 flex items-center justify-center h-10 w-full px-2">
@@ -488,7 +472,7 @@ export function EcossistemaIntegrado() {
             </div>
 
             {/* ======================================================
-                6 NÓS SATÉLITES COMPACTOS RIGOROSAMENTE NA ÓRBITA R=190
+                6 NÓS SATÉLITES COMPACTOS (SEM NÚMEROS DE BADGE)
             ====================================================== */}
             {orbitalNodes.map((node) => {
               const Icon = node.icon;
@@ -510,7 +494,7 @@ export function EcossistemaIntegrado() {
                   onMouseLeave={() => setHoveredNodeId(null)}
                   onClick={() => setActiveNodeId(node.id)}
                 >
-                  {/* Botão Ícone Compacto Circular */}
+                  {/* Botão Ícone Circular Limpo (Sem Número Indicador) */}
                   <button
                     type="button"
                     aria-label={node.title}
@@ -519,7 +503,7 @@ export function EcossistemaIntegrado() {
                       node.bgColor,
                       node.borderColor,
                       isSelected
-                        ? "scale-115 shadow-xl ring-4 ring-indigo-200/60"
+                        ? "scale-115 shadow-xl ring-4 ring-sky-200/70"
                         : "hover:scale-110 hover:shadow-lg",
                     )}
                   >
@@ -529,35 +513,13 @@ export function EcossistemaIntegrado() {
                         node.iconColor,
                       )}
                     />
-
-                    {/* Número indicador discreto no cantinho */}
-                    <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-white text-[9px] font-bold text-slate-700 shadow-xs border border-slate-200">
-                      {node.id}
-                    </span>
                   </button>
 
                   {/* ====================================================
-                      POPOVER FLUTUANTE EM HOVER (DESKTOP)
-                      Totalmente absoluto sem deslocar nenhum elemento!
+                      POPOVER FLUTUANTE EM HOVER (ABRE SEMPRE ABAIXO - SEM PULO)
                   ==================================================== */}
                   {isHovered && (
-                    <div
-                      className={cn(
-                        "animate-in fade-in-0 zoom-in-95 pointer-events-none absolute z-50 w-72 rounded-2xl border border-slate-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-md hidden lg:block",
-                        node.popoverPlacement === "top" &&
-                          "bottom-full mb-3 left-1/2 -translate-x-1/2",
-                        node.popoverPlacement === "top-right" &&
-                          "left-full ml-4 top-1/2 -translate-y-1/2",
-                        node.popoverPlacement === "bottom-right" &&
-                          "left-full ml-4 top-1/2 -translate-y-1/2",
-                        node.popoverPlacement === "bottom" &&
-                          "top-full mt-3 left-1/2 -translate-x-1/2",
-                        node.popoverPlacement === "bottom-left" &&
-                          "right-full mr-4 top-1/2 -translate-y-1/2",
-                        node.popoverPlacement === "top-left" &&
-                          "right-full mr-4 top-1/2 -translate-y-1/2",
-                      )}
-                    >
+                    <div className="animate-in fade-in-0 zoom-in-95 pointer-events-none absolute top-full mt-3 left-1/2 -translate-x-1/2 z-50 w-72 sm:w-76 rounded-2xl border border-slate-200/90 bg-white/98 p-4 shadow-2xl backdrop-blur-md hidden lg:block">
                       <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                         <span
                           className={cn(
@@ -565,11 +527,12 @@ export function EcossistemaIntegrado() {
                             node.iconColor,
                           )}
                         >
-                          {node.tag}
+                          {node.category}
                         </span>
-                        <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-500">
-                          Etapa 0{node.id}
-                        </span>
+                        <span
+                          className="size-2 rounded-full"
+                          style={{ backgroundColor: node.colorHex }}
+                        />
                       </div>
 
                       <h4 className="mt-2 text-sm font-bold text-slate-900 leading-tight">
@@ -619,54 +582,31 @@ export function EcossistemaIntegrado() {
         </div>
 
         {/* ========================================================
-            CARD DE DETALHES INTERATIVO SINCRONIZADO (MOBILE / TABLET / FOCO)
-            Em telas pequenas, exibe com clareza o nó selecionado sem lista bagunçada
+            CARD DE DETALHES SINCRONIZADO LIMPO
         ======================================================== */}
-        <div className="mt-4 w-full max-w-xl rounded-2xl border border-indigo-100 bg-white/95 p-5 shadow-sm backdrop-blur-xs transition-all duration-300">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div className="flex items-center gap-3">
-              <div
+        <div className="mt-3 w-full max-w-xl rounded-2xl border border-[#D7E8EE] bg-white/95 p-5 shadow-sm backdrop-blur-xs transition-all duration-300">
+          <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
+            <div
+              className={cn(
+                "flex size-10 shrink-0 items-center justify-center rounded-xl border",
+                activeNode.bgColor,
+                activeNode.borderColor,
+              )}
+            >
+              <activeNode.icon className={cn("size-5", activeNode.iconColor)} />
+            </div>
+            <div>
+              <span
                 className={cn(
-                  "flex size-10 shrink-0 items-center justify-center rounded-xl border",
-                  activeNode.bgColor,
-                  activeNode.borderColor,
+                  "text-[10px] font-bold uppercase tracking-wider",
+                  activeNode.iconColor,
                 )}
               >
-                <activeNode.icon className={cn("size-5", activeNode.iconColor)} />
-              </div>
-              <div>
-                <span
-                  className={cn(
-                    "text-[10px] font-bold uppercase tracking-wider",
-                    activeNode.iconColor,
-                  )}
-                >
-                  {activeNode.tag}
-                </span>
-                <h4 className="text-base font-bold text-slate-900 leading-tight">
-                  {activeNode.title}
-                </h4>
-              </div>
-            </div>
-
-            {/* Controles de Navegação entre Nós (1 a 6) */}
-            <div className="flex items-center gap-1">
-              {orbitalNodes.map((n) => (
-                <button
-                  key={n.id}
-                  type="button"
-                  onClick={() => setActiveNodeId(n.id)}
-                  aria-label={`Ver etapa ${n.id}`}
-                  className={cn(
-                    "size-6 rounded-full text-[10px] font-bold transition-all",
-                    activeNode.id === n.id
-                      ? "bg-slate-900 text-white shadow-xs scale-110"
-                      : "bg-slate-100 text-slate-500 hover:bg-slate-200",
-                  )}
-                >
-                  {n.id}
-                </button>
-              ))}
+                {activeNode.category}
+              </span>
+              <h4 className="text-base font-bold text-slate-900 leading-tight">
+                {activeNode.title}
+              </h4>
             </div>
           </div>
 
@@ -704,20 +644,10 @@ export function EcossistemaIntegrado() {
               ))}
             </ul>
           )}
-
-          <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5 text-[11px] text-slate-400">
-            <span className="flex items-center gap-1 text-indigo-600 font-semibold">
-              <Info className="size-3" />
-              <span>Toque ou passe o mouse nos nós para navegar</span>
-            </span>
-            <span className="font-mono text-slate-400">
-              Etapa 0{activeNode.id} / 06
-            </span>
-          </div>
         </div>
 
         {/* Rodapé da Seção com CTA Rápido */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-indigo-200/80 bg-white/95 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8 w-full max-w-4xl">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#D7E8EE] bg-white/95 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8 w-full max-w-4xl">
           <div>
             <h4 className="text-sm font-bold text-slate-900">
               Pronto para colocar o Ciclo Operacional Dominus na sua empresa?
