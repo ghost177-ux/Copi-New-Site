@@ -5,7 +5,6 @@ import {
   BarChart3,
   Smartphone,
   Shield,
-  Sparkles,
   ArrowRight,
 } from "lucide-react";
 import { useState } from "react";
@@ -18,6 +17,7 @@ interface SatelliteNode {
   icon: typeof Zap;
   iconColor: string;
   iconBg: string;
+  activeColor: string;
   borderHover: string;
   side: "left" | "right";
 }
@@ -31,6 +31,7 @@ const satelliteNodes: SatelliteNode[] = [
     icon: Zap,
     iconColor: "text-amber-500",
     iconBg: "bg-amber-50 border border-amber-200/60",
+    activeColor: "#F59E0B",
     borderHover: "hover:border-amber-300",
     side: "left",
   },
@@ -41,6 +42,7 @@ const satelliteNodes: SatelliteNode[] = [
     icon: Receipt,
     iconColor: "text-emerald-600",
     iconBg: "bg-emerald-50 border border-emerald-200/60",
+    activeColor: "#10B981",
     borderHover: "hover:border-emerald-300",
     side: "left",
   },
@@ -51,6 +53,7 @@ const satelliteNodes: SatelliteNode[] = [
     icon: Truck,
     iconColor: "text-[#3BBCEC]",
     iconBg: "bg-cyan-50 border border-cyan-200/60",
+    activeColor: "#3BBCEC",
     borderHover: "hover:border-cyan-300",
     side: "left",
   },
@@ -63,6 +66,7 @@ const satelliteNodes: SatelliteNode[] = [
     icon: BarChart3,
     iconColor: "text-purple-600",
     iconBg: "bg-purple-50 border border-purple-200/60",
+    activeColor: "#8B5CF6",
     borderHover: "hover:border-purple-300",
     side: "right",
   },
@@ -73,6 +77,7 @@ const satelliteNodes: SatelliteNode[] = [
     icon: Smartphone,
     iconColor: "text-rose-500",
     iconBg: "bg-rose-50 border border-rose-200/60",
+    activeColor: "#F43F5E",
     borderHover: "hover:border-rose-300",
     side: "right",
   },
@@ -83,6 +88,7 @@ const satelliteNodes: SatelliteNode[] = [
     icon: Shield,
     iconColor: "text-indigo-600",
     iconBg: "bg-indigo-50 border border-indigo-200/60",
+    activeColor: "#2563EB",
     borderHover: "hover:border-indigo-300",
     side: "right",
   },
@@ -130,31 +136,36 @@ export function EcossistemaIntegrado() {
         {/* ========================================================
             DESKTOP LAYOUT (Duas colunas de 3 cards flanqueando o círculo central)
         ======================================================== */}
-        <div className="relative hidden items-center justify-between gap-8 lg:flex">
-          {/* Linhas Conectoras SVG Vetoriais */}
+        <div className="relative hidden items-center justify-between gap-6 lg:flex min-h-[460px]">
+          {/* Linhas Conectoras SVG Vetoriais Conectadas Diretamente às Bordas do Círculo */}
           <svg
             className="pointer-events-none absolute inset-0 z-0 size-full"
+            viewBox="0 0 1152 460"
+            preserveAspectRatio="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            {/* Conectores do lado esquerdo para o círculo central */}
+            {/* Conectores do lado esquerdo ancorados na borda do círculo central */}
+            {/* Card 1 (Frente de Caixa) -> Borda superior-esquerda do círculo */}
             <path
-              d="M 310 70 C 400 70, 440 250, 490 250"
+              d="M 288 55 C 365 55, 385 125, 452 125"
               fill="none"
               stroke={activeNodeId === "pdv" ? "#F59E0B" : "#CBD5E1"}
               strokeWidth={activeNodeId === "pdv" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "pdv" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
+            {/* Card 2 (Fiscal) -> Borda lateral-esquerda do círculo */}
             <path
-              d="M 310 250 C 400 250, 440 250, 490 250"
+              d="M 288 230 L 406 230"
               fill="none"
               stroke={activeNodeId === "fiscal" ? "#10B981" : "#CBD5E1"}
               strokeWidth={activeNodeId === "fiscal" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "fiscal" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
+            {/* Card 3 (Estoque) -> Borda inferior-esquerda do círculo */}
             <path
-              d="M 310 430 C 400 430, 440 250, 490 250"
+              d="M 288 405 C 365 405, 385 335, 452 335"
               fill="none"
               stroke={activeNodeId === "estoque" ? "#3BBCEC" : "#CBD5E1"}
               strokeWidth={activeNodeId === "estoque" ? "2.5" : "1.5"}
@@ -162,25 +173,28 @@ export function EcossistemaIntegrado() {
               className="transition-all duration-300"
             />
 
-            {/* Conectores do lado direito para o círculo central */}
+            {/* Conectores do lado direito ancorados na borda do círculo central */}
+            {/* Card 4 (Financeiro) -> Borda superior-direita do círculo */}
             <path
-              d="M 830 70 C 740 70, 700 250, 650 250"
+              d="M 864 55 C 787 55, 767 125, 700 125"
               fill="none"
               stroke={activeNodeId === "financeiro" ? "#8B5CF6" : "#CBD5E1"}
               strokeWidth={activeNodeId === "financeiro" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "financeiro" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
+            {/* Card 5 (Mobile) -> Borda lateral-direita do círculo */}
             <path
-              d="M 830 250 C 740 250, 700 250, 650 250"
+              d="M 864 230 L 746 230"
               fill="none"
               stroke={activeNodeId === "mobile" ? "#F43F5E" : "#CBD5E1"}
               strokeWidth={activeNodeId === "mobile" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "mobile" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
+            {/* Card 6 (Backup) -> Borda inferior-direita do círculo */}
             <path
-              d="M 830 430 C 740 430, 700 250, 650 250"
+              d="M 864 405 C 787 405, 767 335, 700 335"
               fill="none"
               stroke={activeNodeId === "backup" ? "#2563EB" : "#CBD5E1"}
               strokeWidth={activeNodeId === "backup" ? "2.5" : "1.5"}
@@ -190,7 +204,7 @@ export function EcossistemaIntegrado() {
           </svg>
 
           {/* Coluna Esquerda (3 Cards Compactos) */}
-          <div className="relative z-10 flex w-76 flex-col gap-6">
+          <div className="relative z-10 flex w-72 flex-col gap-6">
             {leftNodes.map((node) => {
               const Icon = node.icon;
               const isActive = activeNodeId === node.id;
@@ -230,37 +244,31 @@ export function EcossistemaIntegrado() {
             })}
           </div>
 
-          {/* Elemento Central: Círculo Proeminente com Logo Dominus */}
-          <div className="relative z-20 flex flex-col items-center justify-center text-center">
-            {/* Halo de luz suave */}
+          {/* Elemento Central: Círculo Ampliado e Autocontido */}
+          <div className="relative z-20 flex items-center justify-center">
+            {/* Halo de luz difusa suave atrás do círculo */}
             <div className="absolute -inset-4 rounded-full bg-indigo-500/15 blur-2xl -z-10" />
 
-            {/* Círculo Principal com Borda Suave Índigo */}
-            <div className="group relative flex size-64 sm:size-72 items-center justify-center rounded-full border-4 border-indigo-300/60 bg-white p-8 shadow-[0_0_50px_-5px_rgba(99,102,241,0.25)] transition-all duration-500 hover:scale-105 hover:border-indigo-400 hover:shadow-[0_0_70px_-5px_rgba(99,102,241,0.35)]">
-              {/* Imagem Oficial Logo Dominus perfeitamente ajustada */}
-              <img
-                src="/Logo-dominus.png"
-                alt="Logo Dominus — Sistema de Gestão Empresarial Completo"
-                className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
-              />
+            {/* Círculo Principal Autocontido (rounded-full) */}
+            <div className="group relative flex size-80 sm:size-84 flex-col items-center justify-center rounded-full border-4 border-indigo-300/70 bg-white p-8 text-center shadow-[0_0_55px_-5px_rgba(99,102,241,0.25)] transition-all duration-500 hover:scale-105 hover:border-indigo-400 hover:shadow-[0_0_75px_-5px_rgba(99,102,241,0.35)]">
+              {/* 1. Imagem Oficial Logo Dominus Centralizada */}
+              <div className="flex items-center justify-center h-20 w-full px-2">
+                <img
+                  src="/Logo-dominus.png"
+                  alt="Dominus"
+                  className="max-h-full max-w-[210px] sm:max-w-[230px] object-contain transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
 
-              {/* Indicador pulsante de status na borda */}
-              <span className="absolute top-4 right-4 flex size-4 items-center justify-center rounded-full bg-emerald-500 ring-4 ring-white" />
+              {/* 2. Diretamente Abaixo da Logo, Dentro do Mesmo Círculo: Texto em Caixa Alta */}
+              <p className="mt-3 max-w-[200px] text-center text-[10.5px] sm:text-[11.5px] font-black uppercase tracking-wider text-slate-800 leading-snug">
+                SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
+              </p>
             </div>
-
-            {/* Texto Centralizado Abaixo do Círculo */}
-            <p className="mt-6 max-w-xs text-center text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-800">
-              Sistema de Gestão Empresarial Completo
-            </p>
-
-            <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-indigo-100/70 px-3 py-0.5 text-[11px] font-semibold text-indigo-700">
-              <Sparkles className="size-3" />
-              Sincronização 360° em tempo real
-            </span>
           </div>
 
           {/* Coluna Direita (3 Cards Compactos) */}
-          <div className="relative z-10 flex w-76 flex-col gap-6">
+          <div className="relative z-10 flex w-72 flex-col gap-6">
             {rightNodes.map((node) => {
               const Icon = node.icon;
               const isActive = activeNodeId === node.id;
@@ -305,19 +313,20 @@ export function EcossistemaIntegrado() {
             MOBILE & TABLET ADAPTIVE VIEW (< lg)
         ======================================================== */}
         <div className="flex flex-col items-center gap-8 lg:hidden">
-          {/* Círculo Central no Topo */}
-          <div className="flex flex-col items-center justify-center text-center">
-            <div className="relative flex size-52 sm:size-60 items-center justify-center rounded-full border-4 border-indigo-300/70 bg-white p-6 shadow-xl">
+          {/* Círculo Central Autocontido no Topo */}
+          <div className="group relative flex size-72 sm:size-80 flex-col items-center justify-center rounded-full border-4 border-indigo-300/70 bg-white p-7 text-center shadow-xl">
+            {/* Logo */}
+            <div className="flex items-center justify-center h-16 w-full">
               <img
                 src="/Logo-dominus.png"
-                alt="Logo Dominus"
-                className="max-h-full max-w-full object-contain"
+                alt="Dominus"
+                className="max-h-full max-w-[190px] sm:max-w-[210px] object-contain"
               />
-              <span className="absolute top-3 right-3 flex size-3.5 items-center justify-center rounded-full bg-emerald-500 ring-2 ring-white" />
             </div>
 
-            <p className="mt-4 text-xs font-extrabold uppercase tracking-wider text-slate-800">
-              Sistema de Gestão Empresarial Completo
+            {/* Texto dentro do círculo */}
+            <p className="mt-3 max-w-[180px] sm:max-w-[200px] text-center text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-slate-800 leading-snug">
+              SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
             </p>
           </div>
 
