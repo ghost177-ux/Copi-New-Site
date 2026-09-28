@@ -1,8 +1,8 @@
 import {
   Rocket,
-  ArrowRight,
   Check,
   Zap,
+  ArrowRight,
   Info,
 } from "lucide-react";
 import { useState } from "react";
@@ -159,11 +159,13 @@ interface OrbitalNode {
   title: string;
   subtitle: string;
   icon: typeof ClipboardBoxIcon;
-  colorName: string;
+  colorHex: string;
   iconColor: string;
   bgColor: string;
   borderColor: string;
-  arrowColor: string;
+  // Coordenadas calculadas no viewBox de 580x580 com raio R=190 e centro (290, 290)
+  cx: number;
+  cy: number;
   popoverPlacement: "top" | "top-right" | "bottom-right" | "bottom" | "bottom-left" | "top-left";
   features?: string[];
   isPartnerCluster?: boolean;
@@ -176,11 +178,12 @@ const orbitalNodes: OrbitalNode[] = [
     title: "Pedidos & Separação",
     subtitle: "Conferência ágil de pedidos e expedição blindada contra erros.",
     icon: ClipboardBoxIcon,
-    colorName: "emerald",
+    colorHex: "#10B981",
     iconColor: "text-emerald-600",
     bgColor: "bg-emerald-50",
     borderColor: "border-emerald-300",
-    arrowColor: "#10B981",
+    cx: 290,
+    cy: 100,
     popoverPlacement: "top",
     features: [
       "Separação por lote e pedidos prioritários",
@@ -194,11 +197,12 @@ const orbitalNodes: OrbitalNode[] = [
     title: "Emissão Fiscal",
     subtitle: "NF-e, NFC-e e QR Code transmitidos em contingência automática.",
     icon: InvoiceQrIcon,
-    colorName: "amber",
+    colorHex: "#F59E0B",
     iconColor: "text-amber-500",
     bgColor: "bg-amber-50",
     borderColor: "border-amber-300",
-    arrowColor: "#F59E0B",
+    cx: 455,
+    cy: 195,
     popoverPlacement: "top-right",
     features: [
       "Emissão ultrarrápida homologada na SEFAZ",
@@ -212,11 +216,12 @@ const orbitalNodes: OrbitalNode[] = [
     title: "Gestão e BI",
     subtitle: "DRE consolidado, curva ABC de produtos e gráficos em tempo real.",
     icon: DashboardFunnelIcon,
-    colorName: "cyan",
+    colorHex: "#06B6D4",
     iconColor: "text-[#06B6D4]",
     bgColor: "bg-cyan-50",
     borderColor: "border-cyan-300",
-    arrowColor: "#06B6D4",
+    cx: 455,
+    cy: 385,
     popoverPlacement: "bottom-right",
     features: [
       "Demonstrativo de Resultado (DRE) em tempo real",
@@ -230,11 +235,12 @@ const orbitalNodes: OrbitalNode[] = [
     title: "Gateway de Pagamentos & Marketplaces",
     subtitle: "Conexões nativas com os principais parceiros do mercado.",
     icon: PartnerClusterIcon,
-    colorName: "emerald",
+    colorHex: "#10B981",
     iconColor: "text-emerald-600",
     bgColor: "bg-emerald-50",
     borderColor: "border-emerald-300",
-    arrowColor: "#10B981",
+    cx: 290,
+    cy: 480,
     popoverPlacement: "bottom",
     isPartnerCluster: true,
   },
@@ -244,11 +250,12 @@ const orbitalNodes: OrbitalNode[] = [
     title: "Logística Integrada",
     subtitle: "Despacho com rotas inteligentes e rastreamento com pin GPS.",
     icon: DeliveryScooterPinIcon,
-    colorName: "amber",
+    colorHex: "#F59E0B",
     iconColor: "text-amber-500",
     bgColor: "bg-amber-50",
     borderColor: "border-amber-300",
-    arrowColor: "#F59E0B",
+    cx: 125,
+    cy: 385,
     popoverPlacement: "bottom-left",
     features: [
       "Gestão de frotas e motoboys próprios",
@@ -262,11 +269,12 @@ const orbitalNodes: OrbitalNode[] = [
     title: "Frente de Caixa",
     subtitle: "PDV veloz com atalhos, TEF e pagamento por aproximação.",
     icon: PosTerminalCardIcon,
-    colorName: "cyan",
+    colorHex: "#06B6D4",
     iconColor: "text-[#06B6D4]",
     bgColor: "bg-cyan-50",
     borderColor: "border-cyan-300",
-    arrowColor: "#06B6D4",
+    cx: 125,
+    cy: 195,
     popoverPlacement: "top-left",
     features: [
       "Checkout em menos de 1.5s por cliente",
@@ -277,12 +285,16 @@ const orbitalNodes: OrbitalNode[] = [
 ];
 
 export function EcossistemaIntegrado() {
+  const [activeNodeId, setActiveNodeId] = useState<number>(1);
   const [hoveredNodeId, setHoveredNodeId] = useState<number | null>(null);
+
+  const activeNode =
+    orbitalNodes.find((n) => n.id === (hoveredNodeId ?? activeNodeId)) ?? orbitalNodes[0];
 
   return (
     <section
       id="ecossistema"
-      className="fluid-gutter relative w-full overflow-hidden border-b border-indigo-100/80 bg-linear-to-b from-[#F7F4FF] via-[#F3F0FF] to-[#F7F4FF] py-20 sm:py-28"
+      className="fluid-gutter relative w-full overflow-hidden border-b border-indigo-100/80 bg-linear-to-b from-[#F7F4FF] via-[#F3F0FF] to-[#F7F4FF] py-16 sm:py-24"
     >
       {/* Luzes difusas sutis estilo enterprise */}
       <div className="pointer-events-none absolute -left-28 top-1/4 size-[420px] rounded-full bg-purple-200/40 blur-3xl" />
@@ -305,382 +317,299 @@ export function EcossistemaIntegrado() {
 
         {/* Subtítulo */}
         <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
-          Do pedido no balcão à expedição e emissão fiscal, passe o mouse nos nós orbitais para
-          visualizar os detalhes de cada etapa.
+          Do pedido no balcão à expedição e emissão fiscal, passe o mouse ou toque nos nós orbitais
+          para visualizar os detalhes de cada etapa.
         </p>
       </div>
 
       {/* ========================================================
-          DIAGRAMA ORBITAL COMPACTO E MINIMALISTA (DESKTOP)
+          PALCO ORBITAL RESPONSIVO (Não quebra em mobile nem tablet)
       ======================================================== */}
-      <div className="relative z-10 mx-auto mt-12 w-full max-w-4xl">
-        <div className="relative hidden items-center justify-center lg:flex h-[560px] w-full">
-          {/* ======================================================
-              SVG COM ÓRBITA REDUZIDA & SETAS DIRECIONAIS SUTIS
-          ====================================================== */}
-          <svg
-            className="pointer-events-none absolute inset-0 size-full"
-            viewBox="0 0 640 560"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <marker
-                id="orb-arrow-emerald"
-                viewBox="0 0 10 10"
-                refX="6"
-                refY="5"
-                markerWidth="5"
-                markerHeight="5"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1 L 9 5 L 0 9 z" fill="#10B981" />
-              </marker>
-              <marker
-                id="orb-arrow-amber"
-                viewBox="0 0 10 10"
-                refX="6"
-                refY="5"
-                markerWidth="5"
-                markerHeight="5"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1 L 9 5 L 0 9 z" fill="#F59E0B" />
-              </marker>
-              <marker
-                id="orb-arrow-cyan"
-                viewBox="0 0 10 10"
-                refX="6"
-                refY="5"
-                markerWidth="5"
-                markerHeight="5"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 1 L 9 5 L 0 9 z" fill="#06B6D4" />
-              </marker>
-            </defs>
-
-            {/* Trilha Orbital Compacta Tracejada (Raio = 180px, centro em 320, 280) */}
-            <circle
-              cx="320"
-              cy="280"
-              r="180"
-              fill="none"
-              stroke="#E0E7FF"
-              strokeWidth="1.5"
-              strokeDasharray="4 4"
-              className="opacity-70"
-            />
-
-            {/* Arco Seta 1 ➔ 2 (Verde: Top para Top-Right) */}
-            <path
-              d="M 360 105 A 180 180 0 0 1 455 170"
-              fill="none"
-              stroke="#10B981"
-              strokeWidth="2"
-              markerEnd="url(#orb-arrow-emerald)"
-              className="opacity-80"
-            />
-
-            {/* Arco Seta 2 ➔ 3 (Amarelo: Top-Right para Bottom-Right) */}
-            <path
-              d="M 495 230 A 180 180 0 0 1 495 330"
-              fill="none"
-              stroke="#F59E0B"
-              strokeWidth="2"
-              markerEnd="url(#orb-arrow-amber)"
-              className="opacity-80"
-            />
-
-            {/* Arco Seta 3 ➔ 4 (Azul: Bottom-Right para Bottom) */}
-            <path
-              d="M 455 390 A 180 180 0 0 1 360 455"
-              fill="none"
-              stroke="#06B6D4"
-              strokeWidth="2"
-              markerEnd="url(#orb-arrow-cyan)"
-              className="opacity-80"
-            />
-
-            {/* Arco Seta 4 ➔ 5 (Verde: Bottom para Bottom-Left) */}
-            <path
-              d="M 280 455 A 180 180 0 0 1 185 390"
-              fill="none"
-              stroke="#10B981"
-              strokeWidth="2"
-              markerEnd="url(#orb-arrow-emerald)"
-              className="opacity-80"
-            />
-
-            {/* Arco Seta 5 ➔ 6 (Amarelo: Bottom-Left para Top-Left) */}
-            <path
-              d="M 145 330 A 180 180 0 0 1 145 230"
-              fill="none"
-              stroke="#F59E0B"
-              strokeWidth="2"
-              markerEnd="url(#orb-arrow-amber)"
-              className="opacity-80"
-            />
-
-            {/* Arco Seta 6 ➔ 1 (Azul: Top-Left para Top) */}
-            <path
-              d="M 185 170 A 180 180 0 0 1 280 105"
-              fill="none"
-              stroke="#06B6D4"
-              strokeWidth="2"
-              markerEnd="url(#orb-arrow-cyan)"
-              className="opacity-80"
-            />
-          </svg>
-
-          {/* ======================================================
-              CENTRAL HUB: NÓ CIRCULAR COM DOMINUS E TEXTO INTERNO
-          ====================================================== */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center">
-            {/* Trilha do Foguete Orbitante */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="size-[228px] rounded-full border border-indigo-200/40 border-dashed" />
-              {/* Rotação Contínua com Foguete */}
-              <div className="absolute size-[228px] animate-[spin_20s_linear_infinite]">
-                <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 flex size-6 items-center justify-center rounded-full bg-linear-to-tr from-indigo-600 to-purple-600 text-white shadow-xs"
-                  style={{ transform: "rotate(45deg)" }}
+      <div className="relative z-10 mx-auto mt-8 flex flex-col items-center justify-center w-full max-w-5xl">
+        {/* Container Escalonável proporcionalmente que preserva a órbita exata em qualquer viewport */}
+        <div className="relative flex items-center justify-center h-[340px] xs:h-[400px] sm:h-[460px] md:h-[540px] lg:h-[580px] w-full overflow-visible">
+          {/* Estágio com Coordenadas 580x580 Fixas e Escala Dinâmica por Breakpoint */}
+          <div className="relative size-[580px] shrink-0 scale-[0.58] xs:scale-[0.68] sm:scale-[0.78] md:scale-[0.92] lg:scale-100 origin-center transition-transform duration-300">
+            {/* SVG com Órbita Exata R=190 e Arcos Conectores Alinhados às Posições */}
+            <svg
+              className="pointer-events-none absolute inset-0 size-full"
+              viewBox="0 0 580 580"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <marker
+                  id="orb-arrow-emerald"
+                  viewBox="0 0 10 10"
+                  refX="6"
+                  refY="5"
+                  markerWidth="5"
+                  markerHeight="5"
+                  orient="auto-start-reverse"
                 >
-                  <Rocket className="size-3" />
+                  <path d="M 0 1 L 9 5 L 0 9 z" fill="#10B981" />
+                </marker>
+                <marker
+                  id="orb-arrow-amber"
+                  viewBox="0 0 10 10"
+                  refX="6"
+                  refY="5"
+                  markerWidth="5"
+                  markerHeight="5"
+                  orient="auto-start-reverse"
+                >
+                  <path d="M 0 1 L 9 5 L 0 9 z" fill="#F59E0B" />
+                </marker>
+                <marker
+                  id="orb-arrow-cyan"
+                  viewBox="0 0 10 10"
+                  refX="6"
+                  refY="5"
+                  markerWidth="5"
+                  markerHeight="5"
+                  orient="auto-start-reverse"
+                >
+                  <path d="M 0 1 L 9 5 L 0 9 z" fill="#06B6D4" />
+                </marker>
+              </defs>
+
+              {/* Trilha Orbital Compacta Tracejada (R=190, Centro em 290, 290) */}
+              <circle
+                cx="290"
+                cy="290"
+                r="190"
+                fill="none"
+                stroke="#E2E8F0"
+                strokeWidth="1.5"
+                strokeDasharray="4 4"
+                className="opacity-70"
+              />
+
+              {/* 1 ➔ 2: Top (Green) para Top-Right (Yellow) */}
+              <path
+                d="M 336 106 A 190 190 0 0 1 427 158"
+                fill="none"
+                stroke="#10B981"
+                strokeWidth="2.5"
+                markerEnd="url(#orb-arrow-emerald)"
+                className="opacity-80"
+              />
+
+              {/* 2 ➔ 3: Top-Right (Yellow) para Bottom-Right (Blue) */}
+              <path
+                d="M 473 238 A 190 190 0 0 1 473 342"
+                fill="none"
+                stroke="#F59E0B"
+                strokeWidth="2.5"
+                markerEnd="url(#orb-arrow-amber)"
+                className="opacity-80"
+              />
+
+              {/* 3 ➔ 4: Bottom-Right (Blue) para Bottom (Green) */}
+              <path
+                d="M 427 422 A 190 190 0 0 1 336 474"
+                fill="none"
+                stroke="#06B6D4"
+                strokeWidth="2.5"
+                markerEnd="url(#orb-arrow-cyan)"
+                className="opacity-80"
+              />
+
+              {/* 4 ➔ 5: Bottom (Green) para Bottom-Left (Yellow) */}
+              <path
+                d="M 244 474 A 190 190 0 0 1 153 422"
+                fill="none"
+                stroke="#10B981"
+                strokeWidth="2.5"
+                markerEnd="url(#orb-arrow-emerald)"
+                className="opacity-80"
+              />
+
+              {/* 5 ➔ 6: Bottom-Left (Yellow) para Top-Left (Blue) */}
+              <path
+                d="M 107 342 A 190 190 0 0 1 107 238"
+                fill="none"
+                stroke="#F59E0B"
+                strokeWidth="2.5"
+                markerEnd="url(#orb-arrow-amber)"
+                className="opacity-80"
+              />
+
+              {/* 6 ➔ 1: Top-Left (Blue) para Top (Green) */}
+              <path
+                d="M 153 158 A 190 190 0 0 1 244 106"
+                fill="none"
+                stroke="#06B6D4"
+                strokeWidth="2.5"
+                markerEnd="url(#orb-arrow-cyan)"
+                className="opacity-80"
+              />
+            </svg>
+
+            {/* ======================================================
+                CORE HUB: NÓ CIRCULAR COM DOMINUS E TEXTO INTERNO
+            ====================================================== */}
+            <div className="absolute top-[290px] left-[290px] -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center">
+              {/* Trilha do Foguete Orbitante */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="size-[240px] rounded-full border border-indigo-200/50 border-dashed" />
+                {/* Rotação Contínua com Foguete */}
+                <div className="absolute size-[240px] animate-[spin_18s_linear_infinite]">
+                  <div
+                    className="absolute -top-3 left-1/2 -translate-x-1/2 flex size-6.5 items-center justify-center rounded-full bg-linear-to-tr from-indigo-600 to-purple-600 text-white shadow-xs"
+                    style={{ transform: "rotate(45deg)" }}
+                  >
+                    <Rocket className="size-3.5" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Halo Suave */}
-            <div className="absolute -inset-2.5 rounded-full bg-indigo-500/10 blur-lg -z-10" />
+              {/* Halo Suave */}
+              <div className="absolute -inset-3 rounded-full bg-indigo-500/10 blur-xl -z-10" />
 
-            {/* Círculo Central Compacto (rounded-full) */}
-            <div className="group relative flex size-44 sm:size-48 flex-col items-center justify-center rounded-full border-3 border-indigo-300/70 bg-white p-4 text-center shadow-[0_0_35px_-5px_rgba(99,102,241,0.2)] transition-all duration-500 hover:scale-105 hover:border-indigo-400">
-              {/* Efeito sutil no contorno interno */}
-              <div className="pointer-events-none absolute inset-1 rounded-full border border-dashed border-indigo-200/60 animate-[spin_40s_linear_infinite]" />
+              {/* Círculo Central Compacto (rounded-full) */}
+              <div className="group relative flex size-44 sm:size-48 flex-col items-center justify-center rounded-full border-3 border-indigo-300/70 bg-white p-4 text-center shadow-[0_0_35px_-5px_rgba(99,102,241,0.22)] transition-all duration-500 hover:scale-105 hover:border-indigo-400">
+                {/* Efeito sutil no contorno interno */}
+                <div className="pointer-events-none absolute inset-1.5 rounded-full border border-dashed border-indigo-200/60 animate-[spin_40s_linear_infinite]" />
 
-              {/* Logo Dominus perfeitamente centralizada */}
-              <div className="relative z-10 flex items-center justify-center h-10 w-full px-2">
-                <img
-                  src="/Logo-dominus.png"
-                  alt="Dominus"
-                  className="max-h-full max-w-[120px] object-contain transition-transform duration-500 hover:scale-105"
-                />
-              </div>
-
-              {/* Texto em Caixa Alta dentro do círculo */}
-              <p className="relative z-10 mt-1 max-w-[125px] text-center text-[7.5px] sm:text-[8px] font-black uppercase tracking-wider text-slate-800 leading-tight">
-                SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
-              </p>
-            </div>
-          </div>
-
-          {/* ======================================================
-              6 NÓS SATÉLITES COMPACTOS (ÍCONES APENAS POR PADRÃO)
-          ====================================================== */}
-
-          {orbitalNodes.map((node) => {
-            const Icon = node.icon;
-            const isHovered = hoveredNodeId === node.id;
-
-            // Coordenadas calculadas no círculo reduzido (r = 180px em torno de 320, 280)
-            // Node 1 (Top): 320, 100
-            // Node 2 (Top-Right): 476, 190
-            // Node 3 (Bottom-Right): 476, 370
-            // Node 4 (Bottom): 320, 460
-            // Node 5 (Bottom-Left): 164, 370
-            // Node 6 (Top-Left): 164, 190
-
-            const positions = [
-              { left: "50%", top: "72px", transform: "translate(-50%, -50%)" }, // 1
-              { left: "75%", top: "185px", transform: "translate(-50%, -50%)" }, // 2
-              { left: "75%", top: "375px", transform: "translate(-50%, -50%)" }, // 3
-              { left: "50%", top: "488px", transform: "translate(-50%, -50%)" }, // 4
-              { left: "25%", top: "375px", transform: "translate(-50%, -50%)" }, // 5
-              { left: "25%", top: "185px", transform: "translate(-50%, -50%)" }, // 6
-            ];
-
-            const pos = positions[node.id - 1];
-
-            return (
-              <div
-                key={node.id}
-                style={{ left: pos.left, top: pos.top, transform: pos.transform }}
-                className="absolute z-20"
-                onMouseEnter={() => setHoveredNodeId(node.id)}
-                onMouseLeave={() => setHoveredNodeId(null)}
-              >
-                {/* Botão Ícone Compacto Circular */}
-                <button
-                  type="button"
-                  aria-label={node.title}
-                  className={cn(
-                    "group relative flex size-14 sm:size-15 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all duration-300",
-                    node.bgColor,
-                    node.borderColor,
-                    isHovered
-                      ? "scale-115 shadow-xl ring-4 ring-indigo-200/50"
-                      : "hover:scale-108 hover:shadow-lg",
-                  )}
-                >
-                  <Icon
-                    className={cn(
-                      "size-6 transition-transform group-hover:scale-110",
-                      node.iconColor,
-                    )}
+                {/* Logo Dominus perfeitamente centralizada */}
+                <div className="relative z-10 flex items-center justify-center h-10 w-full px-2">
+                  <img
+                    src="/Logo-dominus.png"
+                    alt="Dominus"
+                    className="max-h-full max-w-[120px] object-contain transition-transform duration-500 hover:scale-105"
                   />
+                </div>
 
-                  {/* Número indicador discreto no cantinho */}
-                  <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-white text-[9px] font-bold text-slate-700 shadow-xs border border-slate-200">
-                    {node.id}
-                  </span>
-                </button>
-
-                {/* ====================================================
-                    POPOVER / TOOLTIP FLUTUANTE EM HOVER
-                ==================================================== */}
-                {isHovered && (
-                  <div
-                    className={cn(
-                      "animate-in fade-in-0 zoom-in-95 pointer-events-none absolute z-50 w-72 rounded-2xl border border-slate-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-md",
-                      // Posicionamento inteligente para não encavalar
-                      node.popoverPlacement === "top" && "bottom-full mb-3 left-1/2 -translate-x-1/2",
-                      node.popoverPlacement === "top-right" && "left-full ml-3 top-1/2 -translate-y-1/2",
-                      node.popoverPlacement === "bottom-right" && "left-full ml-3 top-1/2 -translate-y-1/2",
-                      node.popoverPlacement === "bottom" && "top-full mt-3 left-1/2 -translate-x-1/2",
-                      node.popoverPlacement === "bottom-left" && "right-full mr-3 top-1/2 -translate-y-1/2",
-                      node.popoverPlacement === "top-left" && "right-full mr-3 top-1/2 -translate-y-1/2",
-                    )}
-                  >
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-                      <span
-                        className={cn(
-                          "text-[10px] font-bold uppercase tracking-wider",
-                          node.iconColor,
-                        )}
-                      >
-                        {node.tag}
-                      </span>
-                      <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-500">
-                        Etapa 0{node.id}
-                      </span>
-                    </div>
-
-                    <h4 className="mt-2 text-sm font-bold text-slate-900">{node.title}</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-600">{node.subtitle}</p>
-
-                    {/* Conteúdo Estruturado Específico do Popover */}
-                    {node.isPartnerCluster ? (
-                      <div className="mt-3 grid grid-cols-3 gap-1 border-t border-slate-100 pt-2.5">
-                        {partnerList.map((partner) => (
-                          <div
-                            key={partner.name}
-                            className={cn(
-                              "flex flex-col items-center justify-center rounded p-1 text-center",
-                              partner.isPlaceholder
-                                ? "border border-dashed border-emerald-200 bg-emerald-50/40 text-emerald-600"
-                                : "border border-emerald-100 bg-emerald-50/70 text-emerald-700",
-                            )}
-                          >
-                            <span className="text-[9px] font-black uppercase">{partner.name}</span>
-                            <span className="text-[7.5px] text-emerald-600/80 leading-none">
-                              {partner.tag}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <ul className="mt-3 space-y-1.5 border-t border-slate-100 pt-2.5 text-xs text-slate-600">
-                        {node.features?.map((feat) => (
-                          <li key={feat} className="flex items-start gap-1.5 text-[11px]">
-                            <Check className="size-3 text-brand-green shrink-0 mt-0.5" />
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                )}
+                {/* Texto em Caixa Alta dentro do círculo */}
+                <p className="relative z-10 mt-1 max-w-[125px] text-center text-[7.5px] sm:text-[8px] font-black uppercase tracking-wider text-slate-800 leading-tight">
+                  SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
+                </p>
               </div>
-            );
-          })}
-        </div>
-
-        {/* ========================================================
-            MOBILE & TABLET VIEW (< lg)
-        ======================================================== */}
-        <div className="flex flex-col items-center gap-6 lg:hidden">
-          {/* Círculo Central */}
-          <div className="relative flex size-44 flex-col items-center justify-center rounded-full border-3 border-indigo-300/70 bg-white p-4 text-center shadow-lg">
-            <div className="relative z-10 flex items-center justify-center h-10 w-full">
-              <img
-                src="/Logo-dominus.png"
-                alt="Dominus"
-                className="max-h-full max-w-[110px] object-contain"
-              />
             </div>
-            <p className="relative z-10 mt-1 max-w-[120px] text-center text-[7.5px] font-black uppercase tracking-wider text-slate-800 leading-tight">
-              SISTEMA DE GESTÃO EMPRESARIAL COMPLETO
-            </p>
-          </div>
 
-          <div className="flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
-            <Info className="size-3.5" />
-            <span>Toque em qualquer nó para ver detalhes</span>
-          </div>
-
-          {/* Grade dos 6 Nós no Mobile */}
-          <div className="grid w-full gap-3 sm:grid-cols-2">
+            {/* ======================================================
+                6 NÓS SATÉLITES COMPACTOS RIGOROSAMENTE NA ÓRBITA R=190
+            ====================================================== */}
             {orbitalNodes.map((node) => {
               const Icon = node.icon;
+              const isSelected = (hoveredNodeId ?? activeNodeId) === node.id;
+              const isHovered = hoveredNodeId === node.id;
+
               return (
                 <div
                   key={node.id}
-                  className="flex flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs"
+                  style={{
+                    left: `${node.cx}px`,
+                    top: `${node.cy}px`,
+                  }}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 z-20"
+                  onMouseEnter={() => {
+                    setHoveredNodeId(node.id);
+                    setActiveNodeId(node.id);
+                  }}
+                  onMouseLeave={() => setHoveredNodeId(null)}
+                  onClick={() => setActiveNodeId(node.id)}
                 >
-                  <div className="flex items-center gap-3">
+                  {/* Botão Ícone Compacto Circular */}
+                  <button
+                    type="button"
+                    aria-label={node.title}
+                    className={cn(
+                      "group relative flex size-14 sm:size-15 items-center justify-center rounded-full border-2 bg-white shadow-md transition-all duration-300 cursor-pointer",
+                      node.bgColor,
+                      node.borderColor,
+                      isSelected
+                        ? "scale-115 shadow-xl ring-4 ring-indigo-200/60"
+                        : "hover:scale-110 hover:shadow-lg",
+                    )}
+                  >
+                    <Icon
+                      className={cn(
+                        "size-6 transition-transform group-hover:scale-110",
+                        node.iconColor,
+                      )}
+                    />
+
+                    {/* Número indicador discreto no cantinho */}
+                    <span className="absolute -top-1 -right-1 flex size-5 items-center justify-center rounded-full bg-white text-[9px] font-bold text-slate-700 shadow-xs border border-slate-200">
+                      {node.id}
+                    </span>
+                  </button>
+
+                  {/* ====================================================
+                      POPOVER FLUTUANTE EM HOVER (DESKTOP)
+                      Totalmente absoluto sem deslocar nenhum elemento!
+                  ==================================================== */}
+                  {isHovered && (
                     <div
                       className={cn(
-                        "flex size-11 shrink-0 items-center justify-center rounded-full border",
-                        node.bgColor,
-                        node.borderColor,
+                        "animate-in fade-in-0 zoom-in-95 pointer-events-none absolute z-50 w-72 rounded-2xl border border-slate-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-md hidden lg:block",
+                        node.popoverPlacement === "top" &&
+                          "bottom-full mb-3 left-1/2 -translate-x-1/2",
+                        node.popoverPlacement === "top-right" &&
+                          "left-full ml-4 top-1/2 -translate-y-1/2",
+                        node.popoverPlacement === "bottom-right" &&
+                          "left-full ml-4 top-1/2 -translate-y-1/2",
+                        node.popoverPlacement === "bottom" &&
+                          "top-full mt-3 left-1/2 -translate-x-1/2",
+                        node.popoverPlacement === "bottom-left" &&
+                          "right-full mr-4 top-1/2 -translate-y-1/2",
+                        node.popoverPlacement === "top-left" &&
+                          "right-full mr-4 top-1/2 -translate-y-1/2",
                       )}
                     >
-                      <Icon className={cn("size-5.5", node.iconColor)} />
-                    </div>
-                    <div>
-                      <span className={cn("text-[10px] font-bold uppercase", node.iconColor)}>
-                        {node.tag}
-                      </span>
-                      <h4 className="text-sm font-bold text-slate-900 leading-tight">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                        <span
+                          className={cn(
+                            "text-[10px] font-bold uppercase tracking-wider",
+                            node.iconColor,
+                          )}
+                        >
+                          {node.tag}
+                        </span>
+                        <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-semibold text-slate-500">
+                          Etapa 0{node.id}
+                        </span>
+                      </div>
+
+                      <h4 className="mt-2 text-sm font-bold text-slate-900 leading-tight">
                         {node.title}
                       </h4>
-                    </div>
-                  </div>
+                      <p className="mt-1 text-xs leading-relaxed text-slate-600">
+                        {node.subtitle}
+                      </p>
 
-                  <p className="mt-2 text-xs text-slate-500 leading-relaxed">{node.subtitle}</p>
-
-                  {node.isPartnerCluster ? (
-                    <div className="mt-2.5 grid grid-cols-3 gap-1">
-                      {partnerList.map((partner) => (
-                        <div
-                          key={partner.name}
-                          className="flex flex-col items-center justify-center rounded p-1 text-center border border-emerald-100 bg-emerald-50/70 text-emerald-700"
-                        >
-                          <span className="text-[9px] font-black uppercase">{partner.name}</span>
-                          <span className="text-[7.5px] text-emerald-600/80 leading-none">
-                            {partner.tag}
-                          </span>
+                      {node.isPartnerCluster ? (
+                        <div className="mt-3 grid grid-cols-3 gap-1 border-t border-slate-100 pt-2.5">
+                          {partnerList.map((partner) => (
+                            <div
+                              key={partner.name}
+                              className={cn(
+                                "flex flex-col items-center justify-center rounded p-1 text-center",
+                                partner.isPlaceholder
+                                  ? "border border-dashed border-emerald-200 bg-emerald-50/40 text-emerald-600"
+                                  : "border border-emerald-100 bg-emerald-50/70 text-emerald-700",
+                              )}
+                            >
+                              <span className="text-[9px] font-black uppercase">
+                                {partner.name}
+                              </span>
+                              <span className="text-[7.5px] text-emerald-600/80 leading-none">
+                                {partner.tag}
+                              </span>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="mt-2 border-t border-slate-100 pt-2 text-[11px] text-slate-600 space-y-1">
-                      {node.features?.slice(0, 2).map((f) => (
-                        <div key={f} className="flex items-center gap-1.5">
-                          <Check className="size-3 text-brand-green shrink-0" />
-                          <span>{f}</span>
-                        </div>
-                      ))}
+                      ) : (
+                        <ul className="mt-3 space-y-1.5 border-t border-slate-100 pt-2.5 text-xs text-slate-600">
+                          {node.features?.map((feat) => (
+                            <li key={feat} className="flex items-start gap-1.5 text-[11px]">
+                              <Check className="size-3 text-brand-green shrink-0 mt-0.5" />
+                              <span>{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   )}
                 </div>
@@ -689,8 +618,106 @@ export function EcossistemaIntegrado() {
           </div>
         </div>
 
+        {/* ========================================================
+            CARD DE DETALHES INTERATIVO SINCRONIZADO (MOBILE / TABLET / FOCO)
+            Em telas pequenas, exibe com clareza o nó selecionado sem lista bagunçada
+        ======================================================== */}
+        <div className="mt-4 w-full max-w-xl rounded-2xl border border-indigo-100 bg-white/95 p-5 shadow-sm backdrop-blur-xs transition-all duration-300">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div className="flex items-center gap-3">
+              <div
+                className={cn(
+                  "flex size-10 shrink-0 items-center justify-center rounded-xl border",
+                  activeNode.bgColor,
+                  activeNode.borderColor,
+                )}
+              >
+                <activeNode.icon className={cn("size-5", activeNode.iconColor)} />
+              </div>
+              <div>
+                <span
+                  className={cn(
+                    "text-[10px] font-bold uppercase tracking-wider",
+                    activeNode.iconColor,
+                  )}
+                >
+                  {activeNode.tag}
+                </span>
+                <h4 className="text-base font-bold text-slate-900 leading-tight">
+                  {activeNode.title}
+                </h4>
+              </div>
+            </div>
+
+            {/* Controles de Navegação entre Nós (1 a 6) */}
+            <div className="flex items-center gap-1">
+              {orbitalNodes.map((n) => (
+                <button
+                  key={n.id}
+                  type="button"
+                  onClick={() => setActiveNodeId(n.id)}
+                  aria-label={`Ver etapa ${n.id}`}
+                  className={cn(
+                    "size-6 rounded-full text-[10px] font-bold transition-all",
+                    activeNode.id === n.id
+                      ? "bg-slate-900 text-white shadow-xs scale-110"
+                      : "bg-slate-100 text-slate-500 hover:bg-slate-200",
+                  )}
+                >
+                  {n.id}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <p className="mt-3 text-xs sm:text-sm leading-relaxed text-slate-600">
+            {activeNode.subtitle}
+          </p>
+
+          {/* Conteúdo Específico */}
+          {activeNode.isPartnerCluster ? (
+            <div className="mt-3 grid grid-cols-3 gap-2 border-t border-slate-100 pt-3">
+              {partnerList.map((partner) => (
+                <div
+                  key={partner.name}
+                  className={cn(
+                    "flex flex-col items-center justify-center rounded-lg p-2 text-center",
+                    partner.isPlaceholder
+                      ? "border border-dashed border-emerald-200 bg-emerald-50/40 text-emerald-600"
+                      : "border border-emerald-100 bg-emerald-50/70 text-emerald-700",
+                  )}
+                >
+                  <span className="text-[10px] font-black uppercase">{partner.name}</span>
+                  <span className="text-[8.5px] text-emerald-600/80 leading-none">
+                    {partner.tag}
+                  </span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <ul className="mt-3 grid gap-1.5 sm:grid-cols-2 border-t border-slate-100 pt-3 text-xs text-slate-600">
+              {activeNode.features?.map((feat) => (
+                <li key={feat} className="flex items-start gap-1.5 text-[11px] sm:text-xs">
+                  <Check className="size-3.5 text-brand-green shrink-0 mt-0.5" />
+                  <span>{feat}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5 text-[11px] text-slate-400">
+            <span className="flex items-center gap-1 text-indigo-600 font-semibold">
+              <Info className="size-3" />
+              <span>Toque ou passe o mouse nos nós para navegar</span>
+            </span>
+            <span className="font-mono text-slate-400">
+              Etapa 0{activeNode.id} / 06
+            </span>
+          </div>
+        </div>
+
         {/* Rodapé da Seção com CTA Rápido */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-indigo-200/80 bg-white/95 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 rounded-2xl border border-indigo-200/80 bg-white/95 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8 w-full max-w-4xl">
           <div>
             <h4 className="text-sm font-bold text-slate-900">
               Pronto para colocar o Ciclo Operacional Dominus na sua empresa?
