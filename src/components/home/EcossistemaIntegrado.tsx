@@ -1,16 +1,12 @@
 import {
-  CreditCard,
-  FileCheck2,
-  PackageCheck,
-  TrendingUp,
+  Zap,
+  Receipt,
+  Truck,
+  BarChart3,
   Smartphone,
-  Server,
-  Cpu,
+  Shield,
   Sparkles,
   ArrowRight,
-  Zap,
-  CheckCircle2,
-  Activity,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -18,87 +14,76 @@ import { cn } from "@/lib/utils";
 interface SatelliteNode {
   id: string;
   title: string;
-  description: string;
-  icon: typeof CreditCard;
-  color: string;
-  accentBg: string;
-  accentBorder: string;
-  tag: string;
-  metrics: string;
+  shortDesc: string;
+  icon: typeof Zap;
+  iconColor: string;
+  iconBg: string;
+  borderHover: string;
   side: "left" | "right";
 }
 
 const satelliteNodes: SatelliteNode[] = [
+  // Coluna Esquerda
   {
     id: "pdv",
     title: "Frente de Caixa",
-    description: "Vendas ultrarrápidas, TEF multicarteiras e contingência offline contínua.",
-    icon: CreditCard,
-    color: "#3BBCEC",
-    accentBg: "rgba(59, 188, 236, 0.1)",
-    accentBorder: "rgba(59, 188, 236, 0.35)",
-    tag: "PDV Ágil",
-    metrics: "Tempo médio de cupom: 1.2s",
+    shortDesc: "PDV rápido e sem filas",
+    icon: Zap,
+    iconColor: "text-amber-500",
+    iconBg: "bg-amber-50 border border-amber-200/60",
+    borderHover: "hover:border-amber-300",
     side: "left",
   },
   {
     id: "fiscal",
-    title: "Fiscal 100% Descomplicado",
-    description: "NF-e, NFC-e, SPED e conciliação tributária automática com a SEFAZ.",
-    icon: FileCheck2,
-    color: "#10B981",
-    accentBg: "rgba(16, 185, 129, 0.1)",
-    accentBorder: "rgba(16, 185, 129, 0.35)",
-    tag: "100% Seguro",
-    metrics: "Conformidade em tempo real",
+    title: "Fiscal",
+    shortDesc: "Emissão 100% automática",
+    icon: Receipt,
+    iconColor: "text-emerald-600",
+    iconBg: "bg-emerald-50 border border-emerald-200/60",
+    borderHover: "hover:border-emerald-300",
     side: "left",
   },
   {
     id: "estoque",
-    title: "Estoque Inteligente",
-    description: "Entrada por XML, ponto de reposição dinâmico e inventário sem perdas.",
-    icon: PackageCheck,
-    color: "#F59E0B",
-    accentBg: "rgba(245, 158, 11, 0.1)",
-    accentBorder: "rgba(245, 158, 11, 0.35)",
-    tag: "Curva ABC",
-    metrics: "Zero ruptura de estoque",
+    title: "Estoque",
+    shortDesc: "Inventário e reposição",
+    icon: Truck,
+    iconColor: "text-[#3BBCEC]",
+    iconBg: "bg-cyan-50 border border-cyan-200/60",
+    borderHover: "hover:border-cyan-300",
     side: "left",
   },
+
+  // Coluna Direita
   {
     id: "financeiro",
-    title: "DRE & Financeiro",
-    description: "Fluxo de caixa, conciliação bancária e rentabilidade real por canal.",
-    icon: TrendingUp,
-    color: "#8B5CF6",
-    accentBg: "rgba(139, 92, 246, 0.1)",
-    accentBorder: "rgba(139, 92, 246, 0.35)",
-    tag: "Visão 360°",
-    metrics: "DRE atualizado a cada venda",
+    title: "Financeiro",
+    shortDesc: "DRE e fluxo de caixa",
+    icon: BarChart3,
+    iconColor: "text-purple-600",
+    iconBg: "bg-purple-50 border border-purple-200/60",
+    borderHover: "hover:border-purple-300",
     side: "right",
   },
   {
     id: "mobile",
-    title: "App Mobile / Métricas",
-    description: "Indicadores executivos, metas e faturamento ao vivo no seu smartphone.",
+    title: "Mobile",
+    shortDesc: "Métricas em tempo real",
     icon: Smartphone,
-    color: "#FC4242",
-    accentBg: "rgba(252, 66, 66, 0.1)",
-    accentBorder: "rgba(252, 66, 66, 0.35)",
-    tag: "Na Palma da Mão",
-    metrics: "Dados sincronizados ao vivo",
+    iconColor: "text-rose-500",
+    iconBg: "bg-rose-50 border border-rose-200/60",
+    borderHover: "hover:border-rose-300",
     side: "right",
   },
   {
-    id: "cloud",
-    title: "Backup & Nuvem",
-    description: "Dados protegidos com redundância bancária e restauração instantânea 24/7.",
-    icon: Server,
-    color: "#2563EB",
-    accentBg: "rgba(37, 99, 235, 0.1)",
-    accentBorder: "rgba(37, 99, 235, 0.35)",
-    tag: "Segurança Total",
-    metrics: "99.98% de disponibilidade",
+    id: "backup",
+    title: "Backup",
+    shortDesc: "Proteção de dados 24/7",
+    icon: Shield,
+    iconColor: "text-indigo-600",
+    iconBg: "bg-indigo-50 border border-indigo-200/60",
+    borderHover: "hover:border-indigo-300",
     side: "right",
   },
 ];
@@ -106,28 +91,25 @@ const satelliteNodes: SatelliteNode[] = [
 export function EcossistemaIntegrado() {
   const [activeNodeId, setActiveNodeId] = useState<string>("pdv");
 
-  const activeNode =
-    satelliteNodes.find((node) => node.id === activeNodeId) ?? satelliteNodes[0];
-
   const leftNodes = satelliteNodes.filter((n) => n.side === "left");
   const rightNodes = satelliteNodes.filter((n) => n.side === "right");
 
   return (
     <section
       id="ecossistema"
-      className="fluid-gutter relative w-full overflow-hidden border-b border-indigo-100/80 bg-linear-to-b from-[#FAF8FF] via-[#F3F0FF] to-[#FAF8FF] py-20 sm:py-28"
+      className="fluid-gutter relative w-full overflow-hidden border-b border-indigo-100/80 bg-linear-to-b from-[#F7F4FF] via-[#F3F0FF] to-[#F7F4FF] py-20 sm:py-28"
     >
-      {/* Elementos visuais sutis de fundo estilo Enterprise SaaS */}
-      <div className="pointer-events-none absolute -left-20 top-1/3 size-96 rounded-full bg-purple-200/40 blur-3xl" />
-      <div className="pointer-events-none absolute -right-20 bottom-1/4 size-96 rounded-full bg-indigo-200/40 blur-3xl" />
+      {/* Luzes difusas sutis estilo enterprise */}
+      <div className="pointer-events-none absolute -left-24 top-1/4 size-96 rounded-full bg-purple-200/40 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-1/4 size-96 rounded-full bg-indigo-200/40 blur-3xl" />
 
       {/* Header Centralizado */}
       <div className="relative z-10 mx-auto max-w-3xl text-center">
-        {/* Badge 'Fluxo Automatizado' */}
+        {/* Badge 'Ecossistema Integrado' */}
         <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200/90 bg-white/95 px-4 py-1.5 shadow-xs backdrop-blur-xs">
           <span className="flex size-2 rounded-full bg-indigo-600 animate-pulse" />
           <span className="text-xs font-bold uppercase tracking-wider text-indigo-900">
-            Fluxo Automatizado
+            Ecossistema Integrado
           </span>
         </div>
 
@@ -138,44 +120,33 @@ export function EcossistemaIntegrado() {
 
         {/* Subtítulo */}
         <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
-          Uma arquitetura inteligente onde cada ponta da operação se conecta ao Núcleo Central do
-          ERP em tempo real, eliminando retrabalho, divergências de estoque e erros manuais.
+          Conexão direta entre frente de loja, retaguarda, gestão fiscal e tomada de decisão em uma
+          única plataforma integrada.
         </p>
       </div>
 
-      {/* Diagrama Interativo Core (Hub-and-Spoke / Arquitetura Visual) */}
+      {/* Diagrama Interativo Core */}
       <div className="relative z-10 mx-auto mt-16 w-full max-w-6xl">
         {/* ========================================================
-            DESKTOP HUB-AND-SPOKE VIEW (>= lg)
+            DESKTOP LAYOUT (Duas colunas de 3 cards flanqueando o círculo central)
         ======================================================== */}
-        <div className="relative hidden items-center justify-between gap-6 lg:flex">
-          {/* Camada SVG de Conexões Vetoriais */}
+        <div className="relative hidden items-center justify-between gap-8 lg:flex">
+          {/* Linhas Conectoras SVG Vetoriais */}
           <svg
             className="pointer-events-none absolute inset-0 z-0 size-full"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <defs>
-              <linearGradient id="lineGradLeft" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#818CF8" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#6366F1" stopOpacity="0.9" />
-              </linearGradient>
-              <linearGradient id="lineGradRight" x1="100%" y1="0%" x2="0%" y2="0%">
-                <stop offset="0%" stopColor="#818CF8" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#6366F1" stopOpacity="0.9" />
-              </linearGradient>
-            </defs>
-
-            {/* Linhas conectando os 3 nós esquerdos ao centro */}
+            {/* Conectores do lado esquerdo para o círculo central */}
             <path
-              d="M 280 85 C 380 85, 390 270, 480 270"
+              d="M 310 70 C 400 70, 440 250, 490 250"
               fill="none"
-              stroke={activeNodeId === "pdv" ? "#3BBCEC" : "#CBD5E1"}
+              stroke={activeNodeId === "pdv" ? "#F59E0B" : "#CBD5E1"}
               strokeWidth={activeNodeId === "pdv" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "pdv" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
             <path
-              d="M 280 270 C 370 270, 400 270, 480 270"
+              d="M 310 250 C 400 250, 440 250, 490 250"
               fill="none"
               stroke={activeNodeId === "fiscal" ? "#10B981" : "#CBD5E1"}
               strokeWidth={activeNodeId === "fiscal" ? "2.5" : "1.5"}
@@ -183,17 +154,17 @@ export function EcossistemaIntegrado() {
               className="transition-all duration-300"
             />
             <path
-              d="M 280 455 C 380 455, 390 270, 480 270"
+              d="M 310 430 C 400 430, 440 250, 490 250"
               fill="none"
-              stroke={activeNodeId === "estoque" ? "#F59E0B" : "#CBD5E1"}
+              stroke={activeNodeId === "estoque" ? "#3BBCEC" : "#CBD5E1"}
               strokeWidth={activeNodeId === "estoque" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "estoque" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
 
-            {/* Linhas conectando os 3 nós direitos ao centro */}
+            {/* Conectores do lado direito para o círculo central */}
             <path
-              d="M 870 85 C 770 85, 760 270, 670 270"
+              d="M 830 70 C 740 70, 700 250, 650 250"
               fill="none"
               stroke={activeNodeId === "financeiro" ? "#8B5CF6" : "#CBD5E1"}
               strokeWidth={activeNodeId === "financeiro" ? "2.5" : "1.5"}
@@ -201,25 +172,25 @@ export function EcossistemaIntegrado() {
               className="transition-all duration-300"
             />
             <path
-              d="M 870 270 C 780 270, 750 270, 670 270"
+              d="M 830 250 C 740 250, 700 250, 650 250"
               fill="none"
-              stroke={activeNodeId === "mobile" ? "#FC4242" : "#CBD5E1"}
+              stroke={activeNodeId === "mobile" ? "#F43F5E" : "#CBD5E1"}
               strokeWidth={activeNodeId === "mobile" ? "2.5" : "1.5"}
               strokeDasharray={activeNodeId === "mobile" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
             <path
-              d="M 870 455 C 770 455, 760 270, 670 270"
+              d="M 830 430 C 740 430, 700 250, 650 250"
               fill="none"
-              stroke={activeNodeId === "cloud" ? "#2563EB" : "#CBD5E1"}
-              strokeWidth={activeNodeId === "cloud" ? "2.5" : "1.5"}
-              strokeDasharray={activeNodeId === "cloud" ? "none" : "6 4"}
+              stroke={activeNodeId === "backup" ? "#2563EB" : "#CBD5E1"}
+              strokeWidth={activeNodeId === "backup" ? "2.5" : "1.5"}
+              strokeDasharray={activeNodeId === "backup" ? "none" : "6 4"}
               className="transition-all duration-300"
             />
           </svg>
 
-          {/* Coluna Esquerda: 3 Nós Satélites */}
-          <div className="relative z-10 flex w-72 flex-col gap-6">
+          {/* Coluna Esquerda (3 Cards Compactos) */}
+          <div className="relative z-10 flex w-76 flex-col gap-6">
             {leftNodes.map((node) => {
               const Icon = node.icon;
               const isActive = activeNodeId === node.id;
@@ -229,104 +200,67 @@ export function EcossistemaIntegrado() {
                   onMouseEnter={() => setActiveNodeId(node.id)}
                   onClick={() => setActiveNodeId(node.id)}
                   className={cn(
-                    "group relative cursor-pointer rounded-2xl border p-5 shadow-xs transition-all duration-300 bg-white",
+                    "group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-4.5 shadow-xs transition-all duration-300",
+                    node.borderHover,
                     isActive
-                      ? "scale-[1.03] shadow-md border-transparent ring-2"
-                      : "border-slate-200/80 hover:border-slate-300 hover:shadow-sm",
+                      ? "scale-[1.03] shadow-md border-indigo-300 ring-2 ring-indigo-200/50"
+                      : "hover:-translate-y-0.5 hover:shadow-md",
                   )}
-                  style={{
-                    boxShadow: isActive ? `0 10px 30px -10px ${node.color}40` : undefined,
-                    borderColor: isActive ? node.color : undefined,
-                  }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="flex size-10 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: node.accentBg, color: node.color }}
-                    >
-                      <Icon className="size-5" />
-                    </div>
-                    <span
-                      className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
-                      style={{ backgroundColor: node.accentBg, color: node.color }}
-                    >
-                      {node.tag}
-                    </span>
+                  {/* Ícone com fundo pastel */}
+                  <div
+                    className={cn(
+                      "flex size-12 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110",
+                      node.iconBg,
+                      node.iconColor,
+                    )}
+                  >
+                    <Icon className="size-6" />
                   </div>
 
-                  <h3 className="mt-3.5 text-base font-bold text-slate-900 group-hover:text-indigo-900">
-                    {node.title}
-                  </h3>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                    {node.description}
-                  </p>
-
-                  <div className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
-                    <CheckCircle2 className="size-3.5 text-emerald-500" />
-                    <span>{node.metrics}</span>
+                  {/* Título e Breve Descrição */}
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-950">
+                      {node.title}
+                    </h3>
+                    <p className="mt-0.5 text-xs text-slate-500 truncate">{node.shortDesc}</p>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Nó Central: Núcleo de Inteligência (ERP) */}
-          <div className="relative z-20 flex w-80 shrink-0 flex-col items-center justify-center rounded-3xl border-2 border-indigo-400/60 bg-white p-7 text-center shadow-[0_0_45px_-8px_rgba(99,102,241,0.25)] transition-all duration-500 hover:shadow-[0_0_60px_-5px_rgba(99,102,241,0.35)]">
-            {/* Halo pulsante suave */}
-            <div className="absolute -inset-1 rounded-3xl bg-indigo-500/10 blur-xl -z-10" />
+          {/* Elemento Central: Círculo Proeminente com Logo Dominus */}
+          <div className="relative z-20 flex flex-col items-center justify-center text-center">
+            {/* Halo de luz suave */}
+            <div className="absolute -inset-4 rounded-full bg-indigo-500/15 blur-2xl -z-10" />
 
-            {/* Ícone Core com micro-animação */}
-            <div className="relative flex size-18 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-500/40">
-              <Cpu className="size-9" />
-              <span className="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-emerald-400 text-white ring-2 ring-white">
-                <Zap className="size-2.5 fill-white" />
-              </span>
+            {/* Círculo Principal com Borda Suave Índigo */}
+            <div className="group relative flex size-64 sm:size-72 items-center justify-center rounded-full border-4 border-indigo-300/60 bg-white p-8 shadow-[0_0_50px_-5px_rgba(99,102,241,0.25)] transition-all duration-500 hover:scale-105 hover:border-indigo-400 hover:shadow-[0_0_70px_-5px_rgba(99,102,241,0.35)]">
+              {/* Imagem Oficial Logo Dominus perfeitamente ajustada */}
+              <img
+                src="/Logo-dominus.png"
+                alt="Logo Dominus — Sistema de Gestão Empresarial Completo"
+                className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
+              />
+
+              {/* Indicador pulsante de status na borda */}
+              <span className="absolute top-4 right-4 flex size-4 items-center justify-center rounded-full bg-emerald-500 ring-4 ring-white" />
             </div>
 
-            {/* Título do Hub */}
-            <h3 className="mt-5 text-xl font-extrabold text-slate-950">
-              Núcleo de Inteligência
-            </h3>
-            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
-              Dominus ERP
-            </span>
-
-            <p className="mt-2.5 text-xs leading-relaxed text-slate-500">
-              Processamento centralizado de dados operacionais e fiscais com sincronização
-              automática.
+            {/* Texto Centralizado Abaixo do Círculo */}
+            <p className="mt-6 max-w-xs text-center text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-800">
+              Sistema de Gestão Empresarial Completo
             </p>
 
-            {/* Chip de Status Ativo Dinâmico */}
-            <div className="mt-5 w-full rounded-xl border border-indigo-100 bg-indigo-50/70 p-3 text-left">
-              <div className="flex items-center justify-between text-[11px] font-bold">
-                <span className="text-indigo-950 flex items-center gap-1.5">
-                  <Activity className="size-3.5 text-indigo-600 animate-spin" />
-                  Fluxo Conectado:
-                </span>
-                <span
-                  className="font-bold rounded px-1.5 py-0.5 text-[10px]"
-                  style={{
-                    backgroundColor: activeNode.accentBg,
-                    color: activeNode.color,
-                  }}
-                >
-                  {activeNode.title}
-                </span>
-              </div>
-              <p className="mt-1 text-[11px] text-slate-600 leading-snug">
-                {activeNode.description}
-              </p>
-            </div>
-
-            {/* Selo inferior */}
-            <div className="mt-4 flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
-              <Sparkles className="size-3.5" />
-              <span>Sincronização 360° em tempo real</span>
-            </div>
+            <span className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-indigo-100/70 px-3 py-0.5 text-[11px] font-semibold text-indigo-700">
+              <Sparkles className="size-3" />
+              Sincronização 360° em tempo real
+            </span>
           </div>
 
-          {/* Coluna Direita: 3 Nós Satélites */}
-          <div className="relative z-10 flex w-72 flex-col gap-6">
+          {/* Coluna Direita (3 Cards Compactos) */}
+          <div className="relative z-10 flex w-76 flex-col gap-6">
             {rightNodes.map((node) => {
               const Icon = node.icon;
               const isActive = activeNodeId === node.id;
@@ -336,41 +270,30 @@ export function EcossistemaIntegrado() {
                   onMouseEnter={() => setActiveNodeId(node.id)}
                   onClick={() => setActiveNodeId(node.id)}
                   className={cn(
-                    "group relative cursor-pointer rounded-2xl border p-5 shadow-xs transition-all duration-300 bg-white",
+                    "group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-4.5 shadow-xs transition-all duration-300",
+                    node.borderHover,
                     isActive
-                      ? "scale-[1.03] shadow-md border-transparent ring-2"
-                      : "border-slate-200/80 hover:border-slate-300 hover:shadow-sm",
+                      ? "scale-[1.03] shadow-md border-indigo-300 ring-2 ring-indigo-200/50"
+                      : "hover:-translate-y-0.5 hover:shadow-md",
                   )}
-                  style={{
-                    boxShadow: isActive ? `0 10px 30px -10px ${node.color}40` : undefined,
-                    borderColor: isActive ? node.color : undefined,
-                  }}
                 >
-                  <div className="flex items-center justify-between">
-                    <div
-                      className="flex size-10 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
-                      style={{ backgroundColor: node.accentBg, color: node.color }}
-                    >
-                      <Icon className="size-5" />
-                    </div>
-                    <span
-                      className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
-                      style={{ backgroundColor: node.accentBg, color: node.color }}
-                    >
-                      {node.tag}
-                    </span>
+                  {/* Ícone com fundo pastel */}
+                  <div
+                    className={cn(
+                      "flex size-12 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110",
+                      node.iconBg,
+                      node.iconColor,
+                    )}
+                  >
+                    <Icon className="size-6" />
                   </div>
 
-                  <h3 className="mt-3.5 text-base font-bold text-slate-900 group-hover:text-indigo-900">
-                    {node.title}
-                  </h3>
-                  <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                    {node.description}
-                  </p>
-
-                  <div className="mt-3 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
-                    <CheckCircle2 className="size-3.5 text-emerald-500" />
-                    <span>{node.metrics}</span>
+                  {/* Título e Breve Descrição */}
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-sm font-bold text-slate-900 group-hover:text-indigo-950">
+                      {node.title}
+                    </h3>
+                    <p className="mt-0.5 text-xs text-slate-500 truncate">{node.shortDesc}</p>
                   </div>
                 </div>
               );
@@ -379,67 +302,46 @@ export function EcossistemaIntegrado() {
         </div>
 
         {/* ========================================================
-            MOBILE & TABLET ADAPTIVE FLOW (< lg)
+            MOBILE & TABLET ADAPTIVE VIEW (< lg)
         ======================================================== */}
-        <div className="flex flex-col gap-6 lg:hidden">
-          {/* Card Central no Topo no Mobile */}
-          <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-indigo-400/60 bg-white p-6 text-center shadow-lg">
-            <div className="flex size-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-md">
-              <Cpu className="size-7" />
+        <div className="flex flex-col items-center gap-8 lg:hidden">
+          {/* Círculo Central no Topo */}
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="relative flex size-52 sm:size-60 items-center justify-center rounded-full border-4 border-indigo-300/70 bg-white p-6 shadow-xl">
+              <img
+                src="/Logo-dominus.png"
+                alt="Logo Dominus"
+                className="max-h-full max-w-full object-contain"
+              />
+              <span className="absolute top-3 right-3 flex size-3.5 items-center justify-center rounded-full bg-emerald-500 ring-2 ring-white" />
             </div>
-            <h3 className="mt-3 text-lg font-bold text-slate-950">Núcleo de Inteligência</h3>
-            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
-              Dominus ERP
-            </span>
-            <p className="mt-1.5 text-xs text-slate-500 max-w-sm">
-              Conexão e sincronização contínua entre todos os módulos operacionais.
+
+            <p className="mt-4 text-xs font-extrabold uppercase tracking-wider text-slate-800">
+              Sistema de Gestão Empresarial Completo
             </p>
           </div>
 
-          {/* Grade dos 6 Satélites Conectados */}
-          <div className="grid gap-4 sm:grid-cols-2">
+          {/* Grade com os 6 Cards Compactos */}
+          <div className="grid w-full gap-3 sm:grid-cols-2">
             {satelliteNodes.map((node) => {
               const Icon = node.icon;
-              const isActive = activeNodeId === node.id;
               return (
                 <div
                   key={node.id}
-                  onClick={() => setActiveNodeId(node.id)}
-                  className={cn(
-                    "flex flex-col justify-between rounded-xl border p-4.5 bg-white transition-all shadow-xs",
-                    isActive
-                      ? "border-indigo-400 ring-2 ring-indigo-200/50"
-                      : "border-slate-200/80",
-                  )}
+                  className="flex items-center gap-3.5 rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs"
                 >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div
-                        className="flex size-9 items-center justify-center rounded-lg"
-                        style={{ backgroundColor: node.accentBg, color: node.color }}
-                      >
-                        <Icon className="size-4.5" />
-                      </div>
-                      <span
-                        className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase"
-                        style={{ backgroundColor: node.accentBg, color: node.color }}
-                      >
-                        {node.tag}
-                      </span>
-                    </div>
-
-                    <h4 className="mt-3 text-sm font-bold text-slate-900">{node.title}</h4>
-                    <p className="mt-1 text-xs text-slate-500 leading-relaxed">
-                      {node.description}
-                    </p>
+                  <div
+                    className={cn(
+                      "flex size-11 shrink-0 items-center justify-center rounded-xl",
+                      node.iconBg,
+                      node.iconColor,
+                    )}
+                  >
+                    <Icon className="size-5.5" />
                   </div>
-
-                  <div className="mt-3.5 flex items-center justify-between border-t border-slate-100 pt-2 text-[11px] text-slate-400">
-                    <span className="flex items-center gap-1 font-medium">
-                      <CheckCircle2 className="size-3 text-emerald-500" />
-                      {node.metrics}
-                    </span>
-                    <ArrowRight className="size-3.5 text-indigo-500" />
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-sm font-bold text-slate-900">{node.title}</h4>
+                    <p className="text-xs text-slate-500 truncate">{node.shortDesc}</p>
                   </div>
                 </div>
               );
@@ -447,23 +349,23 @@ export function EcossistemaIntegrado() {
           </div>
         </div>
 
-        {/* Rodapé do Diagrama com Chamada de Ação */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-indigo-200/70 bg-white/90 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8">
+        {/* Rodapé do Diagrama com CTA Rápido */}
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 rounded-2xl border border-indigo-200/80 bg-white/95 p-5 shadow-xs backdrop-blur-xs sm:flex-row sm:px-8">
           <div>
             <h4 className="text-sm font-bold text-slate-900">
-              Quer ver como o Ecossistema funciona na prática para o seu ramo?
+              Pronto para transformar a gestão da sua empresa?
             </h4>
             <p className="mt-0.5 text-xs text-slate-500">
-              Demonstração personalizada sem custo com um especialista da Waybit.
+              Veja o Ecossistema Dominus operando ao vivo com um de nossos consultores.
             </p>
           </div>
           <a
             href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20ver%20uma%20demonstra%C3%A7%C3%A3o%20do%20Ecossistema%20Integrado%20Dominus"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-indigo-700 hover:scale-[1.02]"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl bg-brand-green px-6 py-2.5 text-xs font-bold text-white shadow-brand-glow transition-all hover:bg-brand-green/90 hover:scale-[1.02]"
           >
-            <span>Agendar Demonstração</span>
+            <span>Falar com Especialista</span>
             <ArrowRight className="size-3.5" />
           </a>
         </div>
