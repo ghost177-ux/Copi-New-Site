@@ -4,14 +4,14 @@ export function CicloOperacionalSideBySide() {
   return (
     <section
       id="ciclo-operacional"
-      className="fluid-gutter relative w-full overflow-hidden border-b border-[#E2EEF2] bg-[#F4F9FB] py-16 sm:py-24"
+      className="relative w-full overflow-hidden border-b border-[#E2EEF2] bg-[#F4F9FB] py-16 sm:py-24"
     >
       {/* Luzes difusas sutis de ambientação corporativa */}
       <div className="pointer-events-none absolute -left-36 top-1/3 size-[460px] rounded-full bg-cyan-100/30 blur-3xl" />
       <div className="pointer-events-none absolute -right-36 bottom-1/4 size-[460px] rounded-full bg-sky-100/30 blur-3xl" />
 
-      {/* Grid Principal Dividido: 45% Esquerda | 53% Direita */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-12 lg:flex-row lg:items-center lg:gap-[2%]">
+      {/* Container Global 100% Fluido (Gutter: 3% / 5% / 10% sem max-width global) */}
+      <div className="fluid-container relative z-10 flex flex-col items-center justify-between gap-12 lg:flex-row lg:items-center lg:gap-[4%]">
         
         {/* ========================================================
             COLUNA ESQUERDA (45%): IMAGEM TRANSPARENTE PURA + FOGUETE LUCIDE
@@ -21,7 +21,7 @@ export function CicloOperacionalSideBySide() {
             {/* Imagem Transparente Pura (Zero fundo, zero caixa branca, zero bordas) */}
             <img
               src="/Diag-ciclo.png"
-              alt="Ciclo Operacional"
+              alt="Ciclo Operacional Waybit"
               className="size-full object-contain pointer-events-none select-none"
               loading="lazy"
             />
@@ -50,7 +50,7 @@ export function CicloOperacionalSideBySide() {
         ======================================================== */}
         <div className="flex w-full flex-col justify-center lg:w-[53%]">
           {/* Título Principal */}
-          <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
             Tudo o que sua empresa precisa para operar sem atritos
           </h2>
 

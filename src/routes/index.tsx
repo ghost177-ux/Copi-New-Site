@@ -1,64 +1,58 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
-  BarChart3,
-  Check,
-  CheckCircle2,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  CreditCard,
-  FileCheck2,
-  Headphones,
-  HelpCircle,
-  Laptop,
-  Mail,
-  Menu,
-  MessageCircle,
-  PackageCheck,
-  Phone,
-  ReceiptText,
   Search,
-  Server,
-  ShieldCheck,
-  ShoppingBag,
   Sparkles,
-  Star,
-  Store,
-  TrendingUp,
-  Truck,
   Users,
-  UtensilsCrossed,
+  Star,
+  Headset,
+  CheckCircle2,
+  Quote,
+  ShoppingBag,
   Wrench,
-  X,
+  Utensils,
+  ShieldCheck,
+  MessageSquare,
+  Phone,
+  Laptop,
+  Receipt,
+  Truck,
+  BarChart3,
+  Smartphone,
   Zap,
+  Clock,
+  Cake,
+  Layers,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { EcossistemaIntegrado } from "@/components/home/EcossistemaIntegrado";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { SpecialistDialog } from "@/components/SpecialistDialog";
+import { BlogCarouselSection } from "@/components/BlogCarouselSection";
 import { CicloOperacionalSideBySide } from "@/components/home/CicloOperacionalSideBySide";
-import { cn } from "@/lib/utils";
+
+import foodImage from "@/assets/food.png";
+import varejoImage from "@/assets/varejo.png";
+import autocenterImage from "@/assets/autoc.png";
+import varejoLogo from "@/assets/varejo-logo.png";
+import foodLogo from "@/assets/food-logo.png";
+import autocenterLogo from "@/assets/autocenter.png";
+import xpertLogo from "@/assets/xpert.png";
+import certbitLogo from "@/assets/certbit-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Waybit Software — ERP Ágil para Varejo, Auto-center e Food" },
-      {
-        name: "description",
-        content:
-          "ERP ágil, completo e intuitivo para varejo, auto-center e food. Simplifique vendas, estoque, fiscal e suporte com a Waybit e o ecossistema Dominus.",
-      },
-      { property: "og:title", content: "Waybit Software — ERP Ágil para Varejo, Auto-center e Food" },
+      { title: "Waybit Software | Gestão leve para sua empresa" },
+      { name: "description", content: "Soluções de gestão Waybit para Food, Varejo e Autocenter." },
+      { property: "og:title", content: "Waybit Software | Gestão leve para sua empresa" },
       {
         property: "og:description",
-        content: "Tecnologia que simplifica a rotina da sua empresa, do atendimento à gestão fiscal e financeira.",
+        content: "Tecnologia para simplificar a rotina do seu negócio.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -67,1728 +61,1466 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type SegmentId = "varejo" | "auto" | "food";
-
-interface SegmentInfo {
-  id: SegmentId;
-  name: string;
-  badge: string;
-  tagline: string;
-  description: string;
-  color: string;
-  hoverColor: string;
-  bgLight: string;
-  borderLight: string;
-  icon: typeof Store;
-  features: string[];
-  metrics: string;
-  targetAudience: string[];
-}
-
-const segmentsData: Record<SegmentId, SegmentInfo> = {
-  varejo: {
-    id: "varejo",
-    name: "Dominus Varejo",
-    badge: "Varejo & Comércio",
-    tagline: "Venda melhor. Controle tudo com agilidade.",
-    description:
-      "Frente de caixa ultra-rápida, controle de grade e estoque em tempo real, emissão fiscal simplificada para lojas, minimercados e comércios em geral.",
-    color: "#3BBCEC",
-    hoverColor: "#28abd9",
-    bgLight: "rgba(59, 188, 236, 0.08)",
-    borderLight: "rgba(59, 188, 236, 0.25)",
-    icon: Store,
-    features: [
-      "Frente de Caixa (PDV) sem travamentos",
-      "Controle de Grade, Tamanho e Cor",
-      "Emissão de NF-e, NFC-e e Cupom Fiscal",
-      "Inventário Inteligente & Giro de Estoque",
-    ],
-    metrics: "Fechamento de caixa até 4x mais rápido",
-    targetAudience: ["Lojas de Roupas & Calçados", "Minimercados & Empórios", "Lojas de Cosméticos & Presentes"],
-  },
-  auto: {
-    id: "auto",
-    name: "Dominus Auto-center",
-    badge: "Oficinas & Auto-center",
-    tagline: "Serviço ágil. Histórico completo do veículo.",
-    description:
-      "Emissão de ordens de serviço transparentes, controle de aplicação de peças, histórico do veículo por placa e fidelização para oficinas e centros automotivos.",
-    color: "#FCC42C",
-    hoverColor: "#e5b024",
-    bgLight: "rgba(252, 196, 44, 0.09)",
-    borderLight: "rgba(252, 196, 44, 0.28)",
-    icon: Wrench,
-    features: [
-      "Ordens de Serviço (OS) com checklist digital",
-      "Histórico de Manutenções pela Placa",
-      "Controle de Comissões de Mecânicos",
-      "Estoque de Peças com Aplicação e Códigos",
-    ],
-    metrics: "+30% de produtividade no box de atendimento",
-    targetAudience: ["Oficinas Mecânicas", "Centros Automotivos & Troca de Óleo", "Autopeças & Moto Peças"],
-  },
-  food: {
+const segments = [
+  {
     id: "food",
-    name: "Dominus Food",
-    badge: "Bares & Gastronomia",
-    tagline: "Pedidos fluidos. Mesa cheia e delivery integrado.",
-    description:
-      "Comanda eletrônica ágil, integração com iFood, controle de mesas e tela de cozinha (KDS) para restaurantes, bares, lanchonetes e delivery.",
-    color: "#FC4242",
-    hoverColor: "#e03535",
-    bgLight: "rgba(252, 66, 66, 0.08)",
-    borderLight: "rgba(252, 66, 66, 0.25)",
-    icon: UtensilsCrossed,
-    features: [
-      "Comanda Mobile no celular do garçom",
-      "Integração nativa com iFood & Delivery",
-      "Gestão de Mesas, Balcão e Cartões de Consumo",
-      "KDS (Monitor de Cozinha) para produção sem atrasos",
-    ],
-    metrics: "Zero perda de comandas e pedidos integrados",
-    targetAudience: ["Restaurantes & Buffets", "Bares, Pubs & Choperias", "Pizzarias & Hamburguerias Delivery"],
+    label: "FOOD",
+    descriptor: "Restaurantes e delivery",
+    image: foodImage,
+    className: "scene-food",
+    accentColor: "#EF4444",
+  },
+  {
+    id: "varejo",
+    label: "VAREJO",
+    descriptor: "Lojas e comércio",
+    image: varejoImage,
+    className: "scene-varejo",
+    accentColor: "#00ADEF",
+  },
+  {
+    id: "autocenter",
+    label: "AUTOCENTER",
+    descriptor: "Oficinas e centros automotivos",
+    image: autocenterImage,
+    className: "scene-auto",
+    accentColor: "#FFB800",
+  },
+] as const;
+
+type SegmentId = (typeof segments)[number]["id"];
+
+const segmentTheme: Record<
+  SegmentId,
+  {
+    textClass: string;
+    bgClass: string;
+    buttonTextClass: string;
+    color: string;
+  }
+> = {
+  food: {
+    textClass: "text-[#EF4444]",
+    bgClass: "bg-[#EF4444]",
+    buttonTextClass: "text-white",
+    color: "#EF4444",
+  },
+  varejo: {
+    textClass: "text-[#00ADEF]",
+    bgClass: "bg-[#00ADEF]",
+    buttonTextClass: "text-white",
+    color: "#00ADEF",
+  },
+  autocenter: {
+    textClass: "text-[#FFB800]",
+    bgClass: "bg-[#FFB800]",
+    buttonTextClass: "text-zinc-950",
+    color: "#FFB800",
   },
 };
 
-const searchOptions = [
-  { label: "Loja de roupas e confecções", segment: "varejo" as const },
-  { label: "Calçados e acessórios", segment: "varejo" as const },
-  { label: "Minimercado, mercearia ou empório", segment: "varejo" as const },
-  { label: "Loja de presentes e variedades", segment: "varejo" as const },
-  { label: "Oficina mecânica de automóveis", segment: "auto" as const },
-  { label: "Centro automotivo e suspensão", segment: "auto" as const },
-  { label: "Troca de óleo e filtros", segment: "auto" as const },
-  { label: "Autopeças e motopeças", segment: "auto" as const },
-  { label: "Restaurante à la carte e self-service", segment: "food" as const },
-  { label: "Bar, pub e choperia", segment: "food" as const },
-  { label: "Hamburgueria artesanal", segment: "food" as const },
-  { label: "Pizzaria com delivery", segment: "food" as const },
-  { label: "Cafeteria, confeitaria ou doceria", segment: "food" as const },
-];
+const AUTO_ROTATE_MS = 5500;
 
-const segmentKeys: SegmentId[] = ["varejo", "auto", "food"];
+interface TestimonialCase {
+  id: string;
+  name: string;
+  company: string;
+  segment: string;
+  segmentIcon: React.ElementType;
+  segmentColor: string;
+  segmentBg: string;
+  borderColor: string;
+  videoId: string;
+  quote: string;
+}
 
-const resourcesList = [
+const testimonialCases: TestimonialCase[] = [
   {
-    number: "01",
-    title: "Vendas & Frente de Caixa",
-    text: "Atendimento ágil, PDV blindado contra quedas de internet e fechamento de caixa sem discrepâncias.",
-    icon: ShoppingBag,
-    color: "#3BBCEC",
-  },
-  {
-    number: "02",
-    title: "Estoque em Tempo Real",
-    text: "Entrada facilitada por XML, controle de lotes, grades de produtos e alertas automáticos de reposição.",
-    icon: PackageCheck,
-    color: "#65B32E",
-  },
-  {
-    number: "03",
-    title: "Gestão Fiscal & Tributária",
-    text: "Emissão simplificada de NF-e, NFC-e, NFS-e e geração de arquivos fiscais em conformidade total com o fisco.",
-    icon: ReceiptText,
-    color: "#FCC42C",
-  },
-  {
-    number: "04",
-    title: "Suporte Técnico Humanizado",
-    text: "Time de especialistas prontos para atender via WhatsApp e telefone direto. Sem robôs complicados.",
-    icon: Headphones,
-    color: "#FC4242",
-  },
-];
-
-const integrationsList = [
-  { name: "SEFAZ Nacional", detail: "NF-e, NFC-e e NFS-e automáticas", icon: FileCheck2 },
-  { name: "TEF & Maquininhas", detail: "Cielo, Stone, Rede, PagBank e mais", icon: CreditCard },
-  { name: "Pix Instantâneo", detail: "Recebimento com QR Code dinâmico", icon: Zap },
-  { name: "iFood & Delivery", detail: "Cardápio e pedidos centralizados", icon: Truck },
-  { name: "Balanças & Leitores", detail: "Filizola, Toledo, Elgin e Zebra", icon: Laptop },
-  { name: "Backup em Nuvem", detail: "Segurança de dados 24/7 automática", icon: Server },
-];
-
-const testimonials = [
-  {
+    id: "rosana",
+    name: "Rosana",
+    company: "Grãos e Zero Açúcar",
+    segment: "Varejo & Empório",
+    segmentIcon: ShoppingBag,
+    segmentColor: "text-[#00ADEF]",
+    segmentBg: "bg-[#00ADEF]/10 border-[#00ADEF]/20",
+    borderColor: "hover:border-[#00ADEF]/50",
+    videoId: "ugzBfW_pkOo",
     quote:
-      "A agilidade no fechamento de caixa e a facilidade para emitir as notas nos libertaram de horas de retrabalho. O suporte da Waybit é o mais atencioso que já tivemos.",
-    author: "Carlos Menezes",
-    role: "Proprietário da Empório do Centro",
-    segment: "Varejo",
-    badgeColor: "#3BBCEC",
+      "A facilidade de adaptação da equipe foi surpreendente. Em menos de 2 dias o caixa já rodava com total segurança e o atendimento no balcão ficou infinitamente mais ágil.",
   },
   {
+    id: "thiago",
+    name: "Thiago",
+    company: "Zum Zum Auto Center (12 anos cliente)",
+    segment: "Auto-Center & Mecânica",
+    segmentIcon: Wrench,
+    segmentColor: "text-[#d99b00] dark:text-[#FCC42C]",
+    segmentBg: "bg-[#FFB800]/15 border-[#FFB800]/25",
+    borderColor: "hover:border-[#FCC42C]/50",
+    videoId: "5tfA3619NXs",
     quote:
-      "Ter o histórico do cliente pela placa e emitir ordens de serviço no balcão em segundos aumentou a confiança dos clientes e a organização da oficina.",
-    author: "Roberto Albuquerque",
-    role: "Diretor da Autocenter Alvorada",
-    segment: "Auto-center",
-    badgeColor: "#FCC42C",
+      "Reduzimos o tempo de montagem e cotação de orçamentos de dias para minutos. São 12 anos de parceria sólida e confiabilidade com a Waybit.",
   },
   {
+    id: "felippe",
+    name: "Felippe",
+    company: "DaOrla Café",
+    segment: "Food & Gastronomia",
+    segmentIcon: Utensils,
+    segmentColor: "text-[#EF4444]",
+    segmentBg: "bg-[#EF4444]/10 border-[#EF4444]/20",
+    borderColor: "hover:border-[#FC4242]/50",
+    videoId: "ea7aOYtaCuA",
     quote:
-      "A comanda móvel no celular dos garçons e a integração com o iFood acabaram com os erros de pedidos. A cozinha funciona no ritmo perfeito.",
-    author: "Juliana Duarte",
-    role: "Sócia do Bistrô & Bar Estação",
-    segment: "Food",
-    badgeColor: "#FC4242",
-  },
-];
-
-const plansList = [
-  {
-    name: "Essencial",
-    badge: "Ideal para começar",
-    description: "Para pequenos negócios que precisam de agilidade em vendas e emissão fiscal sem burocracia.",
-    features: [
-      "Frente de Caixa (PDV) rápido",
-      "Emissão de NF-e e NFC-e ilimitada",
-      "Controle de estoque básico",
-      "Cadastro de clientes e produtos",
-      "Suporte humanizado em horário comercial",
-    ],
-    highlight: false,
-    cta: "Falar com Especialista",
-  },
-  {
-    name: "Profissional",
-    badge: "Mais Escolhido",
-    description: "A solução completa para empresas em expansão que exigem gestão financeira, estoque avançado e integração.",
-    features: [
-      "Tudo do Plano Essencial",
-      "Módulo específico para o seu segmento",
-      "Controle financeiro completo (DRE e fluxo)",
-      "Ordens de Serviço ou Comanda Mobile",
-      "Integração TEF, Pix e emissão rápida",
-      "Suporte prioritário via WhatsApp",
-    ],
-    highlight: true,
-    cta: "Falar com Especialista",
-  },
-  {
-    name: "Corporativo",
-    badge: "Redes e Grandes Operações",
-    description: "Para redes de lojas, franquias e operações com alto volume de atendimento e múltiplos pontos de venda.",
-    features: [
-      "Tudo do Plano Profissional",
-      "Múltiplos usuários e caixas simultâneos",
-      "Gestão de filiais e estoque compartilhado",
-      "Relatórios gerenciais avançados e BI",
-      "Gerente de conta exclusivo e onboarding VIP",
-      "SLA garantido de suporte técnico",
-    ],
-    highlight: false,
-    cta: "Falar com Especialista",
-  },
-];
-
-const faqList = [
-  {
-    question: "Quanto tempo leva para implantar o sistema Dominus?",
-    answer:
-      "A implantação padrão é muito rápida! Na maioria dos casos, realizamos o cadastro, parametrização fiscal e treinamento da sua equipe em menos de 48 horas úteis, sem interromper as vendas da sua empresa.",
-  },
-  {
-    question: "É possível migrar os dados do meu sistema antigo?",
-    answer:
-      "Sim. Nossa equipe técnica auxilia na importação do seu cadastro de clientes, fornecedores e produtos através de planilhas ou XMLs, garantindo que seu histórico não seja perdido.",
-  },
-  {
-    question: "O sistema emite todos os documentos fiscais exigidos pela SEFAZ?",
-    answer:
-      "Sim! O Dominus é homologado para emissão de NF-e (Nota Fiscal Eletrônica), NFC-e (Nota Fiscal ao Consumidor Eletrônica), NFS-e (Nota Fiscal de Serviços) e geração do arquivo SPED Fiscal, mantendo sua empresa 100% regularizada.",
-  },
-  {
-    question: "Como funciona caso a internet caia durante o atendimento?",
-    answer:
-      "O módulo de Frente de Caixa (PDV) opera em modo de contingência offline. Você continua vendendo e emitindo os comprovantes normalmente. Assim que a conexão for restabelecida, os dados e documentos fiscais são sincronizados automaticamente.",
-  },
-  {
-    question: "O suporte técnico está incluso na mensalidade?",
-    answer:
-      "Sim! Todos os nossos planos incluem suporte técnico com especialistas reais via WhatsApp, telefone e acesso remoto. Não há cobranças surpresas por chamados abertos.",
+      "A comanda eletrônica direto na mesa revolucionou nosso atendimento. E o grande diferencial: quando precisamos, o suporte humano atende de pronto, sem robô enrolando.",
   },
 ];
 
 function Index() {
-  const [activeSegment, setActiveSegment] = useState<SegmentId>("varejo");
-  const [systemOpen, setSystemOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
+  const [activeSegment, setActiveSegment] = useState<SegmentId>("varejo");
+  const [isPaused, setIsPaused] = useState(false);
+  const [, setProgress] = useState(0);
+  const [specialistOpen, setSpecialistOpen] = useState(false);
+  const casesCarouselRef = useRef<HTMLDivElement>(null);
+  const [activeCaseIndex, setActiveCaseIndex] = useState(0);
 
-  const menuRef = useRef<HTMLDivElement>(null);
-  const searchContainerRef = useRef<HTMLDivElement>(null);
-
-  const currentSegment = segmentsData[activeSegment];
-  const activeIndex = segmentKeys.indexOf(activeSegment);
-
-  const filteredMatches = useMemo(() => {
-    if (!query.trim()) return [];
-    const normalized = query.toLowerCase();
-    return searchOptions.filter((option) =>
-      option.label.toLowerCase().includes(normalized),
-    );
-  }, [query]);
-
-  // Fechar mega menu ao clicar fora
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setSystemOpen(false);
-      }
-      if (
-        searchContainerRef.current &&
-        !searchContainerRef.current.contains(event.target as Node)
-      ) {
-        setSearchOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  const handleCasesScroll = useCallback(() => {
+    if (!casesCarouselRef.current) return;
+    const { scrollLeft, clientWidth } = casesCarouselRef.current;
+    if (clientWidth === 0) return;
+    const cardWidth = 360;
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    setActiveCaseIndex(Math.min(Math.max(newIndex, 0), testimonialCases.length - 1));
   }, []);
 
-  const selectSegment = (segment: SegmentId) => {
-    setActiveSegment(segment);
-    setSystemOpen(false);
-    setMobileOpen(false);
-  };
+  const scrollCases = useCallback((direction: "prev" | "next") => {
+    if (!casesCarouselRef.current) return;
+    const targetIndex =
+      direction === "prev"
+        ? Math.max(activeCaseIndex - 1, 0)
+        : Math.min(activeCaseIndex + 1, testimonialCases.length - 1);
+    const card = casesCarouselRef.current.children[targetIndex] as HTMLElement | undefined;
+    if (card) {
+      card.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      setActiveCaseIndex(targetIndex);
+    }
+  }, [activeCaseIndex]);
 
-  const handleNextSegment = () => {
-    const nextIndex = (activeIndex + 1) % segmentKeys.length;
-    setActiveSegment(segmentKeys[nextIndex]);
-  };
+  const activeIndex = segments.findIndex((segment) => segment.id === activeSegment);
 
-  const handlePrevSegment = () => {
-    const prevIndex = (activeIndex - 1 + segmentKeys.length) % segmentKeys.length;
-    setActiveSegment(segmentKeys[prevIndex]);
-  };
+  const touchStartX = useRef<number | null>(null);
+
+  const goToNext = useCallback(() => {
+    setActiveSegment((current) => {
+      const currentIndex = segments.findIndex((segment) => segment.id === current);
+      const nextIndex = (currentIndex + 1) % segments.length;
+      const nextSegment = segments[nextIndex];
+      return nextSegment ? nextSegment.id : segments[0].id;
+    });
+    setProgress(0);
+  }, []);
+
+  const goToPrev = useCallback(() => {
+    setActiveSegment((current) => {
+      const currentIndex = segments.findIndex((segment) => segment.id === current);
+      const prevIndex = (currentIndex - 1 + segments.length) % segments.length;
+      const prevSegment = segments[prevIndex];
+      return prevSegment ? prevSegment.id : segments[0].id;
+    });
+    setProgress(0);
+  }, []);
+
+  // Timer automático para rotacionar segmentos
+  useEffect(() => {
+    if (isPaused) return;
+
+    const tickMs = 50;
+    const stepPercent = (tickMs / AUTO_ROTATE_MS) * 100;
+
+    const timer = window.setInterval(() => {
+      setProgress((prev) => {
+        if (prev + stepPercent >= 100) {
+          goToNext();
+          return 0;
+        }
+        return prev + stepPercent;
+      });
+    }, tickMs);
+
+    return () => window.clearInterval(timer);
+  }, [isPaused, goToNext]);
+
+  // Navegação por teclado
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (document.activeElement?.tagName === "INPUT") return;
+      if (e.key === "ArrowRight") {
+        goToNext();
+      } else if (e.key === "ArrowLeft") {
+        goToPrev();
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [goToNext, goToPrev]);
+
+  // Gestos de toque (Swipe mobile)
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0]?.clientX ?? null;
+    if (touchEndX === null) return;
+    const diff = touchStartX.current - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        goToNext();
+      } else {
+        goToPrev();
+      }
+    }
+    touchStartX.current = null;
+  }
+
+  const match = useMemo(() => {
+    const normalized = query.toLowerCase().trim();
+    if (!normalized) return null;
+
+    if (
+      normalized.includes("rest") ||
+      normalized.includes("food") ||
+      normalized.includes("delivery") ||
+      normalized.includes("comida") ||
+      normalized.includes("lanche") ||
+      normalized.includes("padaria") ||
+      normalized.includes("pizz") ||
+      normalized.includes("bar")
+    )
+      return "food";
+
+    if (
+      normalized.includes("auto") ||
+      normalized.includes("oficina") ||
+      normalized.includes("mecân") ||
+      normalized.includes("carro") ||
+      normalized.includes("moto") ||
+      normalized.includes("pneu") ||
+      normalized.includes("peça")
+    )
+      return "autocenter";
+
+    if (
+      normalized.includes("loja") ||
+      normalized.includes("varejo") ||
+      normalized.includes("comércio") ||
+      normalized.includes("comerc") ||
+      normalized.includes("roupa") ||
+      normalized.includes("mercado") ||
+      normalized.includes("otica") ||
+      normalized.includes("farm")
+    )
+      return "varejo";
+
+    return null;
+  }, [query]);
+
+  useEffect(() => {
+    if (match && match !== activeSegment) {
+      setActiveSegment(match);
+      setProgress(0);
+    }
+  }, [match, activeSegment]);
+
+  // Controle de abertura e fechamento do modal fullFunnelModal
+  useEffect(() => {
+    const buttons = document.querySelectorAll(".abrirAgendarDemonstracao");
+    const modal = document.getElementById("fullFunnelModal");
+    const content = document.getElementById("fullFunnelContent");
+    const closeBtn = document.querySelector("#fullFunnelContent .close-modal");
+
+    const handleOpen = (e: Event) => {
+      e.preventDefault();
+      modal?.classList.add("show");
+
+      const scriptId = "full-funnel-form-embed-js";
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement("script");
+        script.id = scriptId;
+        script.src = "https://links.fullfunnel.app/js/form_embed.js";
+        script.type = "text/javascript";
+        script.async = true;
+        document.body.appendChild(script);
+      }
+    };
+
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (content && !content.contains(e.target as Node)) {
+        modal?.classList.remove("show");
+      }
+    };
+
+    const handleCloseClick = () => {
+      modal?.classList.remove("show");
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        modal?.classList.remove("show");
+      }
+    };
+
+    buttons.forEach((btn) => btn.addEventListener("click", handleOpen));
+    modal?.addEventListener("click", handleOutsideClick as EventListener);
+    closeBtn?.addEventListener("click", handleCloseClick);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      buttons.forEach((btn) => btn.removeEventListener("click", handleOpen));
+      modal?.removeEventListener("click", handleOutsideClick as EventListener);
+      closeBtn?.removeEventListener("click", handleCloseClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  function chooseSegment(id: SegmentId) {
+    const segment = segments.find((item) => item.id === id);
+    if (!segment) return;
+    setActiveSegment(id);
+    setProgress(0);
+    setQuery(segment.label.charAt(0) + segment.label.slice(1).toLowerCase());
+  }
+
+  function submitSearch(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (match) {
+      setActiveSegment(match);
+      setProgress(0);
+    }
+  }
 
   return (
-    <main className="min-h-screen w-full overflow-x-hidden bg-background text-foreground antialiased selection:bg-brand-green/20 selection:text-brand-green">
-      {/* ========================================================
-          1. HEADER (TopBar + Navbar Fixa com Blur)
-      ======================================================== */}
-      <header className="sticky top-0 z-50 w-full transition-all">
-        {/* Barra Superior (Top Bar) Fina e Discreta */}
-        <div className="fluid-gutter w-full border-b border-white/10 bg-[#0F172A] py-2 text-xs text-slate-300">
-          <div className="flex w-full items-center justify-between gap-4">
-            {/* Contato Direto à Esquerda */}
-            <div className="flex min-w-0 items-center gap-4 sm:gap-6">
-              <a
-                href="tel:+5521975812676"
-                className="flex items-center gap-2 text-slate-300 transition-colors hover:text-white"
-                title="Ligar para a Waybit"
-              >
-                <Phone aria-hidden="true" className="size-3.5 shrink-0 text-brand-green" />
-                <span className="font-medium">(21) 97581-2676</span>
-              </a>
-              <span className="hidden h-3 w-px bg-slate-700 sm:inline-block" />
-              <a
-                href="mailto:comercial@waybit.com.br"
-                className="flex min-w-0 items-center gap-2 text-slate-300 transition-colors hover:text-white"
-                title="Enviar e-mail para Waybit"
-              >
-                <Mail aria-hidden="true" className="size-3.5 shrink-0 text-varejo" />
-                <span className="truncate font-medium">comercial@waybit.com.br</span>
-              </a>
-            </div>
+    <div className="min-h-screen overflow-x-clip bg-background text-foreground flex flex-col justify-between selection:bg-primary/20">
+      <Header currentPath="/" />
 
-            {/* Links Rápidos de Suporte e Atendimento à Direita */}
-            <nav aria-label="Atendimento rápido" className="hidden items-center gap-5 sm:flex">
-              <a
-                href="#faq"
-                className="text-slate-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
-              >
-                FAQ
-              </a>
-              <span className="h-3 w-px bg-slate-700" />
-              <a
-                href="#suporte"
-                className="text-slate-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
-              >
-                Central de Ajuda
-              </a>
-              <span className="h-3 w-px bg-slate-700" />
-              <a
-                href="#suporte"
-                className="text-slate-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white"
-              >
-                Suporte
-              </a>
-            </nav>
-          </div>
-        </div>
+      <main className="flex-1 w-full">
+        {/* ========================================================================= */}
+        {/* SECTION: HERO COM CARROSSEL 3D DOS SEGMENTOS                              */}
+        {/* ========================================================================= */}
+        <section id="hero" className="hero-shell relative overflow-hidden w-full">
+          {/* Luzes difusas de fundo */}
+          <div
+            className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-700"
+            style={{ backgroundColor: segmentTheme[activeSegment].color }}
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 bg-[#00ADEF]"
+            aria-hidden="true"
+          />
 
-        {/* Barra de Navegação Principal (Navbar Fixa com Backdrop-Blur) */}
-        <div className="fluid-gutter w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-md shadow-xs">
-          <div className="flex h-18 w-full items-center justify-between gap-4">
-            {/* Logo Oficial da Waybit */}
-            <a
-              href="#inicio"
-              aria-label="Waybit Software — Página Inicial"
-              className="flex shrink-0 items-center transition-transform hover:scale-[1.02]"
-            >
-              <img
-                src="/waybit-logo.png"
-                alt="Waybit Software"
-                className="h-10 w-auto object-contain sm:h-11"
-              />
-            </a>
-
-            {/* Menus Centrais Desktop */}
-            <nav
-              aria-label="Navegação principal"
-              className="hidden items-center gap-7 lg:flex"
-            >
-              {/* Menu 'Sistema' com Mega Menu interativo por clique */}
-              <div ref={menuRef} className="relative">
-                <button
-                  type="button"
-                  onClick={() => setSystemOpen((prev) => !prev)}
-                  aria-expanded={systemOpen}
-                  aria-haspopup="true"
-                  className={cn(
-                    "flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-semibold transition-all",
-                    systemOpen
-                      ? "bg-slate-100 text-[#0F172A]"
-                      : "text-slate-700 hover:bg-slate-50 hover:text-[#0F172A]",
-                  )}
+          <div className="fluid-container py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
+            {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
+            <div className="relative z-20 w-full max-w-[640px] mx-auto lg:mx-0">
+              <h1 className="font-display text-[clamp(1.95rem,5.5vw,3.75rem)] font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground max-w-[580px]">
+                A{" "}
+                <span
+                  className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
+                  style={{ color: segmentTheme[activeSegment].color }}
                 >
-                  <span>Sistema</span>
-                  <ChevronDown
-                    className={cn(
-                      "size-4 text-slate-500 transition-transform duration-200",
-                      systemOpen && "rotate-180 text-brand-green",
-                    )}
+                  rotina
+                </span>{" "}
+                da sua empresa{" "}
+                <span
+                  className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
+                  style={{ color: segmentTheme[activeSegment].color }}
+                >
+                  leve
+                </span>{" "}
+                e com menos{" "}
+                <span
+                  className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
+                  style={{ color: segmentTheme[activeSegment].color }}
+                >
+                  esforço
+                </span>
+                .
+              </h1>
+
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted-foreground font-normal leading-relaxed max-w-[520px]">
+                O ERP completo, ágil e intuitivo que descomplica seu controle de vendas, estoque e
+                obrigações fiscais com suporte de verdade.
+              </p>
+
+              {/* FORMULÁRIO DE BUSCA */}
+              <form className="mt-6 sm:mt-8 max-w-xl" onSubmit={submitSearch}>
+                <label
+                  htmlFor="segment-search"
+                  className="mb-2.5 sm:mb-3 block font-display text-sm sm:text-base md:text-lg font-semibold text-foreground tracking-tight"
+                >
+                  Qual seu ramo de atuação?
+                </label>
+                <div
+                  className="search-shell transition-all duration-300 rounded-xl border-border/80 shadow-md shadow-black/[0.03] hover:border-border focus-within:shadow-lg"
+                  style={{ "--primary": segmentTheme[activeSegment].color } as React.CSSProperties}
+                >
+                  <Search className="shrink-0 text-muted-foreground" size={20} aria-hidden="true" />
+                  <input
+                    id="segment-search"
+                    type="search"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Busque seu segmento (ex: restaurante, loja, oficina)"
+                    className="min-w-0 flex-1 bg-transparent font-body text-xs sm:text-sm md:text-base text-foreground outline-none placeholder:text-muted-foreground truncate"
+                    aria-describedby="segment-help"
                   />
-                </button>
-
-                {/* Mega Menu Suspenso Simétrico por Clique */}
-                {systemOpen && (
-                  <div className="animate-in fade-in-0 zoom-in-95 absolute -left-20 top-[calc(100%+14px)] z-50 w-[780px] rounded-xl border border-slate-200/90 bg-white p-6 shadow-2xl">
-                    <div className="mb-5 flex items-center justify-between border-b border-slate-100 pb-3">
-                      <div>
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                          Ecossistema Dominus
-                        </p>
-                        <h4 className="text-sm font-bold text-slate-900">
-                          Soluções especializadas para a rotina da sua empresa
-                        </h4>
-                      </div>
-                      <span className="flex items-center gap-1 rounded-full bg-brand-green/10 px-2.5 py-0.5 text-xs font-semibold text-brand-green">
-                        <Sparkles className="size-3.5" />
-                        ERP Ágil
-                      </span>
-                    </div>
-
-                    {/* 3 Colunas Alinhadas à Esquerda no formato "Sistema para [Segmento]" */}
-                    <div className="grid grid-cols-3 gap-4">
-                      {/* Varejo */}
-                      <button
-                        type="button"
-                        onClick={() => selectSegment("varejo")}
-                        className="group flex flex-col rounded-lg p-3 text-left transition-all hover:bg-slate-50 border border-transparent hover:border-[#3BBCEC]/30"
-                      >
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex size-9 items-center justify-center rounded-lg bg-[#3BBCEC]/10 text-[#3BBCEC] transition-transform group-hover:scale-110">
-                            <Store className="size-5" />
-                          </div>
-                          <span className="rounded px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#3BBCEC] bg-[#3BBCEC]/10">
-                            Varejo
-                          </span>
-                        </div>
-                        <h5 className="text-sm font-bold text-slate-900 group-hover:text-[#3BBCEC]">
-                          Sistema para Varejo
-                        </h5>
-                        <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                          Lojas de roupas, calçados, mercadinhos e comércios em geral.
-                        </p>
-                        <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-[#3BBCEC]">
-                          <span>Ver recursos</span>
-                          <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-                        </div>
-                      </button>
-
-                      {/* Auto-center */}
-                      <button
-                        type="button"
-                        onClick={() => selectSegment("auto")}
-                        className="group flex flex-col rounded-lg p-3 text-left transition-all hover:bg-slate-50 border border-transparent hover:border-[#FCC42C]/30"
-                      >
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex size-9 items-center justify-center rounded-lg bg-[#FCC42C]/15 text-[#e5b024] transition-transform group-hover:scale-110">
-                            <Wrench className="size-5" />
-                          </div>
-                          <span className="rounded px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#c6930d] bg-[#FCC42C]/15">
-                            Oficinas
-                          </span>
-                        </div>
-                        <h5 className="text-sm font-bold text-slate-900 group-hover:text-[#c6930d]">
-                          Sistema para Auto-center
-                        </h5>
-                        <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                          Oficinas mecânicas, centros automotivos e autopeças.
-                        </p>
-                        <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-[#c6930d]">
-                          <span>Ver recursos</span>
-                          <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-                        </div>
-                      </button>
-
-                      {/* Food */}
-                      <button
-                        type="button"
-                        onClick={() => selectSegment("food")}
-                        className="group flex flex-col rounded-lg p-3 text-left transition-all hover:bg-slate-50 border border-transparent hover:border-[#FC4242]/30"
-                      >
-                        <div className="mb-3 flex items-center justify-between">
-                          <div className="flex size-9 items-center justify-center rounded-lg bg-[#FC4242]/10 text-[#FC4242] transition-transform group-hover:scale-110">
-                            <UtensilsCrossed className="size-5" />
-                          </div>
-                          <span className="rounded px-1.5 py-0.5 text-[10px] font-bold uppercase text-[#FC4242] bg-[#FC4242]/10">
-                            Gastronomia
-                          </span>
-                        </div>
-                        <h5 className="text-sm font-bold text-slate-900 group-hover:text-[#FC4242]">
-                          Sistema para Food
-                        </h5>
-                        <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                          Restaurantes, bares, cafeterias, hamburguerias e delivery.
-                        </p>
-                        <div className="mt-3 flex items-center gap-1 text-xs font-semibold text-[#FC4242]">
-                          <span>Ver recursos</span>
-                          <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-                        </div>
-                      </button>
-                    </div>
-
-                    {/* Faixa inferior informativa */}
-                    <div className="mt-4 flex items-center justify-between rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
-                      <span>Dúvidas sobre o sistema ideal para sua empresa?</span>
-                      <a
-                        href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20ajuda%20para%20escolher%20o%20sistema%20Dominus%20ideal"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-bold text-brand-green hover:underline flex items-center gap-1"
-                      >
-                        Falar com consultor técnico <ArrowRight className="size-3" />
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Links de Seções In-Page */}
-              <a
-                href="#integracoes"
-                className="text-sm font-semibold text-slate-700 transition-colors hover:text-[#3BBCEC]"
-              >
-                Integrações
-              </a>
-              <a
-                href="#parceiros"
-                className="text-sm font-semibold text-slate-700 transition-colors hover:text-[#3BBCEC]"
-              >
-                Seja um Parceiro
-              </a>
-              <a
-                href="#planos"
-                className="text-sm font-semibold text-slate-700 transition-colors hover:text-[#3BBCEC]"
-              >
-                Planos
-              </a>
-              <a
-                href="#blog"
-                className="text-sm font-semibold text-slate-700 transition-colors hover:text-[#3BBCEC]"
-              >
-                Blog
-              </a>
-            </nav>
-
-            {/* Ação à Direita (CTA) Botão Verde Estilizado */}
-            <div className="hidden items-center gap-3 lg:flex">
-              <Button
-                asChild
-                className="h-11 bg-brand-green px-6 font-bold text-white shadow-brand-glow transition-all hover:bg-brand-green/90 hover:scale-[1.02]"
-              >
-                <a
-                  href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20um%20especialista%20da%20Waybit"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2"
-                >
-                  <span>Falar com Especialista</span>
-                  <ArrowRight className="size-4" />
-                </a>
-              </Button>
-            </div>
-
-            {/* Botão Mobile */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="lg:hidden"
-              onClick={() => setMobileOpen((prev) => !prev)}
-              aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
-            >
-              {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Menu Mobile Suspenso */}
-        {mobileOpen && (
-          <nav
-            aria-label="Menu móvel"
-            className="fluid-gutter absolute left-0 top-full w-full border-b border-slate-200 bg-white py-5 shadow-2xl lg:hidden animate-in slide-in-from-top-2"
-          >
-            <div className="flex flex-col gap-1">
-              <p className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">
-                Soluções Dominus
-              </p>
-              <button
-                type="button"
-                onClick={() => selectSegment("varejo")}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-              >
-                <Store className="size-4 text-[#3BBCEC]" />
-                <span>Sistema para Varejo</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => selectSegment("auto")}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-              >
-                <Wrench className="size-4 text-[#FCC42C]" />
-                <span>Sistema para Auto-center</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => selectSegment("food")}
-                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-slate-800 hover:bg-slate-50"
-              >
-                <UtensilsCrossed className="size-4 text-[#FC4242]" />
-                <span>Sistema para Food</span>
-              </button>
-
-              <hr className="my-2 border-slate-100" />
-              <p className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">
-                Navegação
-              </p>
-              <a
-                href="#integracoes"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Integrações
-              </a>
-              <a
-                href="#parceiros"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Seja um Parceiro
-              </a>
-              <a
-                href="#planos"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Planos
-              </a>
-              <a
-                href="#blog"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Blog
-              </a>
-              <a
-                href="#faq"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-              >
-                Dúvidas Frequentes (FAQ)
-              </a>
-
-              <Button
-                asChild
-                className="mt-4 h-11 w-full bg-brand-green font-bold text-white shadow-brand-glow"
-              >
-                <a
-                  href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20um%20especialista%20da%20Waybit"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="size-4" />
-                  <span>Falar com Especialista</span>
-                </a>
-              </Button>
-            </div>
-          </nav>
-        )}
-      </header>
-
-      {/* ========================================================
-          2. SEÇÃO HERO (Primeira Dobra em 2 Colunas Fluidas)
-      ======================================================== */}
-      <section
-        id="inicio"
-        className="fluid-gutter relative w-full border-b border-slate-200/80 bg-surface-soft py-10 lg:min-h-[calc(100vh-112px)] lg:py-14 flex items-center"
-      >
-        {/* Fundo sutil com gradiente radial no tom do segmento ativo */}
-        <div
-          className="pointer-events-none absolute right-0 top-1/4 h-[500px] w-[500px] rounded-full blur-3xl opacity-15 transition-all duration-700"
-          style={{ backgroundColor: currentSegment.color }}
-        />
-
-        <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-8">
-          {/* ==========================================
-              COLUNA ESQUERDA (Institucional, H1, Busca)
-          ========================================== */}
-          <div className="flex flex-col justify-center lg:col-span-6 xl:col-span-6">
-            {/* Tagline / Indicador de Inovação Superior */}
-            <div className="mb-5 inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-3.5 py-1.5 shadow-xs">
-              <span
-                className="inline-block size-2 rounded-full animate-pulse"
-                style={{ backgroundColor: currentSegment.color }}
-              />
-              <span className="text-xs font-semibold text-slate-700">
-                Ecossistema Dominus • Tecnologia Especializada
-              </span>
-            </div>
-
-            {/* Título Principal (H1) com destaque corporativo */}
-            <h1 className="text-4xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-[clamp(2.75rem,4.2vw,4.5rem)] leading-[1.05]">
-              A rotina da sua empresa{" "}
-              <span className="text-[#3BBCEC] transition-colors">leve</span> e com{" "}
-              <span className="text-[#65B32E]">menos esforço</span>.
-            </h1>
-
-            {/* Subtítulo: Proposta de valor do ERP */}
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-600 sm:text-lg">
-              Um ERP ágil, completo e intuitivo para transformar a gestão de vendas, estoque,
-              finanças e emissão fiscal da sua operação — sem complicar o que já funciona.
-            </p>
-
-            {/* Campo de Busca de Segmentos Interativo */}
-            <div ref={searchContainerRef} className="relative mt-8 w-full max-w-xl">
-              <label
-                htmlFor="hero-segment-search"
-                className="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-700"
-              >
-                Qual é o seu ramo de atuação?
-              </label>
-
-              <div className="relative flex items-center rounded-xl border border-slate-300 bg-white p-1.5 shadow-sm transition-all focus-within:border-brand-green focus-within:ring-2 focus-within:ring-brand-green/20">
-                <Search className="ml-3 size-5 text-slate-400 shrink-0" aria-hidden="true" />
-                <input
-                  id="hero-segment-search"
-                  type="text"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setSearchOpen(true);
-                  }}
-                  onFocus={() => setSearchOpen(true)}
-                  placeholder="Ex.: loja de roupas, oficina mecânica, restaurante..."
-                  className="w-full bg-transparent px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none"
-                  autoComplete="off"
-                />
-                {query && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setQuery("");
-                      setSearchOpen(false);
-                    }}
-                    className="p-1 text-slate-400 hover:text-slate-600"
-                    title="Limpar pesquisa"
+                  <Button
+                    type="submit"
+                    className={`size-10 sm:size-11 rounded-lg p-0 transition-all duration-300 shadow-cta hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer shrink-0 ${segmentTheme[activeSegment].bgClass} ${segmentTheme[activeSegment].buttonTextClass}`}
+                    style={{ backgroundColor: segmentTheme[activeSegment].color }}
+                    aria-label="Buscar segmento"
                   >
-                    <X className="size-4" />
-                  </button>
-                )}
-                <Button
-                  type="button"
-                  size="sm"
-                  className="h-9 shrink-0 bg-slate-900 text-white hover:bg-slate-800"
-                  onClick={() => setSearchOpen((prev) => !prev)}
-                >
-                  <span className="hidden sm:inline">Encontrar</span>
-                  <ArrowRight className="size-4" />
-                </Button>
-              </div>
-
-              {/* Dropdown de Resultados da Busca em Tempo Real */}
-              {searchOpen && (
-                <div className="absolute left-0 top-[calc(100%+6px)] z-30 w-full rounded-xl border border-slate-200 bg-white p-2 shadow-xl animate-in fade-in-50">
-                  {filteredMatches.length > 0 ? (
-                    <div className="max-h-60 overflow-y-auto divide-y divide-slate-100">
-                      {filteredMatches.map((option) => (
-                        <button
-                          key={option.label}
-                          type="button"
-                          onClick={() => {
-                            selectSegment(option.segment);
-                            setQuery(option.label);
-                            setSearchOpen(false);
-                          }}
-                          className="flex w-full items-center justify-between px-3 py-2.5 text-left text-sm text-slate-700 hover:bg-slate-50 transition-colors rounded-md"
-                        >
-                          <span className="font-medium">{option.label}</span>
-                          <span
-                            className="text-xs font-semibold px-2 py-0.5 rounded"
-                            style={{
-                              backgroundColor: segmentsData[option.segment].bgLight,
-                              color: segmentsData[option.segment].color,
-                            }}
-                          >
-                            {segmentsData[option.segment].name}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  ) : query ? (
-                    <div className="p-3 text-center text-xs text-slate-500">
-                      Nenhum segmento exato encontrado. Nosso ERP atende centenas de atividades.{" "}
-                      <a
-                        href="https://wa.me/5521975812676"
-                        className="font-bold text-brand-green hover:underline"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Consulte nosso especialista
-                      </a>
-                    </div>
-                  ) : (
-                    <div className="p-2 text-xs text-slate-400">
-                      Digite o nome do seu negócio para visualizar a solução ideal.
-                    </div>
-                  )}
+                    <ArrowRight size={18} />
+                  </Button>
                 </div>
-              )}
+                <p id="segment-help" className="sr-only">
+                  Escolha Food, Varejo ou Autocenter.
+                </p>
+              </form>
 
-              {/* Sugestões Rápidas em Pílulas */}
-              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-                <span className="text-slate-400 font-medium">Populares:</span>
-                <button
-                  type="button"
-                  onClick={() => selectSegment("varejo")}
-                  className={cn(
-                    "rounded-full px-2.5 py-1 font-semibold transition-all border",
-                    activeSegment === "varejo"
-                      ? "border-[#3BBCEC] bg-[#3BBCEC]/10 text-[#3BBCEC]"
-                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
-                  )}
+              {/* CONTROLES DO CARROSSEL: PAGINAÇÃO EM PÍLULA */}
+              <div className="mt-6 sm:mt-8 md:mt-10 flex items-center">
+                <div
+                  className="flex items-center gap-2 p-1.5 rounded-full bg-slate-100/90 dark:bg-card/90 border border-border/80 backdrop-blur-sm shadow-xs"
+                  role="tablist"
+                  aria-label="Indicadores dos segmentos"
                 >
-                  Lojas & Varejo
-                </button>
-                <button
-                  type="button"
-                  onClick={() => selectSegment("auto")}
-                  className={cn(
-                    "rounded-full px-2.5 py-1 font-semibold transition-all border",
-                    activeSegment === "auto"
-                      ? "border-[#FCC42C] bg-[#FCC42C]/15 text-[#c6930d]"
-                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
-                  )}
-                >
-                  Oficina & Mecânica
-                </button>
-                <button
-                  type="button"
-                  onClick={() => selectSegment("food")}
-                  className={cn(
-                    "rounded-full px-2.5 py-1 font-semibold transition-all border",
-                    activeSegment === "food"
-                      ? "border-[#FC4242] bg-[#FC4242]/10 text-[#FC4242]"
-                      : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50",
-                  )}
-                >
-                  Restaurante & Bar
-                </button>
+                  {segments.map((seg, idx) => {
+                    const isActive = activeSegment === seg.id;
+                    return (
+                      <button
+                        key={seg.id}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        onClick={() => chooseSegment(seg.id)}
+                        className={`transition-all duration-300 ease-out cursor-pointer flex items-center justify-center relative ${
+                          isActive
+                            ? "h-3 w-8 sm:w-10 rounded-full shadow-sm"
+                            : "size-2.5 rounded-full bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
+                        }`}
+                        style={isActive ? { backgroundColor: segmentTheme[seg.id].color } : undefined}
+                        title={`Ir para segmento 0${idx + 1} - ${seg.label}`}
+                        aria-label={`Slide 0${idx + 1} ${seg.label}${isActive ? " (ativo)" : ""}`}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Controles de Navegação: Paginação Limpa em Pílulas e Círculos */}
-            <div className="mt-8 flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                {segmentKeys.map((key, index) => {
-                  const isActive = activeSegment === key;
+            {/* COLUNA DIREITA: CENA ROTATIVA COM OS 3 SEGMENTOS EM CAMADAS */}
+            <div
+              className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-none mx-auto py-2 sm:py-4 select-none"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className={`scene scene-${activeSegment}-active`}
+                aria-label="Slide rotativo dos segmentos atendidos pela Waybit"
+                aria-live="polite"
+              >
+                <div className="scene-track" aria-hidden="true" />
+
+                {segments.map((segment, index) => {
+                  const diff = (index - activeIndex + segments.length) % segments.length;
+                  const isCurrent = diff === 0;
+                  const isNext = diff === 1;
+                  const isPrev = diff === 2;
+
+                  let roleClass = "scene-card-active";
+                  if (isNext) roleClass = "scene-card-next";
+                  if (isPrev) roleClass = "scene-card-prev";
+
                   return (
                     <button
-                      key={key}
+                      key={segment.id}
                       type="button"
-                      onClick={() => selectSegment(key)}
-                      aria-label={`Ver ${segmentsData[key].name}`}
-                      className={cn(
-                        "h-2.5 rounded-full transition-all duration-300",
-                        isActive ? "w-9" : "w-2.5 bg-slate-300 hover:bg-slate-400",
+                      onClick={() => chooseSegment(segment.id)}
+                      className={`scene-card ${segment.className} ${roleClass}`}
+                      style={
+                        {
+                          "--card-color": segmentTheme[segment.id].color,
+                          backgroundColor: segmentTheme[segment.id].color,
+                        } as React.CSSProperties
+                      }
+                      aria-pressed={isCurrent}
+                      aria-label={`Segmento ${segment.label}: ${segment.descriptor}`}
+                    >
+                      <img
+                        src={segment.image}
+                        alt={`Profissional representante do segmento ${segment.label}`}
+                        width={389}
+                        height={469}
+                        className="h-full w-full object-cover"
+                        loading="eager"
+                      />
+
+                      {/* Badge de destaque individual */}
+                      {isCurrent ? (
+                        <span className="scene-highlight-badge">
+                          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                          Em Destaque
+                        </span>
+                      ) : (
+                        <span className="scene-peek-pill">
+                          0{index + 1} {segment.label}
+                        </span>
                       )}
-                      style={{
-                        backgroundColor: isActive ? segmentsData[key].color : undefined,
-                      }}
-                    />
+
+                      {/* Informações editoriais */}
+                      <span className="scene-label">
+                        <span className="scene-count">
+                          0{index + 1} • {isCurrent ? "Ativo" : "Alternar"}
+                        </span>
+                        <strong>{segment.label}</strong>
+                        <small>{segment.descriptor}</small>
+                      </span>
+                    </button>
                   );
                 })}
               </div>
 
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
-                <span>0{activeIndex + 1} / 03</span>
-                <span className="text-slate-300">•</span>
-                <span className="font-semibold text-slate-700">{currentSegment.badge}</span>
+              <p className="mt-3 sm:mt-4 text-center text-xs text-muted-foreground/75 hidden sm:block">
+                Passe o mouse para pausar ou clique nos cards laterais para rotacionar
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION: 1. MÉTRICAS E VALIDAÇÃO SOCIAL INICIAL                           */}
+        {/* ========================================================================= */}
+        <section id="metricas" className="border-y border-border bg-surface-subtle/80 py-8 sm:py-10 lg:py-12 relative overflow-hidden w-full">
+          <div className="fluid-container">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch gap-4 sm:gap-6 lg:gap-8">
+              {/* Card 1: Economia de tempo */}
+              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-border/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#00ADEF]/10 text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+                  <Clock size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8" strokeWidth={2.2} />
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                  <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
+                    <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
+                      + De 30 % <br /> de economia
+                    </span>
+                  </div>
+                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                    de tempo em nossos clientes.
+                  </span>
+                </div>
               </div>
 
-              {/* Setas de Anterior / Próximo */}
-              <div className="ml-auto flex items-center gap-1 sm:ml-4">
-                <button
-                  type="button"
-                  onClick={handlePrevSegment}
-                  className="flex size-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-2xs hover:bg-slate-50"
-                  aria-label="Segmento anterior"
-                >
-                  <ChevronLeft className="size-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextSegment}
-                  className="flex size-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-2xs hover:bg-slate-50"
-                  aria-label="Próximo segmento"
-                >
-                  <ChevronRight className="size-4" />
-                </button>
+              {/* Card 2: Clientes atendidos */}
+              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-border/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#71BE44]/10 text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+                  <Users size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8" strokeWidth={2.2} />
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                  <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
+                    <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
+                      + De 1.000 <br /> clientes
+                    </span>
+                  </div>
+                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                    atendidos pelo Brasil.
+                  </span>
+                </div>
+              </div>
+
+              {/* Card 3: Nota de satisfação */}
+              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-border/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#FFB800]/15 text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+                  <Star size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8 fill-[#FFB800]" strokeWidth={2.2} />
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                  <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
+                    <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
+                      + De 9.6 / 10 <br /> em nota
+                    </span>
+                  </div>
+                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                    de satisfação de clientes.
+                  </span>
+                </div>
+              </div>
+
+              {/* Card 4: Experiência no mercado */}
+              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-border/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+                  <Cake size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8 text-[#EF4444]" strokeWidth={2.2} />
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                  <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
+                    <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
+                      + De 15 anos de <br /> experiência
+                    </span>
+                  </div>
+                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                    em sistema de gestão
+                  </span>
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          {/* ================================================================
-              COLUNA DIREITA (Segmentos Autônomos + Placeholder de Imagem Única)
-          ================================================================ */}
-          <div className="flex flex-col lg:col-span-6 xl:col-span-6">
-            {/* Exibição dos Segmentos (Sem Cartões engessados): Triggers Autônomos e Laterais */}
-            <div className="mb-4 flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
-              {segmentKeys.map((key) => {
-                const seg = segmentsData[key];
-                const isActive = activeSegment === key;
-                const IconComponent = seg.icon;
-                return (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => selectSegment(key)}
-                    className={cn(
-                      "group flex items-center gap-2 rounded-lg px-3.5 py-2 text-xs font-bold transition-all relative",
-                      isActive
-                        ? "bg-white text-slate-950 shadow-xs border border-slate-200/90"
-                        : "text-slate-500 hover:text-slate-900 hover:bg-white/60",
-                    )}
-                  >
-                    <IconComponent
-                      className="size-4 transition-transform group-hover:scale-110"
-                      style={{ color: seg.color }}
-                    />
-                    <span>{seg.name}</span>
-                    {isActive && (
-                      <span
-                        className="absolute bottom-0 left-2 right-2 h-0.5 rounded-full"
-                        style={{ backgroundColor: seg.color }}
-                      />
-                    )}
-                  </button>
-                );
-              })}
+        {/* ========================================================================= */}
+        {/* SECTION: 2. A SOLUÇÃO COMPLETA: SISTEMA DOMINUS                           */}
+        {/* ========================================================================= */}
+        <section id="solucao-dominus" className="py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-background w-full">
+          <div className="fluid-container">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-primary mb-3 sm:mb-4">
+                <Sparkles size={14} className="text-[#FFB800]" />
+                <span>O Sistema de Gestão Definitivo</span>
+              </div>
+              <h2 className="font-display text-[clamp(1.65rem,4vw,3rem)] font-extrabold tracking-tight text-foreground leading-[1.18]">
+                Conheça o Sistema{" "}
+                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent">
+                  DOMINUS
+                </span>
+                : o cérebro operacional do seu negócio
+              </h2>
+              <p className="mt-3.5 sm:mt-5 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+                Chega de perder tempo apagando incêndios com sistemas pesados ou planilhas que não
+                fecham. O <strong>Dominus</strong> unifica vendas, estoque, compras e finanças em
+                uma interface moderna, rápida e feita para quem não pode perder nem um minuto no
+                balcão.
+              </p>
             </div>
 
-            {/* Destaque do Segmento Autônomo com Transição Suave */}
-            <div className="mb-4 rounded-xl bg-white/70 p-4 backdrop-blur-xs border border-slate-200/70 shadow-2xs">
-              <div className="flex items-center justify-between gap-2">
-                <span
-                  className="text-xs font-bold uppercase tracking-wider"
-                  style={{ color: currentSegment.color }}
-                >
-                  {currentSegment.tagline}
-                </span>
-                <span className="text-[11px] font-semibold text-slate-400">
-                  {currentSegment.metrics}
-                </span>
+            {/* Comparativo de Valor: O Caos Tradicional vs Fluidez Dominus */}
+            <div className="mt-10 sm:mt-14 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+              {/* O Caos Tradicional */}
+              <div className="rounded-2xl border border-rose-500/20 bg-rose-500/[0.02] p-5 sm:p-7 lg:p-9 flex flex-col justify-between">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-600 mb-4 sm:mb-6">
+                    <span className="size-2 rounded-full bg-rose-500" />
+                    Como é a gestão sem o Dominus
+                  </div>
+                  <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">
+                    O ciclo do estresse e do retrabalho diário
+                  </h3>
+                  <ul className="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-muted-foreground">
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="size-5 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                        ✕
+                      </span>
+                      <span>
+                        Filas no caixa por travamentos ou lentidão em momentos de alto movimento.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="size-5 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                        ✕
+                      </span>
+                      <span>
+                        Estoque furado: você descobre que o produto acabou bem na hora que o cliente
+                        quer comprar.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="size-5 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                        ✕
+                      </span>
+                      <span>
+                        Insegurança fiscal e medo de multas do SEFAZ por emissão manual ou
+                        desatualizada.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <span className="size-5 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                        ✕
+                      </span>
+                      <span>
+                        Falta de clareza se a empresa teve lucro real ou prejuízo no fim do mês.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-rose-500/15 text-xs text-rose-700/80 font-medium">
+                  Resultado: noites mal dormidas, estresse com a equipe e perda de faturamento.
+                </div>
               </div>
-              <div className="mt-2.5 flex flex-wrap gap-2">
-                {currentSegment.features.slice(0, 3).map((feat) => (
-                  <span
-                    key={feat}
-                    className="inline-flex items-center gap-1 rounded-md bg-slate-50 px-2 py-1 text-[11px] font-medium text-slate-600 border border-slate-200/60"
+
+              {/* A Solução Dominus */}
+              <div className="rounded-2xl border border-[#71BE44]/30 bg-gradient-to-br from-[#71BE44]/[0.06] via-transparent to-[#00ADEF]/[0.05] p-5 sm:p-7 lg:p-9 flex flex-col justify-between shadow-sm relative">
+                <div className="absolute top-4 right-4 hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#71BE44] text-white">
+                  <Sparkles size={12} />
+                  Recomendado para sua empresa
+                </div>
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#71BE44]/15 text-[#62a83a] mb-4 sm:mb-6">
+                    <span className="size-2 rounded-full bg-[#71BE44]" />
+                    Com o Sistema Dominus da Waybit
+                  </div>
+                  <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">
+                    Controle total, processos leves e equipe produtiva
+                  </h3>
+                  <ul className="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-foreground/90">
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <CheckCircle2 size={18} className="text-[#71BE44] shrink-0 mt-0.5" />
+                      <span>
+                        <strong>Frente de Caixa (PDV) ultra-rápida:</strong> fecha vendas em
+                        segundos e continua operando mesmo sem internet.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <CheckCircle2 size={18} className="text-[#71BE44] shrink-0 mt-0.5" />
+                      <span>
+                        <strong>Estoque sincronizado em tempo real:</strong> entrada de notas por
+                        XML com 1 clique e ponto de reposição automático.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <CheckCircle2 size={18} className="text-[#71BE44] shrink-0 mt-0.5" />
+                      <span>
+                        <strong>100% em conformidade com o SEFAZ:</strong> emissão rápida de NFC-e,
+                        NF-e, SAT e geração automática para seu contador.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-2.5 sm:gap-3">
+                      <CheckCircle2 size={18} className="text-[#71BE44] shrink-0 mt-0.5" />
+                      <span>
+                        <strong>DRE e Fluxo de Caixa transparente:</strong> veja seu lucro líquido
+                        diário no computador ou no celular.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-[#71BE44]/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+                  <div className="text-xs font-semibold text-[#62a83a] text-center sm:text-left">
+                    Mais de 2.500 empresários já deram esse salto.
+                  </div>
+                  <Button
+                    onClick={() => setSpecialistOpen(true)}
+                    className="h-10 px-5 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm text-xs w-full sm:w-auto"
                   >
-                    <Check className="size-3 text-brand-green" />
-                    {feat}
-                  </span>
+                    Ver Demonstração do Dominus
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION: 3. PROVA SOCIAL REAL: DEPOIMENTOS EM VÍDEO DOS 3 NICHOS          */}
+        {/* ========================================================================= */}
+        <section id="depoimentos" className="py-12 sm:py-16 lg:py-24 bg-surface-subtle border-t border-border relative overflow-hidden w-full">
+          <div className="fluid-container">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-primary mb-3 sm:mb-4">
+                <Quote size={13} className="text-primary" />
+                <span>Histórias Reais de Sucesso</span>
+              </div>
+              <h2 className="font-display text-[clamp(1.65rem,4vw,3rem)] font-extrabold tracking-tight text-foreground leading-[1.18]">
+                Quem vive o comércio na prática confia na{" "}
+                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
+                  Waybit
+                </span>
+              </h2>
+              <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+                Veja o que empresários dos ramos de <strong>Varejo</strong>,{" "}
+                <strong>Auto-Center</strong> e <strong>Gastronomia</strong> relatam sobre a
+                transformação na rotina das suas empresas com o Dominus.
+              </p>
+            </div>
+
+            {/* Carrossel no Mobile/Tablet e Grid no Desktop */}
+            <div className="relative mt-8 sm:mt-12 lg:mt-14">
+              <div
+                ref={casesCarouselRef}
+                onScroll={handleCasesScroll}
+                className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch"
+                style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+              >
+                {testimonialCases.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`w-[84vw] max-w-[360px] sm:w-[360px] md:w-[380px] lg:w-auto shrink-0 lg:shrink snap-center lg:snap-align-none rounded-2xl border border-border bg-card/95 backdrop-blur-sm p-4 sm:p-5 lg:p-6 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${item.borderColor} group`}
+                  >
+                    <div>
+                      {/* Vídeo Nativo Incorporado */}
+                      <div className="relative w-full aspect-[9/13.5] rounded-xl overflow-hidden bg-black shadow-inner border border-zinc-800/80 mb-4 sm:mb-5">
+                        <iframe
+                          src={`https://www.youtube.com/embed/${item.videoId}?rel=0&modestbranding=1&playsinline=1`}
+                          title={`Depoimento em vídeo de ${item.name} (${item.company})`}
+                          className="w-full h-full border-0"
+                          loading="lazy"
+                          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                        />
+                      </div>
+
+                      {/* Tag de Segmento + Avaliação em Estrelas */}
+                      <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-3.5 sm:mb-4">
+                        <span
+                          className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border ${item.segmentBg} ${item.segmentColor}`}
+                        >
+                          <item.segmentIcon size={13} />
+                          {item.segment}
+                        </span>
+                        <div className="flex items-center text-[#FFB800]">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" className="sm:w-3.5 sm:h-3.5" />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Texto do Depoimento */}
+                      <blockquote className="text-xs sm:text-sm text-foreground/90 font-medium italic leading-relaxed">
+                        &ldquo;{item.quote}&rdquo;
+                      </blockquote>
+                    </div>
+
+                    {/* Autor */}
+                    <div className="mt-4 sm:mt-5 pt-3.5 sm:pt-4 border-t border-border/80">
+                      <h4 className="font-display text-xs sm:text-sm font-bold text-foreground">{item.name}</h4>
+                      <p className="text-[11px] sm:text-xs text-muted-foreground font-medium">{item.company}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
 
-            {/* ==========================================================
-                PLACEHOLDER DE IMAGEM ÚNICA (Sem fotos aleatórias)
-                Container estrutural limpo, responsivo e bem posicionado
-            ========================================================== */}
-            <div className="relative w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl transition-all hover:shadow-2xl">
-              {/* Barra superior estilo janela de aplicação SaaS */}
-              <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50 px-4 py-2.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="size-2.5 rounded-full bg-red-400/80" />
-                  <span className="size-2.5 rounded-full bg-amber-400/80" />
-                  <span className="size-2.5 rounded-full bg-emerald-400/80" />
-                  <span className="ml-2 font-mono text-[11px] text-slate-400">
-                    app.dominus.com.br/{activeSegment}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className="size-2 rounded-full"
-                    style={{ backgroundColor: currentSegment.color }}
-                  />
-                  <span className="text-[10px] font-bold uppercase text-slate-500">
-                    {currentSegment.name}
-                  </span>
-                </div>
-              </div>
-
-              {/* Área interna do container de imagem reservada */}
-              <div className="relative flex aspect-16/10 w-full items-center justify-center bg-slate-50/50 p-6 sm:p-10">
-                {/* Imagem Placeholder Oficial */}
-                <div className="relative flex flex-col items-center justify-center text-center">
-                  <img
-                    src="/placeholder-image.png"
-                    alt="Espaço Reservado para Imagem Oficial do Sistema Dominus"
-                    className="h-28 w-auto object-contain opacity-40 transition-opacity hover:opacity-60 sm:h-36"
-                  />
-                  <div className="mt-4 flex flex-col items-center">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white px-3 py-1 text-xs font-bold text-slate-700 shadow-xs">
-                      <span
-                        className="size-2 rounded-full"
-                        style={{ backgroundColor: currentSegment.color }}
-                      />
-                      Espaço Reservado para Imagem Oficial do Sistema
-                    </span>
-                    <p className="mt-1.5 text-xs text-slate-400 max-w-sm">
-                      Mockup oficial do software {currentSegment.name} será encaixado exatamente
-                      nesta área
-                    </p>
-                  </div>
-                </div>
-
-                {/* Chips Flutuantes Estruturais de Interface SaaS */}
-                <div className="absolute bottom-4 left-4 hidden sm:flex items-center gap-2 rounded-lg border border-slate-200/90 bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-md backdrop-blur-xs">
-                  <CheckCircle2 className="size-4 text-brand-green" />
-                  <span>Emissão Fiscal Instantânea</span>
-                </div>
-
-                <div className="absolute top-4 right-4 hidden sm:flex items-center gap-2 rounded-lg border border-slate-200/90 bg-white/95 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-md backdrop-blur-xs">
-                  <ShieldCheck className="size-4 text-[#3BBCEC]" />
-                  <span>Contingência Offline Ativa</span>
-                </div>
-              </div>
-
-              {/* Barra de rodapé do mockup */}
-              <div className="flex items-center justify-between border-t border-slate-100 bg-white px-4 py-2.5 text-xs text-slate-500">
-                <span className="font-medium">
-                  Solução testada e aprovada por centenas de empresas
-                </span>
-                <a
-                  href="#planos"
-                  className="font-bold text-brand-green hover:underline flex items-center gap-1"
-                >
-                  Ver Planos <ChevronRight className="size-3.5" />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          ECOSSISTEMA INTEGRADO (Diagrama de Fluxo Automatizado)
-      ======================================================== */}
-      <EcossistemaIntegrado />
-
-      {/* ========================================================
-          CICLO OPERACIONAL DOMINUS (Side-by-Side Híbrido com Animação)
-      ======================================================== */}
-      <CicloOperacionalSideBySide />
-
-      {/* ========================================================
-          3. SEÇÃO RECURSOS & PILARES DE GESTÃO (#recursos)
-      ======================================================== */}
-      <section id="recursos" className="fluid-gutter w-full py-20 sm:py-28 bg-white border-b border-slate-200">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-4">
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
-              Do Essencial ao Estratégico
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
-              Tudo conversa.<br />Você decide.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600">
-              Uma gestão verdadeiramente integrada para enxergar sua operação por inteiro e agir
-              com agilidade e segurança jurídica.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3">
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="size-5 text-brand-green shrink-0 mt-0.5" />
-                <p className="text-sm font-medium text-slate-700">
-                  Implantação acompanhada passo a passo por especialista.
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="size-5 text-brand-green shrink-0 mt-0.5" />
-                <p className="text-sm font-medium text-slate-700">
-                  Migração rápida dos seus dados e produtos do sistema atual.
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <CheckCircle2 className="size-5 text-brand-green shrink-0 mt-0.5" />
-                <p className="text-sm font-medium text-slate-700">
-                  Suporte humanizado sem espera por ticket demorado.
-                </p>
-              </div>
-            </div>
-
-            <Button asChild className="mt-8 bg-slate-900 text-white hover:bg-slate-800">
-              <a href="#planos" className="flex items-center gap-2">
-                Conhecer Planos <ArrowRight className="size-4" />
-              </a>
-            </Button>
-          </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:col-span-8">
-            {resourcesList.map((resource) => {
-              const Icon = resource.icon;
-              return (
-                <article
-                  key={resource.number}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-slate-200 bg-white p-7 shadow-xs transition-all hover:border-slate-300 hover:shadow-lg hover:-translate-y-1"
-                >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-xs font-bold text-slate-400">
-                        {resource.number}
-                      </span>
-                      <div
-                        className="flex size-10 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
-                        style={{ backgroundColor: `${resource.color}15`, color: resource.color }}
-                      >
-                        <Icon className="size-5" />
-                      </div>
-                    </div>
-                    <h3 className="mt-6 text-xl font-bold text-slate-900">{resource.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-slate-600">{resource.text}</p>
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-slate-400 group-hover:text-slate-700">
-                    <span>Recurso Integrado</span>
-                    <ChevronRight className="size-3.5 transition-transform group-hover:translate-x-1" />
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          4. SEÇÃO INTEGRAÇÕES (#integracoes)
-      ======================================================== */}
-      <section
-        id="integracoes"
-        className="fluid-gutter w-full bg-[#0F172A] py-20 text-white sm:py-28"
-      >
-        <div className="grid items-end gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-5">
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-green">
-              Conectividade Sem Atritos
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl leading-tight">
-              Menos operação manual.<br />Mais direção.
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-slate-300">
-              O ecossistema Dominus se comunica com os órgãos fiscais, meios de pagamento e
-              plataformas que você já utiliza, eliminando digitação dupla.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-2">
-              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-slate-300">
-                100% em Nuvem & Local
-              </span>
-              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-slate-300">
-                Homologação SEFAZ
-              </span>
-              <span className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-slate-300">
-                API de Integração
-              </span>
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
-            {integrationsList.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div
-                  key={item.name}
-                  className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4.5 backdrop-blur-xs transition-colors hover:bg-white/10 hover:border-white/20"
-                >
-                  <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-brand-green/20 text-brand-green">
-                    <Icon className="size-5" />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-white">{item.name}</h4>
-                    <p className="text-xs text-slate-400">{item.detail}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          5. SEÇÃO DEPOIMENTOS / PROVA SOCIAL
-      ======================================================== */}
-      <section className="fluid-gutter w-full py-20 sm:py-28 bg-white border-b border-slate-200">
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
-            Quem vive a rotina, aprova
-          </span>
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-            Parceria que faz a diferença no dia a dia.
-          </h2>
-          <p className="mt-4 text-base text-slate-600">
-            Veja o que dizem gestores e proprietários que escolheram o Dominus para gerenciar seus
-            estabelecimentos.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-8 md:grid-cols-3">
-          {testimonials.map((item) => (
-            <div
-              key={item.author}
-              className="flex flex-col justify-between rounded-2xl border border-slate-200 bg-surface-soft p-7 shadow-xs"
-            >
-              <div>
-                <div className="flex items-center gap-1 text-amber-400 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="size-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <p className="text-base font-medium leading-relaxed text-slate-800">
-                  “{item.quote}”
-                </p>
-              </div>
-
-              <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-4">
-                <div>
-                  <h4 className="text-sm font-bold text-slate-900">{item.author}</h4>
-                  <p className="text-xs text-slate-500">{item.role}</p>
-                </div>
-                <span
-                  className="rounded-full px-2.5 py-0.5 text-[11px] font-bold"
-                  style={{
-                    backgroundColor: `${item.badgeColor}15`,
-                    color: item.badgeColor,
-                  }}
-                >
-                  {item.segment}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ========================================================
-          6. SEÇÃO SEJA UM PARCEIRO (#parceiros)
-      ======================================================== */}
-      <section
-        id="parceiros"
-        className="fluid-gutter w-full py-20 sm:py-28 bg-surface-soft border-b border-slate-200"
-      >
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-green">
-              Cresça Junto com a Waybit
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
-              Seja um Parceiro Waybit e multiplique sua receita.
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600">
-              Programa de canais feito para contadores, consultores de negócios e profissionais de TI
-              que desejam indicar ou revender um ERP estável, com excelente aceitação e suporte
-              garantido.
-            </p>
-
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-xl border border-slate-200 bg-white p-4">
-                <TrendingUp className="size-5 text-brand-green mb-2" />
-                <h4 className="text-sm font-bold text-slate-900">Comissão Recorrente</h4>
-                <p className="mt-1 text-xs text-slate-500">
-                  Ganhe mensalmente por cada cliente ativo na sua carteira.
-                </p>
-              </div>
-              <div className="rounded-xl border border-slate-200 bg-white p-4">
-                <Users className="size-5 text-[#3BBCEC] mb-2" />
-                <h4 className="text-sm font-bold text-slate-900">Capacitação & Treinamento</h4>
-                <p className="mt-1 text-xs text-slate-500">
-                  Material completo de apoio comercial e suporte nível 2 dedicado.
-                </p>
-              </div>
-            </div>
-
-            <Button
-              asChild
-              className="mt-8 h-12 bg-brand-green px-7 font-bold text-white shadow-brand-glow hover:bg-brand-green/90"
-            >
-              <a
-                href="mailto:comercial@waybit.com.br?subject=Interesse%20em%20ser%20Parceiro%20Waybit"
-                className="flex items-center gap-2"
-              >
-                <span>Quero ser um Parceiro</span>
-                <ArrowRight className="size-4" />
-              </a>
-            </Button>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-lg lg:col-span-6">
-            <h3 className="text-xl font-bold text-slate-900">
-              Vantagens do Ecossistema Dominus para Parceiros
-            </h3>
-            <ul className="mt-6 divide-y divide-slate-100 text-sm">
-              <li className="flex items-center gap-3 py-3">
-                <Check className="size-4 text-brand-green shrink-0" />
-                <span className="text-slate-700">
-                  <strong>Zero dor de cabeça tributária:</strong> sistema sempre atualizado com a
-                  legislação brasileira.
-                </span>
-              </li>
-              <li className="flex items-center gap-3 py-3">
-                <Check className="size-4 text-brand-green shrink-0" />
-                <span className="text-slate-700">
-                  <strong>Onboarding estruturado:</strong> nossa equipe assume a implantação e
-                  treinamento dos indicados.
-                </span>
-              </li>
-              <li className="flex items-center gap-3 py-3">
-                <Check className="size-4 text-brand-green shrink-0" />
-                <span className="text-slate-700">
-                  <strong>Portal de contabilidade:</strong> acesso direto às notas e relatórios para
-                  facilitar o fechamento contábil.
-                </span>
-              </li>
-              <li className="flex items-center gap-3 py-3">
-                <Check className="size-4 text-brand-green shrink-0" />
-                <span className="text-slate-700">
-                  <strong>Retenção acima de 98%:</strong> clientes satisfeitos permanecem por anos.
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          7. SEÇÃO PLANOS (#planos)
-      ======================================================== */}
-      <section id="planos" className="fluid-gutter w-full py-20 sm:py-28 bg-white border-b border-slate-200">
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
-            Planos & Investimento
-          </span>
-          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-            Soluções na medida certa para a sua operação.
-          </h2>
-          <p className="mt-4 text-base text-slate-600">
-            Sem contratos com multas abusivas ou taxas escondidas. Escolha o plano ideal e converse
-            com nossos consultores.
-          </p>
-        </div>
-
-        <div className="mt-14 grid gap-8 lg:grid-cols-3">
-          {plansList.map((plan) => (
-            <div
-              key={plan.name}
-              className={cn(
-                "relative flex flex-col justify-between rounded-2xl border p-8 transition-all hover:shadow-xl",
-                plan.highlight
-                  ? "border-brand-green bg-white shadow-lg ring-2 ring-brand-green/20"
-                  : "border-slate-200 bg-surface-soft shadow-xs",
-              )}
-            >
-              {plan.highlight && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-green px-3.5 py-1 text-xs font-bold text-white shadow-sm">
-                  {plan.badge}
-                </span>
-              )}
-
-              <div>
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-slate-900">{plan.name}</h3>
-                  {!plan.highlight && (
-                    <span className="rounded-md bg-slate-200/60 px-2 py-0.5 text-xs font-semibold text-slate-600">
-                      {plan.badge}
-                    </span>
-                  )}
-                </div>
-                <p className="mt-3 text-sm text-slate-600 leading-relaxed">{plan.description}</p>
-
-                <hr className="my-6 border-slate-200" />
-
-                <ul className="space-y-3 text-sm">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5">
-                      <Check className="size-4 text-brand-green shrink-0 mt-0.5" />
-                      <span className="text-slate-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-8 pt-6 border-t border-slate-200">
+              {/* Controles no Mobile */}
+              <div className="mt-4 sm:mt-5 flex items-center justify-center gap-3 lg:hidden">
                 <Button
-                  asChild
-                  className={cn(
-                    "w-full h-11 font-bold",
-                    plan.highlight
-                      ? "bg-brand-green text-white hover:bg-brand-green/90 shadow-brand-glow"
-                      : "bg-slate-900 text-white hover:bg-slate-800",
-                  )}
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => scrollCases("prev")}
+                  disabled={activeCaseIndex === 0}
+                  className="size-8.5 sm:size-9 rounded-full border-border cursor-pointer disabled:opacity-30 transition-all flex items-center justify-center"
+                  aria-label="Ver case anterior"
                 >
-                  <a
-                    href={`https://wa.me/5521975812676?text=Ol%C3%A1%2C%20tenho%20interesse%20no%20Plano%20${plan.name}%20da%20Waybit`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <span>{plan.cta}</span>
-                    <ArrowRight className="size-4" />
-                  </a>
+                  <ChevronLeft size={16} />
+                </Button>
+
+                <div className="flex items-center gap-1.5 px-2">
+                  {testimonialCases.map((c, i) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => {
+                        const card = casesCarouselRef.current?.children[i] as HTMLElement | undefined;
+                        card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+                        setActiveCaseIndex(i);
+                      }}
+                      className={`h-2 rounded-full transition-all cursor-pointer ${
+                        activeCaseIndex === i
+                          ? "w-6 bg-primary"
+                          : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                      }`}
+                      aria-label={`Ir para case ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => scrollCases("next")}
+                  disabled={activeCaseIndex === testimonialCases.length - 1}
+                  className="size-8.5 sm:size-9 rounded-full border-border cursor-pointer disabled:opacity-30 transition-all flex items-center justify-center"
+                  aria-label="Ver próximo case"
+                >
+                  <ChevronRight size={16} />
                 </Button>
               </div>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ========================================================
-          8. SEÇÃO BLOG / CONTEÚDO (#blog)
-      ======================================================== */}
-      <section id="blog" className="fluid-gutter w-full py-20 sm:py-28 bg-surface-soft border-b border-slate-200">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
-              Blog & Conhecimento
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Conteúdos práticos para fazer sua empresa lucrar mais.
-            </h2>
           </div>
-          <Button variant="outline" asChild className="shrink-0">
-            <a href="#inicio" className="flex items-center gap-2">
-              Ver todos os artigos <ArrowRight className="size-4" />
-            </a>
-          </Button>
-        </div>
+        </section>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs transition-all hover:shadow-md">
-            <span className="text-xs font-bold uppercase text-[#3BBCEC]">Gestão de Varejo</span>
-            <h3 className="mt-3 text-lg font-bold text-slate-900 hover:text-[#3BBCEC] transition-colors">
-              Como reduzir as perdas de estoque em até 70% com controle de ponto de reposição
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-slate-500">
-              Estratégias simples para evitar rupturas de prateleira e capital de giro parado.
-            </p>
-            <div className="mt-6 flex items-center justify-between text-xs text-slate-400 border-t border-slate-100 pt-3">
-              <span>Leitura de 4 min</span>
-              <span className="font-semibold text-brand-green">Ler artigo →</span>
+        {/* ========================================================================= */}
+        {/* SECTION: 4. DIFERENCIAL SUPORTE HUMANO                                    */}
+        {/* ========================================================================= */}
+        <section id="diferencial-suporte" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border relative overflow-hidden w-full">
+          <div className="fluid-container">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              <div className="lg:col-span-6">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-emerald-600 mb-3 sm:mb-4">
+                  <ShieldCheck size={14} className="text-[#71BE44]" />
+                  <span>Diferencial Exclusivo Waybit</span>
+                </div>
+                <h2 className="font-display text-[clamp(1.65rem,3.8vw,3rem)] font-extrabold tracking-tight text-foreground leading-[1.18]">
+                  Trocar de sistema dá medo?{" "}
+                  <span className="block sm:inline text-foreground">
+                    Com a{" "}
+                    <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
+                      Waybit
+                    </span>
+                    , você{" "}
+                    <span className="bg-gradient-to-r from-[#71BE44] via-[#00ADEF] to-[#71BE44] bg-clip-text text-transparent font-extrabold">
+                      nunca fica na mão
+                    </span>
+                    .
+                  </span>
+                </h2>
+                <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+                  Sabemos que o maior pavor de quem gerencia um comércio é ver o sistema falhar no
+                  sábado à noite ou na hora do rush e cair em um atendimento automatizado que não
+                  resolve nada.
+                </p>
+                <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                  Na Waybit, o suporte é <strong>humanizado de verdade</strong>: pessoas reais,
+                  especialistas no seu ramo, prontas para atender via WhatsApp ou telefone em
+                  minutos.
+                </p>
+
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                  <Button
+                    onClick={() => setSpecialistOpen(true)}
+                    className="h-11 sm:h-12 px-6 sm:px-7 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm flex items-center justify-center gap-2 text-sm sm:text-base"
+                  >
+                    <MessageSquare size={17} />
+                    Falar com um Consultor Agora
+                  </Button>
+                  <a href="tel:+5521975812676" className="flex">
+                    <Button
+                      variant="outline"
+                      className="h-11 sm:h-12 px-5 sm:px-6 border-border hover:bg-muted font-semibold flex items-center justify-center gap-2 cursor-pointer w-full text-sm sm:text-base"
+                    >
+                      <Phone size={16} className="text-[#00ADEF]" />
+                      (21) 97581-2676
+                    </Button>
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                  <div className="size-9 sm:size-10 rounded-xl bg-[#71BE44]/15 text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4">
+                    <Headset size={20} />
+                  </div>
+                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">100% Humano</h3>
+                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                    Sem filas de chatbots ou robôs engessados. Você conversa direto com um analista
+                    técnico que resolve.
+                  </p>
+                </div>
+
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                  <div className="size-9 sm:size-10 rounded-xl bg-[#00ADEF]/15 text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4">
+                    <Clock size={20} />
+                  </div>
+                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">
+                    Agilidade Real
+                  </h3>
+                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                    Tempo médio de resposta abaixo de 5 minutos no WhatsApp. Seu balcão não pode
+                    esperar.
+                  </p>
+                </div>
+
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                  <div className="size-9 sm:size-10 rounded-xl bg-[#FFB800]/15 text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4">
+                    <Zap size={20} />
+                  </div>
+                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">
+                    Plantão nos Picos
+                  </h3>
+                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                    Acompanhamento prioritário nos horários de maior fluxo para clientes com alta
+                    intensidade operacional.
+                  </p>
+                </div>
+
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                  <div className="size-9 sm:size-10 rounded-xl bg-purple-500/15 text-purple-600 flex items-center justify-center mb-3 sm:mb-4">
+                    <Layers size={20} />
+                  </div>
+                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">
+                    Migração Assistida
+                  </h3>
+                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                    Trazemos o cadastro de produtos, clientes e fornecedores do seu sistema antigo
+                    com total precisão.
+                  </p>
+                </div>
+              </div>
             </div>
-          </article>
+          </div>
+        </section>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs transition-all hover:shadow-md">
-            <span className="text-xs font-bold uppercase text-[#FCC42C]">Oficinas & Auto</span>
-            <h3 className="mt-3 text-lg font-bold text-slate-900 hover:text-[#FCC42C] transition-colors">
-              Checklist digital para ordens de serviço: por que os clientes valorizam a transparência
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-slate-500">
-              Saiba como fotos e histórico digital aumentam o ticket médio de serviços mecânicos.
-            </p>
-            <div className="mt-6 flex items-center justify-between text-xs text-slate-400 border-t border-slate-100 pt-3">
-              <span>Leitura de 5 min</span>
-              <span className="font-semibold text-brand-green">Ler artigo →</span>
+        {/* ========================================================================= */}
+        {/* SECTION: 5. SOLUÇÕES E SEGMENTOS WAYBIT (GRADE 3 + 2 SAAS CLEAN)           */}
+        {/* ========================================================================= */}
+        <section id="solucoes-segmentos" className="py-12 sm:py-16 lg:py-24 bg-surface-subtle border-t border-border relative overflow-hidden w-full">
+          <div className="fluid-container">
+            <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14 lg:mb-16">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-primary mb-3 sm:mb-4 shadow-2xs">
+                <Sparkles size={13} className="text-primary" />
+                <span>Ecossistema Waybit • Soluções Especializadas</span>
+              </div>
+              <h2 className="font-display text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold tracking-tight text-foreground leading-[1.2]">
+                Conheça um{" "}
+                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent">
+                  sistema de gestão empresarial completo
+                </span>{" "}
+                com o melhor suporte do mercado!
+              </h2>
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+                Clique na solução para seu segmento e conheça mais:
+              </p>
             </div>
-          </article>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs transition-all hover:shadow-md sm:col-span-2 lg:col-span-1">
-            <span className="text-xs font-bold uppercase text-[#FC4242]">Food Service</span>
-            <h3 className="mt-3 text-lg font-bold text-slate-900 hover:text-[#FC4242] transition-colors">
-              Cardápio integrado e comanda eletrônica: o fim dos atrasos na cozinha
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-slate-500">
-              Dicas para restaurantes aumentarem o giro de mesas sem comprometer a qualidade do prato.
-            </p>
-            <div className="mt-6 flex items-center justify-between text-xs text-slate-400 border-t border-slate-100 pt-3">
-              <span>Leitura de 3 min</span>
-              <span className="font-semibold text-brand-green">Ler artigo →</span>
+            {/* Grade 3 + 2 Minimalista e SaaS Clean */}
+            <div className="w-full flex flex-col gap-4 sm:gap-6">
+              {/* Linha Superior: 3 Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
+                {waybitTopSolutions.map((item) => (
+                  <SolutionCard
+                    key={item.id}
+                    item={item}
+                    onOpenSpecialist={() => setSpecialistOpen(true)}
+                  />
+                ))}
+              </div>
+
+              {/* Linha Inferior: 2 Cards Centralizados */}
+              <div className="flex flex-col sm:flex-row justify-center items-stretch gap-4 sm:gap-6">
+                {waybitBottomSolutions.map((item) => (
+                  <div
+                    key={item.id}
+                    className="w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-12px)] lg:w-[calc((100%-48px)/3)] flex flex-col"
+                  >
+                    <SolutionCard
+                      item={item}
+                      onOpenSpecialist={() => setSpecialistOpen(true)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </article>
-        </div>
-      </section>
-
-      {/* ========================================================
-          9. SEÇÃO FAQ (#faq)
-      ======================================================== */}
-      <section id="faq" className="fluid-gutter w-full py-20 sm:py-28 bg-white border-b border-slate-200">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-12">
-            <span className="text-xs font-bold uppercase tracking-wider text-brand-blue">
-              Tire suas Dúvidas
-            </span>
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-              Perguntas Frequentes
-            </h2>
-            <p className="mt-3 text-base text-slate-600">
-              Tudo o que você precisa saber antes de contratar o Dominus para sua empresa.
-            </p>
           </div>
+        </section>
 
-          <Accordion type="single" collapsible className="w-full">
-            {faqList.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-b border-slate-200 py-2">
-                <AccordionTrigger className="text-left font-bold text-slate-900 hover:text-brand-blue text-base hover:no-underline">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-sm leading-relaxed text-slate-600 pt-2 pb-4">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-
-          <div className="mt-12 rounded-xl bg-slate-50 p-6 text-center border border-slate-200">
-            <HelpCircle className="size-6 text-brand-green mx-auto mb-2" />
-            <h4 className="text-sm font-bold text-slate-900">Ainda tem alguma dúvida específica?</h4>
-            <p className="mt-1 text-xs text-slate-600">
-              Nossa equipe comercial está à disposição para analisar a rotina da sua empresa.
-            </p>
-            <Button asChild size="sm" className="mt-4 bg-brand-green font-bold text-white shadow-xs hover:bg-brand-green/90">
-              <a
-                href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20tirar%20uma%20d%C3%BAvida%20sobre%20o%20Dominus"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Falar pelo WhatsApp
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          10. SEÇÃO CTA FINAL / PRÉ-FOOTER
-      ======================================================== */}
-      <section className="fluid-gutter w-full bg-surface-soft py-20 sm:py-24 text-center border-b border-slate-200">
-        <div className="max-w-4xl mx-auto">
-          <div className="inline-flex size-14 items-center justify-center rounded-2xl bg-brand-green/10 text-brand-green mb-6">
-            <BarChart3 className="size-7" />
-          </div>
-          <h2 className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl leading-tight">
-            Pronto para deixar sua gestão mais leve?
-          </h2>
-          <p className="mt-6 max-w-2xl mx-auto text-base text-slate-600 leading-relaxed sm:text-lg">
-            Converse com especialistas que entendem a rotina real do seu segmento e veja uma
-            demonstração personalizada do ERP Dominus.
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button
-              asChild
-              className="h-12 bg-brand-green px-8 font-bold text-white shadow-brand-glow hover:bg-brand-green/90 hover:scale-[1.02] transition-all"
-            >
-              <a
-                href="https://wa.me/5521975812676?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20uma%20demonstra%C3%A7%C3%A3o%20do%20ERP%20Dominus"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 text-base"
-              >
-                <span>Falar com Especialista</span>
-                <ArrowRight className="size-5" />
-              </a>
-            </Button>
-
-            <Button variant="outline" asChild className="h-12 px-6 font-semibold">
-              <a href="tel:+5521975812676" className="flex items-center gap-2">
-                <Phone className="size-4 text-brand-green" />
-                <span>(21) 97581-2676</span>
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================
-          11. FOOTER COMPLETO (#suporte)
-      ======================================================== */}
-      <footer id="suporte" className="fluid-gutter w-full bg-[#0F172A] py-16 text-slate-300 sm:py-24">
-        <div className="grid gap-12 border-b border-slate-800 pb-14 md:grid-cols-12">
-          {/* Logo e Institucional */}
-          <div className="md:col-span-4">
-            <a href="#inicio" aria-label="Waybit Software">
-              <img
-                src="/waybit-logo.png"
-                alt="Waybit Software"
-                className="h-10 w-auto brightness-200 contrast-125"
+        {/* ========================================================================= */}
+        {/* SECTION: 6. BANNER DE CONVERSÃO / DEMONSTRAÇÃO GRATUITA                   */}
+        {/* ========================================================================= */}
+        <section id="banner-demonstracao" className="py-12 sm:py-16 bg-background border-t border-border w-full">
+          <div className="fluid-container">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-r from-zinc-900 via-zinc-950 to-zinc-900 text-white p-6 sm:p-10 lg:p-16 border border-zinc-800 shadow-2xl">
+              {/* Efeito Glow */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-20 -top-20 w-[450px] h-[450px] max-w-full max-h-full bg-gradient-to-br from-[#00ADEF]/25 via-[#71BE44]/20 to-[#FFB800]/25 blur-3xl opacity-60 rounded-full"
               />
-            </a>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-slate-400">
-              Tecnologia brasileira desenvolvida para simplificar a gestão e acelerar as vendas de
-              varejos, oficinas e restaurantes em todo o país.
-            </p>
-            <div className="mt-6 flex items-center gap-3 text-xs text-slate-400">
-              <span className="inline-block size-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Sistemas e servidores operando 100% online</span>
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+                {/* Lado Esquerdo */}
+                <div className="w-full flex flex-col justify-center">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 sm:px-3.5 py-1 text-xs font-semibold text-white/90 backdrop-blur-md mb-4 sm:mb-6 border border-white/15 w-fit">
+                    <Sparkles size={13} className="text-[#FFB800]" />
+                    <span>Demonstração Personalizada de 15 Minutos</span>
+                  </div>
+
+                  <h2 className="font-display text-[clamp(1.25rem,2.8vw,2rem)] font-bold tracking-tight leading-snug sm:leading-tight">
+                    Pronto para ver o que o{" "}
+                    <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
+                      Dominus
+                    </span>{" "}
+                    pode fazer pelo o seu negócio?
+                  </h2>
+
+                  <p className="mt-3.5 sm:mt-5 text-xs sm:text-sm md:text-base text-zinc-300 leading-relaxed">
+                    Agende uma apresentação online com um especialista no seu segmento. Mostramos como
+                    acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
+                    compromisso.
+                  </p>
+
+                  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                    <Button
+                      type="button"
+                      onClick={() => {
+                        const modal = document.getElementById("fullFunnelModal");
+                        modal?.classList.add("show");
+                        const scriptId = "full-funnel-form-embed-js";
+                        if (!document.getElementById(scriptId)) {
+                          const script = document.createElement("script");
+                          script.id = scriptId;
+                          script.src = "https://links.fullfunnel.app/js/form_embed.js";
+                          script.type = "text/javascript";
+                          script.async = true;
+                          document.body.appendChild(script);
+                        }
+                      }}
+                      className="abrirAgendarDemonstracao h-11 sm:h-12 px-6 sm:px-8 bg-[#71BE44] hover:bg-[#62a83a] text-white font-bold text-xs sm:text-sm cursor-pointer shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+                    >
+                      Agendar Demonstração
+                    </Button>
+                    <a
+                      href="https://wa.me/5521975812676?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20demonstra%C3%A7%C3%A3o%20do%20Dominus."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex"
+                    >
+                      <Button
+                        variant="outline"
+                        className="h-11 sm:h-12 px-5 sm:px-6 border-zinc-700 bg-zinc-900/60 text-zinc-200 hover:bg-zinc-800 hover:text-white font-semibold cursor-pointer w-full flex items-center justify-center"
+                      >
+                        <MessageSquare size={16} className="text-[#71BE44]" />
+                        Conversar no WhatsApp
+                      </Button>
+                    </a>
+                  </div>
+
+                  <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6 text-[11px] sm:text-xs text-zinc-400">
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 size={14} className="text-[#71BE44]" /> Sem compromisso
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 size={14} className="text-[#00ADEF]" /> Implantação orientada
+                    </span>
+                    <span className="flex items-center gap-2">
+                      <CheckCircle2 size={14} className="text-[#FFB800]" /> Suporte humano incluso
+                    </span>
+                  </div>
+                </div>
+
+                {/* Lado Direito: Player de Vídeo */}
+                <div className="w-full flex items-center justify-center mt-4 lg:mt-0">
+                  <div className="relative aspect-video sm:aspect-square w-full max-w-[440px] rounded-xl sm:rounded-2xl overflow-hidden border border-zinc-700/60 bg-zinc-950/90 shadow-2xl ring-1 ring-white/10 group mx-auto">
+                    <iframe
+                      src="https://www.youtube.com/embed/uNWOvb8bMPo?rel=0&modestbranding=1"
+                      title="Conheça a Waybit e as soluções que vão te deixar mais feliz!"
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
 
-          {/* Links Rápidos Waybit */}
-          <div className="md:col-span-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">
-              Soluções Dominus
-            </p>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => selectSegment("varejo")}
-                  className="hover:text-white transition-colors"
-                >
-                  Sistema para Varejo
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => selectSegment("auto")}
-                  className="hover:text-white transition-colors"
-                >
-                  Sistema para Auto-center
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => selectSegment("food")}
-                  className="hover:text-white transition-colors"
-                >
-                  Sistema para Food
-                </button>
-              </li>
-              <li>
-                <a href="#recursos" className="hover:text-white transition-colors">
-                  Recursos & Diferenciais
-                </a>
-              </li>
-              <li>
-                <a href="#integracoes" className="hover:text-white transition-colors">
-                  Integrações Fiscais e TEF
-                </a>
-              </li>
-            </ul>
-          </div>
+        {/* ========================================================================= */}
+        {/* EXCEÇÃO CRÍTICA PROTEGIDA: #ciclo-operacional                             */}
+        {/* Substitui a seção "Recursos Completos" da referência.                      */}
+        {/* Preserva o diagrama Diag-ciclo.png, a órbita do foguete e os textos.     */}
+        {/* Container adaptado ao sistema fluido 100%.                                */}
+        {/* ========================================================================= */}
+        <CicloOperacionalSideBySide />
 
-          {/* Navegação In-Page */}
-          <div className="md:col-span-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">Navegação</p>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              <li>
-                <a href="#inicio" className="hover:text-white transition-colors">
-                  Início
-                </a>
-              </li>
-              <li>
-                <a href="#parceiros" className="hover:text-white transition-colors">
-                  Seja um Parceiro
-                </a>
-              </li>
-              <li>
-                <a href="#planos" className="hover:text-white transition-colors">
-                  Planos & Preços
-                </a>
-              </li>
-              <li>
-                <a href="#blog" className="hover:text-white transition-colors">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="#faq" className="hover:text-white transition-colors">
-                  Perguntas Frequentes
-                </a>
-              </li>
-            </ul>
-          </div>
+        {/* ========================================================================= */}
+        {/* SECTION: 7. AVALIAÇÕES VERIFICADAS NO GOOGLE (4.9 ESTRELAS)               */}
+        {/* ========================================================================= */}
+        <section id="avaliacoes-google" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border w-full">
+          <div className="fluid-container">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-amber-600 mb-2.5 sm:mb-3">
+                  <Star size={13} fill="#FFB800" stroke="#FFB800" />
+                  <span>Avaliações Verificadas</span>
+                </div>
+                <h2 className="font-display text-[clamp(1.65rem,4vw,3rem)] font-extrabold tracking-tight text-foreground">
+                  Aprovado com{" "}
+                  <span className="bg-gradient-to-r from-[#FFB800] via-[#71BE44] to-[#00ADEF] bg-clip-text text-transparent font-extrabold">
+                    4.9 estrelas
+                  </span>{" "}
+                  no Google
+                </h2>
+                <p className="mt-2 text-xs sm:text-sm md:text-base text-muted-foreground">
+                  A opinião de gestores e proprietários que confiam na estabilidade da Waybit todos
+                  os dias.
+                </p>
+              </div>
 
-          {/* Fale com a Gente */}
-          <div className="md:col-span-3">
-            <p className="text-xs font-bold uppercase tracking-wider text-white">
-              Fale com a Gente
-            </p>
-            <ul className="mt-4 space-y-3 text-sm">
-              <li className="flex items-center gap-2.5">
-                <Phone className="size-4 text-brand-green shrink-0" />
-                <a href="tel:+5521975812676" className="hover:text-white transition-colors">
-                  (21) 97581-2676
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="size-4 text-[#3BBCEC] shrink-0" />
-                <a
-                  href="mailto:comercial@waybit.com.br"
-                  className="hover:text-white transition-colors truncate"
-                >
-                  comercial@waybit.com.br
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <MessageCircle className="size-4 text-emerald-400 shrink-0" />
-                <a
-                  href="https://wa.me/5521975812676"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-white transition-colors"
-                >
-                  WhatsApp Atendimento
-                </a>
-              </li>
-            </ul>
-            <p className="mt-4 text-xs text-slate-500">
-              Atendimento de segunda a sexta, das 08h às 18h. Plantão para clientes contratados.
-            </p>
+              <div className="flex items-center gap-3 p-3 sm:p-3.5 rounded-xl border border-border bg-surface-subtle self-start md:self-auto shrink-0">
+                <div className="text-xl sm:text-2xl font-black text-foreground font-display">4.9</div>
+                <div>
+                  <div className="flex items-center text-[#FFB800]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" className="sm:w-3.5 sm:h-3.5" />
+                    ))}
+                  </div>
+                  <span className="text-[11px] text-muted-foreground font-medium">
+                    Classificação no Google
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center text-[#FFB800] mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
+                    &ldquo;Excelente software! Já passei por três sistemas conhecidos no mercado e
+                    todos me deixaram na mão no suporte. Com a Waybit, qualquer dúvida é resolvida
+                    em minutos pelo WhatsApp.&rdquo;
+                  </p>
+                </div>
+                <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/80">
+                  <p className="text-xs font-bold text-foreground">Marcos Vinícius</p>
+                  <p className="text-[11px] text-muted-foreground">Supermercado Nova Estrela</p>
+                </div>
+              </div>
+
+              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center text-[#FFB800] mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
+                    &ldquo;O módulo de auto-center é completo demais. Emissão de O.S., checklist na
+                    entrada do carro e comissões automáticas. Organizou a oficina de ponta a
+                    ponta.&rdquo;
+                  </p>
+                </div>
+                <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/80">
+                  <p className="text-xs font-bold text-foreground">Carlos Eduardo</p>
+                  <p className="text-[11px] text-muted-foreground">Centro Automotivo Precisão</p>
+                </div>
+              </div>
+
+              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center text-[#FFB800] mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
+                    &ldquo;A comanda eletrônica no celular dos garçons aumentou nosso faturamento
+                    porque os pedidos chegam instantâneos na cozinha. O sistema não trava
+                    nunca.&rdquo;
+                  </p>
+                </div>
+                <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/80">
+                  <p className="text-xs font-bold text-foreground">Patrícia Mendes</p>
+                  <p className="text-[11px] text-muted-foreground">Bistrô & Restaurante Alecrim</p>
+                </div>
+              </div>
+            </div>
           </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* SECTION: 8. BLOG & CONTEÚDOS EDUCATIVOS (CARROSSEL)                       */}
+        {/* ========================================================================= */}
+        <BlogCarouselSection onOpenSpecialist={() => setSpecialistOpen(true)} />
+
+        {/* ========================================================================= */}
+        {/* RODAPÉ INSTITUCIONAL                                                      */}
+        {/* ========================================================================= */}
+        <Footer onOpenSpecialist={() => setSpecialistOpen(true)} />
+      </main>
+
+      <SpecialistDialog open={specialistOpen} onOpenChange={setSpecialistOpen} />
+
+      {/* ========================================================================= */}
+      {/* MODAL DE AGENDAMENTO / DEMONSTRAÇÃO (FULL FUNNEL)                         */}
+      {/* ========================================================================= */}
+      <div id="fullFunnelModal" role="dialog" aria-modal="true" aria-label="Agendar Demonstração">
+        <div id="fullFunnelContent">
+          <button type="button" className="close-modal" aria-label="Fechar modal">&times;</button>
+          <iframe
+            src="https://links.fullfunnel.app/widget/booking/LE6EdU7qlKZEKo7LPCT1"
+            allow="payment"
+            style={{ width: "100%", border: "none", overflow: "hidden" }}
+            scrolling="no"
+            id="LE6EdU7qlKZEKo7LPCT1_1790270071234"
+            title="Agendamento de Demonstração Waybit Dominus"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Interface e Dados do Portfólio de Soluções Waybit (Grade 3 + 2)
+interface WaybitSolutionItem {
+  id: string;
+  title: string;
+  description: string;
+  color: string;
+  logo: string;
+  link: string;
+  isExternal?: boolean;
+}
+
+const waybitTopSolutions: WaybitSolutionItem[] = [
+  {
+    id: "varejo",
+    title: "Dominus Varejo",
+    description: "Sistema de gestão para varejo",
+    color: "#3BBCEC",
+    logo: varejoLogo,
+    link: "#solucoes-segmentos",
+    isExternal: false,
+  },
+  {
+    id: "autocenter",
+    title: "Dominus Auto-center",
+    description: "Sistema de gestão para mecânica",
+    color: "#FCC42C",
+    logo: autocenterLogo,
+    link: "#solucoes-segmentos",
+    isExternal: false,
+  },
+  {
+    id: "food",
+    title: "Dominus Food",
+    description: "Sistema de gestão para Restaurante",
+    color: "#FC4242",
+    logo: foodLogo,
+    link: "#solucoes-segmentos",
+    isExternal: false,
+  },
+];
+
+const waybitBottomSolutions: WaybitSolutionItem[] = [
+  {
+    id: "xpert",
+    title: "Xpert",
+    description: "Sistema de gestão para posto",
+    color: "#454545",
+    logo: xpertLogo,
+    link: "https://www.xpert.com.br",
+    isExternal: true,
+  },
+  {
+    id: "certbit",
+    title: "Certbit",
+    description: "Adquira já o seu certificado digital",
+    color: "#71BE44",
+    logo: certbitLogo,
+    link: "https://certbitcertificados.com.br",
+    isExternal: true,
+  },
+];
+
+const segmentHoverTitleClass: Record<string, string> = {
+  varejo: "group-hover:text-[#3BBCEC]",
+  autocenter: "group-hover:text-[#FCC42C]",
+  food: "group-hover:text-[#FC4242]",
+  xpert: "group-hover:text-[#454545] dark:group-hover:text-zinc-300",
+  certbit: "group-hover:text-[#71BE44]",
+};
+
+function SolutionCard({
+  item,
+  onOpenSpecialist,
+}: {
+  item: WaybitSolutionItem;
+  onOpenSpecialist?: () => void;
+}) {
+  const isExternal = item.isExternal;
+  const hoverClass = segmentHoverTitleClass[item.id] || "group-hover:text-primary";
+
+  const cardInner = (
+    <div className="group relative w-full h-full min-h-[160px] sm:min-h-[175px] md:min-h-[185px] rounded-2xl bg-white dark:bg-card border border-slate-100 dark:border-border/60 p-4 sm:p-5 md:p-6 lg:p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden isolate flex flex-col justify-between">
+      {/* Halo de fundo radial suave na cor do segmento */}
+      <div
+        className="pointer-events-none absolute -bottom-10 -right-10 size-32 sm:size-36 rounded-full blur-2xl opacity-0 group-hover:opacity-15 transition-opacity duration-500"
+        style={{ backgroundColor: item.color }}
+      />
+
+      {/* Topo do Card */}
+      <div className="relative z-10 flex items-start justify-between gap-3 sm:gap-4">
+        <div className="flex-1 min-w-0 pr-1 sm:pr-2">
+          <h3
+            className={`font-display text-base sm:text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug transition-colors duration-200 ${hoverClass}`}
+          >
+            {item.title}
+          </h3>
+          <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm text-slate-500 dark:text-zinc-400 font-medium leading-relaxed">
+            {item.description}
+          </p>
         </div>
 
-        {/* Linha Inferior com Copyright e Políticas */}
-        <div className="flex flex-col gap-4 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Waybit Software. Todos os direitos reservados.</p>
-          <div className="flex gap-6">
-            <a href="#inicio" className="hover:text-slate-300 transition-colors">
-              Política de Privacidade
-            </a>
-            <a href="#inicio" className="hover:text-slate-300 transition-colors">
-              Termos de Uso
-            </a>
-            <a href="#suporte" className="hover:text-slate-300 transition-colors">
-              Suporte Técnico
-            </a>
-          </div>
+        {/* Badge arredondado com logo oficial do segmento */}
+        <div
+          className="size-12 sm:size-14 md:size-16 rounded-xl sm:rounded-2xl flex items-center justify-center p-2 sm:p-2.5 shrink-0 shadow-sm group-hover:scale-105 group-hover:shadow-md transition-all duration-300"
+          style={{ backgroundColor: item.color }}
+        >
+          <img
+            src={item.logo}
+            alt={item.title}
+            className="w-full h-full object-contain filter brightness-105"
+            loading="lazy"
+          />
         </div>
-      </footer>
-    </main>
+      </div>
+
+      {/* Rodapé do Card */}
+      <div className="relative z-10 mt-4 sm:mt-6 pt-2.5 sm:pt-3 flex items-center justify-between border-t border-slate-100 dark:border-border/40">
+        <span
+          className="text-xs font-semibold tracking-wide transition-colors duration-200"
+          style={{ color: item.color }}
+        >
+          {isExternal
+            ? item.id === "xpert"
+              ? "Acessar xpert.com.br"
+              : "Acessar certbit"
+            : "Conhecer mais"}
+        </span>
+        <div
+          className="size-7 sm:size-8 md:size-9 rounded-full flex items-center justify-center text-white transition-all duration-300 shadow-xs group-hover:shadow-md group-hover:scale-105 shrink-0"
+          style={{ backgroundColor: item.color }}
+        >
+          <ChevronRight
+            size={16}
+            className="transition-transform duration-300 group-hover:translate-x-1"
+            strokeWidth={2.5}
+          />
+        </div>
+      </div>
+
+      <div
+        className="pointer-events-none absolute bottom-0 inset-x-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl"
+        style={{ backgroundColor: item.color }}
+      />
+    </div>
+  );
+
+  if (isExternal) {
+    return (
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${item.title} - ${item.description}`}
+        className="flex flex-col w-full h-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl"
+      >
+        {cardInner}
+      </a>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onOpenSpecialist}
+      aria-label={`${item.title} - ${item.description}`}
+      className="flex flex-col w-full h-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-2xl text-left bg-transparent border-0 p-0"
+    >
+      {cardInner}
+    </button>
   );
 }
