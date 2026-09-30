@@ -4,22 +4,34 @@ Este documento registra a arquitetura visual, tokens e convenções estruturais 
 
 ---
 
-## 1. Filosofia do Layout
+## 1. Filosofia do Layout & Responsividade
 O projeto adota uma arquitetura de layout **100% Fluida**.
 * **Zero teto rígido:** Não existe limitador global de largura (como `max-width: 1440px` ou `max-w-7xl`) travando as seções principais.
 * **Crescimento Proporcional:** As sections e os containers principais expandem continuamente em qualquer resolução (Full HD, 2K, 4K, Ultrawide).
-* **Fidelidade e Legibilidade:** O design respira através de margens laterais responsivas dinâmicas (gutters) e limites específicos apenas para elementos internos (ilustrações, diagramas e colunas de leitura).
+* **Fidelidade e Legibilidade:** O design respira através de margens laterais responsivas dinâmicas (gutters) e limites específicos apenas para elementos internos (ilustrações, diagramas, colunas de leitura, cards e formulários).
+* **Filosofia Global vs. Local:**
+  * **Global:** Consistência, previsibilidade e ponto de partida inicial para novas páginas e seções.
+  * **Local:** Adaptação às necessidades reais do conteúdo. Breakpoints representam espaço disponível, não dispositivos fixos. Se uma seção apresentar problemas de legibilidade, proporção, compressão ou quebras ruins, ela poderá receber uma adaptação responsiva própria, desde que justificada e documentada junto ao componente.
 
 ---
 
-## 2. Breakpoints Responsivos
-A escala do layout é orientada por 3 faixas estruturais:
+## 2. Breakpoints Responsivos Globais
+A escala do layout adota como referência responsiva oficial 5 faixas dimensionais:
 
-| Faixa | Resolução | Gutter Lateral (`--page-gutter`) |
-| :--- | :--- | :--- |
-| **Mobile** | `<= 769px` | `3%` |
-| **Intermediário / Tablet & Laptop** | `770px` até `1439px` | `5%` |
-| **Desktop Amplo / 4K / Ultrawide** | `>= 1440px` | `10%` |
+| Faixa | Resolução | Descrição / Papel no Sistema | Gutter Lateral (`--page-gutter`) |
+| :--- | :--- | :--- | :--- |
+| **Compact** | `< 375px` | Telas compactas / dispositivos móveis menores | `3%` |
+| **Base** | `375px` até `539px` | Mobile padrão / largura base de tela única | `3%` |
+| **Medium** | `540px` até `959px` | Telas intermediárias / tablet | `5%` |
+| **Large** | `960px` até `1439px` | Desktop padrão / notebook | `5%` |
+| **Wide** | `>= 1440px` | Desktop amplo / monitores 2K, 4K e Ultrawide | `10%` |
+
+### Pontos de Mudança Estrutural do Sistema
+Os principais pontos de transição estrutural padrão são:
+* **`540px`:** Transição entre composição em coluna única e composições multi-colunas. Mudança de gutter de `3%` para `5%`.
+* **`960px`:** Transição entre composição intermediária e composição desktop ampla.
+* **`1440px`:** Mudança de gutter lateral de `5%` para `10%`.
+* *Nota:* `375px` é tratado principalmente como marco delimitador de telas ultra-compactas, e não como um breakpoint estrutural obrigatório para todos os componentes.
 
 ---
 
@@ -27,6 +39,7 @@ A escala do layout é orientada por 3 faixas estruturais:
 * **Largura:** `width: 100%`
 * **Largura Máxima Global:** **NENHUMA** (`max-width: none`)
 * **Regra de Aplicação:** Toda section principal se expande em 100% da viewport. Seu container interno imediato recebe a classe `.fluid-container`, que gerencia o padding lateral responsivo de forma centralizada.
+* **Limitações Internas Permitidas:** Elementos internos (como cards, parágrafos `max-w-2xl`, diagramas `max-w-[500px]` e formulários) podem possuir limites internos específicos para preservar ergonomia de leitura e proporção estética, sem travar o crescimento da página.
 
 ---
 
@@ -42,7 +55,7 @@ O padding lateral útil é governado por uma **única fonte de verdade**:
   --page-gutter: 3%;
 }
 
-@media (min-width: 770px) {
+@media (min-width: 540px) {
   :root {
     --page-gutter: 5%;
   }
@@ -61,6 +74,9 @@ O padding lateral útil é governado por uma **única fonte de verdade**:
 ```
 
 Exemplo prático de largura útil obtida:
+* Em **375px**: gutter de 11.2px em cada lado → ~352.5px de área útil.
+* Em **768px**: gutter de 38.4px em cada lado → ~691.2px de área útil.
+* Em **1200px**: gutter de 60px em cada lado → ~1080px de área útil.
 * Em **1920px**: gutter de 192px em cada lado → ~1536px de área útil.
 * Em **2560px**: gutter de 256px em cada lado → ~2048px de área útil.
 * Em **3840px (4K)**: gutter de 384px em cada lado → ~3072px de área útil.
@@ -170,11 +186,41 @@ Cada seção principal possui um ID HTML exclusivo e semântico:
 ## 14. Exceção Protegida: `#ciclo-operacional`
 * **Regra de Negócio:** A seção `#ciclo-operacional` existente no `waybit-home-vision` é uma área protegida.
 * **O que foi preservado:** O título *"Tudo o que sua empresa precisa para operar sem atritos"*, a ilustração [`public/Diag-ciclo.png`](file:///c:/Users/FAB-RGoncalves/Projetos%20GitHub/waybit-home-vision/public/Diag-ciclo.png), a órbita do foguete Lucide e a estrutura conceitual.
-* **O que foi adaptado:** O container externo, substituindo o antigo `max-w-7xl` pelo sistema global `.fluid-container` (`3% / 5% / 10%`), permitindo expansão fluida em telas amplas mantendo o diagrama com limite visual próprio (`max-w-[500px]`) para não desproporcionar.
+* **O que foi adaptado:** O container externo, integrado ao sistema global `.fluid-container` (`3% / 5% / 10%`), permitindo expansão fluida em telas amplas mantendo o diagrama com limite visual próprio (`max-w-[500px]`) para não desproporcionar.
 
 ---
 
-## 15. Boas Práticas para Novas Seções
+## 15. Exceção Validada: `#solucoes-segmentos` (Interpolação Fluida)
+* **Regra de Negócio:** A seção `#solucoes-segmentos` possui comportamento responsivo específico validado e não deve ser substituída por regras genéricas.
+* **Distribuição dos Cards:**
+  * **`>= 960px`:** Grade `3 + 2` (Linha 1: Varejo, Auto-center, Food; Linha 2: Xpert e Certbit centralizados).
+  * **`540px` até `959px`:** Grade `2 + 1 + 2` (Linha 1: Varejo \| Auto-center; Linha 2: Food centralizado com largura de 1 coluna; Linha 3: Xpert \| Certbit).
+  * **`< 540px`:** 1 coluna (5 cards empilhados).
+* **Wrapper com Interpolação Fluida Contínua (80% → 100%):**
+  * Ao entrar em uma nova faixa de menos colunas, o wrapper dos cards inicia em ~`80%` da largura útil (evitando cards desnecessariamente largos).
+  * Conforme a tela diminui dentro daquela faixa, o wrapper expande progressivamente até `100%`:
+    * `>= 1440px`: `80%` fixo centralizado.
+    * `1439px → 960px`: cresce fluidamente de `80%` até `100%`.
+    * `959px → 540px`: cresce fluidamente de `80%` até `100%`.
+    * `539px → 375px`: cresce fluidamente de `80%` até `100%`.
+    * `< 375px`: `100%` fixo.
+  * **Nota Crítica:** Essa interpolação pertence exclusivamente a esta seção e **não** é uma regra global.
+
+---
+
+## 16. Diretrizes para Exceções Responsivas Locais
+1. **Regra de Prioridade:** Os breakpoints globais (`540px`, `960px`, `1440px`) devem ser sempre a primeira opção.
+2. **Critério de Exceção:** Somente introduza um breakpoint ou layout local quando houver um problema visual ou de composição comprovado (legibilidade, proporção, compressão de conteúdo ou quebras ruins).
+3. **Documentação Local Obrigatória:** Quando uma seção possuir comportamento diferente do padrão global, a justificativa deve ser documentada em comentário diretamente no código da seção contendo:
+   * **Qual é a exceção:** Descrição da regra customizada.
+   * **Breakpoint / Comportamento utilizado:** Valores e regras locais.
+   * **Comportamento global padrão:** O que seria aplicado naturalmente.
+   * **Justificativa:** O motivo específico pelo qual o comportamento global foi insuficiente.
+   * **O que deve ser preservado:** Requisitos visuais e funcionais críticos.
+
+---
+
+## 17. Boas Práticas para Novas Seções
 Ao criar novos blocos ou seções:
 1. Sempre use a estrutura:
    ```tsx

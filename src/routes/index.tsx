@@ -1060,10 +1060,25 @@ function Index() {
         </section>
 
         {/* ========================================================================= */}
-        {/* SECTION: 5. SOLUÇÕES E SEGMENTOS WAYBIT (GRADE 3 + 2 SAAS CLEAN)           */}
+        {/* SECTION: 5. SOLUÇÕES E SEGMENTOS WAYBIT                                   */}
         {/* ========================================================================= */}
+        {/*
+          RESPONSIVE EXCEPTION: #solucoes-segmentos
+          - Exceção: Interpolação fluida contínua (80% -> 100%) no wrapper dos cards e
+            grade com distribuição assimétrica 3+2 (>=960px) e 2+1(centralizado)+2 (540-959px).
+          - Breakpoints utilizados:
+            * >= 960px: grade 3 + 2, wrapper interpola de 80% (1439px) a 100% (960px). Acima de 1440px: 80% fixo.
+            * 540px a 959px: grade 2 + 1 (centralizado) + 2, wrapper interpola de 80% (959px) a 100% (540px).
+            * < 540px: 1 coluna, wrapper interpola de 80% (539px) a 100% (375px). < 375px: 100% fixo.
+          - Comportamento Global Padrão: Elementos utilizam 100% da largura útil do fluid-container.
+          - Justificativa: Ao reduzir colunas (de 3 para 2, ou de 2 para 1), os cards ganham grande espaço
+            horizontal. O wrapper a ~80% no início de cada faixa evita cards desproporcionalmente largos,
+            crescendo até 100% conforme a tela estreita.
+          - Preservar: Centralização horizontal (margin-inline: auto), larguras proporcionais dos cards e
+            Dominus Food centralizado na linha 2 com largura de exatamente 1 coluna.
+        */}
         <section id="solucoes-segmentos" className="py-12 sm:py-16 lg:py-24 bg-surface-subtle border-t border-border relative overflow-hidden w-full">
-          {/* Estilos locais de teste para interpolação contínua do wrapper dos cards */}
+          {/* Estilos locais para interpolação contínua do wrapper dos cards */}
           <style>{`
             #solucoes-segmentos .cards-fluid-wrapper {
               width: 100%;
@@ -1095,8 +1110,8 @@ function Index() {
             }
           `}</style>
 
-          {/* Container 100% fluido com gutter local de teste: <=539px -> 3%, 540px-1439px -> 5%, >=1440px -> 10% */}
-          <div className="w-full px-[3%] min-[540px]:px-[5%] min-[1440px]:px-[10%]">
+          {/* Container Global 100% Fluido com Gutter Unificado (3% <540px, 5% 540-1439px, 10% >=1440px) */}
+          <div className="fluid-container">
             <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14 lg:mb-16">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-primary mb-3 sm:mb-4 shadow-2xs">
                 <Sparkles size={13} className="text-primary" />

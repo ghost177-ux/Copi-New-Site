@@ -8,9 +8,9 @@
  * =========================================================================
  * DESIGN SYSTEM — WAYBIT HOME VISION
  * =========================================================================
- * 100% Fluido com Gutter Responsivo:
- * <= 769px: 3%
- * 770px - 1439px: 5%
+ * 100% Fluido com Gutter Responsivo Global:
+ * < 540px: 3%
+ * 540px - 1439px: 5%
  * >= 1440px: 10%
  * Sem max-width global nos containers principais.
  */
@@ -19,7 +19,7 @@
   --page-gutter: 3%;
 }
 
-@media (min-width: 770px) {
+@media (min-width: 540px) {
   :root {
     --page-gutter: 5%;
   }
@@ -32,6 +32,10 @@
 }
 
 @theme inline {
+  --breakpoint-base: 375px;
+  --breakpoint-medium: 540px;
+  --breakpoint-large: 960px;
+  --breakpoint-wide: 1440px;
   --font-display: "Rubik", "Manrope", sans-serif;
   --font-body: "Poppins", "Manrope", sans-serif;
   --font-sans: "Poppins", "Manrope", sans-serif;
