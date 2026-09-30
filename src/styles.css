@@ -283,34 +283,37 @@
   aspect-ratio: 1 / 1.05;
   margin-inline: auto;
   isolation: isolate;
+  overflow: visible;
 }
 
 @utility hero-outline-diamond {
   position: absolute;
   top: 4%;
-  left: 3%;
-  width: 89%;
-  height: 88%;
+  left: 5%;
+  width: 87%;
+  height: 86%;
   border: 2.5px solid #00ADEF;
   border-radius: clamp(28px, 4.8vw, 46px);
   transform: rotate(-2deg) skewX(-11deg);
   background: transparent;
   pointer-events: none;
   z-index: 5;
+  transition: border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @utility hero-main-diamond {
   position: absolute;
-  top: 17%;
-  left: 12%;
-  width: 82%;
-  height: 77%;
+  top: 13.5%;
+  left: 8.5%;
+  width: 85%;
+  height: 84.5%;
   background: #00ADEF;
   border-radius: clamp(24px, 4.2vw, 42px);
   transform: rotate(-3deg) skewX(-13deg);
   pointer-events: none;
   z-index: 10;
-  box-shadow: 0 16px 36px color-mix(in oklab, #00ADEF 20%, transparent);
+  box-shadow: 0 16px 36px rgba(0, 173, 239, 0.2);
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @utility hero-dec-diamond {
@@ -320,11 +323,13 @@
   transform: rotate(-3deg) skewX(-13deg);
   pointer-events: none;
   z-index: 15;
+  transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @utility hero-fade-layer {
-  transition: opacity 240ms cubic-bezier(0.2, 0, 0, 1), transform 240ms cubic-bezier(0.2, 0, 0, 1);
+  transition: opacity 220ms cubic-bezier(0.4, 0, 0.2, 1), transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
+  overflow: visible;
 }
 
 @media (min-width: 640px) {

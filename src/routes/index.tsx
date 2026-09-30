@@ -97,107 +97,105 @@ const segments = [
 
 type SegmentId = (typeof segments)[number]["id"];
 
-const segmentTheme: Record<
-  SegmentId,
-  {
-    textClass: string;
-    bgClass: string;
-    buttonTextClass: string;
-    color: string;
-  }
-> = {
-  food: {
-    textClass: "text-[#EF4444]",
-    bgClass: "bg-[#EF4444]",
-    buttonTextClass: "text-white",
-    color: "#EF4444",
-  },
+interface HeroThemeConfig {
+  id: SegmentId;
+  label: string;
+  descriptor: string;
+  accentColor: string;
+  textClass: string;
+  bgClass: string;
+  buttonTextClass: string;
+  image: string;
+  alt: string;
+  icons: [
+    { icon: React.ElementType; label: string; className: string },
+    { icon: React.ElementType; label: string; className: string },
+    { icon: React.ElementType; label: string; className: string },
+  ];
+}
+
+const heroThemes: Record<SegmentId, HeroThemeConfig> = {
   varejo: {
+    id: "varejo",
+    label: "VAREJO",
+    descriptor: "Lojas e comércio",
+    accentColor: "#00ADEF",
     textClass: "text-[#00ADEF]",
     bgClass: "bg-[#00ADEF]",
     buttonTextClass: "text-white",
-    color: "#00ADEF",
-  },
-  autocenter: {
-    textClass: "text-[#FFB800]",
-    bgClass: "bg-[#FFB800]",
-    buttonTextClass: "text-zinc-950",
-    color: "#FFB800",
-  },
-};
-
-const segmentVisuals: Record<
-  SegmentId,
-  {
-    image: string;
-    alt: string;
-    icons: [
-      { icon: React.ElementType; label: string; className: string },
-      { icon: React.ElementType; label: string; className: string },
-      { icon: React.ElementType; label: string; className: string },
-    ];
-  }
-> = {
-  varejo: {
     image: varejoImage,
     alt: "Empreendedora do segmento de varejo segurando equipamentos e material de trabalho",
     icons: [
       {
         icon: ShoppingCart,
         label: "Carrinho de compras",
-        className: "top-[6%] right-[10%] sm:top-[7%] sm:right-[11%]",
+        className: "top-[6%] right-[8%] sm:top-[7%] sm:right-[9%]",
       },
       {
         icon: ShoppingBag,
         label: "Sacola de compras",
-        className: "top-[20%] left-[3%] sm:top-[22%] sm:left-[4%]",
+        className: "top-[22%] left-[1%] sm:top-[24%] sm:left-[2%]",
       },
       {
         icon: Store,
         label: "Loja física",
-        className: "bottom-[24%] right-[3%] sm:bottom-[25%] sm:right-[4%]",
+        className: "bottom-[22%] right-[2%] sm:bottom-[23%] sm:right-[3%]",
       },
     ],
   },
   food: {
+    id: "food",
+    label: "FOOD",
+    descriptor: "Restaurantes e delivery",
+    accentColor: "#EF4444",
+    textClass: "text-[#EF4444]",
+    bgClass: "bg-[#EF4444]",
+    buttonTextClass: "text-white",
     image: foodImage,
     alt: "Chef e empreendedor da gastronomia representando o segmento Food",
     icons: [
       {
         icon: UtensilsCrossed,
         label: "Talheres de restaurante",
-        className: "top-[6%] right-[10%] sm:top-[7%] sm:right-[11%]",
+        className: "top-[6%] right-[8%] sm:top-[7%] sm:right-[9%]",
       },
       {
         icon: Coffee,
         label: "Café e bebidas",
-        className: "top-[20%] left-[3%] sm:top-[22%] sm:left-[4%]",
+        className: "top-[22%] left-[1%] sm:top-[24%] sm:left-[2%]",
       },
       {
         icon: ChefHat,
         label: "Chapéu de chef",
-        className: "bottom-[24%] right-[3%] sm:bottom-[25%] sm:right-[4%]",
+        className: "bottom-[22%] right-[2%] sm:bottom-[23%] sm:right-[3%]",
       },
     ],
   },
   autocenter: {
+    id: "autocenter",
+    label: "AUTOCENTER",
+    descriptor: "Oficinas e centros automotivos",
+    accentColor: "#FFB800",
+    textClass: "text-[#FFB800]",
+    bgClass: "bg-[#FFB800]",
+    buttonTextClass: "text-zinc-950",
     image: autocenterImage,
     alt: "Especialista automotivo representando o segmento Autocenter",
     icons: [
       {
         icon: Wrench,
         label: "Ferramenta mecânica",
-        className: "top-[6%] right-[10%] sm:top-[7%] sm:right-[11%]",
+        className: "top-[6%] right-[8%] sm:top-[7%] sm:right-[9%]",
       },
       {
         icon: Car,
         label: "Veículo automotivo",
-        className: "top-[20%] left-[3%] sm:top-[22%] sm:left-[4%]",
+        className: "top-[22%] left-[1%] sm:top-[24%] sm:left-[2%]",
       },
       {
         icon: Gauge,
         label: "Painel e velocímetro",
-        className: "bottom-[24%] right-[3%] sm:bottom-[25%] sm:right-[4%]",
+        className: "bottom-[22%] right-[2%] sm:bottom-[23%] sm:right-[3%]",
       },
     ],
   },
@@ -509,8 +507,7 @@ function Index() {
     }
   }
 
-  const currentSegment = segments.find((s) => s.id === displayedSegment) || segments[0];
-  const currentVisual = segmentVisuals[displayedSegment];
+  const currentTheme = heroThemes[displayedSegment];
 
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground flex flex-col justify-between selection:bg-primary/20">
@@ -530,14 +527,15 @@ function Index() {
             - Qual comportamento deve ser preservado: Alinhamento natural com a margem interna,
               sem quebras de layout ou overflow horizontal em nenhuma resolução (320px até 2560px). */}
         <section id="hero" className="hero-shell relative overflow-hidden w-full">
-          {/* Luzes difusas de fundo */}
+          {/* Luzes difusas de fundo com transição cromática suave */}
           <div
-            className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-700"
-            style={{ backgroundColor: segmentTheme[activeSegment].color }}
+            className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-500"
+            style={{ backgroundColor: currentTheme.accentColor }}
             aria-hidden="true"
           />
           <div
-            className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 bg-[#00ADEF]"
+            className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 transition-colors duration-500"
+            style={{ backgroundColor: currentTheme.accentColor }}
             aria-hidden="true"
           />
 
@@ -546,15 +544,24 @@ function Index() {
             <div className="relative z-20 w-full max-w-[640px] mx-auto lg:mx-0">
               <h1 className="font-display text-[clamp(1.95rem,5.5vw,3.75rem)] font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground max-w-[580px]">
                 A{" "}
-                <span className="text-[#00ADEF] transition-colors duration-300">
+                <span
+                  className="transition-colors duration-300"
+                  style={{ color: currentTheme.accentColor }}
+                >
                   rotina
                 </span>{" "}
                 da sua empresa{" "}
-                <span className="text-[#00ADEF] transition-colors duration-300">
+                <span
+                  className="transition-colors duration-300"
+                  style={{ color: currentTheme.accentColor }}
+                >
                   leve
                 </span>{" "}
                 e com menos{" "}
-                <span className="text-[#00ADEF] transition-colors duration-300">
+                <span
+                  className="transition-colors duration-300"
+                  style={{ color: currentTheme.accentColor }}
+                >
                   esforço
                 </span>
                 .
@@ -575,7 +582,7 @@ function Index() {
                 </label>
                 <div
                   className="search-shell transition-all duration-300 rounded-xl border-border/80 shadow-md shadow-black/[0.03] hover:border-border focus-within:shadow-lg"
-                  style={{ "--primary": "#00ADEF" } as React.CSSProperties}
+                  style={{ "--primary": currentTheme.accentColor } as React.CSSProperties}
                 >
                   <Search className="shrink-0 text-muted-foreground" size={20} aria-hidden="true" />
                   <input
@@ -589,7 +596,8 @@ function Index() {
                   />
                   <Button
                     type="submit"
-                    className="size-10 sm:size-11 rounded-lg p-0 transition-all duration-300 shadow-cta hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer shrink-0 bg-[#00ADEF] text-white"
+                    className={`size-10 sm:size-11 rounded-lg p-0 transition-all duration-300 shadow-cta hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer shrink-0 ${currentTheme.buttonTextClass}`}
+                    style={{ backgroundColor: currentTheme.accentColor }}
                     aria-label="Buscar segmento"
                   >
                     <ArrowRight size={18} />
@@ -618,9 +626,10 @@ function Index() {
                         onClick={() => chooseSegment(seg.id)}
                         className={`transition-all duration-300 ease-out cursor-pointer flex items-center justify-center relative ${
                           isActive
-                            ? "h-3 w-8 sm:w-10 rounded-full shadow-sm bg-[#00ADEF]"
+                            ? "h-3 w-8 sm:w-10 rounded-full shadow-sm"
                             : "size-2.5 rounded-full bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
                         }`}
+                        style={isActive ? { backgroundColor: currentTheme.accentColor } : undefined}
                         title={`Ir para segmento 0${idx + 1} - ${seg.label}`}
                         aria-label={`Slide 0${idx + 1} ${seg.label}${isActive ? " (ativo)" : ""}`}
                       />
@@ -632,7 +641,7 @@ function Index() {
 
             {/* COLUNA DIREITA: COMPOSIÇÃO GEOMÉTRICA DA HERO (PESSOA + LOSANGOS + ÍCONES) */}
             <div
-              className="relative w-full flex items-center justify-center py-2 sm:py-4 select-none"
+              className="relative w-full flex items-center justify-center py-2 sm:py-4 select-none overflow-visible"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
@@ -641,29 +650,44 @@ function Index() {
               <div
                 className="hero-visual-wrapper"
                 role="region"
-                aria-label={`Composição visual do segmento ${currentSegment.label}`}
+                aria-label={`Composição visual do segmento ${currentTheme.label}`}
               >
-                {/* 1. MOLDURA DE LOSANGO ATRÁS (DESLOCADA, APENAS BORDA AZUL) */}
-                <div className="hero-outline-diamond" aria-hidden="true" />
+                {/* 1. MOLDURA DE LOSANGO ATRÁS (DESLOCADA, APENAS BORDA DINÂMICA) */}
+                <div
+                  className="hero-outline-diamond"
+                  style={{ borderColor: currentTheme.accentColor }}
+                  aria-hidden="true"
+                />
 
-                {/* 2. LOSANGO PRINCIPAL (PREENCHIDO COM O AZUL DA IDENTIDADE) */}
-                <div className="hero-main-diamond" aria-hidden="true" />
+                {/* 2. LOSANGO PRINCIPAL (PREENCHIDO COM A COR DO SEGMENTO) */}
+                <div
+                  className="hero-main-diamond"
+                  style={{
+                    backgroundColor: currentTheme.accentColor,
+                    boxShadow: `0 16px 36px ${currentTheme.accentColor}33`,
+                  }}
+                  aria-hidden="true"
+                />
 
                 {/* 3. PEQUENOS LOSANGOS DECORATIVOS ESTRATEGICAMENTE ESPALHADOS */}
                 <span
-                  className="hero-dec-diamond top-[7%] left-[73%] size-3 sm:size-3.5"
+                  className="hero-dec-diamond top-[7%] left-[72%] size-3 sm:size-3.5"
+                  style={{ backgroundColor: currentTheme.accentColor }}
                   aria-hidden="true"
                 />
                 <span
-                  className="hero-dec-diamond top-[44%] left-[2%] size-2.5 sm:size-3"
+                  className="hero-dec-diamond top-[46%] left-[3%] size-2.5 sm:size-3"
+                  style={{ backgroundColor: currentTheme.accentColor }}
                   aria-hidden="true"
                 />
                 <span
-                  className="hero-dec-diamond bottom-[4%] left-[16%] size-3.5 sm:size-4"
+                  className="hero-dec-diamond bottom-[6%] left-[14%] size-3.5 sm:size-4"
+                  style={{ backgroundColor: currentTheme.accentColor }}
                   aria-hidden="true"
                 />
                 <span
-                  className="hero-dec-diamond bottom-[15%] right-[0%] size-3 sm:size-3.5"
+                  className="hero-dec-diamond bottom-[18%] right-[1%] size-3 sm:size-3.5"
+                  style={{ backgroundColor: currentTheme.accentColor }}
                   aria-hidden="true"
                 />
 
@@ -674,13 +698,14 @@ function Index() {
                   }`}
                   aria-live="polite"
                 >
-                  {/* 3 ÍCONES ESPECÍFICOS DO SEGMENTO */}
-                  {currentVisual.icons.map((item, index) => {
+                  {/* 3 ÍCONES ESPECÍFICOS DO SEGMENTO COM A COR DINÂMICA */}
+                  {currentTheme.icons.map((item, index) => {
                     const IconComponent = item.icon;
                     return (
                       <div
                         key={`${displayedSegment}-icon-${index}`}
-                        className={`absolute z-30 pointer-events-none flex items-center justify-center text-[#00ADEF] ${item.className}`}
+                        className={`absolute z-30 pointer-events-none flex items-center justify-center transition-colors duration-300 ${item.className}`}
+                        style={{ color: currentTheme.accentColor }}
                         aria-hidden="true"
                       >
                         <IconComponent
@@ -691,14 +716,17 @@ function Index() {
                     );
                   })}
 
-                  {/* IMAGEM DA PESSOA / REPRESENTANTE DO SEGMENTO */}
-                  <div className="absolute inset-0 z-20 flex items-end justify-center pointer-events-none">
+                  {/* IMAGEM DA PESSOA / BASE EXATAMENTE ALINHADA COM A BASE DO LOSANGO */}
+                  <div className="absolute inset-x-0 bottom-[1.5%] top-0 z-20 flex items-end justify-center pointer-events-none overflow-visible">
                     <img
-                      src={currentVisual.image}
-                      alt={currentVisual.alt}
+                      src={currentTheme.image}
+                      alt={currentTheme.alt}
                       width={389}
                       height={469}
-                      className="h-[96%] w-auto max-w-[92%] object-contain object-bottom select-none drop-shadow-[0_12px_24px_rgba(0,173,239,0.18)]"
+                      className="h-[95%] w-auto max-w-[91%] object-contain object-bottom select-none"
+                      style={{
+                        filter: `drop-shadow(0 12px 24px ${currentTheme.accentColor}2E)`,
+                      }}
                       loading="eager"
                     />
                   </div>
