@@ -12,11 +12,14 @@ import {
   CheckCircle2,
   Quote,
   ShoppingBag,
+  ShoppingCart,
   Store,
   Wrench,
+  Car,
   Gauge,
   Utensils,
   Coffee,
+  ChefHat,
   ShieldCheck,
   MessageSquare,
   Phone,
@@ -122,29 +125,67 @@ const segmentTheme: Record<
   },
 };
 
-const segmentDecorations: Record<
+interface SegmentIconItem {
+  icon: React.ElementType;
+  className: string;
+  motionClass: string;
+}
+
+const segmentContextualIcons: Record<
   SegmentId,
-  {
-    primaryTag: string;
-    primaryIcon: React.ElementType;
-    secondaryIcon: React.ElementType;
-  }
+  [SegmentIconItem, SegmentIconItem, SegmentIconItem]
 > = {
-  varejo: {
-    primaryTag: "Varejo & Comércio",
-    primaryIcon: ShoppingBag,
-    secondaryIcon: Store,
-  },
-  food: {
-    primaryTag: "Food & Gastronomia",
-    primaryIcon: Utensils,
-    secondaryIcon: Coffee,
-  },
-  autocenter: {
-    primaryTag: "Auto & Mecânica",
-    primaryIcon: Wrench,
-    secondaryIcon: Gauge,
-  },
+  varejo: [
+    {
+      icon: ShoppingBag,
+      className: "top-[4%] -right-2 sm:-right-4",
+      motionClass: "hero-ambient-float",
+    },
+    {
+      icon: Store,
+      className: "top-[36%] -left-2 sm:-left-4",
+      motionClass: "",
+    },
+    {
+      icon: ShoppingCart,
+      className: "bottom-[16%] -right-1 sm:-right-3",
+      motionClass: "hero-ambient-pulse",
+    },
+  ],
+  food: [
+    {
+      icon: Utensils,
+      className: "top-[4%] -right-2 sm:-right-4",
+      motionClass: "hero-ambient-float",
+    },
+    {
+      icon: Coffee,
+      className: "top-[36%] -left-2 sm:-left-4",
+      motionClass: "",
+    },
+    {
+      icon: ChefHat,
+      className: "bottom-[16%] -right-1 sm:-right-3",
+      motionClass: "hero-ambient-pulse",
+    },
+  ],
+  autocenter: [
+    {
+      icon: Wrench,
+      className: "top-[4%] -right-2 sm:-right-4",
+      motionClass: "hero-ambient-float",
+    },
+    {
+      icon: Car,
+      className: "top-[36%] -left-2 sm:-left-4",
+      motionClass: "",
+    },
+    {
+      icon: Gauge,
+      className: "bottom-[16%] -right-1 sm:-right-3",
+      motionClass: "hero-ambient-pulse",
+    },
+  ],
 };
 
 const AUTO_ROTATE_MS = 5500;
@@ -212,6 +253,104 @@ function Index() {
   const [specialistOpen, setSpecialistOpen] = useState(false);
   const casesCarouselRef = useRef<HTMLDivElement>(null);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
+
+  // Refs de performance para Parallax e Tilt sem causar re-render no React
+  const heroRef = useRef<HTMLElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const targetX = useRef(0);
+  const targetY = useRef(0);
+  const currentX = useRef(0);
+  const currentY = useRef(0);
+  const rafId = useRef<number | null>(null);
+
+  // Parallax suave e Tilt do card ativo via requestAnimationFrame e CSS Custom Properties
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    const sceneEl = sceneRef.current;
+    if (!heroEl || !sceneEl) return;
+
+    // Acessibilidade: respeitar preferência por redução de movimento
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let isRunning = false;
+
+    const updateParallax = () => {
+      // Lerp suave (fator 0.08) para amortecimento fluido e orgânico
+      currentX.current += (targetX.current - currentX.current) * 0.08;
+      currentY.current += (targetY.current - currentY.current) * 0.08;
+
+      const diffX = Math.abs(targetX.current - currentX.current);
+      const diffY = Math.abs(targetY.current - currentY.current);
+
+      // Injeta variáveis CSS diretamente na ref da cena — ZERO re-renders React
+      sceneEl.style.setProperty("--parallax-x", currentX.current.toFixed(4));
+      sceneEl.style.setProperty("--parallax-y", currentY.current.toFixed(4));
+      // Tilt sutil nos eixos X e Y limitado estritamente a ~1.8deg
+      sceneEl.style.setProperty("--tilt-x", `${(currentY.current * -1.8).toFixed(3)}deg`);
+      sceneEl.style.setProperty("--tilt-y", `${(currentX.current * 2.0).toFixed(3)}deg`);
+
+      // Continua interpolando enquanto houver movimento pendente
+      if (
+        diffX > 0.0005 ||
+        diffY > 0.0005 ||
+        Math.abs(currentX.current) > 0.0005 ||
+        Math.abs(currentY.current) > 0.0005
+      ) {
+        rafId.current = requestAnimationFrame(updateParallax);
+      } else {
+        isRunning = false;
+        // Posição neutra perfeita ao retornar
+        if (targetX.current === 0 && targetY.current === 0) {
+          sceneEl.style.setProperty("--parallax-x", "0");
+          sceneEl.style.setProperty("--parallax-y", "0");
+          sceneEl.style.setProperty("--tilt-x", "0deg");
+          sceneEl.style.setProperty("--tilt-y", "0deg");
+        }
+      }
+    };
+
+    const startRaf = () => {
+      if (!isRunning) {
+        isRunning = true;
+        rafId.current = requestAnimationFrame(updateParallax);
+      }
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      // Em touch, ignora mousemove para manter a rolagem e o swipe naturais
+      if (e.pointerType === "touch") return;
+
+      const rect = heroEl.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      // Normalizado de -1 a 1 em relação ao centro da Hero
+      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+      targetX.current = Math.max(-1, Math.min(1, nx));
+      targetY.current = Math.max(-1, Math.min(1, ny));
+      startRaf();
+    };
+
+    const handlePointerLeave = () => {
+      // Retorno suave e sem salto ao centro neutro (0,0)
+      targetX.current = 0;
+      targetY.current = 0;
+      startRaf();
+    };
+
+    heroEl.addEventListener("pointermove", handlePointerMove);
+    heroEl.addEventListener("pointerleave", handlePointerLeave);
+
+    return () => {
+      heroEl.removeEventListener("pointermove", handlePointerMove);
+      heroEl.removeEventListener("pointerleave", handlePointerLeave);
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
+    };
+  }, []);
 
   const handleCasesScroll = useCallback(() => {
     if (!casesCarouselRef.current) return;
@@ -437,7 +576,7 @@ function Index() {
         {/* ========================================================================= */}
         {/* SECTION: HERO                                                             */}
         {/* ========================================================================= */}
-        <section id="hero" className="hero-shell relative overflow-hidden">
+        <section id="hero" ref={heroRef} className="hero-shell relative overflow-hidden">
           {/* Ambient SaaS Glows */}
           <div
             className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-700"
@@ -510,11 +649,11 @@ function Index() {
                   />
                   <Button
                     type="submit"
-                    className={`size-10 sm:size-11 rounded-lg p-0 transition-all duration-300 shadow-cta hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer shrink-0 ${segmentTheme[activeSegment].bgClass} ${segmentTheme[activeSegment].buttonTextClass}`}
+                    className={`group size-10 sm:size-11 rounded-lg p-0 transition-all duration-200 shadow-cta hover:opacity-95 hover:scale-[1.03] active:scale-[0.97] cursor-pointer shrink-0 ${segmentTheme[activeSegment].bgClass} ${segmentTheme[activeSegment].buttonTextClass}`}
                     style={{ backgroundColor: segmentTheme[activeSegment].color }}
                     aria-label="Buscar segmento"
                   >
-                    <ArrowRight size={18} />
+                    <ArrowRight size={18} className="transition-transform duration-200 group-hover:translate-x-0.5" />
                   </Button>
                 </div>
                 <p id="segment-help" className="sr-only">
@@ -555,24 +694,25 @@ function Index() {
 
             {/* COLUNA DIREITA: CENA ROTATIVA COM OS 3 SEGMENTOS EM CAMADAS */}
             <div
+              ref={sceneRef}
               className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-none mx-auto py-2 sm:py-4 select-none"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
-              {/* Microelementos geométricos discretos de composição */}
+              {/* Microelementos geométricos discretos (sem confetes visuais) */}
               <div
-                className="pointer-events-none absolute -top-1 left-2 hidden sm:flex items-center gap-1.5 opacity-35"
+                className="pointer-events-none absolute -top-1.5 left-3 hidden sm:flex items-center gap-1.5 opacity-30 select-none"
                 aria-hidden="true"
               >
-                <span className="size-1 rounded-full bg-foreground/60" />
-                <span className="size-1 rounded-full bg-foreground/30" />
-                <span className="size-1 rounded-full bg-foreground/15" />
+                <span className="size-1 rounded-full bg-foreground/50" />
+                <span className="size-1 rounded-full bg-foreground/25" />
+                <span className="size-1 rounded-full bg-foreground/10" />
               </div>
 
               <div
-                className="pointer-events-none absolute bottom-7 -right-2 hidden lg:block opacity-35"
+                className="pointer-events-none absolute bottom-7 -right-2 hidden lg:block opacity-35 select-none"
                 aria-hidden="true"
               >
                 <div
@@ -581,46 +721,31 @@ function Index() {
                 />
               </div>
 
-              {/* Chip flutuante superior com ícone do segmento ativo */}
               <div
-                className="hero-float-slow pointer-events-none absolute -top-3 right-1 sm:-right-3 z-30 hidden sm:inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-background/90 dark:bg-card/90 backdrop-blur-md border border-border/80 shadow-md shadow-black/5 text-xs font-medium text-foreground transition-all duration-300"
+                className="pointer-events-none absolute top-14 -right-2 hidden lg:block opacity-25 select-none text-[11px] font-mono text-muted-foreground leading-none"
                 aria-hidden="true"
               >
-                <span
-                  className="size-2 rounded-full transition-colors duration-300 animate-pulse shrink-0"
-                  style={{ backgroundColor: segmentTheme[activeSegment].color }}
-                />
-                {(() => {
-                  const CurrentPrimaryIcon = segmentDecorations[activeSegment].primaryIcon;
-                  return (
-                    <CurrentPrimaryIcon
-                      size={13}
-                      className="shrink-0 transition-colors duration-300"
-                      style={{ color: segmentTheme[activeSegment].color }}
-                    />
-                  );
-                })()}
-                <span className="text-[0.72rem] sm:text-[0.74rem] font-semibold tracking-tight text-foreground/85">
-                  {segmentDecorations[activeSegment].primaryTag}
-                </span>
+                +
               </div>
 
-              {/* Micro-chip flutuante inferior com ícone secundário complementar */}
-              <div
-                className="hero-float-reverse pointer-events-none absolute bottom-10 -left-2 sm:-left-4 z-30 hidden md:inline-flex items-center justify-center size-8 sm:size-9 rounded-xl bg-background/90 dark:bg-card/90 backdrop-blur-md border border-border/80 shadow-sm shadow-black/5 transition-all duration-300"
-                aria-hidden="true"
-              >
-                {(() => {
-                  const CurrentSecondaryIcon = segmentDecorations[activeSegment].secondaryIcon;
-                  return (
-                    <CurrentSecondaryIcon
-                      size={15}
-                      className="shrink-0 transition-colors duration-300"
+              {/* 3 Ícones contextuais do segmento ativo (sem textos, badges ou cápsulas) */}
+              {segmentContextualIcons[activeSegment].map((item, idx) => {
+                const IconComp = item.icon;
+                return (
+                  <div
+                    key={`${activeSegment}-icon-${idx}`}
+                    className={`scene-context-icon size-8 sm:size-9 hidden sm:flex ${item.className} ${item.motionClass}`}
+                    aria-hidden="true"
+                  >
+                    <IconComp
+                      size={16}
+                      strokeWidth={1.8}
+                      className="transition-colors duration-300"
                       style={{ color: segmentTheme[activeSegment].color }}
                     />
-                  );
-                })()}
-              </div>
+                  </div>
+                );
+              })}
 
               <div
                 className={`scene scene-${activeSegment}-active`}

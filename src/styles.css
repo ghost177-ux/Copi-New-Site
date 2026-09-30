@@ -341,12 +341,17 @@
   }
 }
 
-/* Card ativo: em primeiro plano, profundidade refinada e iluminação sutil de borda */
+/* Card ativo: em primeiro plano, profundidade refinada e micro-tilt/parallax sutil */
 @utility scene-card-active {
   z-index: 20;
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(0) scale(1) rotate(0deg);
+  transform: translate3d(
+      calc(var(--parallax-x, 0) * 5px),
+      calc(var(--parallax-y, 0) * 4px),
+      0
+    )
+    rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   box-shadow:
     0 1px 3px color-mix(in oklab, var(--foreground) 8%, transparent),
     0 12px 28px -4px color-mix(in oklab, var(--foreground) 16%, transparent),
@@ -355,36 +360,56 @@
     0 14px 38px -6px color-mix(in oklab, var(--card-color, var(--primary)) 32%, transparent);
 }
 
-/* Card próximo: rotacionado à direita no fundo com profundidade aprimorada */
+/* Card próximo: rotacionado à direita no fundo com micro-parallax sutil */
 @utility scene-card-next {
   z-index: 10;
   opacity: 0.62;
   pointer-events: auto;
-  transform: translateX(18%) translateY(3%) scale(0.89) rotate(3deg);
+  transform: translate3d(
+      calc(18% + var(--parallax-x, 0) * 2.5px),
+      calc(3% + var(--parallax-y, 0) * 2px),
+      0
+    )
+    scale(0.89) rotate(3deg);
   filter: brightness(0.90) saturate(0.82);
   box-shadow:
     0 16px 36px color-mix(in oklab, var(--foreground) 14%, transparent),
     0 8px 20px color-mix(in oklab, var(--card-color, var(--primary)) 20%, transparent);
   &:hover {
     opacity: 0.95;
-    transform: translateX(15%) translateY(2%) scale(0.92) rotate(2deg);
+    transform: translate3d(
+        calc(15% + var(--parallax-x, 0) * 2.5px),
+        calc(2% + var(--parallax-y, 0) * 2px),
+        0
+      )
+      scale(0.92) rotate(2deg);
     filter: brightness(1) saturate(1);
   }
 }
 
-/* Card anterior: rotacionado à esquerda no fundo com profundidade aprimorada */
+/* Card anterior: rotacionado à esquerda no fundo com micro-parallax sutil */
 @utility scene-card-prev {
   z-index: 8;
   opacity: 0.62;
   pointer-events: auto;
-  transform: translateX(-18%) translateY(3%) scale(0.89) rotate(-3deg);
+  transform: translate3d(
+      calc(-18% + var(--parallax-x, 0) * 2.5px),
+      calc(3% + var(--parallax-y, 0) * 2px),
+      0
+    )
+    scale(0.89) rotate(-3deg);
   filter: brightness(0.90) saturate(0.82);
   box-shadow:
     0 16px 36px color-mix(in oklab, var(--foreground) 14%, transparent),
     0 8px 20px color-mix(in oklab, var(--card-color, var(--primary)) 20%, transparent);
   &:hover {
     opacity: 0.95;
-    transform: translateX(-15%) translateY(2%) scale(0.92) rotate(-2deg);
+    transform: translate3d(
+        calc(-15% + var(--parallax-x, 0) * 2.5px),
+        calc(2% + var(--parallax-y, 0) * 2px),
+        0
+      )
+      scale(0.92) rotate(-2deg);
     filter: brightness(1) saturate(1);
   }
 }
@@ -474,37 +499,78 @@
   pointer-events: none;
 }
 
+/* Ícones contextuais do segmento (line icons no plano frontal) */
+@utility scene-context-icon {
+  position: absolute;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: color-mix(in oklab, var(--background) 86%, transparent);
+  backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in oklab, var(--border) 75%, transparent);
+  box-shadow: 0 4px 14px color-mix(in oklab, var(--foreground) 6%, transparent);
+  pointer-events: none;
+  transition: opacity 300ms ease, border-color 300ms ease, box-shadow 300ms ease;
+  transform: translate3d(
+    calc(var(--parallax-x, 0) * -6px),
+    calc(var(--parallax-y, 0) * -5px),
+    0
+  );
+}
+
 /* Microanimações sutis da Hero (calmas e leves) */
-@keyframes hero-float-slow {
+@keyframes hero-ambient-float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translate3d(
+      calc(var(--parallax-x, 0) * -6px),
+      calc(var(--parallax-y, 0) * -5px),
+      0
+    );
   }
   50% {
-    transform: translateY(-3.5px);
+    transform: translate3d(
+      calc(var(--parallax-x, 0) * -6px),
+      calc(var(--parallax-y, 0) * -5px - 2.5px),
+      0
+    );
   }
 }
 
-@keyframes hero-float-reverse {
+@keyframes hero-ambient-pulse {
   0%, 100% {
-    transform: translateY(0px);
+    opacity: 0.72;
   }
   50% {
-    transform: translateY(3px);
+    opacity: 0.98;
   }
 }
 
-@utility hero-float-slow {
-  animation: hero-float-slow 7s ease-in-out infinite;
+@utility hero-ambient-float {
+  animation: hero-ambient-float 6.5s ease-in-out infinite;
 }
 
-@utility hero-float-reverse {
-  animation: hero-float-reverse 8s ease-in-out infinite;
+@utility hero-ambient-pulse {
+  animation: hero-ambient-pulse 7s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-float-slow,
-  .hero-float-reverse {
+  .hero-ambient-float,
+  .hero-ambient-pulse {
     animation: none !important;
+  }
+  .scene-card-active,
+  .scene-card-next,
+  .scene-card-prev,
+  .scene-context-icon {
+    transform: none !important;
+  }
+  .scene-card-next {
+    transform: translateX(18%) translateY(3%) scale(0.89) rotate(3deg) !important;
+  }
+  .scene-card-prev {
+    transform: translateX(-18%) translateY(3%) scale(0.89) rotate(-3deg) !important;
   }
 }
 
