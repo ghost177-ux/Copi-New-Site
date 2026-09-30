@@ -1063,6 +1063,38 @@ function Index() {
         {/* SECTION: 5. SOLUÇÕES E SEGMENTOS WAYBIT (GRADE 3 + 2 SAAS CLEAN)           */}
         {/* ========================================================================= */}
         <section id="solucoes-segmentos" className="py-12 sm:py-16 lg:py-24 bg-surface-subtle border-t border-border relative overflow-hidden w-full">
+          {/* Estilos locais de teste para interpolação contínua do wrapper dos cards */}
+          <style>{`
+            #solucoes-segmentos .cards-fluid-wrapper {
+              width: 100%;
+              margin-inline: auto;
+            }
+            @media (min-width: 375px) and (max-width: 539.98px) {
+              #solucoes-segmentos .cards-fluid-wrapper {
+                /* Faixa 4 (375px a 539px): cresce de 80% em 539px até 100% em 375px */
+                width: clamp(80%, calc(100% + 230.73px - 61.53vw), 100%);
+              }
+            }
+            @media (min-width: 540px) and (max-width: 959.98px) {
+              #solucoes-segmentos .cards-fluid-wrapper {
+                /* Faixa 3 (540px a 959px): cresce de 80% em 959px até 100% em 540px */
+                width: clamp(80%, calc(100% + 222.16px - 41.14vw), 100%);
+              }
+            }
+            @media (min-width: 960px) and (max-width: 1439.98px) {
+              #solucoes-segmentos .cards-fluid-wrapper {
+                /* Faixa 2 (960px a 1439px): cresce de 80% em 1439px até 100% em 960px */
+                width: clamp(80%, calc(100% + 518.4px - 54vw), 100%);
+              }
+            }
+            @media (min-width: 1440px) {
+              #solucoes-segmentos .cards-fluid-wrapper {
+                /* Faixa 1 (>= 1440px): 80% fixo centralizado */
+                width: 80%;
+              }
+            }
+          `}</style>
+
           {/* Container 100% fluido com gutter local de teste: <=539px -> 3%, 540px-1439px -> 5%, >=1440px -> 10% */}
           <div className="w-full px-[3%] min-[540px]:px-[5%] min-[1440px]:px-[10%]">
             <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14 lg:mb-16">
@@ -1082,19 +1114,22 @@ function Index() {
               </p>
             </div>
 
-            {/* Grade Responsiva Adaptativa: <=539px (1 col), 540px-959px (2 + 1 centralizado + 2), >=960px (3 + 2 centralizados) */}
-            <div className="grid grid-cols-1 min-[540px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
-              {waybitAllSolutions.map((item) => (
-                <div
-                  key={item.id}
-                  className={`${solutionGridPositions[item.id] || "col-span-1"} flex flex-col h-full`}
-                >
-                  <SolutionCard
-                    item={item}
-                    onOpenSpecialist={() => setSpecialistOpen(true)}
-                  />
-                </div>
-              ))}
+            {/* Wrapper dos cards com interpolação fluida contínua e centralização */}
+            <div className="cards-fluid-wrapper mx-auto">
+              {/* Grade Responsiva Adaptativa: <=539px (1 col), 540px-959px (2 + 1 centralizado + 2), >=960px (3 + 2 centralizados) */}
+              <div className="grid grid-cols-1 min-[540px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
+                {waybitAllSolutions.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`${solutionGridPositions[item.id] || "col-span-1"} flex flex-col h-full`}
+                  >
+                    <SolutionCard
+                      item={item}
+                      onOpenSpecialist={() => setSpecialistOpen(true)}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
