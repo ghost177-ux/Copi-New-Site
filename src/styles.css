@@ -287,13 +287,13 @@
 
 @utility hero-outline-diamond {
   position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 86%;
+  top: 4%;
+  left: 3%;
+  width: 89%;
   height: 88%;
   border: 2.5px solid #00ADEF;
-  border-radius: clamp(28px, 5vw, 48px);
-  transform: rotate(8deg) skewX(-12deg);
+  border-radius: clamp(28px, 4.8vw, 46px);
+  transform: rotate(-2deg) skewX(-11deg);
   background: transparent;
   pointer-events: none;
   z-index: 5;
@@ -301,23 +301,23 @@
 
 @utility hero-main-diamond {
   position: absolute;
-  top: 16%;
+  top: 17%;
   left: 12%;
   width: 82%;
-  height: 80%;
+  height: 77%;
   background: #00ADEF;
-  border-radius: clamp(24px, 4.5vw, 44px);
-  transform: rotate(10deg) skewX(-14deg);
+  border-radius: clamp(24px, 4.2vw, 42px);
+  transform: rotate(-3deg) skewX(-13deg);
   pointer-events: none;
   z-index: 10;
-  box-shadow: 0 16px 36px color-mix(in oklab, #00ADEF 22%, transparent);
+  box-shadow: 0 16px 36px color-mix(in oklab, #00ADEF 20%, transparent);
 }
 
 @utility hero-dec-diamond {
   position: absolute;
   background: #00ADEF;
-  border-radius: 4px;
-  transform: rotate(10deg) skewX(-14deg);
+  border-radius: 3px;
+  transform: rotate(-3deg) skewX(-13deg);
   pointer-events: none;
   z-index: 15;
 }
