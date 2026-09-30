@@ -1081,8 +1081,8 @@ function Index() {
               </p>
             </div>
 
-            {/* Grade Responsiva Adaptativa: <580px (1 col), 580px-1024px (2 + 1 centralizado + 2), >1024px (3 + 2 centralizados) */}
-            <div className="grid grid-cols-1 min-[580px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
+            {/* Grade Responsiva Adaptativa: <530px (1 col), 530px-1024px (2 + 1 centralizado + 2), >1024px (3 + 2 centralizados) */}
+            <div className="grid grid-cols-1 min-[530px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
               {waybitAllSolutions.map((item) => (
                 <div
                   key={item.id}
@@ -1408,15 +1408,15 @@ const waybitAllSolutions: WaybitSolutionItem[] = [
 
 const solutionGridPositions: Record<string, string> = {
   varejo:
-    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-1",
+    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-1",
   autocenter:
-    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-5",
+    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-5",
   food:
-    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-4 min-[1025px]:col-span-4 min-[1025px]:col-start-9",
+    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-4 min-[1025px]:col-span-4 min-[1025px]:col-start-9",
   xpert:
-    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-3",
+    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-3",
   certbit:
-    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-7",
+    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-7",
 };
 
 const segmentHoverTitleClass: Record<string, string> = {
