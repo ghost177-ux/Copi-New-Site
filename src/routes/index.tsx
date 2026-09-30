@@ -1063,7 +1063,8 @@ function Index() {
         {/* SECTION: 5. SOLUÇÕES E SEGMENTOS WAYBIT (GRADE 3 + 2 SAAS CLEAN)           */}
         {/* ========================================================================= */}
         <section id="solucoes-segmentos" className="py-12 sm:py-16 lg:py-24 bg-surface-subtle border-t border-border relative overflow-hidden w-full">
-          <div className="fluid-container">
+          {/* Container 100% fluido com gutter local de teste: <=539px -> 3%, 540px-1439px -> 5%, >=1440px -> 10% */}
+          <div className="w-full px-[3%] min-[540px]:px-[5%] min-[1440px]:px-[10%]">
             <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14 lg:mb-16">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-primary mb-3 sm:mb-4 shadow-2xs">
                 <Sparkles size={13} className="text-primary" />
@@ -1081,8 +1082,8 @@ function Index() {
               </p>
             </div>
 
-            {/* Grade Responsiva Adaptativa: <530px (1 col), 530px-1024px (2 + 1 centralizado + 2), >1024px (3 + 2 centralizados) */}
-            <div className="grid grid-cols-1 min-[530px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
+            {/* Grade Responsiva Adaptativa: <=539px (1 col), 540px-959px (2 + 1 centralizado + 2), >=960px (3 + 2 centralizados) */}
+            <div className="grid grid-cols-1 min-[540px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
               {waybitAllSolutions.map((item) => (
                 <div
                   key={item.id}
@@ -1408,15 +1409,15 @@ const waybitAllSolutions: WaybitSolutionItem[] = [
 
 const solutionGridPositions: Record<string, string> = {
   varejo:
-    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-1",
+    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-1 min-[960px]:col-span-4 min-[960px]:col-start-1",
   autocenter:
-    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-5",
+    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-7 min-[960px]:col-span-4 min-[960px]:col-start-5",
   food:
-    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-4 min-[1025px]:col-span-4 min-[1025px]:col-start-9",
+    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-4 min-[960px]:col-span-4 min-[960px]:col-start-9",
   xpert:
-    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-3",
+    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-1 min-[960px]:col-span-4 min-[960px]:col-start-3",
   certbit:
-    "col-span-1 min-[530px]:col-span-6 min-[530px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-7",
+    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-7 min-[960px]:col-span-4 min-[960px]:col-start-7",
 };
 
 const segmentHoverTitleClass: Record<string, string> = {
