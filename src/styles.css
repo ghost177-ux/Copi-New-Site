@@ -341,71 +341,52 @@
   }
 }
 
-/* Card ativo: em primeiro plano, destaque total */
+/* Card ativo: em primeiro plano, profundidade refinada e iluminação sutil de borda */
 @utility scene-card-active {
   z-index: 20;
   opacity: 1;
   pointer-events: auto;
   transform: translateX(0) scale(1) rotate(0deg);
   box-shadow:
-    0 24px 60px color-mix(in oklab, var(--foreground) 20%, transparent),
-    0 12px 30px color-mix(in oklab, var(--card-color, var(--primary)) 35%, transparent);
+    0 1px 3px color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 12px 28px -4px color-mix(in oklab, var(--foreground) 16%, transparent),
+    0 28px 60px -8px color-mix(in oklab, var(--foreground) 22%, transparent),
+    0 0 0 1px color-mix(in oklab, #ffffff 18%, transparent) inset,
+    0 14px 38px -6px color-mix(in oklab, var(--card-color, var(--primary)) 32%, transparent);
 }
 
-/* Card próximo: rotacionado à direita no fundo */
+/* Card próximo: rotacionado à direita no fundo com profundidade aprimorada */
 @utility scene-card-next {
   z-index: 10;
-  opacity: 0.65;
+  opacity: 0.62;
   pointer-events: auto;
-  transform: translateX(18%) translateY(3%) scale(0.9) rotate(3deg);
-  filter: brightness(0.92) saturate(0.85);
+  transform: translateX(18%) translateY(3%) scale(0.89) rotate(3deg);
+  filter: brightness(0.90) saturate(0.82);
   box-shadow:
     0 16px 36px color-mix(in oklab, var(--foreground) 14%, transparent),
-    0 8px 20px color-mix(in oklab, var(--card-color, var(--primary)) 25%, transparent);
+    0 8px 20px color-mix(in oklab, var(--card-color, var(--primary)) 20%, transparent);
   &:hover {
     opacity: 0.95;
-    transform: translateX(15%) translateY(2%) scale(0.93) rotate(2deg);
+    transform: translateX(15%) translateY(2%) scale(0.92) rotate(2deg);
     filter: brightness(1) saturate(1);
   }
 }
 
-/* Card anterior: rotacionado à esquerda no fundo */
+/* Card anterior: rotacionado à esquerda no fundo com profundidade aprimorada */
 @utility scene-card-prev {
   z-index: 8;
-  opacity: 0.65;
+  opacity: 0.62;
   pointer-events: auto;
-  transform: translateX(-18%) translateY(3%) scale(0.9) rotate(-3deg);
-  filter: brightness(0.92) saturate(0.85);
+  transform: translateX(-18%) translateY(3%) scale(0.89) rotate(-3deg);
+  filter: brightness(0.90) saturate(0.82);
   box-shadow:
     0 16px 36px color-mix(in oklab, var(--foreground) 14%, transparent),
-    0 8px 20px color-mix(in oklab, var(--card-color, var(--primary)) 25%, transparent);
+    0 8px 20px color-mix(in oklab, var(--card-color, var(--primary)) 20%, transparent);
   &:hover {
     opacity: 0.95;
-    transform: translateX(-15%) translateY(2%) scale(0.93) rotate(-2deg);
+    transform: translateX(-15%) translateY(2%) scale(0.92) rotate(-2deg);
     filter: brightness(1) saturate(1);
   }
-}
-
-@utility scene-highlight-badge {
-  position: absolute;
-  top: 1.25rem;
-  left: 1.25rem;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 9999px;
-  background: color-mix(in oklab, var(--foreground) 85%, transparent);
-  backdrop-filter: blur(8px);
-  color: #ffffff;
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  border: 1px solid color-mix(in oklab, #ffffff 25%, transparent);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 @utility scene-peek-pill {
@@ -481,15 +462,50 @@
 
 @utility scene-track {
   position: absolute;
-  inset: -12px;
+  inset: -14px;
   z-index: -1;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   background: repeating-linear-gradient(
     135deg,
     transparent 0 18px,
     color-mix(in oklab, var(--border) 45%, transparent) 18px 19px
   );
+  border: 1px dashed color-mix(in oklab, var(--border) 60%, transparent);
   pointer-events: none;
+}
+
+/* Microanimações sutis da Hero (calmas e leves) */
+@keyframes hero-float-slow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+@keyframes hero-float-reverse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+@utility hero-float-slow {
+  animation: hero-float-slow 7s ease-in-out infinite;
+}
+
+@utility hero-float-reverse {
+  animation: hero-float-reverse 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-float-slow,
+  .hero-float-reverse {
+    animation: none !important;
+  }
 }
 
 @utility scene-controls {

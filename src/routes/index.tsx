@@ -12,8 +12,11 @@ import {
   CheckCircle2,
   Quote,
   ShoppingBag,
+  Store,
   Wrench,
+  Gauge,
   Utensils,
+  Coffee,
   ShieldCheck,
   MessageSquare,
   Phone,
@@ -116,6 +119,31 @@ const segmentTheme: Record<
     bgClass: "bg-segment-auto",
     buttonTextClass: "text-zinc-950",
     color: "var(--segment-auto)",
+  },
+};
+
+const segmentDecorations: Record<
+  SegmentId,
+  {
+    primaryTag: string;
+    primaryIcon: React.ElementType;
+    secondaryIcon: React.ElementType;
+  }
+> = {
+  varejo: {
+    primaryTag: "Varejo & Comércio",
+    primaryIcon: ShoppingBag,
+    secondaryIcon: Store,
+  },
+  food: {
+    primaryTag: "Food & Gastronomia",
+    primaryIcon: Utensils,
+    secondaryIcon: Coffee,
+  },
+  autocenter: {
+    primaryTag: "Auto & Mecânica",
+    primaryIcon: Wrench,
+    secondaryIcon: Gauge,
   },
 };
 
@@ -420,6 +448,11 @@ function Index() {
             className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 bg-[#00ADEF]"
             aria-hidden="true"
           />
+          <div
+            className="pointer-events-none absolute top-1/2 right-[10%] -translate-y-1/2 -z-10 h-[420px] w-[420px] rounded-full blur-[110px] opacity-15 transition-colors duration-700 hidden lg:block"
+            style={{ backgroundColor: segmentTheme[activeSegment].color }}
+            aria-hidden="true"
+          />
 
           <div className="mx-auto grid max-w-[1440px] items-center gap-8 sm:gap-10 px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12 xl:px-12">
             {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
@@ -528,6 +561,67 @@ function Index() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
+              {/* Microelementos geométricos discretos de composição */}
+              <div
+                className="pointer-events-none absolute -top-1 left-2 hidden sm:flex items-center gap-1.5 opacity-35"
+                aria-hidden="true"
+              >
+                <span className="size-1 rounded-full bg-foreground/60" />
+                <span className="size-1 rounded-full bg-foreground/30" />
+                <span className="size-1 rounded-full bg-foreground/15" />
+              </div>
+
+              <div
+                className="pointer-events-none absolute bottom-7 -right-2 hidden lg:block opacity-35"
+                aria-hidden="true"
+              >
+                <div
+                  className="size-2 rounded-[1.5px] rotate-45 border transition-colors duration-500"
+                  style={{ borderColor: segmentTheme[activeSegment].color }}
+                />
+              </div>
+
+              {/* Chip flutuante superior com ícone do segmento ativo */}
+              <div
+                className="hero-float-slow pointer-events-none absolute -top-3 right-1 sm:-right-3 z-30 hidden sm:inline-flex items-center gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-background/90 dark:bg-card/90 backdrop-blur-md border border-border/80 shadow-md shadow-black/5 text-xs font-medium text-foreground transition-all duration-300"
+                aria-hidden="true"
+              >
+                <span
+                  className="size-2 rounded-full transition-colors duration-300 animate-pulse shrink-0"
+                  style={{ backgroundColor: segmentTheme[activeSegment].color }}
+                />
+                {(() => {
+                  const CurrentPrimaryIcon = segmentDecorations[activeSegment].primaryIcon;
+                  return (
+                    <CurrentPrimaryIcon
+                      size={13}
+                      className="shrink-0 transition-colors duration-300"
+                      style={{ color: segmentTheme[activeSegment].color }}
+                    />
+                  );
+                })()}
+                <span className="text-[0.72rem] sm:text-[0.74rem] font-semibold tracking-tight text-foreground/85">
+                  {segmentDecorations[activeSegment].primaryTag}
+                </span>
+              </div>
+
+              {/* Micro-chip flutuante inferior com ícone secundário complementar */}
+              <div
+                className="hero-float-reverse pointer-events-none absolute bottom-10 -left-2 sm:-left-4 z-30 hidden md:inline-flex items-center justify-center size-8 sm:size-9 rounded-xl bg-background/90 dark:bg-card/90 backdrop-blur-md border border-border/80 shadow-sm shadow-black/5 transition-all duration-300"
+                aria-hidden="true"
+              >
+                {(() => {
+                  const CurrentSecondaryIcon = segmentDecorations[activeSegment].secondaryIcon;
+                  return (
+                    <CurrentSecondaryIcon
+                      size={15}
+                      className="shrink-0 transition-colors duration-300"
+                      style={{ color: segmentTheme[activeSegment].color }}
+                    />
+                  );
+                })()}
+              </div>
+
               <div
                 className={`scene scene-${activeSegment}-active`}
                 aria-label="Slide rotativo dos segmentos atendidos pela Waybit"
@@ -570,13 +664,8 @@ function Index() {
                         loading="eager"
                       />
 
-                      {/* Badge de destaque individual no card ativo */}
-                      {isCurrent ? (
-                        <span className="scene-highlight-badge">
-                          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                          Em Destaque
-                        </span>
-                      ) : (
+                      {/* Badge nos cards de fundo (não exibido no card ativo para maior limpeza visual) */}
+                      {!isCurrent && (
                         <span className="scene-peek-pill">
                           0{index + 1} {segment.label}
                         </span>
