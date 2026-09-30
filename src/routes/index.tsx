@@ -1081,33 +1081,19 @@ function Index() {
               </p>
             </div>
 
-            {/* Grade 3 + 2 Minimalista e SaaS Clean */}
-            <div className="w-full flex flex-col gap-4 sm:gap-6">
-              {/* Linha Superior: 3 Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
-                {waybitTopSolutions.map((item) => (
+            {/* Grade Responsiva Adaptativa: <580px (1 col), 580px-1024px (2 + 1 centralizado + 2), >1024px (3 + 2 centralizados) */}
+            <div className="grid grid-cols-1 min-[580px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
+              {waybitAllSolutions.map((item) => (
+                <div
+                  key={item.id}
+                  className={`${solutionGridPositions[item.id] || "col-span-1"} flex flex-col h-full`}
+                >
                   <SolutionCard
-                    key={item.id}
                     item={item}
                     onOpenSpecialist={() => setSpecialistOpen(true)}
                   />
-                ))}
-              </div>
-
-              {/* Linha Inferior: 2 Cards Centralizados */}
-              <div className="flex flex-col sm:flex-row justify-center items-stretch gap-4 sm:gap-6">
-                {waybitBottomSolutions.map((item) => (
-                  <div
-                    key={item.id}
-                    className="w-full sm:w-[calc(50%-8px)] md:w-[calc(50%-12px)] lg:w-[calc((100%-48px)/3)] flex flex-col"
-                  >
-                    <SolutionCard
-                      item={item}
-                      onOpenSpecialist={() => setSpecialistOpen(true)}
-                    />
-                  </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -1414,6 +1400,24 @@ const waybitBottomSolutions: WaybitSolutionItem[] = [
     isExternal: true,
   },
 ];
+
+const waybitAllSolutions: WaybitSolutionItem[] = [
+  ...waybitTopSolutions,
+  ...waybitBottomSolutions,
+];
+
+const solutionGridPositions: Record<string, string> = {
+  varejo:
+    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-1",
+  autocenter:
+    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-5",
+  food:
+    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-4 min-[1025px]:col-span-4 min-[1025px]:col-start-9",
+  xpert:
+    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-1 min-[1025px]:col-span-4 min-[1025px]:col-start-3",
+  certbit:
+    "col-span-1 min-[580px]:col-span-6 min-[580px]:col-start-7 min-[1025px]:col-span-4 min-[1025px]:col-start-7",
+};
 
 const segmentHoverTitleClass: Record<string, string> = {
   varejo: "group-hover:text-[#3BBCEC]",
