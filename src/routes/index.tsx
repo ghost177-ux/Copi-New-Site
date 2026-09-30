@@ -12,14 +12,7 @@ import {
   CheckCircle2,
   Quote,
   ShoppingBag,
-  ShoppingCart,
-  Store,
-  UtensilsCrossed,
-  Coffee,
-  ChefHat,
   Wrench,
-  Car,
-  Gauge,
   Utensils,
   ShieldCheck,
   MessageSquare,
@@ -97,107 +90,32 @@ const segments = [
 
 type SegmentId = (typeof segments)[number]["id"];
 
-interface HeroThemeConfig {
-  id: SegmentId;
-  label: string;
-  descriptor: string;
-  accentColor: string;
-  textClass: string;
-  bgClass: string;
-  buttonTextClass: string;
-  image: string;
-  alt: string;
-  icons: [
-    { icon: React.ElementType; label: string; className: string },
-    { icon: React.ElementType; label: string; className: string },
-    { icon: React.ElementType; label: string; className: string },
-  ];
-}
-
-const heroThemes: Record<SegmentId, HeroThemeConfig> = {
-  varejo: {
-    id: "varejo",
-    label: "VAREJO",
-    descriptor: "Lojas e comércio",
-    accentColor: "#00ADEF",
-    textClass: "text-[#00ADEF]",
-    bgClass: "bg-[#00ADEF]",
-    buttonTextClass: "text-white",
-    image: varejoImage,
-    alt: "Empreendedora do segmento de varejo segurando equipamentos e material de trabalho",
-    icons: [
-      {
-        icon: ShoppingCart,
-        label: "Carrinho de compras",
-        className: "top-[6%] right-[8%] sm:top-[7%] sm:right-[9%]",
-      },
-      {
-        icon: ShoppingBag,
-        label: "Sacola de compras",
-        className: "top-[22%] left-[1%] sm:top-[24%] sm:left-[2%]",
-      },
-      {
-        icon: Store,
-        label: "Loja física",
-        className: "bottom-[22%] right-[2%] sm:bottom-[23%] sm:right-[3%]",
-      },
-    ],
-  },
+const segmentTheme: Record<
+  SegmentId,
+  {
+    textClass: string;
+    bgClass: string;
+    buttonTextClass: string;
+    color: string;
+  }
+> = {
   food: {
-    id: "food",
-    label: "FOOD",
-    descriptor: "Restaurantes e delivery",
-    accentColor: "#EF4444",
-    textClass: "text-[#EF4444]",
-    bgClass: "bg-[#EF4444]",
+    textClass: "text-segment-food",
+    bgClass: "bg-segment-food",
     buttonTextClass: "text-white",
-    image: foodImage,
-    alt: "Chef e empreendedor da gastronomia representando o segmento Food",
-    icons: [
-      {
-        icon: UtensilsCrossed,
-        label: "Talheres de restaurante",
-        className: "top-[6%] right-[8%] sm:top-[7%] sm:right-[9%]",
-      },
-      {
-        icon: Coffee,
-        label: "Café e bebidas",
-        className: "top-[22%] left-[1%] sm:top-[24%] sm:left-[2%]",
-      },
-      {
-        icon: ChefHat,
-        label: "Chapéu de chef",
-        className: "bottom-[22%] right-[2%] sm:bottom-[23%] sm:right-[3%]",
-      },
-    ],
+    color: "var(--segment-food)",
+  },
+  varejo: {
+    textClass: "text-segment-varejo",
+    bgClass: "bg-segment-varejo",
+    buttonTextClass: "text-white",
+    color: "var(--segment-varejo)",
   },
   autocenter: {
-    id: "autocenter",
-    label: "AUTOCENTER",
-    descriptor: "Oficinas e centros automotivos",
-    accentColor: "#FFB800",
-    textClass: "text-[#FFB800]",
-    bgClass: "bg-[#FFB800]",
+    textClass: "text-segment-auto",
+    bgClass: "bg-segment-auto",
     buttonTextClass: "text-zinc-950",
-    image: autocenterImage,
-    alt: "Especialista automotivo representando o segmento Autocenter",
-    icons: [
-      {
-        icon: Wrench,
-        label: "Ferramenta mecânica",
-        className: "top-[6%] right-[8%] sm:top-[7%] sm:right-[9%]",
-      },
-      {
-        icon: Car,
-        label: "Veículo automotivo",
-        className: "top-[22%] left-[1%] sm:top-[24%] sm:left-[2%]",
-      },
-      {
-        icon: Gauge,
-        label: "Painel e velocímetro",
-        className: "bottom-[22%] right-[2%] sm:bottom-[23%] sm:right-[3%]",
-      },
-    ],
+    color: "var(--segment-auto)",
   },
 };
 
@@ -261,32 +179,8 @@ const testimonialCases: TestimonialCase[] = [
 function Index() {
   const [query, setQuery] = useState("");
   const [activeSegment, setActiveSegment] = useState<SegmentId>("varejo");
-  const [displayedSegment, setDisplayedSegment] = useState<SegmentId>("varejo");
-  const [isFading, setIsFading] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [, setProgress] = useState(0);
-
-  // Transição coordenada com fade entre segmentos (imagem + 3 ícones)
-  useEffect(() => {
-    if (activeSegment !== displayedSegment) {
-      const prefersReducedMotion =
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      if (prefersReducedMotion) {
-        setDisplayedSegment(activeSegment);
-        setIsFading(false);
-        return;
-      }
-
-      setIsFading(true);
-      const timer = window.setTimeout(() => {
-        setDisplayedSegment(activeSegment);
-        setIsFading(false);
-      }, 200);
-      return () => window.clearTimeout(timer);
-    }
-  }, [activeSegment, displayedSegment]);
+  const [progress, setProgress] = useState(0);
   const [specialistOpen, setSpecialistOpen] = useState(false);
   const casesCarouselRef = useRef<HTMLDivElement>(null);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
@@ -507,60 +401,48 @@ function Index() {
     }
   }
 
-  const currentTheme = heroThemes[displayedSegment];
-
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground flex flex-col justify-between selection:bg-primary/20">
       <Header currentPath="/" />
 
       <main className="flex-1 w-full">
         {/* ========================================================================= */}
-        {/* SECTION: HERO COM COMPOSIÇÃO GEOMÉTRICA DE ALTA FIDELIDADE (WAYBIT BRAND)   */}
+        {/* SECTION: HERO                                                             */}
         {/* ========================================================================= */}
-        {/* EXCEÇÃO RESPONSIVA LOCAL DA HERO:
-            - Qual é a exceção: Uso de max-width local no .hero-visual-wrapper (440px -> 500px -> 560px -> 600px).
-            - Por que ela existe: Em telas ultrawide (1440px até 2560px), se a imagem e a geometria
-              crescessem livremente com a largura da coluna, perderiam proporção em relação ao texto à esquerda
-              e os ícones decorativos se afastariam excessivamente da pessoa.
-            - Qual problema resolve: Mantém a fidelidade visual à referência, garantindo harmonia estética,
-              proporção áurea entre colunas e densidade visual equilibrada em todas as resoluções.
-            - Qual comportamento deve ser preservado: Alinhamento natural com a margem interna,
-              sem quebras de layout ou overflow horizontal em nenhuma resolução (320px até 2560px). */}
-        <section id="hero" className="hero-shell relative overflow-hidden w-full">
-          {/* Luzes difusas de fundo com transição cromática suave */}
+        <section id="hero" className="hero-shell relative overflow-hidden">
+          {/* Ambient SaaS Glows */}
           <div
-            className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-500"
-            style={{ backgroundColor: currentTheme.accentColor }}
+            className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-700"
+            style={{ backgroundColor: segmentTheme[activeSegment].color }}
             aria-hidden="true"
           />
           <div
-            className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 transition-colors duration-500"
-            style={{ backgroundColor: currentTheme.accentColor }}
+            className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 bg-[#00ADEF]"
             aria-hidden="true"
           />
 
-          <div className="fluid-container py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] grid items-center gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="mx-auto grid max-w-[1440px] items-center gap-8 sm:gap-10 px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12 xl:px-12">
             {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
             <div className="relative z-20 w-full max-w-[640px] mx-auto lg:mx-0">
               <h1 className="font-display text-[clamp(1.95rem,5.5vw,3.75rem)] font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground max-w-[580px]">
                 A{" "}
                 <span
-                  className="transition-colors duration-300"
-                  style={{ color: currentTheme.accentColor }}
+                  className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
+                  style={{ color: segmentTheme[activeSegment].color }}
                 >
                   rotina
                 </span>{" "}
                 da sua empresa{" "}
                 <span
-                  className="transition-colors duration-300"
-                  style={{ color: currentTheme.accentColor }}
+                  className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
+                  style={{ color: segmentTheme[activeSegment].color }}
                 >
                   leve
                 </span>{" "}
                 e com menos{" "}
                 <span
-                  className="transition-colors duration-300"
-                  style={{ color: currentTheme.accentColor }}
+                  className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
+                  style={{ color: segmentTheme[activeSegment].color }}
                 >
                   esforço
                 </span>
@@ -568,11 +450,10 @@ function Index() {
               </h1>
 
               <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted-foreground font-normal leading-relaxed max-w-[520px]">
-                O ERP completo, ágil e intuitivo que descomplica seu controle de vendas, estoque e
-                obrigações fiscais com suporte de verdade.
+                O ERP completo, ágil e intuitivo que descomplica seu controle de vendas, estoque e obrigações fiscais com suporte de verdade.
               </p>
 
-              {/* FORMULÁRIO DE BUSCA */}
+              {/* FORMULÁRIO DE BUSCA OBRIGATÓRIO */}
               <form className="mt-6 sm:mt-8 max-w-xl" onSubmit={submitSearch}>
                 <label
                   htmlFor="segment-search"
@@ -582,7 +463,7 @@ function Index() {
                 </label>
                 <div
                   className="search-shell transition-all duration-300 rounded-xl border-border/80 shadow-md shadow-black/[0.03] hover:border-border focus-within:shadow-lg"
-                  style={{ "--primary": currentTheme.accentColor } as React.CSSProperties}
+                  style={{ "--primary": segmentTheme[activeSegment].color } as React.CSSProperties}
                 >
                   <Search className="shrink-0 text-muted-foreground" size={20} aria-hidden="true" />
                   <input
@@ -596,8 +477,8 @@ function Index() {
                   />
                   <Button
                     type="submit"
-                    className={`size-10 sm:size-11 rounded-lg p-0 transition-all duration-300 shadow-cta hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer shrink-0 ${currentTheme.buttonTextClass}`}
-                    style={{ backgroundColor: currentTheme.accentColor }}
+                    className={`size-10 sm:size-11 rounded-lg p-0 transition-all duration-300 shadow-cta hover:opacity-90 hover:scale-105 active:scale-95 cursor-pointer shrink-0 ${segmentTheme[activeSegment].bgClass} ${segmentTheme[activeSegment].buttonTextClass}`}
+                    style={{ backgroundColor: segmentTheme[activeSegment].color }}
                     aria-label="Buscar segmento"
                   >
                     <ArrowRight size={18} />
@@ -608,8 +489,9 @@ function Index() {
                 </p>
               </form>
 
-              {/* CONTROLES: PAGINAÇÃO EM PÍLULA */}
+              {/* CONTROLES DO CARROSSEL: PAGINAÇÃO EM PÍLULA/CÍRCULOS */}
               <div className="mt-6 sm:mt-8 md:mt-10 flex items-center">
+                {/* Indicadores de Paginação: Pílula Ativa (Cápsula) + Círculos Cinzentos Inativos */}
                 <div
                   className="flex items-center gap-2 p-1.5 rounded-full bg-slate-100/90 dark:bg-card/90 border border-border/80 backdrop-blur-sm shadow-xs"
                   role="tablist"
@@ -624,12 +506,11 @@ function Index() {
                         role="tab"
                         aria-selected={isActive}
                         onClick={() => chooseSegment(seg.id)}
-                        className={`transition-all duration-300 ease-out cursor-pointer flex items-center justify-center relative ${
-                          isActive
-                            ? "h-3 w-8 sm:w-10 rounded-full shadow-sm"
-                            : "size-2.5 rounded-full bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
-                        }`}
-                        style={isActive ? { backgroundColor: currentTheme.accentColor } : undefined}
+                        className={`transition-all duration-300 ease-out cursor-pointer flex items-center justify-center relative ${isActive
+                          ? "h-3 w-8 sm:w-10 rounded-full shadow-sm"
+                          : "size-2.5 rounded-full bg-slate-300 dark:bg-slate-600 hover:bg-slate-400 dark:hover:bg-slate-500"
+                          }`}
+                        style={isActive ? { backgroundColor: segmentTheme[seg.id].color } : undefined}
                         title={`Ir para segmento 0${idx + 1} - ${seg.label}`}
                         aria-label={`Slide 0${idx + 1} ${seg.label}${isActive ? " (ativo)" : ""}`}
                       />
@@ -639,99 +520,85 @@ function Index() {
               </div>
             </div>
 
-            {/* COLUNA DIREITA: COMPOSIÇÃO GEOMÉTRICA DA HERO (PESSOA + LOSANGOS + ÍCONES) */}
+            {/* COLUNA DIREITA: CENA ROTATIVA COM OS 3 SEGMENTOS EM CAMADAS */}
             <div
-              className="relative w-full flex items-center justify-center py-2 sm:py-4 select-none overflow-visible"
+              className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-none mx-auto py-2 sm:py-4 select-none"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
               <div
-                className="hero-visual-wrapper"
-                role="region"
-                aria-label={`Composição visual do segmento ${currentTheme.label}`}
+                className={`scene scene-${activeSegment}-active`}
+                aria-label="Slide rotativo dos segmentos atendidos pela Waybit"
+                aria-live="polite"
               >
-                {/* 1. MOLDURA DE LOSANGO ATRÁS (DESLOCADA, APENAS BORDA DINÂMICA) */}
-                <div
-                  className="hero-outline-diamond"
-                  style={{ borderColor: currentTheme.accentColor }}
-                  aria-hidden="true"
-                />
+                <div className="scene-track" aria-hidden="true" />
 
-                {/* 2. LOSANGO PRINCIPAL (PREENCHIDO COM A COR DO SEGMENTO) */}
-                <div
-                  className="hero-main-diamond"
-                  style={{
-                    backgroundColor: currentTheme.accentColor,
-                    boxShadow: `0 16px 36px ${currentTheme.accentColor}33`,
-                  }}
-                  aria-hidden="true"
-                />
+                {segments.map((segment, index) => {
+                  const diff = (index - activeIndex + segments.length) % segments.length;
+                  const isCurrent = diff === 0;
+                  const isNext = diff === 1;
+                  const isPrev = diff === 2;
 
-                {/* 3. PEQUENOS LOSANGOS DECORATIVOS ESTRATEGICAMENTE ESPALHADOS */}
-                <span
-                  className="hero-dec-diamond top-[7%] left-[72%] size-3 sm:size-3.5"
-                  style={{ backgroundColor: currentTheme.accentColor }}
-                  aria-hidden="true"
-                />
-                <span
-                  className="hero-dec-diamond top-[46%] left-[3%] size-2.5 sm:size-3"
-                  style={{ backgroundColor: currentTheme.accentColor }}
-                  aria-hidden="true"
-                />
-                <span
-                  className="hero-dec-diamond bottom-[6%] left-[14%] size-3.5 sm:size-4"
-                  style={{ backgroundColor: currentTheme.accentColor }}
-                  aria-hidden="true"
-                />
-                <span
-                  className="hero-dec-diamond bottom-[18%] right-[1%] size-3 sm:size-3.5"
-                  style={{ backgroundColor: currentTheme.accentColor }}
-                  aria-hidden="true"
-                />
+                  let roleClass = "scene-card-active";
+                  if (isNext) roleClass = "scene-card-next";
+                  if (isPrev) roleClass = "scene-card-prev";
 
-                {/* 4. CAMADA COM FADE COORDENADO: IMAGEM DA PESSOA + 3 ÍCONES DO SEGMENTO */}
-                <div
-                  className={`hero-fade-layer absolute inset-0 z-20 ${
-                    isFading ? "opacity-0 scale-[0.98]" : "opacity-100 scale-100"
-                  }`}
-                  aria-live="polite"
-                >
-                  {/* 3 ÍCONES ESPECÍFICOS DO SEGMENTO COM A COR DINÂMICA */}
-                  {currentTheme.icons.map((item, index) => {
-                    const IconComponent = item.icon;
-                    return (
-                      <div
-                        key={`${displayedSegment}-icon-${index}`}
-                        className={`absolute z-30 pointer-events-none flex items-center justify-center transition-colors duration-300 ${item.className}`}
-                        style={{ color: currentTheme.accentColor }}
-                        aria-hidden="true"
-                      >
-                        <IconComponent
-                          className="size-6 sm:size-7 md:size-8 drop-shadow-sm"
-                          strokeWidth={1.75}
-                        />
-                      </div>
-                    );
-                  })}
+                  return (
+                    <button
+                      key={segment.id}
+                      type="button"
+                      onClick={() => chooseSegment(segment.id)}
+                      className={`scene-card ${segment.className} ${roleClass}`}
+                      style={
+                        {
+                          "--card-color": segmentTheme[segment.id].color,
+                          backgroundColor: segmentTheme[segment.id].color,
+                        } as React.CSSProperties
+                      }
+                      aria-pressed={isCurrent}
+                      aria-label={`Segmento ${segment.label}: ${segment.descriptor} (${isCurrent ? "em destaque" : "clique para girar para este segmento"
+                        })`}
+                    >
+                      <img
+                        src={segment.image}
+                        alt={`Profissional representante do segmento ${segment.label}`}
+                        width={389}
+                        height={469}
+                        className="h-full w-full object-cover"
+                        loading="eager"
+                      />
 
-                  {/* IMAGEM DA PESSOA / BASE EXATAMENTE ALINHADA COM A BASE DO LOSANGO */}
-                  <div className="absolute inset-x-0 bottom-[1.5%] top-0 z-20 flex items-end justify-center pointer-events-none overflow-visible">
-                    <img
-                      src={currentTheme.image}
-                      alt={currentTheme.alt}
-                      width={389}
-                      height={469}
-                      className="h-[95%] w-auto max-w-[91%] object-contain object-bottom select-none"
-                      style={{
-                        filter: `drop-shadow(0 12px 24px ${currentTheme.accentColor}2E)`,
-                      }}
-                      loading="eager"
-                    />
-                  </div>
-                </div>
+                      {/* Badge de destaque individual no card ativo */}
+                      {isCurrent ? (
+                        <span className="scene-highlight-badge">
+                          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+                          Em Destaque
+                        </span>
+                      ) : (
+                        <span className="scene-peek-pill">
+                          0{index + 1} {segment.label}
+                        </span>
+                      )}
+
+                      {/* Informações editoriais do segmento */}
+                      <span className="scene-label">
+                        <span className="scene-count">
+                          0{index + 1} • {isCurrent ? "Ativo" : "Alternar"}
+                        </span>
+                        <strong>{segment.label}</strong>
+                        <small>{segment.descriptor}</small>
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
+
+              {/* Dica de interação sutil */}
+              <p className="mt-3 sm:mt-4 text-center text-xs text-muted-foreground/75 hidden sm:block">
+                Passe o mouse para pausar ou clique nos cards laterais para rotacionar
+              </p>
             </div>
           </div>
         </section>
