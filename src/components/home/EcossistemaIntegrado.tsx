@@ -288,14 +288,14 @@ export function EcossistemaIntegrado() {
       <div className="pointer-events-none absolute -right-28 bottom-1/4 size-[420px] rounded-full bg-sky-100/30 blur-3xl" />
 
       {/* Header Centralizado e Limpo (Sem pill de status redundante) */}
-      <div className="relative z-10 mx-auto max-w-3xl text-center">
+      <div className="relative z-10 mx-auto w-full text-center">
         {/* Título Principal */}
-        <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
+        <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-slate-900 leading-tight">
           Tudo o que sua empresa precisa para operar sem atritos
         </h2>
 
         {/* Subtítulo */}
-        <p className="mt-3.5 text-base leading-relaxed text-slate-600 sm:text-lg">
+        <p className="mt-3.5 fluid-body-lg leading-relaxed text-slate-600">
           Do pedido no balcão à expedição e emissão fiscal, passe o mouse nos nós orbitais para
           visualizar os detalhes de cada etapa.
         </p>
@@ -304,7 +304,7 @@ export function EcossistemaIntegrado() {
       {/* ========================================================
           PALCO ORBITAL RESPONSIVO (Sem quebras de layout)
       ======================================================== */}
-      <div className="relative z-10 mx-auto mt-10 flex flex-col items-center justify-center w-full max-w-5xl">
+      <div className="relative z-10 mx-auto mt-10 flex flex-col items-center justify-center w-full">
         {/* Container Escalonável proporcionalmente com folga inferior para popovers */}
         <div className="relative flex items-center justify-center h-[360px] xs:h-[420px] sm:h-[480px] md:h-[560px] lg:h-[620px] w-full overflow-visible mb-6 sm:mb-10">
           {/* Estágio com Coordenadas 580x580 Fixas e Escala Dinâmica */}

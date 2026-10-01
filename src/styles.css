@@ -737,20 +737,122 @@
   transform: scale(1.05);
 }
 
-.metric-value {
-  font-size: clamp(1.125rem, 1.5vw, 1.45rem);
+/* =========================================================================
+ * DESIGN SYSTEM — REGRAS GLOBAIS OBRIGATÓRIAS: TIPOGRAFIA FLUIDA (+45%)
+ * =========================================================================
+ * Cada tamanho original recebe +2px (Nova Base), com piso seguro no mobile
+ * e expansão fluida contínua de ~45% em telas grandes (>= 1240px).
+ * Transição perfeitamente contínua em 1240px (delta = 0.00px, sem saltos).
+ * ========================================================================= */
+.fluid-display,
+.fluid-h1 {
+  font-size: clamp(2.25rem, calc(1.5455rem + 3.0058vw), 3.875rem);
+  line-height: 1.12;
+}
+
+.fluid-h2 {
+  font-size: clamp(1.75rem, calc(1.1539rem + 2.5434vw), 3.125rem);
+  line-height: 1.18;
+}
+
+.fluid-h3 {
+  font-size: clamp(1.25rem, calc(1.0874rem + 0.6936vw), 1.625rem);
   line-height: 1.25;
+}
+
+.fluid-h4 {
+  font-size: clamp(1rem, calc(0.8916rem + 0.4624vw), 1.25rem);
+  line-height: 1.35;
+}
+
+.fluid-body-lg,
+.fluid-subtitle {
+  font-size: clamp(1rem, calc(0.8916rem + 0.4624vw), 1.25rem);
+  line-height: 1.6;
+}
+
+.fluid-body {
+  font-size: clamp(0.9375rem, calc(0.8562rem + 0.3468vw), 1.125rem);
+  line-height: 1.625;
+}
+
+.fluid-secondary {
+  font-size: clamp(0.8438rem, calc(0.7760rem + 0.2890vw), 1rem);
+  line-height: 1.5;
+}
+
+.fluid-btn {
+  font-size: clamp(0.8438rem, calc(0.7760rem + 0.2890vw), 1rem);
+  line-height: 1.4;
+}
+
+.fluid-nav {
+  font-size: clamp(0.8438rem, calc(0.7760rem + 0.2890vw), 1rem);
+  line-height: 1.4;
+}
+
+.fluid-caption {
+  font-size: clamp(0.75rem, calc(0.6958rem + 0.2312vw), 0.875rem);
+  line-height: 1.4;
+}
+
+.metric-value {
+  font-size: clamp(1.375rem, calc(1.1145rem + 1.11vw), 2.125rem);
+  line-height: 1.2;
   word-break: normal;
   overflow-wrap: break-word;
   text-wrap: balance;
   text-align: center;
 }
 
-@media (min-width: 1024px) and (max-width: 1279px) {
+@media (min-width: 1240px) {
+  .fluid-display,
+  .fluid-h1 {
+    font-size: clamp(3.875rem, calc(2.2369rem + 2.1136vw), 5.6188rem);
+  }
+
+  .fluid-h2 {
+    font-size: clamp(3.125rem, calc(1.8040rem + 1.7045vw), 4.5313rem);
+  }
+
+  .fluid-h3 {
+    font-size: clamp(1.625rem, calc(0.9381rem + 0.8864vw), 2.3563rem);
+  }
+
+  .fluid-h4 {
+    font-size: clamp(1.25rem, calc(0.7216rem + 0.6818vw), 1.8125rem);
+  }
+
+  .fluid-body-lg,
+  .fluid-subtitle {
+    font-size: clamp(1.25rem, calc(0.7216rem + 0.6818vw), 1.8125rem);
+  }
+
+  .fluid-body {
+    font-size: clamp(1.125rem, calc(0.6494rem + 0.6136vw), 1.6313rem);
+  }
+
+  .fluid-secondary {
+    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
+  }
+
+  .fluid-btn {
+    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
+  }
+
+  .fluid-nav {
+    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
+  }
+
+  .fluid-caption {
+    font-size: clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem);
+  }
+
   .metric-value {
-    font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+    font-size: clamp(2.125rem, calc(1.2227rem + 1.1648vw), 3.0813rem);
   }
 }
+
 
 /* =========================================================================
  * TIPOGRAFIA FLUIDA — FOOTER INSTITUCIONAL (ESCALA 45% DESKTOP)

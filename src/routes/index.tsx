@@ -593,10 +593,10 @@ function Index() {
             aria-hidden="true"
           />
 
-          <div className="mx-auto grid max-w-[1440px] items-center gap-8 sm:gap-10 px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12 xl:px-12">
+          <div className="w-full fluid-container grid items-center gap-8 sm:gap-10 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12">
             {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
-            <div className="relative z-20 w-full max-w-[640px] mx-auto lg:mx-0">
-              <h1 className="font-display text-[clamp(1.95rem,5.5vw,3.75rem)] font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground max-w-[580px]">
+            <div className="relative z-20 w-full mx-auto lg:mx-0">
+              <h1 className="font-display fluid-display font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground w-full">
                 A{" "}
                 <span
                   className={`transition-colors duration-300 ${segmentTheme[activeSegment].textClass}`}
@@ -621,20 +621,20 @@ function Index() {
                 .
               </h1>
 
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted-foreground font-normal leading-relaxed max-w-[520px]">
+              <p className="mt-3 sm:mt-4 fluid-subtitle text-muted-foreground font-normal leading-relaxed w-full">
                 O ERP completo, ágil e intuitivo que descomplica seu controle de vendas, estoque e obrigações fiscais com suporte de verdade.
               </p>
 
               {/* FORMULÁRIO DE BUSCA OBRIGATÓRIO */}
-              <form className="mt-6 sm:mt-8 max-w-xl" onSubmit={submitSearch}>
+              <form className="mt-6 sm:mt-8 w-full" onSubmit={submitSearch}>
                 <label
                   htmlFor="segment-search"
-                  className="mb-2.5 sm:mb-3 block font-display text-sm sm:text-base md:text-lg font-semibold text-foreground tracking-tight"
+                  className="mb-2.5 sm:mb-3 block font-display fluid-body font-semibold text-foreground tracking-tight"
                 >
                   Qual seu ramo de atuação?
                 </label>
                 <div
-                  className="search-shell transition-all duration-300 rounded-xl border-border/80 shadow-md shadow-black/[0.03] hover:border-border focus-within:shadow-lg"
+                  className="search-shell transition-all duration-300 rounded-xl border-border/80 shadow-md shadow-black/[0.03] hover:border-border focus-within:shadow-lg w-full"
                   style={{ "--primary": segmentTheme[activeSegment].color } as React.CSSProperties}
                 >
                   <Search className="shrink-0 text-muted-foreground" size={20} aria-hidden="true" />
@@ -644,7 +644,7 @@ function Index() {
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}
                     placeholder="Busque seu segmento (ex: restaurante, loja, oficina)"
-                    className="min-w-0 flex-1 bg-transparent font-body text-xs sm:text-sm md:text-base text-foreground outline-none placeholder:text-muted-foreground truncate"
+                    className="min-w-0 flex-1 bg-transparent font-body fluid-secondary text-foreground outline-none placeholder:text-muted-foreground truncate"
                     aria-describedby="segment-help"
                   />
                   <Button
@@ -834,7 +834,7 @@ function Index() {
                       + De 30 % <br /> de economia
                     </span>
                   </div>
-                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                  <span className="mt-1.5 sm:mt-2 fluid-caption text-muted-foreground font-medium w-full">
                     de tempo em nossos clientes.
                   </span>
                 </div>
@@ -851,7 +851,7 @@ function Index() {
                       + De 1.000 <br /> clientes
                     </span>
                   </div>
-                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                  <span className="mt-1.5 sm:mt-2 fluid-caption text-muted-foreground font-medium w-full">
                     atendidos pelo Brasil.
                   </span>
                 </div>
@@ -868,7 +868,7 @@ function Index() {
                       + De 9.6 / 10 <br /> em nota
                     </span>
                   </div>
-                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                  <span className="mt-1.5 sm:mt-2 fluid-caption text-muted-foreground font-medium w-full">
                     de satisfação de clientes.
                   </span>
                 </div>
@@ -885,7 +885,7 @@ function Index() {
                       + De 15 anos de <br /> experiência
                     </span>
                   </div>
-                  <span className="mt-1.5 sm:mt-2 text-xs sm:text-sm text-muted-foreground font-medium max-w-[220px]">
+                  <span className="mt-1.5 sm:mt-2 fluid-caption text-muted-foreground font-medium w-full">
                     em sistema de gestão
                   </span>
                 </div>
@@ -899,19 +899,19 @@ function Index() {
         {/* ========================================================================= */}
         <section id="solucao-dominus" className="py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-background w-full">
           <div className="fluid-container">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-primary mb-3 sm:mb-4">
+            <div className="w-full mx-auto text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-primary mb-3 sm:mb-4">
                 <Sparkles size={14} className="text-[#FFB800]" />
                 <span>O Sistema de Gestão Definitivo</span>
               </div>
-              <h2 className="font-display text-[clamp(1.65rem,4vw,3rem)] font-extrabold tracking-tight text-foreground leading-[1.18]">
+              <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                 Conheça o Sistema{" "}
                 <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent">
                   DOMINUS
                 </span>
                 : o cérebro operacional do seu negócio
               </h2>
-              <p className="mt-3.5 sm:mt-5 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+              <p className="mt-3.5 sm:mt-5 fluid-body-lg text-muted-foreground leading-relaxed">
                 Chega de perder tempo apagando incêndios com sistemas pesados ou planilhas que não
                 fecham. O <strong>Dominus</strong> unifica vendas, estoque, compras e finanças em
                 uma interface moderna, rápida e feita para quem não pode perder nem um minuto no
@@ -920,18 +920,18 @@ function Index() {
             </div>
 
             {/* Comparativo de Valor: O Caos Tradicional vs Fluidez Dominus */}
-            <div className="mt-10 sm:mt-14 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+            <div className="mt-10 sm:mt-14 lg:mt-16 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-stretch w-full">
               {/* O Caos Tradicional */}
-              <div className="rounded-2xl border border-rose-500/20 bg-rose-500/[0.02] p-5 sm:p-7 lg:p-9 flex flex-col justify-between">
+              <div className="rounded-2xl border border-rose-500/20 bg-rose-500/[0.02] p-5 sm:p-7 lg:p-9 flex flex-col justify-between w-full">
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-600 mb-4 sm:mb-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full fluid-caption font-semibold bg-rose-500/10 text-rose-600 mb-4 sm:mb-6">
                     <span className="size-2 rounded-full bg-rose-500" />
                     Como é a gestão sem o Dominus
                   </div>
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">
+                  <h3 className="font-display fluid-h3 font-bold text-foreground mb-3 sm:mb-4">
                     O ciclo do estresse e do retrabalho diário
                   </h3>
-                  <ul className="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-muted-foreground">
+                  <ul className="space-y-3 sm:space-y-3.5 fluid-secondary text-muted-foreground">
                     <li className="flex items-start gap-2.5 sm:gap-3">
                       <span className="size-5 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
                         ✕
@@ -968,26 +968,26 @@ function Index() {
                     </li>
                   </ul>
                 </div>
-                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-rose-500/15 text-xs text-rose-700/80 font-medium">
+                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-rose-500/15 fluid-caption text-rose-700/80 font-medium">
                   Resultado: noites mal dormidas, estresse com a equipe e perda de faturamento.
                 </div>
               </div>
 
               {/* A Solução Dominus */}
-              <div className="rounded-2xl border border-[#71BE44]/30 bg-gradient-to-br from-[#71BE44]/[0.06] via-transparent to-[#00ADEF]/[0.05] p-5 sm:p-7 lg:p-9 flex flex-col justify-between shadow-sm relative">
+              <div className="rounded-2xl border border-[#71BE44]/30 bg-gradient-to-br from-[#71BE44]/[0.06] via-transparent to-[#00ADEF]/[0.05] p-5 sm:p-7 lg:p-9 flex flex-col justify-between shadow-sm relative w-full">
                 <div className="absolute top-4 right-4 hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#71BE44] text-white">
                   <Sparkles size={12} />
                   Recomendado para sua empresa
                 </div>
                 <div>
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-[#71BE44]/15 text-[#62a83a] mb-4 sm:mb-6">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full fluid-caption font-semibold bg-[#71BE44]/15 text-[#62a83a] mb-4 sm:mb-6">
                     <span className="size-2 rounded-full bg-[#71BE44]" />
                     Com o Sistema Dominus da Waybit
                   </div>
-                  <h3 className="font-display text-lg sm:text-xl font-bold text-foreground mb-3 sm:mb-4">
+                  <h3 className="font-display fluid-h3 font-bold text-foreground mb-3 sm:mb-4">
                     Controle total, processos leves e equipe produtiva
                   </h3>
-                  <ul className="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-foreground/90">
+                  <ul className="space-y-3 sm:space-y-3.5 fluid-secondary text-foreground/90">
                     <li className="flex items-start gap-2.5 sm:gap-3">
                       <CheckCircle2 size={18} className="text-[#71BE44] shrink-0 mt-0.5" />
                       <span>
@@ -1019,12 +1019,12 @@ function Index() {
                   </ul>
                 </div>
                 <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-[#71BE44]/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
-                  <div className="text-xs font-semibold text-[#62a83a] text-center sm:text-left">
+                  <div className="fluid-caption font-semibold text-[#62a83a] text-center sm:text-left">
                     Mais de 2.500 empresários já deram esse salto.
                   </div>
                   <Button
                     onClick={() => setSpecialistOpen(true)}
-                    className="h-10 px-5 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm text-xs w-full sm:w-auto"
+                    className="h-10 px-5 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm fluid-btn w-full sm:w-auto"
                   >
                     Ver Demonstração do Dominus
                   </Button>
@@ -1039,18 +1039,18 @@ function Index() {
         {/* ========================================================================= */}
         <section id="depoimentos" className="py-12 sm:py-16 lg:py-24 bg-surface-subtle border-t border-border relative overflow-hidden w-full">
           <div className="fluid-container">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-primary mb-3 sm:mb-4">
+            <div className="w-full mx-auto text-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-primary mb-3 sm:mb-4">
                 <Quote size={13} className="text-primary" />
                 <span>Histórias Reais de Sucesso</span>
               </div>
-              <h2 className="font-display text-[clamp(1.65rem,4vw,3rem)] font-extrabold tracking-tight text-foreground leading-[1.18]">
+              <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                 Quem vive o comércio na prática confia na{" "}
                 <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
                   Waybit
                 </span>
               </h2>
-              <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+              <p className="mt-3 sm:mt-4 fluid-body-lg text-muted-foreground leading-relaxed">
                 Veja o que empresários dos ramos de <strong>Varejo</strong>,{" "}
                 <strong>Auto-Center</strong> e <strong>Gastronomia</strong> relatam sobre a
                 transformação na rotina das suas empresas com o Dominus.
@@ -1058,11 +1058,11 @@ function Index() {
             </div>
 
             {/* Carrossel no Mobile/Tablet e Grid no Desktop */}
-            <div className="relative mt-8 sm:mt-12 lg:mt-14">
+            <div className="relative mt-8 sm:mt-12 lg:mt-14 w-full">
               <div
                 ref={casesCarouselRef}
                 onScroll={handleCasesScroll}
-                className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch"
+                className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
                 style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
               >
                 {testimonialCases.map((item) => (
@@ -1099,15 +1099,15 @@ function Index() {
                       </div>
 
                       {/* Texto do Depoimento */}
-                      <blockquote className="text-xs sm:text-sm text-foreground/90 font-medium italic leading-relaxed">
+                      <blockquote className="fluid-body text-foreground/90 font-medium italic leading-relaxed">
                         &ldquo;{item.quote}&rdquo;
                       </blockquote>
                     </div>
 
                     {/* Autor */}
                     <div className="mt-4 sm:mt-5 pt-3.5 sm:pt-4 border-t border-border/80">
-                      <h4 className="font-display text-xs sm:text-sm font-bold text-foreground">{item.name}</h4>
-                      <p className="text-[11px] sm:text-xs text-muted-foreground font-medium">{item.company}</p>
+                      <h4 className="font-display fluid-h4 font-bold text-foreground">{item.name}</h4>
+                      <p className="fluid-caption text-muted-foreground font-medium">{item.company}</p>
                     </div>
                   </div>
                 ))}
@@ -1168,13 +1168,13 @@ function Index() {
         {/* ========================================================================= */}
         <section id="diferencial-suporte" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border relative overflow-hidden w-full">
           <div className="fluid-container">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-              <div className="lg:col-span-6">
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-emerald-600 mb-3 sm:mb-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+              <div className="lg:col-span-6 w-full">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-emerald-600 mb-3 sm:mb-4">
                   <ShieldCheck size={14} className="text-[#71BE44]" />
                   <span>Diferencial Exclusivo Waybit</span>
                 </div>
-                <h2 className="font-display text-[clamp(1.65rem,3.8vw,3rem)] font-extrabold tracking-tight text-foreground leading-[1.18]">
+                <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                   Trocar de sistema dá medo?{" "}
                   <span className="block sm:inline text-foreground">
                     Com a{" "}
@@ -1188,21 +1188,21 @@ function Index() {
                     .
                   </span>
                 </h2>
-                <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+                <p className="mt-4 sm:mt-6 fluid-body-lg text-muted-foreground leading-relaxed">
                   Sabemos que o maior pavor de quem gerencia um comércio é ver o sistema falhar no
                   sábado à noite ou na hora do rush e cair em um atendimento automatizado que não
                   resolve nada.
                 </p>
-                <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base text-muted-foreground leading-relaxed">
+                <p className="mt-2.5 sm:mt-3 fluid-body text-muted-foreground leading-relaxed">
                   Na Waybit, o suporte é <strong>humanizado de verdade</strong>: pessoas reais,
                   especialistas no seu ramo, prontas para atender via WhatsApp ou telefone em
                   minutos.
                 </p>
 
-                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
                   <Button
                     onClick={() => setSpecialistOpen(true)}
-                    className="h-11 sm:h-12 px-6 sm:px-7 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm flex items-center justify-center gap-2 text-sm sm:text-base"
+                    className="h-11 sm:h-12 px-6 sm:px-7 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm flex items-center justify-center gap-2 fluid-btn"
                   >
                     <MessageSquare size={17} />
                     Falar com um Consultor Agora
@@ -1210,7 +1210,7 @@ function Index() {
                   <a href="tel:+5521975812676" className="flex">
                     <Button
                       variant="outline"
-                      className="h-11 sm:h-12 px-5 sm:px-6 border-border hover:bg-muted font-semibold flex items-center justify-center gap-2 cursor-pointer w-full text-sm sm:text-base"
+                      className="h-11 sm:h-12 px-5 sm:px-6 border-border hover:bg-muted font-semibold flex items-center justify-center gap-2 cursor-pointer w-full fluid-btn"
                     >
                       <Phone size={16} className="text-[#00ADEF]" />
                       (21) 97581-2676
@@ -1219,52 +1219,52 @@ function Index() {
                 </div>
               </div>
 
-              <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+              <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 w-full">
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
                   <div className="size-9 sm:size-10 rounded-xl bg-[#71BE44]/15 text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4">
                     <Headset size={20} />
                   </div>
-                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">100% Humano</h3>
-                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                  <h3 className="font-display fluid-h4 font-bold text-foreground">100% Humano</h3>
+                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
                     Sem filas de chatbots ou robôs engessados. Você conversa direto com um analista
                     técnico que resolve.
                   </p>
                 </div>
 
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
                   <div className="size-9 sm:size-10 rounded-xl bg-[#00ADEF]/15 text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4">
                     <Clock size={20} />
                   </div>
-                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">
+                  <h3 className="font-display fluid-h4 font-bold text-foreground">
                     Agilidade Real
                   </h3>
-                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
                     Tempo médio de resposta abaixo de 5 minutos no WhatsApp. Seu balcão não pode
                     esperar.
                   </p>
                 </div>
 
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
                   <div className="size-9 sm:size-10 rounded-xl bg-[#FFB800]/15 text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4">
                     <Zap size={20} />
                   </div>
-                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">
+                  <h3 className="font-display fluid-h4 font-bold text-foreground">
                     Plantão nos Picos
                   </h3>
-                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
                     Acompanhamento prioritário nos horários de maior fluxo para clientes com alta
                     intensidade operacional.
                   </p>
                 </div>
 
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle">
+                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
                   <div className="size-9 sm:size-10 rounded-xl bg-purple-500/15 text-purple-600 flex items-center justify-center mb-3 sm:mb-4">
                     <Layers size={20} />
                   </div>
-                  <h3 className="font-display text-sm sm:text-base font-bold text-foreground">
+                  <h3 className="font-display fluid-h4 font-bold text-foreground">
                     Migração Assistida
                   </h3>
-                  <p className="mt-1.5 sm:mt-2 text-xs text-muted-foreground leading-relaxed">
+                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
                     Trazemos o cadastro de produtos, clientes e fornecedores do seu sistema antigo
                     com total precisão.
                   </p>
@@ -1327,19 +1327,19 @@ function Index() {
 
           {/* Container Global 100% Fluido com Gutter Unificado (3% <540px, 5% 540-1439px, 10% >=1440px) */}
           <div className="fluid-container">
-            <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14 lg:mb-16">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 sm:px-4 py-1.5 text-xs font-bold text-primary mb-3 sm:mb-4 shadow-2xs">
+            <div className="w-full mx-auto text-center mb-10 sm:mb-14 lg:mb-16">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3.5 sm:px-4 py-1.5 fluid-caption font-bold text-primary mb-3 sm:mb-4 shadow-2xs">
                 <Sparkles size={13} className="text-primary" />
                 <span>Ecossistema Waybit • Soluções Especializadas</span>
               </div>
-              <h2 className="font-display text-[clamp(1.5rem,3.2vw,2.5rem)] font-extrabold tracking-tight text-foreground leading-[1.2]">
+              <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.2]">
                 Conheça um{" "}
                 <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent">
                   sistema de gestão empresarial completo
                 </span>{" "}
                 com o melhor suporte do mercado!
               </h2>
-              <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="mt-3 sm:mt-4 fluid-body-lg text-muted-foreground leading-relaxed w-full mx-auto">
                 Clique na solução para seu segmento e conheça mais:
               </p>
             </div>
@@ -1376,15 +1376,15 @@ function Index() {
                 className="pointer-events-none absolute -right-20 -top-20 w-[450px] h-[450px] max-w-full max-h-full bg-gradient-to-br from-[#00ADEF]/25 via-[#71BE44]/20 to-[#FFB800]/25 blur-3xl opacity-60 rounded-full"
               />
 
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center">
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center w-full">
                 {/* Lado Esquerdo */}
                 <div className="w-full flex flex-col justify-center">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 sm:px-3.5 py-1 text-xs font-semibold text-white/90 backdrop-blur-md mb-4 sm:mb-6 border border-white/15 w-fit">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 sm:px-3.5 py-1 fluid-caption font-semibold text-white/90 backdrop-blur-md mb-4 sm:mb-6 border border-white/15 w-fit">
                     <Sparkles size={13} className="text-[#FFB800]" />
                     <span>Demonstração Personalizada de 15 Minutos</span>
                   </div>
 
-                  <h2 className="font-display text-[clamp(1.25rem,2.8vw,2rem)] font-bold tracking-tight leading-snug sm:leading-tight">
+                  <h2 className="font-display fluid-h2 font-bold tracking-tight leading-snug sm:leading-tight">
                     Pronto para ver o que o{" "}
                     <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
                       Dominus
@@ -1392,13 +1392,13 @@ function Index() {
                     pode fazer pelo o seu negócio?
                   </h2>
 
-                  <p className="mt-3.5 sm:mt-5 text-xs sm:text-sm md:text-base text-zinc-300 leading-relaxed">
+                  <p className="mt-3.5 sm:mt-5 fluid-body-lg text-zinc-300 leading-relaxed">
                     Agende uma apresentação online com um especialista no seu segmento. Mostramos como
                     acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
                     compromisso.
                   </p>
 
-                  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
                     <Button
                       type="button"
                       onClick={() => {
@@ -1414,7 +1414,7 @@ function Index() {
                           document.body.appendChild(script);
                         }
                       }}
-                      className="abrirAgendarDemonstracao h-11 sm:h-12 px-6 sm:px-8 bg-[#71BE44] hover:bg-[#62a83a] text-white font-bold text-xs sm:text-sm cursor-pointer shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
+                      className="abrirAgendarDemonstracao h-11 sm:h-12 px-6 sm:px-8 bg-[#71BE44] hover:bg-[#62a83a] text-white font-bold fluid-btn cursor-pointer shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
                     >
                       Agendar Demonstração
                     </Button>
@@ -1426,7 +1426,7 @@ function Index() {
                     >
                       <Button
                         variant="outline"
-                        className="h-11 sm:h-12 px-5 sm:px-6 border-zinc-700 bg-zinc-900/60 text-zinc-200 hover:bg-zinc-800 hover:text-white font-semibold cursor-pointer w-full flex items-center justify-center"
+                        className="h-11 sm:h-12 px-5 sm:px-6 border-zinc-700 bg-zinc-900/60 text-zinc-200 hover:bg-zinc-800 hover:text-white font-semibold cursor-pointer w-full flex items-center justify-center fluid-btn"
                       >
                         <MessageSquare size={16} className="text-[#71BE44]" />
                         Conversar no WhatsApp
@@ -1434,7 +1434,7 @@ function Index() {
                     </a>
                   </div>
 
-                  <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6 text-[11px] sm:text-xs text-zinc-400">
+                  <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6 fluid-caption text-zinc-400">
                     <span className="flex items-center gap-2">
                       <CheckCircle2 size={14} className="text-[#71BE44]" /> Sem compromisso
                     </span>
@@ -1477,20 +1477,20 @@ function Index() {
         {/* ========================================================================= */}
         <section id="avaliacoes-google" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border w-full">
           <div className="fluid-container">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3.5 sm:px-4 py-1.5 text-xs font-semibold text-amber-600 mb-2.5 sm:mb-3">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12 w-full">
+              <div className="w-full">
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-amber-600 mb-2.5 sm:mb-3">
                   <Star size={13} fill="#FFB800" stroke="#FFB800" />
                   <span>Avaliações Verificadas</span>
                 </div>
-                <h2 className="font-display text-[clamp(1.65rem,4vw,3rem)] font-extrabold tracking-tight text-foreground">
+                <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
                   Aprovado com{" "}
                   <span className="bg-gradient-to-r from-[#FFB800] via-[#71BE44] to-[#00ADEF] bg-clip-text text-transparent font-extrabold">
                     4.9 estrelas
                   </span>{" "}
                   no Google
                 </h2>
-                <p className="mt-2 text-xs sm:text-sm md:text-base text-muted-foreground">
+                <p className="mt-2 fluid-body-lg text-muted-foreground">
                   A opinião de gestores e proprietários que confiam na estabilidade da Waybit todos
                   os dias.
                 </p>
@@ -1504,68 +1504,68 @@ function Index() {
                       <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" className="sm:w-3.5 sm:h-3.5" />
                     ))}
                   </div>
-                  <span className="text-[11px] text-muted-foreground font-medium">
+                  <span className="fluid-caption text-muted-foreground font-medium">
                     Classificação no Google
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 w-full">
+              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between w-full">
                 <div>
                   <div className="flex items-center text-[#FFB800] mb-3">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" />
                     ))}
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
+                  <p className="fluid-body text-foreground/90 leading-relaxed italic">
                     &ldquo;Excelente software! Já passei por três sistemas conhecidos no mercado e
                     todos me deixaram na mão no suporte. Com a Waybit, qualquer dúvida é resolvida
                     em minutos pelo WhatsApp.&rdquo;
                   </p>
                 </div>
                 <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/80">
-                  <p className="text-xs font-bold text-foreground">Marcos Vinícius</p>
-                  <p className="text-[11px] text-muted-foreground">Supermercado Nova Estrela</p>
+                  <p className="fluid-h4 font-bold text-foreground">Marcos Vinícius</p>
+                  <p className="fluid-caption text-muted-foreground">Supermercado Nova Estrela</p>
                 </div>
               </div>
 
-              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between">
+              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between w-full">
                 <div>
                   <div className="flex items-center text-[#FFB800] mb-3">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" />
                     ))}
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
+                  <p className="fluid-body text-foreground/90 leading-relaxed italic">
                     &ldquo;O módulo de auto-center é completo demais. Emissão de O.S., checklist na
                     entrada do carro e comissões automáticas. Organizou a oficina de ponta a
                     ponta.&rdquo;
                   </p>
                 </div>
                 <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/80">
-                  <p className="text-xs font-bold text-foreground">Carlos Eduardo</p>
-                  <p className="text-[11px] text-muted-foreground">Centro Automotivo Precisão</p>
+                  <p className="fluid-h4 font-bold text-foreground">Carlos Eduardo</p>
+                  <p className="fluid-caption text-muted-foreground">Centro Automotivo Precisão</p>
                 </div>
               </div>
 
-              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between">
+              <div className="p-5 sm:p-6 rounded-2xl border border-border bg-surface-subtle flex flex-col justify-between w-full">
                 <div>
                   <div className="flex items-center text-[#FFB800] mb-3">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" />
                     ))}
                   </div>
-                  <p className="text-xs sm:text-sm text-foreground/90 leading-relaxed italic">
+                  <p className="fluid-body text-foreground/90 leading-relaxed italic">
                     &ldquo;A comanda eletrônica no celular dos garçons aumentou nosso faturamento
                     porque os pedidos chegam instantâneos na cozinha. O sistema não trava
                     nunca.&rdquo;
                   </p>
                 </div>
                 <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/80">
-                  <p className="text-xs font-bold text-foreground">Patrícia Mendes</p>
-                  <p className="text-[11px] text-muted-foreground">Bistrô & Restaurante Alecrim</p>
+                  <p className="fluid-h4 font-bold text-foreground">Patrícia Mendes</p>
+                  <p className="fluid-caption text-muted-foreground">Bistrô & Restaurante Alecrim</p>
                 </div>
               </div>
             </div>
@@ -1712,14 +1712,14 @@ function SolutionCard({
       />
 
       {/* Topo do Card */}
-      <div className="relative z-10 flex items-start justify-between gap-3 sm:gap-4">
+      <div className="relative z-10 flex items-start justify-between gap-3 sm:gap-4 w-full">
         <div className="flex-1 min-w-0 pr-1 sm:pr-2">
           <h3
-            className={`font-display text-base sm:text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-tight leading-snug transition-colors duration-200 ${hoverClass}`}
+            className={`font-display fluid-h3 font-bold text-slate-900 dark:text-white tracking-tight leading-snug transition-colors duration-200 ${hoverClass}`}
           >
             {item.title}
           </h3>
-          <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm text-slate-500 dark:text-zinc-400 font-medium leading-relaxed">
+          <p className="mt-1 sm:mt-1.5 fluid-secondary text-slate-500 dark:text-zinc-400 font-medium leading-relaxed">
             {item.description}
           </p>
         </div>
@@ -1739,9 +1739,9 @@ function SolutionCard({
       </div>
 
       {/* Rodapé do Card */}
-      <div className="relative z-10 mt-4 sm:mt-6 pt-2.5 sm:pt-3 flex items-center justify-between border-t border-slate-100 dark:border-border/40">
+      <div className="relative z-10 mt-4 sm:mt-6 pt-2.5 sm:pt-3 flex items-center justify-between border-t border-slate-100 dark:border-border/40 w-full">
         <span
-          className="text-xs font-semibold tracking-wide transition-colors duration-200"
+          className="fluid-caption font-semibold tracking-wide transition-colors duration-200"
           style={{ color: item.color }}
         >
           {isExternal

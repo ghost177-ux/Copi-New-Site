@@ -50,12 +50,12 @@ export function CicloOperacionalSideBySide() {
         ======================================================== */}
         <div className="flex w-full flex-col justify-center lg:w-[53%]">
           {/* Título Principal */}
-          <h2 className="font-display text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl leading-tight">
+          <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-slate-900 leading-tight">
             Tudo o que sua empresa precisa para operar sem atritos
           </h2>
 
           {/* Subtítulo */}
-          <p className="mt-5 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600">
+          <p className="mt-5 fluid-body-lg leading-relaxed text-slate-600">
             Do pedido no balcão à expedição e emissão fiscal, todas as etapas operam em um fluxo automatizado contínuo, eliminando erros manuais e retrabalho.
           </p>
         </div>

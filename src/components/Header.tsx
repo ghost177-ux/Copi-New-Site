@@ -153,7 +153,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
       <div className="w-full bg-surface-subtle">
         <div className="fluid-container hidden items-center justify-between py-2 lg:flex">
           {/* LADO ESQUERDO: CONTATO */}
-          <div className="flex items-center gap-6 text-xs text-muted-foreground">
+          <div className="flex items-center gap-6 fluid-caption text-muted-foreground">
             <a className="utility-link flex items-center gap-2" href="tel:+5521975812676">
               <Headset size={14} className="shrink-0" /> (21) 97581-2676
             </a>
@@ -166,7 +166,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
           </div>
 
           {/* LADO DIREITO: LINKS DE APOIO + REDES SOCIAIS */}
-          <div className="flex items-center gap-5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-5 fluid-caption text-muted-foreground">
             <button
               type="button"
               onClick={() => scrollToAnchor("avaliacoes-google")}
@@ -250,7 +250,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
         </a>
 
         {/* NAVEGAÇÃO DESKTOP */}
-        <nav className="hidden items-center gap-6 xl:gap-8 lg:flex text-sm xl:text-base" aria-label="Menu principal">
+        <nav className="hidden items-center gap-6 xl:gap-8 lg:flex fluid-nav" aria-label="Menu principal">
           {/* BOTÃO SISTEMA COM MEGA MENU EXCLUSIVO POR CLIQUE */}
           <button
             ref={sistemaButtonRef}
@@ -261,7 +261,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                 return !prev;
               });
             }}
-            className={`nav-link flex items-center gap-1.5 cursor-pointer bg-transparent border-none p-0 text-sm xl:text-base font-semibold transition-colors ${
+            className={`nav-link flex items-center gap-1.5 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold transition-colors ${
               megaMenuOpen ? "text-primary font-bold" : "text-foreground/80 hover:text-primary"
             }`}
             aria-expanded={megaMenuOpen}
@@ -280,7 +280,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
           <button
             type="button"
             onClick={() => scrollToAnchor("ciclo-operacional")}
-            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 text-sm xl:text-base font-semibold text-foreground/80 hover:text-primary"
+            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
           >
             Ciclo Operacional
           </button>
@@ -288,7 +288,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
           <button
             type="button"
             onClick={() => scrollToAnchor("solucoes-segmentos")}
-            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 text-sm xl:text-base font-semibold text-foreground/80 hover:text-primary"
+            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
           >
             Soluções
           </button>
@@ -296,7 +296,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
           <button
             type="button"
             onClick={() => scrollToAnchor("depoimentos")}
-            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 text-sm xl:text-base font-semibold text-foreground/80 hover:text-primary"
+            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
           >
             Depoimentos
           </button>
@@ -304,7 +304,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
           <button
             type="button"
             onClick={() => scrollToAnchor("blog-conteudos")}
-            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 text-sm xl:text-base font-semibold text-foreground/80 hover:text-primary"
+            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
           >
             Blog
           </button>
@@ -314,7 +314,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
         <div className="flex shrink-0 items-center gap-2">
           <Button
             onClick={() => setSpecialistOpen(true)}
-            className="hidden h-11 xl:h-12 px-6 xl:px-7 text-sm xl:text-base sm:inline-flex bg-[#71BE44] hover:bg-[#62a83a] text-white shadow-none font-semibold cursor-pointer rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="hidden h-11 xl:h-12 px-6 xl:px-7 fluid-btn sm:inline-flex bg-[#71BE44] hover:bg-[#62a83a] text-white shadow-none font-semibold cursor-pointer rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             Falar com Especialista
           </Button>
@@ -532,7 +532,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                 setMenuOpen(false);
                 setSpecialistOpen(true);
               }}
-              className="w-full h-11 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold rounded-xl text-sm"
+              className="w-full h-11 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold rounded-xl fluid-btn"
             >
               Falar com Especialista
             </Button>

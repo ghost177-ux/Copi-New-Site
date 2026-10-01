@@ -15,6 +15,53 @@ O projeto adota uma arquitetura de layout **100% Fluida**.
 
 ---
 
+## REGRAS GLOBAIS OBRIGATÓRIAS PARA TODAS AS PÁGINAS
+
+> [!IMPORTANT]
+> Estas regras NÃO são exclusivas da Home atual. Elas constituem o **DESIGN SYSTEM GLOBAL DA WAYBIT** e são de observância **OBRIGATÓRIA** em:
+> - Todas as páginas e rotas atuais do projeto;
+> - Todas as futuras páginas, rotas e landing pages;
+> - Novas sections e blocos estruturais;
+> - Novos componentes e layouts.
+>
+> Antes de criar qualquer nova página ou componente, este documento é a fonte de verdade para esses padrões. O Footer do projeto é a referência oficial testada e aprovada para esta implementação.
+
+### 1. Tipografia Fluida Global (Regra +2px / +45%)
+Para qualquer nível tipográfico do projeto:
+1. Identifica-se o tamanho de referência original;
+2. Adiciona-se **+2px** ao tamanho original $\rightarrow$ esse valor passa a ser a **NOVA BASE** (referência em 1240px);
+3. Em telas menores ($< 1240px$), a fonte decresce fluidamente com uma curva controlada e protegida por um piso de legibilidade confortável (em 375px);
+4. Em telas maiores ($\ge 1240px$), a fonte expande continuamente com **amplitude de crescimento de aproximadamente 45%** até telas 4K/Ultrawide (2560px+);
+5. A escala deve ser contínua via `clamp(min, calc(intercepto + vw), max)`, **sem saltos tipográficos por breakpoints** (`sm:text-*`, `md:text-*`, `lg:text-*` não devem ser usados para escalonar fontes).
+
+### 2. Largura Estrutural Total (`w-full`)
+Todo wrapper, coluna e bloco estrutural deve ocupar **100% da largura disponibilizada pelo elemento pai**:
+$$\text{SECTION (w-full)} \rightarrow \text{MAIN CONTAINER (w-full)} \rightarrow \text{LAYOUT WRAPPER (w-full)} \rightarrow \text{GRID/FLEX (w-full)} \rightarrow \text{STRUCTURAL BLOCK (w-full)}$$
+* Se uma `div` ou tag semântica representa um bloco estrutural de layout, o padrão obrigatório é `w-full`.
+* `w-full` significa 100% da largura disponível concedida pelo pai (e não 100vw).
+
+### 3. Política Rígida de Max-Width
+* **Proibido:** É proibido utilizar `max-w-xs`, `max-w-sm`, `max-w-md`, `max-w-lg`, `max-w-xl`, `max-w-2xl`, etc. em wrappers ou blocos estruturais que poderiam e deveriam aproveitar toda a largura disponível de sua coluna ou grid.
+* **Proibida a combinação contraditória:** `w-full` + `max-w-*` arbitrários em blocos que devam preencher o espaço pai.
+* **Exceções Legítimas Permitidas:** `max-width` somente é permitido quando existir **justificativa real e documentada de design**:
+  1. Comprimento de linha editorial de leitura de textos longos (ex: ~65-75 caracteres);
+  2. Modais e popups flutuantes centralizados (ex: `DialogContent` com `max-w-lg`);
+  3. Formulários centralizados isolados;
+  4. Carrosséis com cards deslizantes móveis que exigem largura fixa de visualização peek (ex: `w-[84vw] max-w-[360px]`);
+  5. Ilustrações e diagramas específicos de seções protegidas (ex: `#ciclo-operacional` com `max-w-[500px]`);
+  6. Logos e assets de produtos com restrição de aspecto.
+
+### 4. Containers Globais Sem Teto
+* Sections: `width: 100%`
+* Containers: `width: 100%` (`.fluid-container`)
+* **Zero `max-width` global** (proibido `max-w-[1440px]`, `max-w-7xl` ou travas similares).
+* Gutter lateral único e responsivo:
+  * `< 540px` $\rightarrow$ `3%`
+  * `540px` até `1439px` $\rightarrow$ `5%`
+  * `\ge 1440px` $\rightarrow$ `10%`
+
+---
+
 ## 2. Breakpoints Responsivos Globais
 A escala do layout adota como referência responsiva oficial 5 faixas dimensionais:
 
@@ -107,7 +154,7 @@ Utilizado em títulos em destaque, divisórias e badges:
 
 ---
 
-## 6. Tipografia
+## 6. Tipografia Fluida Global (Sistema Oficial)
 * **Títulos & Headings (Display):** `"Rubik", "Manrope", sans-serif` (`--font-display`)
   * Pesos: `700 (Bold)`, `800 (ExtraBold)`
   * Tracking: `-0.01em` até `-0.025em` (tight)
@@ -115,12 +162,34 @@ Utilizado em títulos em destaque, divisórias e badges:
 * **Corpo de Texto & Controles (Body):** `"Poppins", "Manrope", sans-serif` (`--font-body` e `--font-sans`)
   * Pesos: `400 (Regular)`, `500 (Medium)`, `600 (SemiBold)`
   * Line Height: `1.5` a `1.65` (relaxed)
-* **Estratégia Responsiva de Fontes:**
-  * Uso prioritário de `clamp()` combinado com `rem` e `vw` moderado:
-    * Hero H1: `font-size: clamp(1.95rem, 5.5vw, 3.75rem)`
-    * Section H2: `font-size: clamp(1.65rem, 4vw, 3rem)`
-    * Section Subtitle: `text-sm sm:text-base md:text-lg`
-    * Métricas Rápidas: `.metric-value` com `clamp(1.125rem, 1.5vw, 1.45rem)`
+
+### Filosofia da Escala Tipográfica Fluida
+1. **Regra de Base:** Tamanho existente real $\rightarrow$ soma-se $+2\text{px}$ $\rightarrow$ **Nova Base** (em 1240px).
+2. **Crescimento em Telas Amplas:** A partir de 1240px, a fonte expande suavemente em $+45\%$ até 2560px.
+3. **Piso Confortável em Telas Menores:** Abaixo de 1240px, a fonte reduz gradualmente com um limite inferior que preserva legibilidade humana confortável até 375px e telas menores.
+4. **Continuidade Matemática Perfeita:** Em 1240px, a transição entre as faixas possui $\Delta = 0\text{px}$, sem solavancos visuais.
+
+### Tabela de Tokens Tipográficos e Resoluções
+
+| Token / Classe | Nível Semântico | Tamanho Original | Nova Base (+2px) | 375px (Mobile) | 1240px (Notebook) | 1920px (Full HD) | 2560px (2K/4K) | Teto (+45%) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `.fluid-display` | Display / Hero H1 | `60px` (`3.75rem`) | **`62px`** (`3.875rem`) | `42.8px` (`2.67rem`) | `62.0px` (`3.875rem`) | `76.4px` (`4.77rem`) | `89.9px` (`5.62rem`) | `89.9px` |
+| `.fluid-h1` | H1 de Página | `48px` (`3.0rem`) | **`50px`** (`3.125rem`) | `34.5px` (`2.16rem`) | `50.0px` (`3.125rem`) | `61.6px` (`3.85rem`) | `72.5px` (`4.53rem`) | `72.5px` |
+| `.fluid-h2` | Títulos de Section | `40px` (`2.5rem`) | **`42px`** (`2.625rem`) | `30.4px` (`1.90rem`) | `42.0px` (`2.625rem`) | `51.8px` (`3.24rem`) | `60.9px` (`3.81rem`) | `60.9px` |
+| `.fluid-h3` | Subtítulos / Cards | `24px` (`1.5rem`) | **`26px`** (`1.625rem`) | `21.2px` (`1.32rem`) | `26.0px` (`1.625rem`) | `32.0px` (`2.00rem`) | `37.7px` (`2.36rem`) | `37.7px` |
+| `.fluid-h4` | Títulos menores / Autores | `18px` (`1.125rem`) | **`20px`** (`1.25rem`) | `17.1px` (`1.07rem`) | `20.0px` (`1.25rem`) | `24.6px` (`1.54rem`) | `29.0px` (`1.81rem`) | `29.0px` |
+| `.fluid-body-lg` / `.fluid-subtitle` | Subtítulos & Lead | `18px` (`1.125rem`) | **`20px`** (`1.25rem`) | `17.1px` (`1.07rem`) | `20.0px` (`1.25rem`) | `24.6px` (`1.54rem`) | `29.0px` (`1.81rem`) | `29.0px` |
+| `.fluid-body` | Parágrafos Principais | `16px` (`1.0rem`) | **`18px`** (`1.125rem`) | `15.8px` (`0.99rem`) | `18.0px` (`1.125rem`) | `22.2px` (`1.38rem`) | `26.1px` (`1.63rem`) | `26.1px` |
+| `.fluid-secondary` | Textos Secundários | `14px` (`0.875rem`) | **`16px`** (`1.0rem`) | `14.2px` (`0.89rem`) | `16.0px` (`1.0rem`) | `19.7px` (`1.23rem`) | `23.2px` (`1.45rem`) | `23.2px` |
+| `.fluid-nav` | Links de Navegação | `14px` (`0.875rem`) | **`16px`** (`1.0rem`) | `14.2px` (`0.89rem`) | `16.0px` (`1.0rem`) | `19.7px` (`1.23rem`) | `23.2px` (`1.45rem`) | `23.2px` |
+| `.fluid-btn` | Botões & CTAs | `14px` (`0.875rem`) | **`16px`** (`1.0rem`) | `14.2px` (`0.89rem`) | `16.0px` (`1.0rem`) | `19.7px` (`1.23rem`) | `23.2px` (`1.45rem`) | `23.2px` |
+| `.fluid-caption` | Badges, Pills, Labels | `12px` (`0.75rem`) | **`14px`** (`0.875rem`) | `12.5px` (`0.78rem`) | `14.0px` (`0.875rem`) | `17.3px` (`1.08rem`) | `20.3px` (`1.27rem`) | `20.3px` |
+| `.fluid-legal` | Copyright e Legal | `11px` (`0.6875rem`)| **`13px`** (`0.8125rem`)| `11.5px` (`0.72rem`) | `13.0px` (`0.8125rem`)| `14.3px` (`0.89rem`) | `15.6px` (`0.975rem`)| `15.6px` |
+
+### Fórmulas Matemáticas Clamp Utilizadas
+As classes utilitárias utilizam pares de interpolação matemática com `@media (min-width: 1240px)` definidos centralmente em [`src/styles.css`](file:///c:/Users/FAB-RGoncalves/Projetos%20GitHub/waybit-home-vision/src/styles.css):
+* `< 1240px`: $\text{clamp}(\text{Piso}, \text{calc}(\text{intercepto} + \text{slope}\times\text{vw}), \text{Base})$
+* $\ge 1240px$: $\text{clamp}(\text{Base}, \text{calc}(\text{intercepto} + \text{slope}\times\text{vw}), \text{Base}\times 1.45)$
 
 ---
 
