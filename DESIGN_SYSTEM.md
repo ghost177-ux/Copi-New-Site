@@ -28,12 +28,15 @@ O projeto adota uma arquitetura de layout **100% Fluida**.
 
 ### 1. Tipografia Fluida Global (Regra Oficial H1/H2/H3 e Demais Textos)
 Para manter o equilíbrio visual e a hierarquia entre títulos e corpo de texto em qualquer tela:
-1. **H1, H2 e H3 (inclui Display / Hero H1):**
-   $$\text{NOVA BASE} = \text{TAMANHO ORIGINAL} - 2\text{px}$$
-   - A partir dessa nova base reduzida em 2px, a fonte cresce fluidamente até aproximadamente $+45\%$ em telas grandes ($\ge 1240\text{px}$ até $2560\text{px}$).
+1. **Títulos Principais (Display / H1 / H2 / H3):**
+   - **Hero / Display (`.fluid-display`):** Base de **46px** (`2.875rem`).
+   - **H1 (`.fluid-h1`):** Base de **34px** (`2.125rem`).
+   - **H2 (`.fluid-h2`):** Base de **26px** (`1.625rem`).
+   - **H3 (`.fluid-h3`):** Base de **22px** (`1.375rem`).
+   - A partir dessa base oficial de referência (em $1240\text{px}$), cada título cresce fluidamente até aproximadamente $+45\%$ em telas grandes ($\ge 1240\text{px}$ até $2560\text{px}$).
    - Em telas menores ($< 1240\text{px}$), reduz fluidamente respeitando um piso confortável de legibilidade.
 2. **Demais Textos (Body, Body Large, Subtítulos, Secondary, Links, Navegação, Botões, Labels, Captions, Legal):**
-   $$\text{BASE} = \text{TAMANHO ORIGINAL (sem diminuir 2px)}$$
+   $$\text{BASE} = \text{TAMANHO ORIGINAL}$$
    - Mantêm o tamanho original como base de referência em $1240\text{px}$.
    - Crescem fluidamente até aproximadamente $+45\%$ em telas amplas ($\ge 1240\text{px}$ até $2560\text{px}$).
    - Reduzem fluidamente com piso de conforto em telas menores.
@@ -169,26 +172,26 @@ Utilizado em títulos em destaque, divisórias e badges:
   * Line Height: `1.5` a `1.65` (relaxed)
 
 ### Filosofia da Escala Tipográfica Fluida
-1. **H1 / H2 / H3 (e Display):** $\text{Nova Base} = \text{Tamanho Original} - 2\text{px}$. Crescimento fluido de até $+45\%$ em telas grandes.
-2. **Demais Textos:** $\text{Base} = \text{Tamanho Original}$. Crescimento fluido de até $+45\%$ em telas grandes.
-3. **Piso Confortável em Telas Menores ($< 1240px$):** Abaixo de 1240px, a fonte reduz gradualmente com um limite inferior que preserva legibilidade humana confortável até 375px e telas menores.
-4. **Continuidade Matemática Perfeita:** Em 1240px, a transição entre as faixas possui $\Delta = 0\text{px}$, sem solavancos visuais.
+1. **Títulos Principais (Display / H1 / H2 / H3):** Definidos por bases calibradas para proporcionalidade e conforto visual, com crescimento fluido de até aproximadamente $+45\%$ em telas grandes ($\ge 1240\text{px}$ até $2560\text{px}$).
+2. **Demais Textos:** $\text{Base} = \text{Tamanho Original}$. Crescimento fluido de até aproximadamente $+45\%$ em telas grandes.
+3. **Piso Confortável em Telas Menores ($< 1240\text{px}$):** Abaixo de 1240px, a fonte reduz gradualmente com um limite inferior que preserva legibilidade humana confortável até 375px e telas menores.
+4. **Continuidade Matemática Perfeita:** Em 1240px, a transição entre as faixas possui $\Delta = 0\text{px}$, sem saltos visuais.
 
 ### Tabela de Tokens Tipográficos e Resoluções
 
-| Tipo / Token | Original | Nova Base | 1240px | 1920px | 2560px | Teto (+45%) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Hero / Display** (`.fluid-display`) | `60px` | **`58px`** (`3.625rem`) | `58.0px` | `71.4px` | `84.1px` | `84.1px` (`5.26rem`) |
-| **H1** (`.fluid-h1`) | `48px` | **`46px`** (`2.875rem`) | `46.0px` | `56.7px` | `66.7px` | `66.7px` (`4.17rem`) |
-| **H2** (`.fluid-h2`) | `40px` | **`38px`** (`2.375rem`) | `38.0px` | `46.8px` | `55.1px` | `55.1px` (`3.44rem`) |
-| **H3** (`.fluid-h3`) | `24px` | **`22px`** (`1.375rem`) | `22.0px` | `27.1px` | `31.9px` | `31.9px` (`1.99rem`) |
-| **Body Large / Subtitle** (`.fluid-body-lg`) | `18px` | **`18px`** (`1.125rem`) | `18.0px` | `22.2px` | `26.1px` | `26.1px` (`1.63rem`) |
-| **Body** (`.fluid-body`) | `16px` | **`16px`** (`1.0rem`) | `16.0px` | `19.7px` | `23.2px` | `23.2px` (`1.45rem`) |
-| **Secondary** (`.fluid-secondary`) | `14px` | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
-| **Navigation** (`.fluid-nav`) | `14px` | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
-| **Button** (`.fluid-btn`) | `14px` | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
-| **Caption** (`.fluid-caption`) | `12px` | **`12px`** (`0.75rem`) | `12.0px` | `14.8px` | `17.4px` | `17.4px` (`1.09rem`) |
-| **Legal** (`.fluid-legal`) | `11px` | **`11px`** (`0.6875rem`)| `11.0px` | `13.6px` | `16.0px` | `16.0px` (`1.00rem`) |
+| Tipo / Token | Base de Referência | 1240px | 1920px | 2560px | Teto (+45%) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Hero / Display** (`.fluid-display`) | **`46px`** (`2.875rem`) | `46.0px` | `56.7px` | `66.7px` | `66.7px` (`4.17rem`) |
+| **H1** (`.fluid-h1`) | **`34px`** (`2.125rem`) | `34.0px` | `41.9px` | `49.3px` | `49.3px` (`3.08rem`) |
+| **H2** (`.fluid-h2`) | **`26px`** (`1.625rem`) | `26.0px` | `32.0px` | `37.7px` | `37.7px` (`2.36rem`) |
+| **H3** (`.fluid-h3`) | **`22px`** (`1.375rem`) | `22.0px` | `27.1px` | `31.9px` | `31.9px` (`1.99rem`) |
+| **Body Large / Subtitle** (`.fluid-body-lg`) | **`18px`** (`1.125rem`) | `18.0px` | `22.2px` | `26.1px` | `26.1px` (`1.63rem`) |
+| **Body** (`.fluid-body`) | **`16px`** (`1.0rem`) | `16.0px` | `19.7px` | `23.2px` | `23.2px` (`1.45rem`) |
+| **Secondary** (`.fluid-secondary`) | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **Navigation** (`.fluid-nav`) | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **Button** (`.fluid-btn`) | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **Caption** (`.fluid-caption`) | **`12px`** (`0.75rem`) | `12.0px` | `14.8px` | `17.4px` | `17.4px` (`1.09rem`) |
+| **Legal** (`.fluid-legal`) | **`11px`** (`0.6875rem`)| `11.0px` | `13.6px` | `16.0px` | `16.0px` (`1.00rem`) |
 
 ### Fórmulas Matemáticas Clamp Utilizadas
 As classes utilitárias utilizam pares de interpolação matemática com `@media (min-width: 1240px)` definidos centralmente em [`src/styles.css`](file:///c:/Users/FAB-RGoncalves/Projetos%20GitHub/waybit-home-vision/src/styles.css):

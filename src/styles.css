@@ -747,17 +747,17 @@
  * Transição perfeitamente contínua em 1240px (delta = 0.00px, sem saltos).
  * ========================================================================= */
 .fluid-display {
-  font-size: clamp(2rem, calc(1.8958rem + 2.2312vw), 3.625rem);
+  font-size: clamp(1.75rem, calc(1.6206rem + 1.6185vw), 2.875rem);
   line-height: 1.12;
 }
 
 .fluid-h1 {
-  font-size: clamp(1.625rem, calc(1.6475rem + 1.5838vw), 2.875rem);
+  font-size: clamp(1.375rem, calc(1.3188rem + 1.0405vw), 2.125rem);
   line-height: 1.14;
 }
 
 .fluid-h2 {
-  font-size: clamp(1.375rem, calc(1.4344rem + 1.2139vw), 2.375rem);
+  font-size: clamp(1.125rem, calc(1.1325rem + 0.6358vw), 1.625rem);
   line-height: 1.18;
 }
 
@@ -818,15 +818,15 @@
 
 @media (min-width: 1240px) {
   .fluid-display {
-    font-size: clamp(3.625rem, calc(2.0926rem + 1.9773vw), 5.2563rem);
-  }
-
-  .fluid-h1 {
     font-size: clamp(2.875rem, calc(1.6597rem + 1.5682vw), 4.1688rem);
   }
 
+  .fluid-h1 {
+    font-size: clamp(2.125rem, calc(1.2267rem + 1.1591vw), 3.0813rem);
+  }
+
   .fluid-h2 {
-    font-size: clamp(2.375rem, calc(1.3710rem + 1.2955vw), 3.4438rem);
+    font-size: clamp(1.625rem, calc(0.9381rem + 0.8864vw), 2.3563rem);
   }
 
   .fluid-h3 {
