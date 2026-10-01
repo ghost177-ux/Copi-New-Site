@@ -59,9 +59,9 @@ export function CicloOperacionalSideBySide() {
 
               {/* Container Orbital com rotação suave e contínua de 360 graus em 12s */}
               <div className="relative size-[25%] sm:size-[24%] aspect-square flex items-center justify-center animate-[spin_12s_linear_infinite]">
-                {/* Ícone Lucide Rocket com presença visual aumentada, alinhado tangencialmente à órbita */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                  <Rocket className="size-7 sm:size-8 text-slate-600 fill-slate-600/30 stroke-[2] rotate-45 drop-shadow-xs" />
+                {/* Ícone Lucide Rocket com presença visual aumentada, alinhado tangencialmente à órbita com pequeno offset radial para fora */}
+                <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                  <Rocket className="size-8 sm:size-9 text-slate-600 fill-slate-600/30 stroke-[2] rotate-45 drop-shadow-xs" />
                 </div>
               </div>
             </div>
