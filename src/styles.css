@@ -880,49 +880,49 @@
  * Transição perfeitamente contínua em 1240px (delta = 0.00px, sem saltos visuais).
  * ========================================================================= */
 .footer-title {
-  font-size: clamp(0.9375rem, calc(0.91rem + 0.116vw), 1rem);
+  font-size: clamp(0.8125rem, calc(0.7854rem + 0.1156vw), 0.875rem);
   line-height: 1.4;
 }
 
 .footer-text-primary {
-  font-size: clamp(0.9375rem, calc(0.91rem + 0.116vw), 1rem);
+  font-size: clamp(0.8125rem, calc(0.7854rem + 0.1156vw), 0.875rem);
   line-height: 1.625;
 }
 
 .footer-link {
-  font-size: clamp(0.875rem, calc(0.848rem + 0.116vw), 0.9375rem);
+  font-size: clamp(0.75rem, calc(0.7229rem + 0.1156vw), 0.8125rem);
   line-height: 1.5;
 }
 
 .footer-text-secondary {
-  font-size: clamp(0.8125rem, calc(0.785rem + 0.116vw), 0.875rem);
+  font-size: clamp(0.6875rem, calc(0.6604rem + 0.1156vw), 0.75rem);
   line-height: 1.5;
 }
 
 .footer-legal {
-  font-size: clamp(0.75rem, calc(0.723rem + 0.116vw), 0.8125rem);
+  font-size: clamp(0.625rem, calc(0.5979rem + 0.1156vw), 0.6875rem);
   line-height: 1.5;
 }
 
 @media (min-width: 1240px) {
   .footer-title {
-    font-size: clamp(1rem, calc(0.535rem + 0.6vw), 1.45rem);
+    font-size: clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem);
   }
 
   .footer-text-primary {
-    font-size: clamp(1rem, calc(0.535rem + 0.6vw), 1.45rem);
+    font-size: clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem);
   }
 
   .footer-link {
-    font-size: clamp(0.9375rem, calc(0.5268rem + 0.53vw), 1.3438rem);
+    font-size: clamp(0.8125rem, calc(0.4690rem + 0.4432vw), 1.1781rem);
   }
 
   .footer-text-secondary {
-    font-size: clamp(0.875rem, calc(0.5263rem + 0.45vw), 1.2188rem);
+    font-size: clamp(0.75rem, calc(0.4330rem + 0.4091vw), 1.0875rem);
   }
 
   .footer-legal {
-    font-size: clamp(0.8125rem, calc(0.642rem + 0.22vw), 0.975rem);
+    font-size: clamp(0.6875rem, calc(0.3969rem + 0.375vw), 0.9969rem);
   }
 }
 

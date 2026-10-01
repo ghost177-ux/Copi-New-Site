@@ -211,6 +211,34 @@ Exemplos de fórmulas finais aprovadas:
   * `< 1240px`: `clamp(1.125rem, calc(0.9624rem + 0.6936vw), 1.5rem)`
   * $\ge 1240px$: `clamp(1.5rem, calc(0.8659rem + 0.8182vw), 2.175rem)`
 
+### Escala Tipográfica Própria do Footer Institucional
+O Footer utiliza uma escala tipográfica própria, calibrada especificamente para alta densidade informacional e elegância institucional:
+
+| Token Footer | Base de Referência | 1240px | 1920px | 2560px | Teto (+45%) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`.footer-title`** | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **`.footer-text-primary`** | **`14px`** (`0.875rem`) | `14.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **`.footer-link`** | **`13px`** (`0.8125rem`) | `13.0px` | `16.0px` | `18.85px` | `18.85px` (`1.18rem`) |
+| **`.footer-text-secondary`** | **`12px`** (`0.75rem`) | `12.0px` | `14.8px` | `17.4px` | `17.4px` (`1.09rem`) |
+| **`.footer-legal`** | **`11px`** (`0.6875rem`)| `11.0px` | `13.6px` | `16.0px` | `16.0px` (`1.00rem`) |
+
+Fórmulas Finais do Footer:
+* **`.footer-title`:**
+  * `< 1240px`: `clamp(0.8125rem, calc(0.7854rem + 0.1156vw), 0.875rem)`
+  * $\ge 1240px`: `clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem)`
+* **`.footer-text-primary`:**
+  * `< 1240px`: `clamp(0.8125rem, calc(0.7854rem + 0.1156vw), 0.875rem)`
+  * $\ge 1240px`: `clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem)`
+* **`.footer-link`:**
+  * `< 1240px`: `clamp(0.75rem, calc(0.7229rem + 0.1156vw), 0.8125rem)`
+  * $\ge 1240px`: `clamp(0.8125rem, calc(0.4690rem + 0.4432vw), 1.1781rem)`
+* **`.footer-text-secondary`:**
+  * `< 1240px`: `clamp(0.6875rem, calc(0.6604rem + 0.1156vw), 0.75rem)`
+  * $\ge 1240px`: `clamp(0.75rem, calc(0.4330rem + 0.4091vw), 1.0875rem)`
+* **`.footer-legal`:**
+  * `< 1240px`: `clamp(0.625rem, calc(0.5979rem + 0.1156vw), 0.6875rem)`
+  * $\ge 1240px`: `clamp(0.6875rem, calc(0.3969rem + 0.375vw), 0.9969rem)`
+
 ---
 
 ## 7. Escala Responsiva & Unidades Recomendadas
