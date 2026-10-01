@@ -1,5 +1,5 @@
-import { MessageSquare, Phone, ShieldCheck } from "lucide-react";
-import logoAsset from "@/assets/waybit-logo.png.asset.json";
+import { Facebook, Instagram, MessageSquare, Phone, ShieldCheck } from "lucide-react";
+import logoImg from "@/assets/logo.png";
 
 interface FooterProps {
   onOpenSpecialist?: () => void;
@@ -28,9 +28,9 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
               className="inline-block mb-4"
             >
               <img
-                src={logoAsset.url}
+                src={logoImg}
                 alt="Waybit Software"
-                className="h-10 w-auto"
+                className="h-10 w-auto object-contain"
                 width={220}
                 height={80}
               />
@@ -69,22 +69,28 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
                 <p className="text-sm">Segunda a Sexta: 08h às 18h</p>
                 <p className="text-sm">Plantão de Suporte nos Finais de Semana</p>
               </div>
+              <div className="pt-2">
+                <p className="text-sm font-semibold text-foreground">Sede Operacional:</p>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  Rio de Janeiro / RJ — Brasil
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Coluna 3: Central & Navegação */}
+          {/* Coluna 3: Soluções */}
           <div className="sm:col-span-1 lg:col-span-2">
             <h4 className="font-display text-base font-bold text-foreground mb-4 uppercase tracking-wider">
-              Navegação
+              Soluções
             </h4>
             <ul className="space-y-2.5 text-[15px] text-muted-foreground">
               <li>
                 <button
                   type="button"
-                  onClick={() => scrollToAnchor("ciclo-operacional")}
+                  onClick={() => scrollToAnchor("solucoes-segmentos")}
                   className="hover:text-primary transition-colors text-left cursor-pointer"
                 >
-                  Ciclo Operacional
+                  Sistema para Restaurante
                 </button>
               </li>
               <li>
@@ -93,68 +99,77 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
                   onClick={() => scrollToAnchor("solucoes-segmentos")}
                   className="hover:text-primary transition-colors text-left cursor-pointer"
                 >
-                  Soluções Especializadas
+                  Sistema para Cafeteria
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() => scrollToAnchor("depoimentos")}
+                  onClick={() => scrollToAnchor("solucoes-segmentos")}
                   className="hover:text-primary transition-colors text-left cursor-pointer"
                 >
-                  Depoimentos de Clientes
+                  Sistema para Hamburgueria
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() => scrollToAnchor("avaliacoes-google")}
+                  onClick={() => scrollToAnchor("solucoes-segmentos")}
                   className="hover:text-primary transition-colors text-left cursor-pointer"
                 >
-                  Avaliações Google
+                  Sistema para Materiais de Construção
                 </button>
               </li>
               <li>
                 <button
                   type="button"
-                  onClick={() => scrollToAnchor("blog-conteudos")}
+                  onClick={() => scrollToAnchor("solucoes-segmentos")}
                   className="hover:text-primary transition-colors text-left cursor-pointer"
                 >
-                  Blog & Artigos
-                </button>
-              </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={onOpenSpecialist}
-                  className="hover:text-primary transition-colors text-left cursor-pointer font-semibold text-base text-[#71BE44]"
-                >
-                  Falar com Especialista
+                  Sistema para Loja de Tintas
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Coluna 4: Unidades & Atendimento */}
+          {/* Coluna 4: Social */}
           <div className="sm:col-span-2 lg:col-span-3">
             <h4 className="font-display text-base font-bold text-foreground mb-4 uppercase tracking-wider">
-              Atendimento Nacional
+              Social
             </h4>
-            <p className="text-[15px] text-muted-foreground leading-relaxed">
-              Atendimento presencial e remoto para empresas em todo o território brasileiro. Mais de
-              1.000 clientes gerenciando suas operações com a Waybit.
-            </p>
-            <div className="mt-4 p-3 rounded-xl border border-border bg-surface-subtle">
-              <p className="text-sm font-semibold text-foreground">Sede Operacional:</p>
-              <p className="text-sm text-muted-foreground mt-0.5">
-                Rio de Janeiro / RJ — Brasil
-              </p>
+            <div className="flex items-center gap-3 text-muted-foreground">
+              <a
+                className="social-link"
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <Facebook size={16} />
+              </a>
+              <a
+                className="social-link"
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <Instagram size={16} />
+              </a>
             </div>
           </div>
         </div>
 
+        {/* DIVISÓRIA COLORIDA HORIZONTAL DA IDENTIDADE WAYBIT */}
+        <div className="mt-10 mb-6 flex h-[3px] w-full" aria-hidden="true">
+          <div className="h-full w-[18%] bg-[#00ADEF]" />
+          <div className="h-full w-[32%] bg-[#FFB800]" />
+          <div className="h-full w-[32%] bg-[#71BE44]" />
+          <div className="h-full w-[18%] bg-[#707070]" />
+        </div>
+
         {/* Linha Inferior com Copyright */}
-        <div className="mt-10 pt-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} Waybit Software. Todos os direitos reservados.</p>
           <div className="flex items-center gap-6">
             <a
