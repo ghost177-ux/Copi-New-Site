@@ -4,15 +4,18 @@ export function CicloOperacionalSideBySide() {
   return (
     <section
       id="ciclo-operacional"
-      className="relative w-full overflow-hidden border-t border-b border-[#E2EEF2] bg-[#F4F9FB] py-16 sm:py-24"
+      className="relative w-full overflow-hidden border-b border-[#E2EEF2] bg-[#F4F9FB] py-16 sm:py-24"
     >
+      {/* Linha superior: espelha a composição exata da linha inferior (1px border-border + 1px border-[#E2EEF2]) */}
+      <div className="pointer-events-none absolute top-0 left-0 w-full border-t border-border border-b border-[#E2EEF2]" />
+
       {/* Luzes difusas sutis de ambientação corporativa */}
       <div className="pointer-events-none absolute -left-36 top-1/3 size-[460px] rounded-full bg-cyan-100/30 blur-3xl" />
       <div className="pointer-events-none absolute -right-36 bottom-1/4 size-[460px] rounded-full bg-sky-100/30 blur-3xl" />
 
       {/* Container Global 100% Fluido (Gutter: 3% / 5% / 10% sem max-width global) */}
       <div className="fluid-container relative z-10 flex flex-col items-center justify-between gap-12 lg:flex-row lg:items-center lg:gap-[4%]">
-        
+
         {/* ========================================================
             COLUNA ESQUERDA (45%): IMAGEM TRANSPARENTE PURA + FOGUETE LUCIDE
         ======================================================== */}
@@ -42,14 +45,14 @@ export function CicloOperacionalSideBySide() {
                   d="M 50 0 A 50 50 0 0 1 50 100"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.25"
+                  strokeWidth="3"
                 />
                 {/* 50% Linha Tracejada (arco esquerdo de 6h às 12h) */}
                 <path
                   d="M 50 100 A 50 50 0 0 1 50 0"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="1.25"
+                  strokeWidth="3"
                   strokeDasharray="4 3"
                 />
               </svg>
@@ -71,7 +74,7 @@ export function CicloOperacionalSideBySide() {
         <div className="flex w-full flex-col justify-center lg:w-[53%]">
           {/* Título Principal */}
           <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-slate-900 leading-tight">
-            Seu negócio mais rápido. Seu dia mais produtivo.
+            Seu negócio mais rápido. Seu dia mais produtivo!
           </h2>
 
           {/* Texto Oficial */}
