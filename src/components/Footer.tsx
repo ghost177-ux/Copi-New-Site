@@ -16,25 +16,29 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
   return (
     <footer id="footer-institucional" className="border-t border-border bg-background pt-14 pb-8 w-full overflow-hidden">
       <div className="fluid-container">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-4">
-          {/* Coluna 1: Logo / Sobre a Waybit */}
+        {/* Bloco exclusivo para a Logo acima do grid */}
+        <div className="mb-6 sm:mb-8">
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToAnchor("hero");
+            }}
+            className="inline-block"
+          >
+            <img
+              src={logoImg}
+              alt="Waybit Software"
+              className="h-12 w-auto object-contain"
+              width={240}
+              height={88}
+            />
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-4 items-start">
+          {/* Coluna 1: Sobre a Waybit */}
           <div className="sm:col-span-2 lg:col-span-4">
-            <a
-              href="#hero"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToAnchor("hero");
-              }}
-              className="inline-block mb-4"
-            >
-              <img
-                src={logoImg}
-                alt="Waybit Software"
-                className="h-12 w-auto object-contain"
-                width={240}
-                height={88}
-              />
-            </a>
             <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
               Sistema de gestão descomplicada para Varejo, Food e Auto-Center com soluções modernas
               e suporte de verdade.
