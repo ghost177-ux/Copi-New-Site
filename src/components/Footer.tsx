@@ -36,9 +36,9 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 pb-4 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[3fr_3.2fr_2.8fr_1fr] gap-8 sm:gap-y-10 lg:gap-8 xl:gap-10 pb-4 items-start">
           {/* Coluna 1: Sobre a Waybit */}
-          <div className="sm:col-span-2 lg:col-span-4">
+          <div>
             <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
               Sistema de gestão descomplicada para Varejo, Food e Auto-Center com soluções modernas
               e suporte de verdade.
@@ -57,7 +57,7 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
           </div>
 
           {/* Coluna 2: Contato Comercial */}
-          <div className="sm:col-span-1 lg:col-span-3">
+          <div>
             <h4 className="font-display text-base font-bold text-foreground mb-4 uppercase tracking-wider">
               Contato Comercial
             </h4>
@@ -83,7 +83,7 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
           </div>
 
           {/* Coluna 3: Soluções */}
-          <div className="sm:col-span-1 lg:col-span-2">
+          <div>
             <h4 className="font-display text-base font-bold text-foreground mb-4 uppercase tracking-wider">
               Soluções
             </h4>
@@ -137,7 +137,7 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
           </div>
 
           {/* Coluna 4: Social */}
-          <div className="sm:col-span-2 lg:col-span-3">
+          <div>
             <h4 className="font-display text-base font-bold text-foreground mb-4 uppercase tracking-wider">
               Social
             </h4>
