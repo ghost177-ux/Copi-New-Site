@@ -751,3 +751,32 @@
     font-size: clamp(1.05rem, 1.25vw, 1.25rem);
   }
 }
+
+/* =========================================================================
+ * TIPOGRAFIA FLUIDA — FOOTER INSTITUCIONAL
+ * ========================================================================= */
+.footer-title {
+  font-size: clamp(0.9375rem, calc(0.9rem + 0.12vw), 1.125rem);
+  line-height: 1.4;
+}
+
+.footer-text-primary {
+  font-size: clamp(0.9375rem, calc(0.9rem + 0.12vw), 1.125rem);
+  line-height: 1.625;
+}
+
+.footer-link {
+  font-size: clamp(0.875rem, calc(0.8375rem + 0.12vw), 1.0625rem);
+  line-height: 1.5;
+}
+
+.footer-text-secondary {
+  font-size: clamp(0.8125rem, calc(0.775rem + 0.12vw), 1rem);
+  line-height: 1.5;
+}
+
+.footer-legal {
+  font-size: clamp(0.75rem, calc(0.72rem + 0.1vw), 0.875rem);
+  line-height: 1.5;
+}
+
