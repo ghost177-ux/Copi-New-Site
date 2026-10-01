@@ -30,16 +30,23 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
               <img
                 src={logoImg}
                 alt="Waybit Software"
-                className="h-10 w-auto object-contain"
-                width={220}
-                height={80}
+                className="h-12 w-auto object-contain"
+                width={240}
+                height={88}
               />
             </a>
             <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
-              Tecnologia e gestão descomplicada para o comércio brasileiro. Simplificamos a rotina
-              de Varejo, Food e Auto-Center com soluções modernas e suporte de verdade.
+              Sistema de gestão descomplicada para Varejo, Food e Auto-Center com soluções modernas
+              e suporte de verdade.
             </p>
-            <div className="mt-6 flex items-center gap-3 text-sm text-muted-foreground">
+            <p className="mt-3.5 text-sm font-semibold text-foreground/90">CNPJ: 11.661.244/0001-31</p>
+            <div className="mt-2.5">
+              <p className="text-sm font-semibold text-foreground">Sede Operacional:</p>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                Rio de Janeiro / RJ — Brasil
+              </p>
+            </div>
+            <div className="mt-5 flex items-center gap-3 text-sm text-muted-foreground">
               <ShieldCheck size={16} className="text-[#71BE44]" />
               <span>Sistemas 100% atualizados com o SEFAZ Nacional</span>
             </div>
@@ -51,7 +58,6 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
               Contato Comercial
             </h4>
             <div className="space-y-3 text-sm text-muted-foreground">
-              <p className="text-sm font-semibold text-foreground/90">CNPJ: 11.661.244/0001-31</p>
               <a
                 href="tel:+5521975812676"
                 className="text-base font-medium flex items-center gap-2 hover:text-foreground transition-colors"
@@ -68,12 +74,6 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
                 <p className="text-sm font-semibold text-foreground">Horário Comercial:</p>
                 <p className="text-sm">Segunda a Sexta: 08h às 18h</p>
                 <p className="text-sm">Plantão de Suporte nos Finais de Semana</p>
-              </div>
-              <div className="pt-2">
-                <p className="text-sm font-semibold text-foreground">Sede Operacional:</p>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  Rio de Janeiro / RJ — Brasil
-                </p>
               </div>
             </div>
           </div>
@@ -159,16 +159,18 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* DIVISÓRIA COLORIDA HORIZONTAL DA IDENTIDADE WAYBIT */}
-        <div className="mt-10 mb-6 flex h-[3px] w-full" aria-hidden="true">
-          <div className="h-full w-[18%] bg-[#00ADEF]" />
-          <div className="h-full w-[32%] bg-[#FFB800]" />
-          <div className="h-full w-[32%] bg-[#71BE44]" />
-          <div className="h-full w-[18%] bg-[#707070]" />
-        </div>
+      {/* DIVISÓRIA COLORIDA HORIZONTAL DA IDENTIDADE WAYBIT (FULL WIDTH DE BORDA A BORDA) */}
+      <div className="mt-10 mb-6 flex h-[3px] w-full" aria-hidden="true">
+        <div className="h-full w-[18%] bg-[#00ADEF]" />
+        <div className="h-full w-[32%] bg-[#FFB800]" />
+        <div className="h-full w-[32%] bg-[#71BE44]" />
+        <div className="h-full w-[18%] bg-[#707070]" />
+      </div>
 
-        {/* Linha Inferior com Copyright */}
+      {/* Linha Inferior com Copyright e Políticas */}
+      <div className="fluid-container">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
           <p>© {new Date().getFullYear()} Waybit Software. Todos os direitos reservados.</p>
           <div className="flex items-center gap-6">
