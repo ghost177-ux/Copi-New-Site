@@ -17,7 +17,7 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
     <footer id="footer-institucional" className="border-t border-border bg-background pt-14 pb-8 w-full overflow-hidden">
       <div className="fluid-container">
         {/* Bloco exclusivo para a Logo acima do grid */}
-        <div className="mb-6 sm:mb-8">
+        <div className="mb-6 sm:mb-8 w-full">
           <a
             href="#hero"
             onClick={(e) => {
@@ -38,30 +38,30 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[3fr_3.2fr_2.8fr_1fr] gap-8 sm:gap-y-10 lg:gap-8 xl:gap-10 pb-4 items-start">
           {/* Coluna 1: Sobre a Waybit */}
-          <div>
-            <p className="footer-text-primary text-muted-foreground leading-relaxed max-w-sm">
+          <div className="w-full">
+            <p className="footer-text-primary text-muted-foreground leading-relaxed w-full max-w-sm">
               Sistema de gestão descomplicada para Varejo, Food e Auto-Center com soluções modernas
               e suporte de verdade.
             </p>
-            <p className="mt-3.5 footer-text-secondary font-semibold text-foreground/90">CNPJ: 11.661.244/0001-31</p>
-            <div className="mt-2.5">
+            <p className="mt-3.5 footer-text-secondary font-semibold text-foreground/90 w-full">CNPJ: 11.661.244/0001-31</p>
+            <div className="mt-2.5 w-full">
               <p className="footer-text-secondary font-semibold text-foreground">Sede Operacional:</p>
               <p className="footer-text-secondary text-muted-foreground mt-0.5">
                 Rio de Janeiro / RJ — Brasil
               </p>
             </div>
-            <div className="mt-5 flex items-center gap-3 footer-text-secondary text-muted-foreground">
+            <div className="mt-5 flex w-full items-center gap-3 footer-text-secondary text-muted-foreground">
               <ShieldCheck size={16} className="text-[#71BE44]" />
               <span>Sistemas 100% atualizados com o SEFAZ Nacional</span>
             </div>
           </div>
 
           {/* Coluna 2: Contato Comercial */}
-          <div>
-            <h4 className="font-display footer-title font-bold text-foreground mb-4 uppercase tracking-wider">
+          <div className="w-full">
+            <h4 className="font-display footer-title font-bold text-foreground mb-4 uppercase tracking-wider w-full">
               Contato Comercial
             </h4>
-            <div className="space-y-3 footer-text-secondary text-muted-foreground">
+            <div className="space-y-3 footer-text-secondary text-muted-foreground w-full">
               <a
                 href="tel:+5521975812676"
                 className="footer-text-primary font-medium flex items-center gap-2 hover:text-foreground transition-colors"
@@ -74,7 +74,7 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
               >
                 <MessageSquare size={14} className="text-[#71BE44]" /> comercial@waybit.com.br
               </a>
-              <div className="pt-2 footer-text-secondary">
+              <div className="pt-2 footer-text-secondary w-full">
                 <p className="font-semibold text-foreground">Horário Comercial:</p>
                 <p>Segunda a Sexta: 08h às 18h</p>
                 <p>Plantão de Suporte nos Finais de Semana</p>
@@ -83,11 +83,11 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
           </div>
 
           {/* Coluna 3: Soluções */}
-          <div>
-            <h4 className="font-display footer-title font-bold text-foreground mb-4 uppercase tracking-wider">
+          <div className="w-full">
+            <h4 className="font-display footer-title font-bold text-foreground mb-4 uppercase tracking-wider w-full">
               Soluções
             </h4>
-            <ul className="space-y-2.5 footer-link text-muted-foreground">
+            <ul className="space-y-2.5 footer-link text-muted-foreground w-full">
               <li>
                 <button
                   type="button"
@@ -137,11 +137,11 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
           </div>
 
           {/* Coluna 4: Social */}
-          <div>
-            <h4 className="font-display footer-title font-bold text-foreground mb-4 uppercase tracking-wider">
+          <div className="w-full">
+            <h4 className="font-display footer-title font-bold text-foreground mb-4 uppercase tracking-wider w-full">
               Social
             </h4>
-            <div className="flex items-center gap-3 text-muted-foreground">
+            <div className="flex w-full items-center gap-3 text-muted-foreground">
               <a
                 className="social-link"
                 href="https://www.facebook.com"

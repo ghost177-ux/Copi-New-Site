@@ -753,11 +753,11 @@
 }
 
 /* =========================================================================
- * TESTE VISUAL — TIPOGRAFIA FLUIDA EXPANSIVA (FOOTER INSTITUCIONAL)
+ * TIPOGRAFIA FLUIDA — FOOTER INSTITUCIONAL (ESCALA 45% DESKTOP)
  * =========================================================================
- * Faixa 1 (Mobile / Tablet até 1239px): crescimento suave preservando pisos.
- * Faixa 2 (Desktop 1240px+): escala acelerada proporcional à viewport ampla.
- * Transição perfeitamente contínua em 1240px (delta = 0px, sem saltos visuais).
+ * Faixa 1 (Mobile / Tablet < 1240px): crescimento suave preservando pisos.
+ * Faixa 2 (Desktop >= 1240px): escala calibrada para ~45% de crescimento.
+ * Transição perfeitamente contínua em 1240px (delta = 0.00px, sem saltos visuais).
  * ========================================================================= */
 .footer-title {
   font-size: clamp(0.9375rem, calc(0.91rem + 0.116vw), 1rem);
@@ -786,24 +786,25 @@
 
 @media (min-width: 1240px) {
   .footer-title {
-    font-size: clamp(1rem, calc(0.4575rem + 0.7vw), 1.5rem);
+    font-size: clamp(1rem, calc(0.535rem + 0.6vw), 1.45rem);
   }
 
   .footer-text-primary {
-    font-size: clamp(1rem, calc(0.4575rem + 0.7vw), 1.5rem);
+    font-size: clamp(1rem, calc(0.535rem + 0.6vw), 1.45rem);
   }
 
   .footer-link {
-    font-size: clamp(0.9375rem, calc(0.463rem + 0.6125vw), 1.375rem);
+    font-size: clamp(0.9375rem, calc(0.5268rem + 0.53vw), 1.3438rem);
   }
 
   .footer-text-secondary {
-    font-size: clamp(0.875rem, calc(0.468rem + 0.525vw), 1.25rem);
+    font-size: clamp(0.875rem, calc(0.5263rem + 0.45vw), 1.2188rem);
   }
 
   .footer-legal {
-    font-size: clamp(0.8125rem, calc(0.609rem + 0.2625vw), 1rem);
+    font-size: clamp(0.8125rem, calc(0.642rem + 0.22vw), 0.975rem);
   }
 }
+
 
 
