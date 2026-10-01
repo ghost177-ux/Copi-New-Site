@@ -740,64 +740,74 @@
 /* =========================================================================
  * DESIGN SYSTEM — REGRAS GLOBAIS OBRIGATÓRIAS: TIPOGRAFIA FLUIDA (+45%)
  * =========================================================================
- * Cada tamanho original recebe +2px (Nova Base), com piso seguro no mobile
+ * TAMANHO ORIGINAL = TAMANHO BASE (sem adicionar +2px).
+ * Piso de legibilidade confortável no mobile (< 1240px)
  * e expansão fluida contínua de ~45% em telas grandes (>= 1240px).
  * Transição perfeitamente contínua em 1240px (delta = 0.00px, sem saltos).
  * ========================================================================= */
-.fluid-display,
-.fluid-h1 {
-  font-size: clamp(2.25rem, calc(1.5455rem + 3.0058vw), 3.875rem);
+.fluid-display {
+  font-size: clamp(2.125rem, calc(1.9581rem + 2.3121vw), 3.75rem);
   line-height: 1.12;
 }
 
+.fluid-h1 {
+  font-size: clamp(1.75rem, calc(1.7188rem + 1.6532vw), 3rem);
+  line-height: 1.14;
+}
+
 .fluid-h2 {
-  font-size: clamp(1.75rem, calc(1.1539rem + 2.5434vw), 3.125rem);
+  font-size: clamp(1.5rem, calc(1.5144rem + 1.2717vw), 2.5rem);
   line-height: 1.18;
 }
 
 .fluid-h3 {
-  font-size: clamp(1.25rem, calc(1.0874rem + 0.6936vw), 1.625rem);
+  font-size: clamp(1.125rem, calc(1.0969rem + 0.5202vw), 1.5rem);
   line-height: 1.25;
 }
 
 .fluid-h4 {
-  font-size: clamp(1rem, calc(0.8916rem + 0.4624vw), 1.25rem);
+  font-size: clamp(0.9375rem, calc(0.9281rem + 0.2543vw), 1.125rem);
   line-height: 1.35;
 }
 
 .fluid-body-lg,
 .fluid-subtitle {
-  font-size: clamp(1rem, calc(0.8916rem + 0.4624vw), 1.25rem);
+  font-size: clamp(0.9375rem, calc(0.9281rem + 0.2543vw), 1.125rem);
   line-height: 1.6;
 }
 
 .fluid-body {
-  font-size: clamp(0.9375rem, calc(0.8562rem + 0.3468vw), 1.125rem);
+  font-size: clamp(0.875rem, calc(0.8656rem + 0.1734vw), 1rem);
   line-height: 1.625;
 }
 
 .fluid-secondary {
-  font-size: clamp(0.8438rem, calc(0.7760rem + 0.2890vw), 1rem);
+  font-size: clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem);
   line-height: 1.5;
 }
 
 .fluid-btn {
-  font-size: clamp(0.8438rem, calc(0.7760rem + 0.2890vw), 1rem);
+  font-size: clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem);
   line-height: 1.4;
 }
 
 .fluid-nav {
-  font-size: clamp(0.8438rem, calc(0.7760rem + 0.2890vw), 1rem);
+  font-size: clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem);
   line-height: 1.4;
 }
 
 .fluid-caption {
-  font-size: clamp(0.75rem, calc(0.6958rem + 0.2312vw), 0.875rem);
+  font-size: clamp(0.6875rem, calc(0.6963rem + 0.0694vw), 0.75rem);
+  line-height: 1.4;
+}
+
+.fluid-legal {
+  font-size: clamp(0.625rem, calc(0.6406rem + 0.0578vw), 0.6875rem);
   line-height: 1.4;
 }
 
 .metric-value {
-  font-size: clamp(1.375rem, calc(1.1145rem + 1.11vw), 2.125rem);
+  font-size: clamp(1.25rem, calc(1.05rem + 1vw), 1.875rem);
   line-height: 1.2;
   word-break: normal;
   overflow-wrap: break-word;
@@ -806,50 +816,57 @@
 }
 
 @media (min-width: 1240px) {
-  .fluid-display,
+  .fluid-display {
+    font-size: clamp(3.75rem, calc(2.1648rem + 2.0455vw), 5.4375rem);
+  }
+
   .fluid-h1 {
-    font-size: clamp(3.875rem, calc(2.2369rem + 2.1136vw), 5.6188rem);
+    font-size: clamp(3rem, calc(1.7318rem + 1.6364vw), 4.35rem);
   }
 
   .fluid-h2 {
-    font-size: clamp(3.125rem, calc(1.8040rem + 1.7045vw), 4.5313rem);
+    font-size: clamp(2.5rem, calc(1.4432rem + 1.3636vw), 3.625rem);
   }
 
   .fluid-h3 {
-    font-size: clamp(1.625rem, calc(0.9381rem + 0.8864vw), 2.3563rem);
+    font-size: clamp(1.5rem, calc(0.8659rem + 0.8182vw), 2.175rem);
   }
 
   .fluid-h4 {
-    font-size: clamp(1.25rem, calc(0.7216rem + 0.6818vw), 1.8125rem);
+    font-size: clamp(1.125rem, calc(0.6494rem + 0.6136vw), 1.6313rem);
   }
 
   .fluid-body-lg,
   .fluid-subtitle {
-    font-size: clamp(1.25rem, calc(0.7216rem + 0.6818vw), 1.8125rem);
-  }
-
-  .fluid-body {
     font-size: clamp(1.125rem, calc(0.6494rem + 0.6136vw), 1.6313rem);
   }
 
+  .fluid-body {
+    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
+  }
+
   .fluid-secondary {
-    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
-  }
-
-  .fluid-btn {
-    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
-  }
-
-  .fluid-nav {
-    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
-  }
-
-  .fluid-caption {
     font-size: clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem);
   }
 
+  .fluid-btn {
+    font-size: clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem);
+  }
+
+  .fluid-nav {
+    font-size: clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem);
+  }
+
+  .fluid-caption {
+    font-size: clamp(0.75rem, calc(0.4330rem + 0.4091vw), 1.0875rem);
+  }
+
+  .fluid-legal {
+    font-size: clamp(0.6875rem, calc(0.3969rem + 0.375vw), 1rem);
+  }
+
   .metric-value {
-    font-size: clamp(2.125rem, calc(1.2227rem + 1.1648vw), 3.0813rem);
+    font-size: clamp(1.875rem, calc(1.0824rem + 1.0227vw), 2.7188rem);
   }
 }
 

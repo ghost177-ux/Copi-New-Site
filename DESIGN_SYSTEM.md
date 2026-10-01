@@ -26,13 +26,12 @@ O projeto adota uma arquitetura de layout **100% Fluida**.
 >
 > Antes de criar qualquer nova página ou componente, este documento é a fonte de verdade para esses padrões. O Footer do projeto é a referência oficial testada e aprovada para esta implementação.
 
-### 1. Tipografia Fluida Global (Regra +2px / +45%)
+### 1. Tipografia Fluida Global (TAMANHO ORIGINAL = BASE TIPOGRÁFICA)
 Para qualquer nível tipográfico do projeto:
-1. Identifica-se o tamanho de referência original;
-2. Adiciona-se **+2px** ao tamanho original $\rightarrow$ esse valor passa a ser a **NOVA BASE** (referência em 1240px);
-3. Em telas menores ($< 1240px$), a fonte decresce fluidamente com uma curva controlada e protegida por um piso de legibilidade confortável (em 375px);
-4. Em telas maiores ($\ge 1240px$), a fonte expande continuamente com **amplitude de crescimento de aproximadamente 45%** até telas 4K/Ultrawide (2560px+);
-5. A escala deve ser contínua via `clamp(min, calc(intercepto + vw), max)`, **sem saltos tipográficos por breakpoints** (`sm:text-*`, `md:text-*`, `lg:text-*` não devem ser usados para escalonar fontes).
+1. **Tamanho Original = Base Tipográfica**: O tamanho original de referência é a base da escala (proibido adicionar +2px artificialmente).
+2. Em telas menores ($< 1240px$), a fonte decresce fluidamente com uma curva suave e piso de legibilidade confortável protegido por `clamp()`.
+3. Em telas maiores ($\ge 1240px$), a fonte expande continuamente com **amplitude de crescimento de até aproximadamente +45%** em telas 4K/Ultrawide (2560px).
+4. A escala é contínua via `clamp(min, calc(intercepto + vw), max)`, **sem saltos tipográficos por breakpoints** (`sm:text-*`, `md:text-*`, `lg:text-*` não devem ser usados para escalonar fontes).
 
 ### 2. Largura Estrutural Total (`w-full`)
 Todo wrapper, coluna e bloco estrutural deve ocupar **100% da largura disponibilizada pelo elemento pai**:
@@ -164,27 +163,27 @@ Utilizado em títulos em destaque, divisórias e badges:
   * Line Height: `1.5` a `1.65` (relaxed)
 
 ### Filosofia da Escala Tipográfica Fluida
-1. **Regra de Base:** Tamanho existente real $\rightarrow$ soma-se $+2\text{px}$ $\rightarrow$ **Nova Base** (em 1240px).
-2. **Crescimento em Telas Amplas:** A partir de 1240px, a fonte expande suavemente em $+45\%$ até 2560px.
-3. **Piso Confortável em Telas Menores:** Abaixo de 1240px, a fonte reduz gradualmente com um limite inferior que preserva legibilidade humana confortável até 375px e telas menores.
+1. **Regra Fundamental:** TAMANHO ORIGINAL = BASE TIPOGRÁFICA (sem adicionar +2px).
+2. **Crescimento em Telas Amplas ($\ge 1240px$):** A partir de 1240px, a fonte expande suavemente em até $+45\%$ em 2560px.
+3. **Piso Confortável em Telas Menores ($< 1240px$):** Abaixo de 1240px, a fonte reduz gradualmente com um limite inferior que preserva legibilidade humana confortável até 375px e telas menores.
 4. **Continuidade Matemática Perfeita:** Em 1240px, a transição entre as faixas possui $\Delta = 0\text{px}$, sem solavancos visuais.
 
 ### Tabela de Tokens Tipográficos e Resoluções
 
-| Token / Classe | Nível Semântico | Tamanho Original | Nova Base (+2px) | 375px (Mobile) | 1240px (Notebook) | 1920px (Full HD) | 2560px (2K/4K) | Teto (+45%) |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| `.fluid-display` | Display / Hero H1 | `60px` (`3.75rem`) | **`62px`** (`3.875rem`) | `42.8px` (`2.67rem`) | `62.0px` (`3.875rem`) | `76.4px` (`4.77rem`) | `89.9px` (`5.62rem`) | `89.9px` |
-| `.fluid-h1` | H1 de Página | `48px` (`3.0rem`) | **`50px`** (`3.125rem`) | `34.5px` (`2.16rem`) | `50.0px` (`3.125rem`) | `61.6px` (`3.85rem`) | `72.5px` (`4.53rem`) | `72.5px` |
-| `.fluid-h2` | Títulos de Section | `40px` (`2.5rem`) | **`42px`** (`2.625rem`) | `30.4px` (`1.90rem`) | `42.0px` (`2.625rem`) | `51.8px` (`3.24rem`) | `60.9px` (`3.81rem`) | `60.9px` |
-| `.fluid-h3` | Subtítulos / Cards | `24px` (`1.5rem`) | **`26px`** (`1.625rem`) | `21.2px` (`1.32rem`) | `26.0px` (`1.625rem`) | `32.0px` (`2.00rem`) | `37.7px` (`2.36rem`) | `37.7px` |
-| `.fluid-h4` | Títulos menores / Autores | `18px` (`1.125rem`) | **`20px`** (`1.25rem`) | `17.1px` (`1.07rem`) | `20.0px` (`1.25rem`) | `24.6px` (`1.54rem`) | `29.0px` (`1.81rem`) | `29.0px` |
-| `.fluid-body-lg` / `.fluid-subtitle` | Subtítulos & Lead | `18px` (`1.125rem`) | **`20px`** (`1.25rem`) | `17.1px` (`1.07rem`) | `20.0px` (`1.25rem`) | `24.6px` (`1.54rem`) | `29.0px` (`1.81rem`) | `29.0px` |
-| `.fluid-body` | Parágrafos Principais | `16px` (`1.0rem`) | **`18px`** (`1.125rem`) | `15.8px` (`0.99rem`) | `18.0px` (`1.125rem`) | `22.2px` (`1.38rem`) | `26.1px` (`1.63rem`) | `26.1px` |
-| `.fluid-secondary` | Textos Secundários | `14px` (`0.875rem`) | **`16px`** (`1.0rem`) | `14.2px` (`0.89rem`) | `16.0px` (`1.0rem`) | `19.7px` (`1.23rem`) | `23.2px` (`1.45rem`) | `23.2px` |
-| `.fluid-nav` | Links de Navegação | `14px` (`0.875rem`) | **`16px`** (`1.0rem`) | `14.2px` (`0.89rem`) | `16.0px` (`1.0rem`) | `19.7px` (`1.23rem`) | `23.2px` (`1.45rem`) | `23.2px` |
-| `.fluid-btn` | Botões & CTAs | `14px` (`0.875rem`) | **`16px`** (`1.0rem`) | `14.2px` (`0.89rem`) | `16.0px` (`1.0rem`) | `19.7px` (`1.23rem`) | `23.2px` (`1.45rem`) | `23.2px` |
-| `.fluid-caption` | Badges, Pills, Labels | `12px` (`0.75rem`) | **`14px`** (`0.875rem`) | `12.5px` (`0.78rem`) | `14.0px` (`0.875rem`) | `17.3px` (`1.08rem`) | `20.3px` (`1.27rem`) | `20.3px` |
-| `.fluid-legal` | Copyright e Legal | `11px` (`0.6875rem`)| **`13px`** (`0.8125rem`)| `11.5px` (`0.72rem`) | `13.0px` (`0.8125rem`)| `14.3px` (`0.89rem`) | `15.6px` (`0.975rem`)| `15.6px` |
+| Tipo / Token | Base Original | 375px (Mobile) | 1240px (Notebook) | 1440px (Desktop) | 1920px (Full HD) | 2560px (2K/4K) | Teto (+45%) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Hero / Display** (`.fluid-display`) | **60px** (`3.75rem`) | `40.0px` | `60.0px` | `64.1px` | `73.9px` | `87.0px` | `87.0px` (`5.44rem`) |
+| **H1** (`.fluid-h1`) | **48px** (`3.0rem`) | `33.7px` | `48.0px` | `51.3px` | `59.1px` | `69.6px` | `69.6px` (`4.35rem`) |
+| **H2** (`.fluid-h2`) | **40px** (`2.5rem`) | `29.0px` | `40.0px` | `42.7px` | `49.3px` | `58.0px` | `58.0px` (`3.63rem`) |
+| **H3** (`.fluid-h3`) | **24px** (`1.5rem`) | `19.5px` | `24.0px` | `25.6px` | `29.6px` | `34.8px` | `34.8px` (`2.18rem`) |
+| **H4** (`.fluid-h4`) | **18px** (`1.125rem`) | `15.8px` | `18.0px` | `19.2px` | `22.2px` | `26.1px` | `26.1px` (`1.63rem`) |
+| **Body Large / Subtitle** (`.fluid-body-lg`) | **18px** (`1.125rem`) | `15.8px` | `18.0px` | `19.2px` | `22.2px` | `26.1px` | `26.1px` (`1.63rem`) |
+| **Body** (`.fluid-body`) | **16px** (`1.0rem`) | `14.5px` | `16.0px` | `17.1px` | `19.7px` | `23.2px` | `23.2px` (`1.45rem`) |
+| **Secondary** (`.fluid-secondary`) | **14px** (`0.875rem`) | `13.0px` | `14.0px` | `15.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **Navigation** (`.fluid-nav`) | **14px** (`0.875rem`) | `13.0px` | `14.0px` | `15.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **Button** (`.fluid-btn`) | **14px** (`0.875rem`) | `13.0px` | `14.0px` | `15.0px` | `17.2px` | `20.3px` | `20.3px` (`1.27rem`) |
+| **Caption** (`.fluid-caption`) | **12px** (`0.75rem`) | `11.4px` | `12.0px` | `12.8px` | `14.8px` | `17.4px` | `17.4px` (`1.09rem`) |
+| **Legal** (`.fluid-legal`) | **11px** (`0.6875rem`)| `10.5px` | `11.0px` | `11.8px` | `13.6px` | `16.0px` | `16.0px` (`1.00rem`) |
 
 ### Fórmulas Matemáticas Clamp Utilizadas
 As classes utilitárias utilizam pares de interpolação matemática com `@media (min-width: 1240px)` definidos centralmente em [`src/styles.css`](file:///c:/Users/FAB-RGoncalves/Projetos%20GitHub/waybit-home-vision/src/styles.css):
