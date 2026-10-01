@@ -314,7 +314,7 @@ Cada seção principal possui um ID HTML exclusivo e semântico:
 
 ## 14. Exceção Protegida: `#ciclo-operacional`
 * **Regra de Negócio:** A seção `#ciclo-operacional` existente no `waybit-home-vision` é uma área protegida.
-* **O que foi preservado:** O título *"Tudo o que sua empresa precisa para operar sem atritos"*, a ilustração [`public/Diag-ciclo.png`](file:///c:/Users/FAB-RGoncalves/Projetos%20GitHub/waybit-home-vision/public/Diag-ciclo.png), a órbita do foguete Lucide e a estrutura conceitual.
+* **O que foi preservado:** A ilustração [`public/Diag-ciclo.png`](file:///c:/Users/FAB-RGoncalves/Projetos%20GitHub/waybit-home-vision/public/Diag-ciclo.png), a órbita do foguete Lucide e a estrutura conceitual ("Seu negócio mais rápido. Seu dia mais produtivo.").
 * **O que foi adaptado:** O container externo, integrado ao sistema global `.fluid-container` (`3% / 5% / 10%`), permitindo expansão fluida em telas amplas mantendo o diagrama com limite visual próprio (`max-w-[500px]`) para não desproporcionar.
 
 ---
