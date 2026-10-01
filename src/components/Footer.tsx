@@ -39,7 +39,7 @@ export function Footer({ onOpenSpecialist }: FooterProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[3fr_3.2fr_2.8fr_1fr] gap-8 sm:gap-y-10 lg:gap-8 xl:gap-10 pb-4 items-start">
           {/* Coluna 1: Sobre a Waybit */}
           <div className="w-full">
-            <p className="footer-text-primary text-muted-foreground leading-relaxed w-full max-w-sm">
+            <p className="footer-text-primary text-muted-foreground leading-relaxed w-full">
               Sistema de gestão descomplicada para Varejo, Food e Auto-Center com soluções modernas
               e suporte de verdade.
             </p>
