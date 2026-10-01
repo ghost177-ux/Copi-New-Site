@@ -38,7 +38,7 @@ export function CicloOperacionalSideBySide() {
               {/* Trilha Guia Circular: 50% contínua + 50% tracejada em único círculo perfeito */}
               <svg
                 viewBox="0 0 100 100"
-                className="absolute size-[27.5%] sm:size-[26.5%] pointer-events-none overflow-visible text-slate-600"
+                className="absolute size-[27.5%] sm:size-[26.5%] pointer-events-none overflow-visible text-[#6a6a6a]"
               >
                 {/* 50% Linha Contínua (arco direito de 12h às 6h) */}
                 <path
@@ -61,7 +61,7 @@ export function CicloOperacionalSideBySide() {
               <div className="relative size-[27.5%] sm:size-[26.5%] aspect-square flex items-center justify-center animate-[spin_12s_linear_infinite]">
                 {/* Ícone Lucide Rocket com contorno escuro e preenchimento claro, perfeitamente centralizado sobre a linha da órbita */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                  <Rocket className="size-8 sm:size-9 text-slate-600 fill-slate-300 stroke-[2] rotate-45 drop-shadow-xs" />
+                  <Rocket className="size-8 sm:size-9 text-[#6a6a6a] fill-slate-300 stroke-[2] rotate-45 drop-shadow-xs" />
                 </div>
               </div>
             </div>
