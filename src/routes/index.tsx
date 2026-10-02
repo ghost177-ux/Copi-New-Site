@@ -50,6 +50,7 @@ import foodLogo from "@/assets/food-logo.png";
 import autocenterLogo from "@/assets/autocenter.png";
 import xpertLogo from "@/assets/xpert.png";
 import certbitLogo from "@/assets/certbit-logo.png";
+import dominusIaLogo from "@/assets/Dominus IA.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -1346,12 +1347,12 @@ function Index() {
 
             {/* Wrapper dos cards com interpolação fluida contínua e centralização */}
             <div className="cards-fluid-wrapper mx-auto">
-              {/* Grade Responsiva Adaptativa: <=539px (1 col), 540px-959px (2 + 1 centralizado + 2), >=960px (3 + 2 centralizados) */}
-              <div className="grid grid-cols-1 min-[540px]:grid-cols-12 gap-4 sm:gap-6 items-stretch w-full">
+              {/* Grade Responsiva Adaptativa: 3 + 3 no desktop, 2 colunas no tablet, 1 coluna no mobile */}
+              <div className="grid grid-cols-1 min-[540px]:grid-cols-2 min-[960px]:grid-cols-3 gap-4 sm:gap-6 items-stretch w-full">
                 {waybitAllSolutions.map((item) => (
                   <div
                     key={item.id}
-                    className={`${solutionGridPositions[item.id] || "col-span-1"} flex flex-col h-full`}
+                    className="flex flex-col h-full w-full"
                   >
                     <SolutionCard
                       item={item}
@@ -1549,6 +1550,15 @@ const waybitTopSolutions: WaybitSolutionItem[] = [
 
 const waybitBottomSolutions: WaybitSolutionItem[] = [
   {
+    id: "ia",
+    title: "Dominus IA",
+    description: "Inteligência artificial para gestão",
+    color: "#5a9596",
+    logo: dominusIaLogo,
+    link: "#solucoes-segmentos",
+    isExternal: false,
+  },
+  {
     id: "xpert",
     title: "Xpert",
     description: "Sistema de gestão para posto",
@@ -1573,23 +1583,11 @@ const waybitAllSolutions: WaybitSolutionItem[] = [
   ...waybitBottomSolutions,
 ];
 
-const solutionGridPositions: Record<string, string> = {
-  varejo:
-    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-1 min-[960px]:col-span-4 min-[960px]:col-start-1",
-  autocenter:
-    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-7 min-[960px]:col-span-4 min-[960px]:col-start-5",
-  food:
-    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-4 min-[960px]:col-span-4 min-[960px]:col-start-9",
-  xpert:
-    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-1 min-[960px]:col-span-4 min-[960px]:col-start-3",
-  certbit:
-    "col-span-1 min-[540px]:col-span-6 min-[540px]:col-start-7 min-[960px]:col-span-4 min-[960px]:col-start-7",
-};
-
 const segmentHoverTitleClass: Record<string, string> = {
   varejo: "group-hover:text-[#3BBCEC]",
   autocenter: "group-hover:text-[#FCC42C]",
   food: "group-hover:text-[#FC4242]",
+  ia: "group-hover:text-[#5a9596]",
   xpert: "group-hover:text-[#454545] dark:group-hover:text-zinc-300",
   certbit: "group-hover:text-[#71BE44]",
 };
@@ -1605,29 +1603,18 @@ function SolutionCard({
   const hoverClass = segmentHoverTitleClass[item.id] || "group-hover:text-primary";
 
   const cardInner = (
-    <div className="group relative w-full h-full min-h-[160px] sm:min-h-[175px] md:min-h-[185px] rounded-2xl bg-white dark:bg-card border border-slate-100 dark:border-border/60 p-4 sm:p-5 md:p-6 lg:p-7 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden isolate flex flex-col justify-between">
+    <div className="group relative w-full h-full min-h-[190px] sm:min-h-[200px] rounded-2xl bg-white dark:bg-card border border-slate-100 dark:border-border/60 p-5 sm:p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden isolate flex flex-col justify-between">
       {/* Halo de fundo radial suave na cor do segmento */}
       <div
         className="pointer-events-none absolute -bottom-10 -right-10 size-32 sm:size-36 rounded-full blur-2xl opacity-0 group-hover:opacity-15 transition-opacity duration-500"
         style={{ backgroundColor: item.color }}
       />
 
-      {/* Topo do Card */}
-      <div className="relative z-10 flex items-start justify-between gap-3 sm:gap-4 w-full">
-        <div className="flex-1 min-w-0 pr-1 sm:pr-2">
-          <h3
-            className={`font-display fluid-h3 font-bold text-slate-900 dark:text-white tracking-tight leading-snug transition-colors duration-200 ${hoverClass}`}
-          >
-            {item.title}
-          </h3>
-          <p className="mt-1 sm:mt-1.5 fluid-secondary text-slate-500 dark:text-zinc-400 font-medium leading-relaxed">
-            {item.description}
-          </p>
-        </div>
-
-        {/* Badge arredondado com logo oficial do segmento */}
+      {/* ÁREA 1: IDENTIDADE ([ÍCONE/LOGO] à esquerda, NOME à direita) */}
+      <div className="relative z-10 flex items-center gap-3.5 sm:gap-4 w-full min-h-[52px] sm:min-h-[56px]">
+        {/* Badge arredondado com logo oficial do segmento à esquerda */}
         <div
-          className="size-12 sm:size-14 md:size-16 rounded-xl sm:rounded-2xl flex items-center justify-center p-2 sm:p-2.5 shrink-0 shadow-sm group-hover:scale-105 group-hover:shadow-md transition-all duration-300"
+          className="size-12 sm:size-14 rounded-xl sm:rounded-2xl flex items-center justify-center p-2 sm:p-2.5 shrink-0 shadow-xs group-hover:scale-105 group-hover:shadow-md transition-all duration-300"
           style={{ backgroundColor: item.color }}
         >
           <img
@@ -1637,10 +1624,24 @@ function SolutionCard({
             loading="lazy"
           />
         </div>
+
+        {/* Nome da solução à direita */}
+        <h3
+          className={`font-display fluid-h3 font-bold text-slate-900 dark:text-white tracking-tight leading-snug transition-colors duration-200 ${hoverClass}`}
+        >
+          {item.title}
+        </h3>
       </div>
 
-      {/* Rodapé do Card */}
-      <div className="relative z-10 mt-4 sm:mt-6 pt-2.5 sm:pt-3 flex items-center justify-between border-t border-slate-100 dark:border-border/40 w-full">
+      {/* ÁREA 2: DESCRIÇÃO (área dedicada com altura consistente) */}
+      <div className="relative z-10 flex-1 flex items-center my-3 sm:my-3.5 min-h-[44px] sm:min-h-[48px]">
+        <p className="fluid-secondary text-slate-500 dark:text-zinc-400 font-medium leading-relaxed">
+          {item.description}
+        </p>
+      </div>
+
+      {/* ÁREA 3: CTA (Rodapé com CTA à esquerda e botão circular [→] à direita) */}
+      <div className="relative z-10 mt-auto pt-3 sm:pt-3.5 flex items-center justify-between border-t border-slate-100 dark:border-border/40 w-full">
         <span
           className="fluid-caption font-semibold tracking-wide transition-colors duration-200"
           style={{ color: item.color }}
@@ -1657,12 +1658,13 @@ function SolutionCard({
         >
           <ChevronRight
             size={16}
-            className="transition-transform duration-300 group-hover:translate-x-1"
+            className="transition-transform duration-300 group-hover:translate-x-0.5"
             strokeWidth={2.5}
           />
         </div>
       </div>
 
+      {/* Linha de acento inferior */}
       <div
         className="pointer-events-none absolute bottom-0 inset-x-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-b-2xl"
         style={{ backgroundColor: item.color }}
