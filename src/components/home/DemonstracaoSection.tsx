@@ -91,18 +91,19 @@ export function DemonstracaoSection() {
         {/* ========================================================
             1. NOTEBOOK EM PRIMEIRO PLANO (z-20)
             - Centralizado horizontalmente
-            - Dimensionamento percentual relativo ao container pai:
-              mobile: 90% | sm: 82% | md: 72% | desktop (lg+): 60%
-            - Metade superior fora da imagem do escritório
-            - Metade inferior sobreposta à borda do escritório
+            - Escala responsiva fluida em % relativa ao container pai:
+              Desktop amplo: 40%
+              Crescimento percentual contínuo e fluido
+              Em 530px ou menor: 100% da largura disponível
+            - Sem saltos bruscos por breakpoint (clamp fluido com cqw)
             - Proporção natural preservada (height: auto, object-contain)
-            - Sem travas de largura fixa em pixels (max-width ladder removido)
         ======================================================== */}
-        <div className="w-full relative z-20 flex justify-center">
+        <div className="w-full relative z-20 flex justify-center px-4 sm:px-6 lg:px-8 demonstracao-notebook-container">
           <button
             type="button"
             onClick={() => setIsVideoModalOpen(true)}
-            className="group relative block w-[90%] sm:w-[82%] md:w-[72%] lg:w-[60%] cursor-pointer transition-all duration-250 ease-out hover:-translate-y-2 hover:drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+            className="demonstracao-notebook group relative block cursor-pointer transition-all duration-250 ease-out hover:-translate-y-2 hover:drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+            style={{ width: "clamp(40%, calc(503.2px + 5.055cqw), 100%)" }}
             aria-label="Assistir demonstração do Dominus"
             title="Clique para assistir à demonstração em vídeo"
           >
@@ -120,10 +121,10 @@ export function DemonstracaoSection() {
             2. ÁREA DO ESCRITÓRIO WAYBIT (FAIXA HORIZONTAL PANORÂMICA)
             - Borda superior corta aproximadamente na metade do notebook
             - Largura ampla de 100% aproveitando toda a extensão horizontal
-            - Altura com presença visual equilibrada (ligeiro aumento)
+            - Altura com presença visual equilibrada
             - SOMENTE Título e Parágrafo sobre a imagem
         ======================================================== */}
-        <div className="relative w-full -mt-[25%] sm:-mt-[23%] md:-mt-[20%] lg:-mt-[17%] pt-[28%] sm:pt-[26%] md:pt-[24%] lg:pt-[20%] pb-20 sm:pb-24 md:pb-28 lg:pb-32 min-h-[480px] sm:min-h-[520px] md:min-h-[580px] lg:min-h-[640px] xl:min-h-[680px] overflow-hidden flex flex-col justify-start">
+        <div className="relative w-full -mt-24 sm:-mt-28 md:-mt-32 lg:-mt-36 pt-32 sm:pt-36 md:pt-40 lg:pt-44 pb-20 sm:pb-24 md:pb-28 lg:pb-32 min-h-[500px] sm:min-h-[540px] md:min-h-[600px] lg:min-h-[650px] xl:min-h-[680px] overflow-hidden flex flex-col justify-start">
           {/* BACKGROUND: Imagem do Escritório com Parallax Suave e object-cover panorâmico */}
           <div
             ref={officeRef}

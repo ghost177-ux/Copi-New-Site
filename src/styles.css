@@ -926,5 +926,17 @@
   }
 }
 
+/* =========================================================================
+ * DEMONSTRAÇÃO: NOTEBOOK FLUIDO EM % RELATIVO AO CONTAINER PAI
+ * 40% no desktop amplo → crescimento contínuo e progressivo → 100% em 530px
+ * ========================================================================= */
+@utility demonstracao-notebook-container {
+  container-type: inline-size;
+}
+
+@utility demonstracao-notebook {
+  width: clamp(40%, calc(503.2px + 5.055cqw), 100%);
+}
+
 
 
