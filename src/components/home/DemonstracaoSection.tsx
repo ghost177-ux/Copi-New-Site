@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Sparkles, MessageSquare, CheckCircle2, X } from "lucide-react";
+import { Sparkles, MessageSquare, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
@@ -12,7 +12,7 @@ export function DemonstracaoSection() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const officeRef = useRef<HTMLDivElement>(null);
 
-  // Efeito Parallax suave aplicado exclusivamente ao fundo do escritório durante o scroll
+  // Efeito Parallax suave aplicado exclusivamente à imagem de fundo do escritório durante o scroll
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     setPrefersReducedMotion(mediaQuery.matches);
@@ -37,14 +37,14 @@ export function DemonstracaoSection() {
       const rect = officeRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
-      // Executa somente quando o elemento estiver visível no campo de visão
-      if (rect.bottom >= -100 && rect.top <= windowHeight + 100) {
+      // Executa quando o elemento estiver dentro ou próximo do campo de visão da tela
+      if (rect.bottom >= -150 && rect.top <= windowHeight + 150) {
         const elementCenter = rect.top + rect.height / 2;
         const screenCenter = windowHeight / 2;
         const normalized = (elementCenter - screenCenter) / (windowHeight / 2);
         const clamped = Math.max(-1, Math.min(1, normalized));
-        // Deslocamento sutil e fluido (máximo ±20px) para não criar gaps
-        const maxOffset = 20;
+        // Deslocamento ampliado e fluido (máximo ±36px) valorizando a presença vertical do escritório
+        const maxOffset = 36;
         setParallaxOffset(Math.round(clamped * maxOffset));
       }
     };
@@ -69,22 +69,33 @@ export function DemonstracaoSection() {
   return (
     <>
       {/* =========================================================================
-          SECTION: 6. DEMONSTRAÇÃO PERSONALIZADA (COMPOSIÇÃO VERTICAL EM CAMADAS)
-          - Sem card/container preto fechado
-          - Notebook centralizado no topo atravessando o limite superior do escritório
-          - Escritório Waybit ocupando 100% de largura (full-width) com parallax
-          - Conteúdo textual centralizado sobre o escritório abaixo do notebook
+          SECTION: 6. DEMONSTRAÇÃO PERSONALIZADA (COMPOSIÇÃO VERTICAL ABERTA)
+          - Tag no topo fora da imagem do escritório
+          - Notebook centralizado em primeiro plano (metade superior fora do escritório)
+          - Escritório Waybit (100% full-width) com altura vertical ampliada e parallax
+          - Somente Título e Parágrafo sobre a imagem do escritório, com amplo respiro
+          - Botões e Benefícios na base da seção fora da imagem do escritório
       ========================================================================= */}
       <section
         id="banner-demonstracao"
-        className="relative w-full overflow-hidden bg-background pt-10 sm:pt-14 lg:pt-18 border-t border-border"
+        className="relative w-full overflow-hidden bg-background pt-10 sm:pt-14 lg:pt-16 border-t border-border"
       >
         {/* ========================================================
-            1. CAMADA SUPERIOR: NOTEBOOK EM PRIMEIRO PLANO (z-20)
+            TAG (FORA DA IMAGEM DO ESCRITÓRIO, NO TOPO DA SEÇÃO)
+        ======================================================== */}
+        <div className="fluid-container relative z-20 flex flex-col items-center text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-primary shadow-2xs">
+            <Sparkles size={14} className="text-[#FFB800]" />
+            <span>Demonstração Personalizada de 15 Minutos</span>
+          </div>
+        </div>
+
+        {/* ========================================================
+            1. NOTEBOOK EM PRIMEIRO PLANO (z-20)
             - Centralizado horizontalmente
-            - Parcialmente FORA da imagem do escritório (metade superior)
+            - Metade superior fora da imagem do escritório
             - Metade inferior sobreposta à borda do escritório
-            - Proporção original preservada, sem card, sem fundo próprio
+            - Proporção original preservada
         ======================================================== */}
         <div className="fluid-container relative z-20 flex justify-center">
           <button
@@ -105,17 +116,17 @@ export function DemonstracaoSection() {
         </div>
 
         {/* ========================================================
-            2. FUNDO — ESCRITÓRIO WAYBIT (100% LARGURA) + CONTEÚDO
-            - Margem negativa calculada para subir exatamente até a metade do notebook
-            - A borda superior do escritório passa visualmente atrás do notebook
-            - Parallax aplicado exclusivamente na imagem de fundo
-            - Sem card, sem bordas arredondadas de card, sem faixa preta pesada
+            2. ÁREA DO ESCRITÓRIO WAYBIT (ALTURA VERTICAL AMPLIADA)
+            - 100% full-width
+            - Borda superior corta aproximadamente na metade do notebook
+            - SOMENTE Título e Parágrafo sobre a imagem
+            - Amplo respiro vertical abaixo do texto valorizando o cenário e parallax
         ======================================================== */}
-        <div className="relative w-full -mt-[19%] sm:-mt-[18%] md:-mt-[17%] lg:-mt-[16%] pt-[22%] sm:pt-[21%] md:pt-[20%] lg:pt-[19%] pb-16 sm:pb-20 lg:pb-24 overflow-hidden">
-          {/* BACKGROUND: Imagem do Escritório Waybit com Parallax */}
+        <div className="relative w-full -mt-[19%] sm:-mt-[18%] md:-mt-[17%] lg:-mt-[16%] pt-[22%] sm:pt-[21%] md:pt-[20%] lg:pt-[19%] pb-28 sm:pb-36 md:pb-44 lg:pb-52 min-h-[580px] sm:min-h-[660px] md:min-h-[740px] lg:min-h-[820px] overflow-hidden flex flex-col justify-start">
+          {/* BACKGROUND: Imagem do Escritório com Parallax Suave */}
           <div
             ref={officeRef}
-            className="pointer-events-none absolute inset-0 -top-[12%] -bottom-[12%] w-full h-[124%] overflow-hidden"
+            className="pointer-events-none absolute inset-0 -top-[14%] -bottom-[14%] w-full h-[128%] overflow-hidden"
           >
             <img
               src={escritorioWaybitImg}
@@ -124,27 +135,20 @@ export function DemonstracaoSection() {
               style={{
                 transform: prefersReducedMotion
                   ? "scale(1.05)"
-                  : `translate3d(0, ${parallaxOffset}px, 0) scale(1.08)`,
+                  : `translate3d(0, ${parallaxOffset}px, 0) scale(1.09)`,
                 transition: "transform 100ms ease-out",
               }}
               loading="lazy"
             />
 
-            {/* Overlay sutil em gradiente para garantir leitura perfeita mantendo o escritório vivo */}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-slate-950/65 to-slate-950/85" />
+            {/* Overlay suave e gradiente translúcido para legibilidade sem ocultar os móveis */}
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/55 to-slate-950/80" />
           </div>
 
           {/* ========================================================
-              3. CONTEÚDO CENTRALIZADO SOBRE O ESCRITÓRIO
-              - TAG -> TÍTULO -> PARÁGRAFO -> BOTÕES -> BENEFÍCIOS
+              SOMENTE TÍTULO E PARÁGRAFO SOBRE A IMAGEM DO ESCRITÓRIO
           ======================================================== */}
           <div className="fluid-container relative z-10 mx-auto max-w-4xl text-center text-white">
-            {/* TAG */}
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-white/95 backdrop-blur-md mb-4 sm:mb-5 border border-white/20 shadow-sm mx-auto">
-              <Sparkles size={14} className="text-[#FFB800]" />
-              <span>Demonstração Personalizada de 15 Minutos</span>
-            </div>
-
             {/* TÍTULO */}
             <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight max-w-3xl mx-auto text-white drop-shadow-md">
               Pronto para ver o que o{" "}
@@ -160,9 +164,18 @@ export function DemonstracaoSection() {
               acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
               compromisso.
             </p>
+          </div>
+        </div>
 
-            {/* BOTÕES (CTAs) */}
-            <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full">
+        {/* ========================================================
+            3. AÇÕES E BENEFÍCIOS (FORA DA IMAGEM DO ESCRITÓRIO)
+            - Botões de Agendar e WhatsApp
+            - Selos de Benefícios
+        ======================================================== */}
+        <div className="w-full bg-background py-8 sm:py-12 border-t border-border">
+          <div className="fluid-container flex flex-col items-center text-center">
+            {/* BOTÕES */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full">
               <Button
                 type="button"
                 onClick={() => {
@@ -178,7 +191,7 @@ export function DemonstracaoSection() {
                     document.body.appendChild(script);
                   }
                 }}
-                className="abrirAgendarDemonstracao h-11 sm:h-12 px-7 sm:px-9 bg-[#71BE44] hover:bg-[#62a83a] text-white font-bold fluid-btn cursor-pointer shadow-lg hover:shadow-xl transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center"
+                className="abrirAgendarDemonstracao h-11 sm:h-12 px-7 sm:px-9 bg-[#71BE44] hover:bg-[#62a83a] text-white font-bold fluid-btn cursor-pointer shadow-md hover:shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center"
               >
                 Agendar Demonstração
               </Button>
@@ -191,23 +204,23 @@ export function DemonstracaoSection() {
               >
                 <Button
                   variant="outline"
-                  className="h-11 sm:h-12 px-6 sm:px-7 border-white/20 bg-black/40 hover:bg-black/60 text-white font-semibold cursor-pointer backdrop-blur-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 fluid-btn shadow-md"
+                  className="h-11 sm:h-12 px-6 sm:px-7 border-border hover:bg-muted font-semibold flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98] fluid-btn"
                 >
-                  <MessageSquare size={17} className="text-[#71BE44]" />
+                  <MessageSquare size={17} className="text-[#00ADEF]" />
                   Conversar no WhatsApp
                 </Button>
               </a>
             </div>
 
             {/* BENEFÍCIOS */}
-            <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-8 fluid-caption text-zinc-300 font-medium">
-              <span className="flex items-center gap-2 drop-shadow-sm">
+            <div className="mt-6 sm:mt-7 flex flex-wrap items-center justify-center gap-4 sm:gap-8 fluid-caption text-muted-foreground font-medium">
+              <span className="flex items-center gap-2">
                 <CheckCircle2 size={15} className="text-[#71BE44]" /> Sem compromisso
               </span>
-              <span className="flex items-center gap-2 drop-shadow-sm">
+              <span className="flex items-center gap-2">
                 <CheckCircle2 size={15} className="text-[#00ADEF]" /> Implantação orientada
               </span>
-              <span className="flex items-center gap-2 drop-shadow-sm">
+              <span className="flex items-center gap-2">
                 <CheckCircle2 size={15} className="text-[#FFB800]" /> Suporte humano incluso
               </span>
             </div>
