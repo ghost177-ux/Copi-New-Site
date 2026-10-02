@@ -752,22 +752,22 @@
 }
 
 .fluid-h1 {
-  font-size: clamp(1.5rem, calc(1.0665rem + 1.8497vw), 2.5rem);
+  font-size: clamp(1.5625rem, calc(1.1290rem + 1.8497vw), 2.5625rem);
   line-height: 1.14;
 }
 
 .fluid-h2 {
-  font-size: clamp(1.25rem, calc(0.9249rem + 1.3873vw), 2rem);
+  font-size: clamp(1.3125rem, calc(0.9874rem + 1.3873vw), 2.0625rem);
   line-height: 1.18;
 }
 
 .fluid-h3 {
-  font-size: clamp(0.9375rem, calc(0.8020rem + 0.5780vw), 1.25rem);
+  font-size: clamp(0.875rem, calc(0.7395rem + 0.5780vw), 1.1875rem);
   line-height: 1.25;
 }
 
 .fluid-h4 {
-  font-size: clamp(0.875rem, calc(0.8208rem + 0.2312vw), 1rem);
+  font-size: clamp(0.8125rem, calc(0.7583rem + 0.2312vw), 0.9375rem);
   line-height: 1.35;
 }
 
@@ -822,19 +822,19 @@
   }
 
   .fluid-h1 {
-    font-size: clamp(2.5rem, calc(1.4432rem + 1.3636vw), 3.625rem);
+    font-size: clamp(2.5625rem, calc(1.4793rem + 1.3977vw), 3.7156rem);
   }
 
   .fluid-h2 {
-    font-size: clamp(2rem, calc(1.1545rem + 1.0909vw), 2.9rem);
+    font-size: clamp(2.0625rem, calc(1.1906rem + 1.1250vw), 2.9906rem);
   }
 
   .fluid-h3 {
-    font-size: clamp(1.25rem, calc(0.7216rem + 0.6818vw), 1.8125rem);
+    font-size: clamp(1.1875rem, calc(0.6855rem + 0.6477vw), 1.7219rem);
   }
 
   .fluid-h4 {
-    font-size: clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem);
+    font-size: clamp(0.9375rem, calc(0.5412rem + 0.5114vw), 1.3594rem);
   }
 
   .fluid-body-lg,

@@ -1,4 +1,4 @@
-import { MessageSquare, Rocket } from "lucide-react";
+import { MessageSquare, Rocket, Workflow } from "lucide-react";
 
 export function CicloOperacionalSideBySide() {
   return (
@@ -72,6 +72,12 @@ export function CicloOperacionalSideBySide() {
             COLUNA DIREITA (53%): TÍTULO, TEXTO E CTA
         ======================================================== */}
         <div className="flex w-full flex-col justify-center lg:w-[53%]">
+          {/* Tag de Seção Oficial */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-primary mb-3 sm:mb-4 w-fit">
+            <Workflow size={14} className="text-primary shrink-0" />
+            <span>Operação Integrada</span>
+          </div>
+
           {/* Título Principal */}
           <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-slate-900 leading-tight">
             Seu negócio mais rápido. Seu dia mais produtivo!

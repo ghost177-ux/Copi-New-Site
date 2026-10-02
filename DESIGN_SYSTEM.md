@@ -30,10 +30,10 @@ O projeto adota uma arquitetura de layout **100% Fluida**.
 Para manter o equilíbrio visual e a hierarquia entre títulos e corpo de texto em qualquer tela:
 1. **Títulos Principais e Destaques (Display / H1 / H2 / H3 / H4 / Métricas):**
    - **Hero / Display (`.fluid-display`):** Base de **52px** (`3.25rem`).
-   - **H1 (`.fluid-h1`):** Base de **40px** (`2.5rem`).
-   - **H2 (`.fluid-h2`):** Base de **32px** (`2.0rem`).
-   - **H3 (`.fluid-h3`):** Base de **20px** (`1.25rem`).
-   - **H4 (`.fluid-h4`):** Base de **16px** (`1.0rem`).
+   - **H1 (`.fluid-h1`):** Base de **41px** (`2.5625rem`).
+   - **H2 (`.fluid-h2`):** Base de **33px** (`2.0625rem`).
+   - **H3 (`.fluid-h3`):** Base de **19px** (`1.1875rem`).
+   - **H4 (`.fluid-h4`):** Base de **15px** (`0.9375rem`).
    - **Métricas (`.metric-value`):** Base de **24px** (`1.5rem`).
    - A partir dessa base oficial de referência (em $1240\text{px}$), cada elemento cresce fluidamente até aproximadamente $+45\%$ em telas grandes ($\ge 1240\text{px}$ até $2560\text{px}$).
    - Em telas menores ($< 1240\text{px}$), reduz fluidamente respeitando um piso confortável de legibilidade.
@@ -184,10 +184,10 @@ Utilizado em títulos em destaque, divisórias e badges:
 | Tipo / Token | Base de Referência | 1240px | 1920px | 2560px | Teto (+45%) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Hero / Display** (`.fluid-display`) | **`52px`** (`3.25rem`) | `52.0px` | `64.1px` | `75.4px` | `75.4px` (`4.71rem`) |
-| **H1** (`.fluid-h1`) | **`40px`** (`2.5rem`) | `40.0px` | `49.3px` | `58.0px` | `58.0px` (`3.63rem`) |
-| **H2** (`.fluid-h2`) | **`32px`** (`2.0rem`) | `32.0px` | `39.4px` | `46.4px` | `46.4px` (`2.90rem`) |
-| **H3** (`.fluid-h3`) | **`20px`** (`1.25rem`) | `20.0px` | `24.6px` | `29.0px` | `29.0px` (`1.81rem`) |
-| **H4** (`.fluid-h4`) | **`16px`** (`1.0rem`) | `16.0px` | `19.7px` | `23.2px` | `23.2px` (`1.45rem`) |
+| **H1** (`.fluid-h1`) | **`41px`** (`2.5625rem`) | `41.0px` | `50.5px` | `59.5px` | `59.5px` (`3.72rem`) |
+| **H2** (`.fluid-h2`) | **`33px`** (`2.0625rem`) | `33.0px` | `40.6px` | `47.9px` | `47.9px` (`2.99rem`) |
+| **H3** (`.fluid-h3`) | **`19px`** (`1.1875rem`) | `19.0px` | `23.4px` | `27.6px` | `27.6px` (`1.72rem`) |
+| **H4** (`.fluid-h4`) | **`15px`** (`0.9375rem`) | `15.0px` | `18.5px` | `21.8px` | `21.8px` (`1.36rem`) |
 | **Métricas** (`.metric-value`) | **`24px`** (`1.5rem`) | `24.0px` | `29.6px` | `34.8px` | `34.8px` (`2.18rem`) |
 | **Body Large / Subtitle** (`.fluid-body-lg`) | **`18px`** (`1.125rem`) | `18.0px` | `22.2px` | `26.1px` | `26.1px` (`1.63rem`) |
 | **Body** (`.fluid-body`) | **`16px`** (`1.0rem`) | `16.0px` | `19.7px` | `23.2px` | `23.2px` (`1.45rem`) |
@@ -204,17 +204,17 @@ As classes utilitárias utilizam pares de interpolação matemática com `@media
 
 Exemplos de fórmulas finais aprovadas:
 * **H1 (`.fluid-h1`):**
-  * `< 1240px`: `clamp(1.5rem, calc(1.0665rem + 1.8497vw), 2.5rem)`
-  * $\ge 1240px`: `clamp(2.5rem, calc(1.4432rem + 1.3636vw), 3.625rem)`
+  * `< 1240px`: `clamp(1.5625rem, calc(1.1290rem + 1.8497vw), 2.5625rem)`
+  * $\ge 1240px`: `clamp(2.5625rem, calc(1.4793rem + 1.3977vw), 3.7156rem)`
 * **H2 (`.fluid-h2`):**
-  * `< 1240px`: `clamp(1.25rem, calc(0.9249rem + 1.3873vw), 2rem)`
-  * $\ge 1240px`: `clamp(2rem, calc(1.1545rem + 1.0909vw), 2.9rem)`
+  * `< 1240px`: `clamp(1.3125rem, calc(0.9874rem + 1.3873vw), 2.0625rem)`
+  * $\ge 1240px`: `clamp(2.0625rem, calc(1.1906rem + 1.1250vw), 2.9906rem)`
 * **H3 (`.fluid-h3`):**
-  * `< 1240px`: `clamp(0.9375rem, calc(0.8020rem + 0.5780vw), 1.25rem)`
-  * $\ge 1240px`: `clamp(1.25rem, calc(0.7216rem + 0.6818vw), 1.8125rem)`
+  * `< 1240px`: `clamp(0.875rem, calc(0.7395rem + 0.5780vw), 1.1875rem)`
+  * $\ge 1240px`: `clamp(1.1875rem, calc(0.6855rem + 0.6477vw), 1.7219rem)`
 * **H4 (`.fluid-h4`):**
-  * `< 1240px`: `clamp(0.875rem, calc(0.8208rem + 0.2312vw), 1rem)`
-  * $\ge 1240px`: `clamp(1rem, calc(0.5773rem + 0.5455vw), 1.45rem)`
+  * `< 1240px`: `clamp(0.8125rem, calc(0.7583rem + 0.2312vw), 0.9375rem)`
+  * $\ge 1240px`: `clamp(0.9375rem, calc(0.5412rem + 0.5114vw), 1.3594rem)`
 * **Métricas (`.metric-value`):**
   * `< 1240px`: `clamp(1.125rem, calc(0.9624rem + 0.6936vw), 1.5rem)`
   * $\ge 1240px`: `clamp(1.5rem, calc(0.8659rem + 0.8182vw), 2.175rem)`
