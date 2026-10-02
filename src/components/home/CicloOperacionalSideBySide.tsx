@@ -17,9 +17,10 @@ export function CicloOperacionalSideBySide() {
       <div className="fluid-container relative z-10 flex flex-col items-center justify-between gap-12 lg:flex-row lg:items-center lg:gap-[4%]">
 
         {/* ========================================================
-            COLUNA ESQUERDA (45%): IMAGEM TRANSPARENTE PURA + FOGUETE LUCIDE
+            COLUNA DIREITA NO DESKTOP (45%): IMAGEM TRANSPARENTE PURA + FOGUETE LUCIDE
+            (No mobile: preservada como primeira ordem visual)
         ======================================================== */}
-        <div className="flex w-full items-center justify-center lg:w-[45%]">
+        <div className="flex w-full items-center justify-center lg:w-[45%] lg:order-2">
           <div className="relative flex w-full max-w-[460px] sm:max-w-[480px] lg:max-w-[500px] aspect-square items-center justify-center">
             {/* Imagem Transparente Pura (Zero fundo, zero caixa branca, zero bordas) */}
             <img
@@ -69,9 +70,10 @@ export function CicloOperacionalSideBySide() {
         </div>
 
         {/* ========================================================
-            COLUNA DIREITA (53%): TÍTULO, TEXTO E CTA
+            COLUNA ESQUERDA NO DESKTOP (53%): TÍTULO, TEXTO E CTA
+            (No mobile: preservada como segunda ordem visual)
         ======================================================== */}
-        <div className="flex w-full flex-col justify-center lg:w-[53%]">
+        <div className="flex w-full flex-col justify-center lg:w-[53%] lg:order-1">
           {/* Tag de Seção Oficial */}
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-primary mb-3 sm:mb-4 w-fit">
             <Workflow size={14} className="text-primary shrink-0" />
