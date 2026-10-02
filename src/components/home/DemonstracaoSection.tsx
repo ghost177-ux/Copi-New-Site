@@ -63,12 +63,7 @@ export function DemonstracaoSection() {
             - O conteúdo (H2 + parágrafo) permanece no fluxo normal abaixo do notebook
             - min-height fluida controlada para a área de conteúdo
         ======================================================== */}
-        <div
-          className="relative w-full flex flex-col items-center justify-center"
-          style={{
-            minHeight: "clamp(340px, 38vw, 520px)",
-          }}
-        >
+        <div className="relative w-full flex flex-col items-center">
           {/* CAMADA 1: BACKGROUND EXPANDIDO PARA TRÁS DO NOTEBOOK */}
           <div
             className="pointer-events-none absolute inset-x-0 bottom-0 bg-scroll sm:bg-fixed bg-center bg-no-repeat bg-cover z-0"
@@ -94,13 +89,15 @@ export function DemonstracaoSection() {
 
           {/* ========================================================
               CAMADA 3: CONTEÚDO (H2 + PARÁGRAFO)
-              - Centralizado verticalmente na área de conteúdo
-              - Totalmente livre, abaixo do notebook e no fluxo normal
-              - Espaçamento vertical reduzido pela metade: clamp(12px, 1.75vw, 24px)
+              - Notebook → H2: 24px base (clamp(24px, 2vw, 32px))
+              - Parágrafo → Final da seção: 32px base (clamp(32px, 2.5vw, 44px))
           ======================================================== */}
           <div
             className="fluid-container relative z-[2] w-full flex flex-col items-center text-center text-white"
-            style={{ paddingBlock: "clamp(12px, 1.75vw, 24px)" }}
+            style={{
+              paddingTop: "clamp(24px, 2vw, 32px)",
+              paddingBottom: "clamp(32px, 2.5vw, 44px)",
+            }}
           >
             {/* TÍTULO */}
             <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
