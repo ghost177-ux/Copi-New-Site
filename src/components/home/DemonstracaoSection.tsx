@@ -67,12 +67,13 @@ export function DemonstracaoSection() {
             - Sem min-height artificial, sem compensações gigantes
         ======================================================== */}
         <div
-          className="relative w-full overflow-hidden -mt-10 sm:-mt-12 lg:-mt-14 pt-10 sm:pt-12 lg:pt-14 flex flex-col items-center bg-scroll sm:bg-fixed bg-center bg-no-repeat bg-cover"
+          className="relative w-full overflow-hidden -mt-10 sm:-mt-12 lg:-mt-14 pt-10 sm:pt-12 lg:pt-14 flex flex-col items-center justify-center bg-scroll sm:bg-fixed bg-center bg-no-repeat bg-cover"
           style={{
             backgroundImage: `url("${escritorioWaybitImg}")`,
             backgroundPosition: "center center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
+            minHeight: "clamp(340px, 38vw, 520px)",
           }}
         >
           {/* OVERLAY PRETO ESTÁTICO (~30% PRETO UNIFORME) */}
@@ -84,11 +85,12 @@ export function DemonstracaoSection() {
 
           {/* ========================================================
               CONTEÚDO: TÍTULO E PARÁGRAFO
+              - Centralizado verticalmente na área do escritório
               - Espaçamento vertical fluido e controlado com clamp(24px, 3.5vw, 48px)
               - 24px no mobile, crescendo suavemente até 48px no desktop
           ======================================================== */}
           <div
-            className="fluid-container relative z-10 flex flex-col items-center text-center text-white"
+            className="fluid-container relative z-10 w-full flex flex-col items-center text-center text-white"
             style={{ paddingBlock: "clamp(24px, 3.5vw, 48px)" }}
           >
             {/* TÍTULO */}
