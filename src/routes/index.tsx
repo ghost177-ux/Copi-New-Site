@@ -40,7 +40,7 @@ import { Footer } from "@/components/Footer";
 import { SpecialistDialog } from "@/components/SpecialistDialog";
 import { BlogCarouselSection } from "@/components/BlogCarouselSection";
 import { CicloOperacionalSideBySide } from "@/components/home/CicloOperacionalSideBySide";
-import { DemonstracaoVisualComposition } from "@/components/home/DemonstracaoVisualComposition";
+import { DemonstracaoSection } from "@/components/home/DemonstracaoSection";
 
 import foodImage from "@/assets/food.png";
 import varejoImage from "@/assets/varejo.png";
@@ -1368,92 +1368,7 @@ function Index() {
         {/* ========================================================================= */}
         {/* SECTION: 6. BANNER DE CONVERSÃO / DEMONSTRAÇÃO GRATUITA                   */}
         {/* ========================================================================= */}
-        <section id="banner-demonstracao" className="py-12 sm:py-16 bg-background border-t border-border w-full">
-          <div className="fluid-container">
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-r from-zinc-900 via-zinc-950 to-zinc-900 text-white p-6 sm:p-10 lg:p-16 border border-zinc-800 shadow-2xl">
-              {/* Efeito Glow */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-20 -top-20 w-[450px] h-[450px] max-w-full max-h-full bg-gradient-to-br from-[#00ADEF]/25 via-[#71BE44]/20 to-[#FFB800]/25 blur-3xl opacity-60 rounded-full"
-              />
-
-              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-center w-full">
-                {/* Lado Esquerdo */}
-                <div className="w-full flex flex-col justify-center">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 sm:px-3.5 py-1 fluid-caption font-semibold text-white/90 backdrop-blur-md mb-4 sm:mb-6 border border-white/15 w-fit">
-                    <Sparkles size={13} className="text-[#FFB800]" />
-                    <span>Demonstração Personalizada de 15 Minutos</span>
-                  </div>
-
-                  <h2 className="font-display fluid-h2 font-bold tracking-tight leading-snug sm:leading-tight">
-                    Pronto para ver o que o{" "}
-                    <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
-                      Dominus
-                    </span>{" "}
-                    pode fazer pelo o seu negócio?
-                  </h2>
-
-                  <p className="mt-3.5 sm:mt-5 fluid-body-lg text-zinc-300 leading-relaxed">
-                    Agende uma apresentação online com um especialista no seu segmento. Mostramos como
-                    acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
-                    compromisso.
-                  </p>
-
-                  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
-                    <Button
-                      type="button"
-                      onClick={() => {
-                        const modal = document.getElementById("fullFunnelModal");
-                        modal?.classList.add("show");
-                        const scriptId = "full-funnel-form-embed-js";
-                        if (!document.getElementById(scriptId)) {
-                          const script = document.createElement("script");
-                          script.id = scriptId;
-                          script.src = "https://links.fullfunnel.app/js/form_embed.js";
-                          script.type = "text/javascript";
-                          script.async = true;
-                          document.body.appendChild(script);
-                        }
-                      }}
-                      className="abrirAgendarDemonstracao h-11 sm:h-12 px-6 sm:px-8 bg-[#71BE44] hover:bg-[#62a83a] text-white font-bold fluid-btn cursor-pointer shadow-lg hover:shadow-xl transition-all flex items-center justify-center"
-                    >
-                      Agendar Demonstração
-                    </Button>
-                    <a
-                      href="https://wa.me/5521975812676?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20demonstra%C3%A7%C3%A3o%20do%20Dominus."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex"
-                    >
-                      <Button
-                        variant="outline"
-                        className="h-11 sm:h-12 px-5 sm:px-6 border-zinc-700 bg-zinc-900/60 text-zinc-200 hover:bg-zinc-800 hover:text-white font-semibold cursor-pointer w-full flex items-center justify-center fluid-btn"
-                      >
-                        <MessageSquare size={16} className="text-[#71BE44]" />
-                        Conversar no WhatsApp
-                      </Button>
-                    </a>
-                  </div>
-
-                  <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-6 fluid-caption text-zinc-400">
-                    <span className="flex items-center gap-2">
-                      <CheckCircle2 size={14} className="text-[#71BE44]" /> Sem compromisso
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <CheckCircle2 size={14} className="text-[#00ADEF]" /> Implantação orientada
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <CheckCircle2 size={14} className="text-[#FFB800]" /> Suporte humano incluso
-                    </span>
-                  </div>
-                </div>
-
-                {/* Lado Direito: Composição Visual em Camadas (Notebook sobreposto + Escritório com Parallax) */}
-                <DemonstracaoVisualComposition />
-              </div>
-            </div>
-          </div>
-        </section>
+        <DemonstracaoSection />
 
         {/* ========================================================================= */}
         {/* EXCEÇÃO CRÍTICA PROTEGIDA: #ciclo-operacional                             */}
