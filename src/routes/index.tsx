@@ -1138,11 +1138,10 @@ function Index() {
                         card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
                         setActiveCaseIndex(i);
                       }}
-                      className={`h-2 rounded-full transition-all cursor-pointer ${
-                        activeCaseIndex === i
+                      className={`h-2 rounded-full transition-all cursor-pointer ${activeCaseIndex === i
                           ? "w-6 bg-primary"
                           : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                      }`}
+                        }`}
                       aria-label={`Ir para case ${i + 1}`}
                     />
                   ))}
@@ -1390,11 +1389,7 @@ function Index() {
                   <span>Avaliações Verificadas</span>
                 </div>
                 <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
-                  Aprovado com{" "}
-                  <span className="bg-gradient-to-r from-[#FFB800] via-[#71BE44] to-[#00ADEF] bg-clip-text text-transparent font-extrabold">
-                    4.9 estrelas
-                  </span>{" "}
-                  no Google
+                  Aprovado com 4.9 estrelas no Google
                 </h2>
                 <p className="mt-2 fluid-body-lg text-muted-foreground">
                   A opinião de gestores e proprietários que confiam na estabilidade da Waybit todos
