@@ -40,6 +40,7 @@ import { Footer } from "@/components/Footer";
 import { SpecialistDialog } from "@/components/SpecialistDialog";
 import { BlogCarouselSection } from "@/components/BlogCarouselSection";
 import { CicloOperacionalSideBySide } from "@/components/home/CicloOperacionalSideBySide";
+import { DemonstracaoVisualComposition } from "@/components/home/DemonstracaoVisualComposition";
 
 import foodImage from "@/assets/food.png";
 import varejoImage from "@/assets/varejo.png";
@@ -1447,18 +1448,8 @@ function Index() {
                   </div>
                 </div>
 
-                {/* Lado Direito: Player de Vídeo */}
-                <div className="w-full flex items-center justify-center mt-4 lg:mt-0">
-                  <div className="relative aspect-video sm:aspect-square w-full max-w-[440px] rounded-xl sm:rounded-2xl overflow-hidden border border-zinc-700/60 bg-zinc-950/90 shadow-2xl ring-1 ring-white/10 group mx-auto">
-                    <iframe
-                      src="https://www.youtube.com/embed/uNWOvb8bMPo?rel=0&modestbranding=1"
-                      title="Conheça a Waybit e as soluções que vão te deixar mais feliz!"
-                      className="w-full h-full border-0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                </div>
+                {/* Lado Direito: Composição Visual em Camadas (Notebook sobreposto + Escritório com Parallax) */}
+                <DemonstracaoVisualComposition />
               </div>
             </div>
           </div>
