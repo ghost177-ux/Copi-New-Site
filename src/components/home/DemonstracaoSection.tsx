@@ -42,9 +42,9 @@ export function DemonstracaoSection() {
         const screenCenter = windowHeight / 2;
         const normalized = (elementCenter - screenCenter) / (windowHeight / 2);
         const clamped = Math.max(-1, Math.min(1, normalized));
-        // Deslocamento suave e seguro (máximo ±24px) contido no bleed de 32px
-        const maxOffset = 24;
-        setParallaxOffset(Math.round(clamped * maxOffset));
+        // Deslocamento vertical real, perceptível e suave (máximo ±36px)
+        const maxOffset = 36;
+        setParallaxOffset(Math.round(-clamped * maxOffset));
       }
     };
 
@@ -121,28 +121,35 @@ export function DemonstracaoSection() {
             - Sem min-height artificial, sem pilhas de compensações
             - Altura governada pela composição e pelo conteúdo real
         ======================================================== */}
-        <div className="relative w-full overflow-hidden -mt-16 sm:-mt-20 lg:-mt-24 pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 flex flex-col items-center">
-          {/* BACKGROUND: Imagem do Escritório com Parallax Suave Simplificado */}
-          <div
-            ref={officeRef}
-            className="pointer-events-none absolute inset-0 -top-8 -bottom-8 w-full h-[calc(100%+4rem)] overflow-hidden"
-          >
+        <div
+          ref={officeRef}
+          className="relative w-full overflow-hidden -mt-16 sm:-mt-20 lg:-mt-24 pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 flex flex-col items-center"
+        >
+          {/* 1. FUNDO: Imagem do Escritório com Parallax Vertical Real */}
+          <div className="pointer-events-none absolute inset-x-0 -top-12 -bottom-12 w-full h-[calc(100%+6rem)] overflow-hidden z-0">
             <img
               src={escritorioWaybitImg}
               alt="Cenário do Escritório Waybit"
-              className="w-full h-full object-cover object-center pointer-events-none select-none will-change-transform"
+              className="w-full h-full object-cover pointer-events-none select-none will-change-transform"
               style={{
+                objectPosition: "center center",
                 transform: prefersReducedMotion
                   ? "none"
                   : `translate3d(0, ${parallaxOffset}px, 0)`,
-                transition: "transform 100ms ease-out",
+                transition: prefersReducedMotion
+                  ? "none"
+                  : "transform 100ms ease-out",
               }}
               loading="lazy"
             />
-
-            {/* Overlay suave e gradiente translúcido para legibilidade */}
-            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-slate-950/55 to-slate-950/80" />
           </div>
+
+          {/* 2. OVERLAY PRETO ESTÁTICO (30% PRETO UNIFORME) */}
+          <div
+            className="pointer-events-none absolute inset-0 z-[1]"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.30)" }}
+            aria-hidden="true"
+          />
 
           {/* ========================================================
               CONTEÚDO: TÍTULO E PARÁGRAFO
