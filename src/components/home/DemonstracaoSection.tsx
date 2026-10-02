@@ -43,7 +43,7 @@ export function DemonstracaoSection() {
           <button
             type="button"
             onClick={() => setIsVideoModalOpen(true)}
-            className="demonstracao-notebook group relative block cursor-pointer transition-all duration-250 ease-out hover:-translate-y-2 hover:drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+            className="demonstracao-notebook group relative block cursor-pointer transition-all duration-250 ease-out hover:scale-[1.02] hover:drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
             aria-label="Assistir demonstração do Dominus"
             title="Clique para assistir à demonstração em vídeo"
           >
@@ -82,12 +82,12 @@ export function DemonstracaoSection() {
             aria-hidden="true"
           />
 
-          {/* CAMADA 2: OVERLAY PRETO EXPANDIDO (~30% PRETO UNIFORME) */}
+          {/* CAMADA 2: OVERLAY PRETO EXPANDIDO (~55% PRETO UNIFORME) */}
           <div
             className="pointer-events-none absolute inset-x-0 bottom-0 z-[1]"
             style={{
               top: "calc(-1 * clamp(80px, 14vw, 200px))",
-              backgroundColor: "rgba(0, 0, 0, 0.30)",
+              backgroundColor: "rgba(0, 0, 0, 0.55)",
             }}
             aria-hidden="true"
           />
@@ -102,27 +102,17 @@ export function DemonstracaoSection() {
             className="fluid-container relative z-[2] w-full flex flex-col items-center text-center text-white"
             style={{ paddingBlock: "clamp(12px, 1.75vw, 24px)" }}
           >
-            {/* PÍLULA ATRÁS DO TEXTO (#000000 com 55% de opacidade) */}
-            <div
-              className="flex flex-col items-center text-center rounded-2xl sm:rounded-3xl px-5 py-4 sm:px-7 sm:py-6 md:px-9 md:py-7 max-w-4xl mx-auto"
-              style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
-            >
-              {/* TÍTULO */}
-              <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
-                Pronto para ver o que o{" "}
-                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
-                  Dominus
-                </span>{" "}
-                pode fazer pelo seu negócio?
-              </h2>
+            {/* TÍTULO */}
+            <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
+              Pronto para ver o que o Dominus pode fazer pelo seu negócio?
+            </h2>
 
-              {/* PARÁGRAFO */}
-              <p className="mt-4 sm:mt-5 fluid-body-lg text-zinc-200 leading-relaxed w-full max-w-[95%] sm:max-w-[85%] lg:max-w-[62%] mx-auto drop-shadow-sm font-normal">
-                Agende uma apresentação online com um especialista no seu segmento. Mostramos como
-                acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
-                compromisso.
-              </p>
-            </div>
+            {/* PARÁGRAFO */}
+            <p className="mt-4 sm:mt-5 fluid-body-lg text-zinc-200 leading-relaxed w-full max-w-[95%] sm:max-w-[85%] lg:max-w-[62%] mx-auto drop-shadow-sm font-normal">
+              Agende uma apresentação online com um especialista no seu segmento. Mostramos como
+              acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
+              compromisso.
+            </p>
           </div>
         </div>
       </section>
