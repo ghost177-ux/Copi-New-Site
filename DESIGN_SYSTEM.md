@@ -283,16 +283,48 @@ Fórmulas Finais do Footer:
 
 ---
 
-## 11. Imagens Responsivas
-* **Regra Fundamental:** Imagens ocupam `w-full h-auto` ou preenchem containers através de `object-cover` ou `object-contain`.
-* **Zero distorção:** Preservação de `aspect-ratio` nativo.
-* **Carregamento Otimizado:** Imagens críticas do Hero carregadas com `loading="eager"`, e imagens de seções inferiores (depoimentos, blog, logos) com `loading="lazy"`.
+## 11. Regra Global Obrigatória: Imagens e Ícones Responsivos (Dimensionamento Fluido por Porcentagem)
+
+> [!IMPORTANT]
+> **PADRÃO GLOBAL DO PROJETO:**
+> "O dimensionamento visual principal de imagens e ícones deve utilizar preferencialmente porcentagens relativas ao container pai adequado, evitando dimensões rígidas em pixels quando o objetivo for controlar responsividade."
+
+### 1. Princípios Fundamentais
+* **Referência é o Container Pai:** O dimensionamento percentual deve obrigatoriamente responder ao seu **container pai direto** (e nunca simplesmente ao viewport em `vw` ou unidades globais desacopladas).
+* **Eliminação de Escadas Rígidas em Pixels:** Evitar cadeias de `max-w-[580px] sm:max-w-[720px] md:max-w-[860px]` para governar o tamanho principal de imagens de destaque. A responsividade deve ser obtida com porcentagens fluidas aplicadas ao container/elemento (ex: `w-[90%] sm:w-[82%] md:w-[72%] lg:w-[60%]`).
+* **Preservação Rígida de Aspect-Ratio:** Ao utilizar porcentagens, manter incondicionalmente a proporção original do ativo com `height: auto` (ou classes semânticas de `aspect-ratio`). Nenhuma imagem deve ser esticada, achatada ou deformada para preencher uma porcentagem.
+* **Uso Adequado de Object-Fit:** Em áreas com altura delimitada ou composições de fundo (como faixas panorâmicas e cenários parallax), utilizar `object-fit: cover` (ou `object-contain`) associado ao `object-position` adequado para resguardar o enquadramento essencial da ilustração/foto.
+* **Ausência de Overflow:** Elementos dimensionados por porcentagem não devem produzir overflow horizontal em nenhuma resolução (de 375px a 4K).
+
+### 2. Aplicação Contextual por Tipo de Ativo
+Cada elemento gráfico deve receber uma porcentagem correspondente ao seu papel na arquitetura da tela:
+* **Imagem Principal / Banner / Produto:** Percentual da área visual ou container pai (ex: notebook com `w-[60%]` no desktop e percentual maior no mobile).
+* **Ilustração / Diagrama:** Percentual da coluna ou wrapper onde está ancorada.
+* **Logo de Marca:** Percentual do container reservado à marca no Header ou Footer.
+* **Ícone em Destaque:** Percentual do wrapper próprio do ícone (ex: cápsula ou círculo delimitado).
+* **Elemento Decorativo / Glow / Badge:** Percentual relativo ao container da composição em que orbita.
+
+### 3. Exceções Técnicas & Cuidados Críticos
+* **PROIBIDAS Regras Universais Cegas:** É terminantemente proibido criar regras globais em seletores de tag como:
+  ```css
+  img { width: 60%; }
+  svg { width: 60%; }
+  ```
+  Isso causaria quebra em cascata em componentes já existentes. A porcentagem deve ser declarada individualmente através de utilitários Tailwind aplicados ao elemento ou seu wrapper no JSX.
+* **Não Converter Detalhes Técnicos de SVG:** A regra governa o dimensionamento visual responsivo externo. NÃO converter para porcentagem:
+  - `stroke-width` de ícones SVG;
+  - Espessura de borda;
+  - Coordenadas e viewboxes de paths internos;
+  - Ícones inline em botões e badges (`14px` a `20px`) com alinhamento tipográfico direto, a menos que estejam inseridos em um wrapper responsivo dedicado.
+* **Não Refatorar Componentes Validados Indiscriminadamente:** Componentes e seções previamente aprovados e testados (ex: diagramas específicos, badges, Footer) não devem sofrer conversões cegas retroativas sem uma solicitação ou necessidade comprovada. A regra passa a ser obrigatória para novos componentes e para os módulos em ciclo ativo de ajuste.
 
 ---
 
-## 12. Ícones Responsivos
+## 12. Ícones no Sistema
 * **Biblioteca Padrão:** `lucide-react`
-* **Dimensionamento:** Escala controlada de `14px` a `28px` com `shrink-0` e alinhamento centralizado com flexbox.
+* **Dimensionamento:**
+  - **Ícones em Wrappers:** Utilizar percentual do wrapper pai (ex: wrapper de `w-12 h-12` com ícone centralizado proporcional).
+  - **Ícones Inline (Botões, Tags e Menus):** Escala controlada (ex: `14px` a `24px`) acompanhando o peso do texto, sempre com `shrink-0` e centralização flexbox.
 
 ---
 

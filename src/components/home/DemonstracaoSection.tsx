@@ -42,8 +42,8 @@ export function DemonstracaoSection() {
         const screenCenter = windowHeight / 2;
         const normalized = (elementCenter - screenCenter) / (windowHeight / 2);
         const clamped = Math.max(-1, Math.min(1, normalized));
-        // Deslocamento sutil e fluido (máximo ±28px) mantendo aspecto panorâmico estável
-        const maxOffset = 28;
+        // Deslocamento sutil e perceptível (máximo ±36px) com profundidade suave
+        const maxOffset = 36;
         setParallaxOffset(Math.round(clamped * maxOffset));
       }
     };
@@ -91,16 +91,18 @@ export function DemonstracaoSection() {
         {/* ========================================================
             1. NOTEBOOK EM PRIMEIRO PLANO (z-20)
             - Centralizado horizontalmente
-            - Largura ampliada e panorâmica
+            - Dimensionamento percentual relativo ao container pai:
+              mobile: 90% | sm: 82% | md: 72% | desktop (lg+): 60%
             - Metade superior fora da imagem do escritório
             - Metade inferior sobreposta à borda do escritório
-            - Proporção original preservada
+            - Proporção natural preservada (height: auto, object-contain)
+            - Sem travas de largura fixa em pixels (max-width ladder removido)
         ======================================================== */}
-        <div className="w-full relative z-20 flex justify-center px-4 sm:px-6 lg:px-8">
+        <div className="w-full relative z-20 flex justify-center">
           <button
             type="button"
             onClick={() => setIsVideoModalOpen(true)}
-            className="group relative block w-full max-w-[580px] sm:max-w-[720px] md:max-w-[860px] lg:max-w-[1020px] xl:max-w-[1140px] cursor-pointer transition-all duration-250 ease-out hover:-translate-y-2 hover:drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
+            className="group relative block w-[90%] sm:w-[82%] md:w-[72%] lg:w-[60%] cursor-pointer transition-all duration-250 ease-out hover:-translate-y-2 hover:drop-shadow-[0_28px_50px_rgba(0,0,0,0.7)] drop-shadow-[0_16px_36px_rgba(0,0,0,0.38)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-2xl"
             aria-label="Assistir demonstração do Dominus"
             title="Clique para assistir à demonstração em vídeo"
           >
@@ -117,15 +119,15 @@ export function DemonstracaoSection() {
         {/* ========================================================
             2. ÁREA DO ESCRITÓRIO WAYBIT (FAIXA HORIZONTAL PANORÂMICA)
             - Borda superior corta aproximadamente na metade do notebook
-            - Largura ampla aproveitando a extensão horizontal
-            - Altura contida e menos vertical (aspecto panorâmico)
+            - Largura ampla de 100% aproveitando toda a extensão horizontal
+            - Altura com presença visual equilibrada (ligeiro aumento)
             - SOMENTE Título e Parágrafo sobre a imagem
         ======================================================== */}
-        <div className="relative w-full -mt-24 sm:-mt-36 md:-mt-48 lg:-mt-64 xl:-mt-72 pt-32 sm:pt-44 md:pt-56 lg:pt-72 xl:pt-80 pb-16 sm:pb-20 md:pb-24 lg:pb-28 min-h-[440px] sm:min-h-[480px] md:min-h-[520px] lg:min-h-[560px] xl:min-h-[590px] overflow-hidden flex flex-col justify-start">
+        <div className="relative w-full -mt-[25%] sm:-mt-[23%] md:-mt-[20%] lg:-mt-[17%] pt-[28%] sm:pt-[26%] md:pt-[24%] lg:pt-[20%] pb-20 sm:pb-24 md:pb-28 lg:pb-32 min-h-[480px] sm:min-h-[520px] md:min-h-[580px] lg:min-h-[640px] xl:min-h-[680px] overflow-hidden flex flex-col justify-start">
           {/* BACKGROUND: Imagem do Escritório com Parallax Suave e object-cover panorâmico */}
           <div
             ref={officeRef}
-            className="pointer-events-none absolute inset-0 -top-[12%] -bottom-[12%] w-full h-[124%] overflow-hidden"
+            className="pointer-events-none absolute inset-0 -top-[16%] -bottom-[16%] w-full h-[132%] overflow-hidden"
           >
             <img
               src={escritorioWaybitImg}
@@ -133,8 +135,8 @@ export function DemonstracaoSection() {
               className="w-full h-full object-cover object-center pointer-events-none select-none will-change-transform"
               style={{
                 transform: prefersReducedMotion
-                  ? "scale(1.05)"
-                  : `translate3d(0, ${parallaxOffset}px, 0) scale(1.08)`,
+                  ? "none"
+                  : `translate3d(0, ${parallaxOffset}px, 0)`,
                 transition: "transform 100ms ease-out",
               }}
               loading="lazy"
