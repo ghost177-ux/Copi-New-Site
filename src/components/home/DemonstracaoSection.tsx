@@ -42,8 +42,8 @@ export function DemonstracaoSection() {
         const screenCenter = windowHeight / 2;
         const normalized = (elementCenter - screenCenter) / (windowHeight / 2);
         const clamped = Math.max(-1, Math.min(1, normalized));
-        // Deslocamento sutil e perceptível (máximo ±36px) com profundidade suave
-        const maxOffset = 36;
+        // Deslocamento suave e seguro (máximo ±24px) contido no bleed de 32px
+        const maxOffset = 24;
         setParallaxOffset(Math.round(clamped * maxOffset));
       }
     };
@@ -91,12 +91,12 @@ export function DemonstracaoSection() {
         {/* ========================================================
             1. NOTEBOOK EM PRIMEIRO PLANO (z-20)
             - Centralizado horizontalmente
-            - >= 1440px: 30% da largura do container pai (1440px, 1920px, 2560px, 4K)
-            - < 1440px: Inicia em ~50% e cresce fluidamente até 100% no mobile
-            - Progressão contínua sem saltos rígidos
+            - 1440px = 50% da largura do container pai
+            - > 1440px: percentual diminui progressivamente (< 50%)
+            - < 1440px: cresce de forma contínua e fluida até 100% no mobile
             - Proporção natural preservada (height: auto, object-contain)
         ======================================================== */}
-        <div className="w-full relative z-20 flex justify-center px-4 sm:px-6 lg:px-8 demonstracao-notebook-container">
+        <div className="relative z-20 w-full flex justify-center demonstracao-notebook-container px-4 sm:px-6">
           <button
             type="button"
             onClick={() => setIsVideoModalOpen(true)}
@@ -115,17 +115,17 @@ export function DemonstracaoSection() {
         </div>
 
         {/* ========================================================
-            2. ÁREA DO ESCRITÓRIO WAYBIT (FAIXA HORIZONTAL PANORÂMICA)
-            - Borda superior corta aproximadamente na metade do notebook
-            - Largura ampla de 100% aproveitando toda a extensão horizontal
-            - Altura com presença visual equilibrada
-            - SOMENTE Título e Parágrafo sobre a imagem
+            2. CENÁRIO DO ESCRITÓRIO WAYBIT (FAIXA PANORÂMICA LIMPA)
+            - 100% da largura da seção
+            - Sobreposição equilibrada com o notebook
+            - Sem min-height artificial, sem pilhas de compensações
+            - Altura governada pela composição e pelo conteúdo real
         ======================================================== */}
-        <div className="relative w-full -mt-24 sm:-mt-28 md:-mt-32 lg:-mt-36 pt-32 sm:pt-36 md:pt-40 lg:pt-44 pb-6 sm:pb-8 min-h-[500px] sm:min-h-[540px] md:min-h-[600px] lg:min-h-[650px] xl:min-h-[680px] overflow-hidden flex flex-col justify-start">
-          {/* BACKGROUND: Imagem do Escritório com Parallax Suave e object-cover panorâmico */}
+        <div className="relative w-full overflow-hidden -mt-16 sm:-mt-20 lg:-mt-24 pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 flex flex-col items-center">
+          {/* BACKGROUND: Imagem do Escritório com Parallax Suave Simplificado */}
           <div
             ref={officeRef}
-            className="pointer-events-none absolute inset-0 -top-[16%] -bottom-[16%] w-full h-[132%] overflow-hidden"
+            className="pointer-events-none absolute inset-0 -top-8 -bottom-8 w-full h-[calc(100%+4rem)] overflow-hidden"
           >
             <img
               src={escritorioWaybitImg}
@@ -140,17 +140,18 @@ export function DemonstracaoSection() {
               loading="lazy"
             />
 
-            {/* Overlay suave e gradiente translúcido para legibilidade sem ocultar o cenário */}
+            {/* Overlay suave e gradiente translúcido para legibilidade */}
             <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-slate-950/55 to-slate-950/80" />
           </div>
 
           {/* ========================================================
-              SOMENTE TÍTULO E PARÁGRAFO SOBRE A IMAGEM DO ESCRITÓRIO
-              - Distribuição horizontal ampla (panorâmica)
+              CONTEÚDO: TÍTULO E PARÁGRAFO
+              - Segue o sistema global do projeto (fluid-container)
+              - Largura percentual para legibilidade editorial sem cascata de max-width
           ======================================================== */}
-          <div className="relative z-10 w-full mx-auto max-w-5xl lg:max-w-6xl xl:max-w-7xl px-4 sm:px-6 lg:px-8 text-center text-white">
+          <div className="fluid-container relative z-10 flex flex-col items-center text-center text-white">
             {/* TÍTULO */}
-            <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight max-w-4xl lg:max-w-5xl mx-auto text-white drop-shadow-md">
+            <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
               Pronto para ver o que o{" "}
               <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
                 Dominus
@@ -159,7 +160,7 @@ export function DemonstracaoSection() {
             </h2>
 
             {/* PARÁGRAFO */}
-            <p className="mt-4 sm:mt-5 fluid-body-lg text-zinc-200 leading-relaxed max-w-3xl lg:max-w-4xl mx-auto drop-shadow-sm font-normal">
+            <p className="mt-4 sm:mt-5 fluid-body-lg text-zinc-200 leading-relaxed w-full max-w-[95%] sm:max-w-[85%] lg:max-w-[62%] mx-auto drop-shadow-sm font-normal">
               Agende uma apresentação online com um especialista no seu segmento. Mostramos como
               acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
               compromisso.

@@ -927,24 +927,16 @@
 }
 
 /* =========================================================================
- * DEMONSTRAÇÃO: NOTEBOOK COM LARGURA RESPONSIVA EM %
- * >= 1440px: 30% da largura do container pai (1440px, 1920px, 2560px, 4K)
- * < 1440px: Inicia em ~50% e cresce fluidamente até 100% no mobile
+ * DEMONSTRAÇÃO: NOTEBOOK COM ESCALA FLUIDA RELATIVA AO CONTAINER PAI
+ * 1440px = 50% | > 1440px = progressivamente menor (< 50%)
+ * < 1440px = cresce fluidamente de 50% até 100% no mobile
  * ========================================================================= */
 @utility demonstracao-notebook-container {
   container-type: inline-size;
 }
 
 @utility demonstracao-notebook {
-  width: clamp(50%, calc(383px + 23.4cqw), 100%);
-
-  @media (min-width: 1440px) {
-    width: 30%;
-  }
-
-  @container (min-width: 1440px) {
-    width: 30%;
-  }
+  width: clamp(25%, calc(383px + 23.4cqw), 100%);
 }
 
 
