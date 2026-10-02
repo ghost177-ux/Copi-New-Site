@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Sparkles } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
@@ -7,63 +7,6 @@ import notebookImg from "@/assets/notebook.png";
 
 export function DemonstracaoSection() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
-  const [parallaxOffset, setParallaxOffset] = useState(0);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const officeRef = useRef<HTMLDivElement>(null);
-
-  // Efeito Parallax suave aplicado exclusivamente à imagem de fundo do escritório durante o scroll
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleMediaChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-      if (e.matches) {
-        setParallaxOffset(0);
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleMediaChange);
-
-    if (mediaQuery.matches) {
-      return () => mediaQuery.removeEventListener("change", handleMediaChange);
-    }
-
-    let rafId: number;
-
-    const updateParallax = () => {
-      if (!officeRef.current) return;
-      const rect = officeRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Executa quando o elemento estiver dentro ou próximo do campo de visão da tela
-      if (rect.bottom >= -150 && rect.top <= windowHeight + 150) {
-        const elementCenter = rect.top + rect.height / 2;
-        const screenCenter = windowHeight / 2;
-        const normalized = (elementCenter - screenCenter) / (windowHeight / 2);
-        const clamped = Math.max(-1, Math.min(1, normalized));
-        // Deslocamento vertical real, perceptível e suave (máximo ±36px)
-        const maxOffset = 36;
-        setParallaxOffset(Math.round(-clamped * maxOffset));
-      }
-    };
-
-    const handleScroll = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateParallax);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-    updateParallax();
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleMediaChange);
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-      cancelAnimationFrame(rafId);
-    };
-  }, []);
 
   return (
     <>
@@ -71,8 +14,8 @@ export function DemonstracaoSection() {
           SECTION: DEMONSTRAÇÃO PERSONALIZADA (COMPOSIÇÃO HORIZONTAL PANORÂMICA)
           - Tag no topo fora da imagem do escritório
           - Notebook centralizado em primeiro plano (metade superior fora do escritório, largura ampla)
-          - Faixa Panorâmica do Escritório Waybit (ampla largura, altura moderada e equilibrada)
-          - Somente Título e Parágrafo sobre a imagem do escritório, com distribuição horizontal ampla
+          - Faixa Panorâmica do Escritório Waybit com background-attachment: fixed (efeito oficial Waybit)
+          - Somente Título e Parágrafo sobre a imagem do escritório com padding fluido (clamp)
       ========================================================================= */}
       <section
         id="banner-demonstracao"
@@ -115,36 +58,24 @@ export function DemonstracaoSection() {
         </div>
 
         {/* ========================================================
-            2. CENÁRIO DO ESCRITÓRIO WAYBIT (FAIXA PANORÂMICA LIMPA)
-            - 100% da largura da seção
-            - Sobreposição equilibrada com o notebook
-            - Sem min-height artificial, sem pilhas de compensações
-            - Altura governada pela composição e pelo conteúdo real
+            2. CENÁRIO DO ESCRITÓRIO WAYBIT (BACKGROUND FIXED)
+            - background-image: url(...)
+            - background-position: center center
+            - background-repeat: no-repeat
+            - background-size: cover
+            - background-attachment: fixed (fallback scroll no mobile)
+            - Sem min-height artificial, sem compensações gigantes
         ======================================================== */}
         <div
-          ref={officeRef}
-          className="relative w-full overflow-hidden -mt-16 sm:-mt-20 lg:-mt-24 pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 flex flex-col items-center"
+          className="relative w-full overflow-hidden -mt-10 sm:-mt-12 lg:-mt-14 pt-10 sm:pt-12 lg:pt-14 flex flex-col items-center bg-scroll sm:bg-fixed bg-center bg-no-repeat bg-cover"
+          style={{
+            backgroundImage: `url("${escritorioWaybitImg}")`,
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
         >
-          {/* 1. FUNDO: Imagem do Escritório com Parallax Vertical Real */}
-          <div className="pointer-events-none absolute inset-x-0 -top-12 -bottom-12 w-full h-[calc(100%+6rem)] overflow-hidden z-0">
-            <img
-              src={escritorioWaybitImg}
-              alt="Cenário do Escritório Waybit"
-              className="w-full h-full object-cover pointer-events-none select-none will-change-transform"
-              style={{
-                objectPosition: "center center",
-                transform: prefersReducedMotion
-                  ? "none"
-                  : `translate3d(0, ${parallaxOffset}px, 0)`,
-                transition: prefersReducedMotion
-                  ? "none"
-                  : "transform 100ms ease-out",
-              }}
-              loading="lazy"
-            />
-          </div>
-
-          {/* 2. OVERLAY PRETO ESTÁTICO (30% PRETO UNIFORME) */}
+          {/* OVERLAY PRETO ESTÁTICO (~30% PRETO UNIFORME) */}
           <div
             className="pointer-events-none absolute inset-0 z-[1]"
             style={{ backgroundColor: "rgba(0, 0, 0, 0.30)" }}
@@ -153,10 +84,13 @@ export function DemonstracaoSection() {
 
           {/* ========================================================
               CONTEÚDO: TÍTULO E PARÁGRAFO
-              - Segue o sistema global do projeto (fluid-container)
-              - Largura percentual para legibilidade editorial sem cascata de max-width
+              - Espaçamento vertical fluido e controlado com clamp(24px, 3.5vw, 48px)
+              - 24px no mobile, crescendo suavemente até 48px no desktop
           ======================================================== */}
-          <div className="fluid-container relative z-10 flex flex-col items-center text-center text-white">
+          <div
+            className="fluid-container relative z-10 flex flex-col items-center text-center text-white"
+            style={{ paddingBlock: "clamp(24px, 3.5vw, 48px)" }}
+          >
             {/* TÍTULO */}
             <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
               Pronto para ver o que o{" "}
