@@ -1614,7 +1614,7 @@ function SolutionCard({
       <div className="relative z-10 flex items-center gap-3.5 sm:gap-4 w-full min-h-[52px] sm:min-h-[56px]">
         {/* Badge arredondado com logo oficial do segmento à esquerda */}
         <div
-          className="size-12 sm:size-14 rounded-xl sm:rounded-2xl flex items-center justify-center p-2 sm:p-2.5 shrink-0 shadow-xs group-hover:scale-105 group-hover:shadow-md transition-all duration-300"
+          className="size-12 sm:size-14 rounded-xl flex items-center justify-center p-2 sm:p-2.5 shrink-0 shadow-xs group-hover:scale-105 group-hover:shadow-md transition-all duration-300"
           style={{ backgroundColor: item.color }}
         >
           <img
