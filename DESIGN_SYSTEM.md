@@ -319,8 +319,10 @@ Cada elemento gráfico deve receber uma porcentagem correspondente ao seu papel 
 * **Não Refatorar Componentes Validados Indiscriminadamente:** Componentes e seções previamente aprovados e testados (ex: diagramas específicos, badges, Footer) não devem sofrer conversões cegas retroativas sem uma solicitação ou necessidade comprovada. A regra passa a ser obrigatória para novos componentes e para os módulos em ciclo ativo de ajuste.
 
 ### 4. Padrão de Referência da Home: DemonstracaoSection (Notebook Fluido)
-* **Objetivo:** Em telas grandes, o notebook ocupa uma proporção menor (**40%** do container) para valorizar o cenário amplo e panorâmico. Conforme a tela diminui, a porcentagem ocupada cresce de forma contínua e suave, atingindo **100%** da largura disponível do container em **530px**, mantendo 100% abaixo de 530px.
-* **Sem Saltos Bruscos:** Em vez de degraus rígidos por breakpoint (`40% → 60% → 80% → 100%`), utiliza interpolação fluida contínua via Container Queries (`cqw`) e `clamp()`:
+* **Objetivo:**
+  - **Telas Grandes ($\ge 1440\text{px}$):** O notebook ocupa **30%** da largura do container pai (mantido em 1920px, 2560px e 4K) para garantir máxima respiração visual e equilíbrio com o cenário panorâmico do escritório.
+  - **Abaixo de 1440px ($< 1440\text{px}$):** Começa em aproximadamente **50%** e cresce de maneira fluida e contínua conforme a tela diminui, atingindo **100%** nas telas pequenas / mobile.
+* **Sem Saltos Bruscos:** Em vez de degraus rígidos por breakpoint (`50% → 70% → 85% → 100%`), utiliza interpolação contínua via Container Queries (`cqw`) e `clamp()`:
   ```css
   /* Container Pai */
   .demonstracao-notebook-container {
@@ -329,13 +331,22 @@ Cada elemento gráfico deve receber uma porcentagem correspondente ao seu papel 
 
   /* Notebook Interativo */
   .demonstracao-notebook {
-    width: clamp(40%, calc(503.2px + 5.055cqw), 100%);
+    width: clamp(50%, calc(383px + 23.4cqw), 100%);
+
+    @media (min-width: 1440px) {
+      width: 30%;
+    }
+
+    @container (min-width: 1440px) {
+      width: 30%;
+    }
   }
   ```
 * **Comportamento por Resolução:**
-  - `> 1440px`: Notebook estabilizado em **40%** da largura útil do container.
-  - `1440px → 530px`: Crescimento percentual fluido e progressivo (40% → 47% → 57.5% → 70.6% → 100%).
-  - `≤ 530px`: Notebook ocupa **100%** da largura disponível do container pai (sem overflow horizontal).
+  - `≥ 1440px`: Notebook estabilizado em **30%** da largura útil do container pai.
+  - `1439px`: Notebook inicia em $\approx \mathbf{50\%}$.
+  - `1439px → mobile`: Crescimento percentual fluido e progressivo (50% → 55% → 63% → 73% → 100%).
+  - `≤ 500px`: Notebook ocupa **100%** da largura disponível do container pai (sem overflow horizontal).
 * **Propriedades Preservadas:** `height: auto`, proporção nativa (~16:9), centralização horizontal, interações suaves de hover e modal de vídeo.
 
 ---
