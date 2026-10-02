@@ -96,27 +96,33 @@ export function DemonstracaoSection() {
               CAMADA 3: CONTEÚDO (H2 + PARÁGRAFO)
               - Centralizado verticalmente na área de conteúdo
               - Totalmente livre, abaixo do notebook e no fluxo normal
-              - Espaçamento vertical fluido e controlado com clamp(24px, 3.5vw, 48px)
+              - Espaçamento vertical reduzido pela metade: clamp(12px, 1.75vw, 24px)
           ======================================================== */}
           <div
             className="fluid-container relative z-[2] w-full flex flex-col items-center text-center text-white"
-            style={{ paddingBlock: "clamp(24px, 3.5vw, 48px)" }}
+            style={{ paddingBlock: "clamp(12px, 1.75vw, 24px)" }}
           >
-            {/* TÍTULO */}
-            <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
-              Pronto para ver o que o{" "}
-              <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
-                Dominus
-              </span>{" "}
-              pode fazer pelo seu negócio?
-            </h2>
+            {/* PÍLULA ATRÁS DO TEXTO (#000000 com 55% de opacidade) */}
+            <div
+              className="flex flex-col items-center text-center rounded-2xl sm:rounded-3xl px-5 py-4 sm:px-7 sm:py-6 md:px-9 md:py-7 max-w-4xl mx-auto"
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.55)" }}
+            >
+              {/* TÍTULO */}
+              <h2 className="font-display fluid-h2 font-extrabold tracking-tight leading-snug sm:leading-tight w-full max-w-[90%] sm:max-w-[80%] lg:max-w-[70%] mx-auto text-white drop-shadow-md">
+                Pronto para ver o que o{" "}
+                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
+                  Dominus
+                </span>{" "}
+                pode fazer pelo seu negócio?
+              </h2>
 
-            {/* PARÁGRAFO */}
-            <p className="mt-4 sm:mt-5 fluid-body-lg text-zinc-200 leading-relaxed w-full max-w-[95%] sm:max-w-[85%] lg:max-w-[62%] mx-auto drop-shadow-sm font-normal">
-              Agende uma apresentação online com um especialista no seu segmento. Mostramos como
-              acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
-              compromisso.
-            </p>
+              {/* PARÁGRAFO */}
+              <p className="mt-4 sm:mt-5 fluid-body-lg text-zinc-200 leading-relaxed w-full max-w-[95%] sm:max-w-[85%] lg:max-w-[62%] mx-auto drop-shadow-sm font-normal">
+                Agende uma apresentação online com um especialista no seu segmento. Mostramos como
+                acelerar suas vendas, controlar seu estoque e ter tranquilidade fiscal sem
+                compromisso.
+              </p>
+            </div>
           </div>
         </div>
       </section>
