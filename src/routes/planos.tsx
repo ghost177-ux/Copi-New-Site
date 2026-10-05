@@ -445,14 +445,16 @@ const segmentFeaturesData: Record<SegmentType, SegmentFeatureModule[]> = {
   ],
 };
 
-const auroraGradients: Record<SegmentType, string> = {
-  varejo:
-    "radial-gradient(circle at 85% 15%, rgba(59, 188, 236, 0.45), transparent 55%), radial-gradient(circle at 15% 85%, rgba(59, 188, 236, 0.3), transparent 55%), radial-gradient(circle at 85% 85%, rgba(186, 230, 253, 0.5), transparent 50%), linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #ede9fe 100%)",
-  food:
-    "radial-gradient(circle at 85% 15%, rgba(252, 66, 66, 0.45), transparent 55%), radial-gradient(circle at 15% 85%, rgba(252, 66, 66, 0.3), transparent 55%), radial-gradient(circle at 85% 85%, rgba(254, 202, 202, 0.5), transparent 50%), linear-gradient(135deg, #fff1f2 0%, #ffe4e6 50%, #fef2f2 100%)",
-  autocenter:
-    "radial-gradient(circle at 85% 15%, rgba(252, 196, 44, 0.45), transparent 55%), radial-gradient(circle at 15% 85%, rgba(252, 196, 44, 0.3), transparent 55%), radial-gradient(circle at 85% 85%, rgba(254, 240, 138, 0.5), transparent 50%), linear-gradient(135deg, #fffbeb 0%, #fef9c3 50%, #fffdf0 100%)",
-};
+function formatRevenue(limit: string): string {
+  const trimmed = limit.trim();
+  if (/^até/i.test(trimmed)) {
+    return `Faturamento de ${trimmed.charAt(0).toLowerCase() + trimmed.slice(1)}`;
+  }
+  if (/^acima/i.test(trimmed)) {
+    return `Faturamento ${trimmed.charAt(0).toLowerCase() + trimmed.slice(1)}`;
+  }
+  return `Faturamento de ${trimmed}`;
+}
 
 interface PromoPlanOffer {
   id: string;
@@ -743,6 +745,8 @@ function PlanCard({
       ? "hZtTltmYEVplINDvwqsS"
       : null;
 
+  const isDarkText = segmentKey === "autocenter";
+
   const handleContractClick = () => {
     if (fullFunnelFormId) {
       openFullFunnelPopup(fullFunnelFormId);
@@ -756,53 +760,91 @@ function PlanCard({
       style={{ padding: "4px" }}
       className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-1 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
     >
-      {/* 1. Header Superior com Degradê Suave (Aurora Glow) */}
+      {/* 1. Header Superior com Cor Sólida do Segmento */}
       <div
         className="rounded-[18px] sm:rounded-[22px] p-4 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xs transition-all duration-300 border border-black/[0.04] dark:border-white/[0.06]"
-        style={{ background: auroraGradients[segmentKey] }}
+        style={{ backgroundColor: meta.color }}
       >
         <div>
           {/* Nome do Plano */}
-          <h3 className="font-display fluid-h3 font-black text-zinc-950 tracking-tight leading-tight">
+          <h3
+            className={`font-display fluid-h3 font-black tracking-tight leading-tight ${
+              isDarkText ? "text-zinc-950" : "text-white"
+            }`}
+          >
             {plan.name}
           </h3>
 
-          {/* Preço com tipografia fluida e comparação no modo anual */}
+          {/* Preço com escala H2 e comparação no modo anual */}
           <div className="mt-2.5 sm:mt-3 mb-1 sm:mb-1.5 min-h-[52px] sm:min-h-[58px] flex flex-col justify-end">
             {isAnnual && plan.annualOriginalPrice && !plan.isCustomPrice ? (
               <>
-                <div className="flex items-center gap-1.5 fluid-caption text-zinc-600 font-medium mb-0.5">
+                <div
+                  className={`flex items-center gap-1.5 fluid-caption font-medium mb-0.5 ${
+                    isDarkText ? "text-zinc-800" : "text-white/80"
+                  }`}
+                >
                   <span>De</span>
-                  <span className="line-through decoration-zinc-400 font-semibold text-zinc-500">
+                  <span
+                    className={`line-through font-semibold ${
+                      isDarkText
+                        ? "decoration-zinc-500 text-zinc-700"
+                        : "decoration-white/60 text-white/75"
+                    }`}
+                  >
                     {plan.annualOriginalPrice}
                   </span>
                   <span>por</span>
                 </div>
                 <div className="flex items-baseline gap-1 flex-wrap">
-                  <span className="font-display fluid-h1 font-black text-zinc-950 tracking-tight leading-none">
+                  <span
+                    className={`font-display fluid-h2 font-black tracking-tight leading-none ${
+                      isDarkText ? "text-zinc-950" : "text-white"
+                    }`}
+                  >
                     {plan.annualPrice}
                   </span>
-                  <span className="fluid-secondary font-bold text-zinc-600">
+                  <span
+                    className={`fluid-secondary font-bold ${
+                      isDarkText ? "text-zinc-800" : "text-white/90"
+                    }`}
+                  >
                     {plan.annualPeriodText || "/Mês"}
                   </span>
                 </div>
               </>
             ) : !plan.isCustomPrice ? (
               <div className="flex items-baseline gap-1 flex-wrap">
-                <span className="font-display fluid-h1 font-black text-zinc-950 tracking-tight leading-none">
+                <span
+                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${
+                    isDarkText ? "text-zinc-950" : "text-white"
+                  }`}
+                >
                   {plan.price}
                 </span>
-                <span className="fluid-secondary font-bold text-zinc-600">
+                <span
+                  className={`fluid-secondary font-bold ${
+                    isDarkText ? "text-zinc-800" : "text-white/90"
+                  }`}
+                >
                   {plan.periodText}
                 </span>
               </div>
             ) : (
               <div className="flex items-baseline gap-1 flex-wrap">
-                <span className="font-display fluid-h1 font-black text-zinc-950 tracking-tight leading-none">
+                <span
+                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${
+                    isDarkText ? "text-zinc-950" : "text-white"
+                  }`}
+                >
                   Consulte
                 </span>
                 {plan.periodText ? (
-                  <span className="fluid-secondary font-bold text-zinc-600">
+                  <span
+                    className={`fluid-secondary font-bold ${
+                      isDarkText ? "text-zinc-800" : "text-white/90"
+                    }`}
+                  >
                     {plan.periodText}
                   </span>
                 ) : null}
@@ -811,12 +853,16 @@ function PlanCard({
           </div>
 
           {/* Descrição sutil do plano */}
-          <p className="fluid-caption text-zinc-600 font-medium leading-relaxed mt-1">
+          <p
+            className={`fluid-caption font-medium leading-relaxed mt-1 ${
+              isDarkText ? "text-zinc-800" : "text-white/90"
+            }`}
+          >
             Recursos 100% liberados para alavancar sua operação.
           </p>
         </div>
 
-        {/* 2. Botão de Ação Centralizado no Header com Fundo Escuro Sofisticado */}
+        {/* 2. Botão de Ação Centralizado no Header com Fundo Escuro */}
         <button
           type="button"
           onClick={handleContractClick}
@@ -834,50 +880,33 @@ function PlanCard({
         </button>
       </div>
 
-      {/* 3. Corpo Inferior do Card */}
-      <div className="pt-4 sm:pt-5 pb-3 sm:pb-4 px-2.5 sm:px-3.5 flex-1 flex flex-col justify-start space-y-3.5 sm:space-y-4">
-        {/* Item: Faturamento Recomendado */}
+      {/* 3. Corpo Inferior do Card (Lista de Características Consistente) */}
+      <div className="pt-4 sm:pt-5 pb-3 sm:pb-4 px-2.5 sm:px-3.5 flex-1 flex flex-col justify-start space-y-3 sm:space-y-3.5">
+        {/* Item: Faturamento */}
         <div className="flex items-start gap-2.5">
-          <CheckCircle2 size={17} className="shrink-0 mt-0.5 text-[#454545]" />
-          <div>
-            <span className="fluid-caption font-bold uppercase tracking-wider text-[#454545] dark:text-zinc-400 block leading-tight">
-              Faturamento Recomendado
-            </span>
-            <span className="fluid-body font-bold text-foreground">
-              {plan.revenueLimit}
-            </span>
-          </div>
+          <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#454545] dark:text-zinc-400" />
+          <span className="fluid-caption font-semibold text-foreground leading-snug">
+            {formatRevenue(plan.revenueLimit)}
+          </span>
         </div>
 
         {/* Item: Terminais / PDVs */}
         <div className="flex items-start gap-2.5">
-          <CheckCircle2 size={17} className="shrink-0 mt-0.5 text-[#454545]" />
-          <div>
-            <span className="fluid-caption font-bold uppercase tracking-wider text-[#454545] dark:text-zinc-400 block leading-tight">
-              Terminais / PDVs
-            </span>
-            <span className="fluid-body font-bold text-foreground">
-              {plan.pdvCount}
-            </span>
-          </div>
+          <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#454545] dark:text-zinc-400" />
+          <span className="fluid-caption font-semibold text-foreground leading-snug">
+            Terminais / PDVs: {plan.pdvCount.startsWith("PDVs ") ? plan.pdvCount.replace("PDVs ", "") : plan.pdvCount}
+          </span>
         </div>
 
-        {/* Item: Diferencial VIP / Slot Padronizado */}
-        <div className="min-h-[34px] sm:min-h-[38px] flex items-center pt-1">
-          {plan.vipBonus ? (
-            <div className="w-full py-1.5 sm:py-2 px-2.5 sm:px-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 font-bold fluid-caption flex items-center justify-center gap-2 text-center shadow-xs">
-              <Award size={14} className="shrink-0 text-amber-500" />
-              <span>{plan.vipBonus}</span>
-            </div>
-          ) : (
-            <div
-              className="w-full py-1.5 sm:py-2 px-2.5 sm:px-3 text-transparent fluid-caption select-none"
-              aria-hidden="true"
-            >
-              &nbsp;
-            </div>
-          )}
-        </div>
+        {/* Item: Acompanhamento Exclusivo (apenas onde já existe) */}
+        {plan.vipBonus ? (
+          <div className="flex items-start gap-2.5">
+            <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#454545] dark:text-zinc-400" />
+            <span className="fluid-caption font-semibold text-foreground leading-snug">
+              {plan.vipBonus}
+            </span>
+          </div>
+        ) : null}
       </div>
     </div>
   );
