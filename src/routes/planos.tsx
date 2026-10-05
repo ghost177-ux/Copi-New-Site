@@ -746,6 +746,7 @@ function PlanCard({
       : null;
 
   const isDarkText = segmentKey === "autocenter";
+  const [isBtnHovered, setIsBtnHovered] = useState(false);
 
   const handleContractClick = () => {
     if (fullFunnelFormId) {
@@ -755,17 +756,24 @@ function PlanCard({
     }
   };
 
+  const handleScrollToFeatures = () => {
+    const el = document.getElementById("recursos-planos");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div
-      style={{ padding: "4px" }}
-      className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-1 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
+      className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-3.5 sm:p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
     >
-      {/* 1. Header Superior com Cor Sólida do Segmento */}
-      <div
-        className="rounded-[18px] sm:rounded-[22px] p-4 sm:p-5 lg:p-6 flex flex-col justify-between shadow-xs transition-all duration-300 border border-black/[0.04] dark:border-white/[0.06]"
-        style={{ backgroundColor: meta.color }}
-      >
-        <div>
+      {/* 1. Header do Card: Caixa Colorida + Faixa Anual (se aplicável) */}
+      <div className="overflow-hidden rounded-[18px] sm:rounded-[22px] border border-black/[0.04] dark:border-white/[0.06] shadow-xs shrink-0">
+        {/* Caixa colorida com ALTURA FIXA/IDÊNTICA para MENSAL e ANUAL */}
+        <div
+          className="h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300"
+          style={{ backgroundColor: meta.color }}
+        >
           {/* Nome do Plano */}
           <h3
             className={`font-display fluid-h3 font-black tracking-tight leading-tight ${
@@ -776,11 +784,11 @@ function PlanCard({
           </h3>
 
           {/* Preço com escala H2 e comparação no modo anual */}
-          <div className="mt-2.5 sm:mt-3 mb-1 sm:mb-1.5 min-h-[52px] sm:min-h-[58px] flex flex-col justify-end">
+          <div>
             {isAnnual && plan.annualOriginalPrice && !plan.isCustomPrice ? (
               <>
                 <div
-                  className={`flex items-center gap-1.5 fluid-caption font-medium mb-0.5 ${
+                  className={`flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold mb-0.5 leading-tight ${
                     isDarkText ? "text-zinc-800" : "text-white/80"
                   }`}
                 >
@@ -788,7 +796,7 @@ function PlanCard({
                   <span
                     className={`line-through font-semibold ${
                       isDarkText
-                        ? "decoration-zinc-500 text-zinc-700"
+                        ? "decoration-zinc-700 text-zinc-700"
                         : "decoration-white/60 text-white/75"
                     }`}
                   >
@@ -851,62 +859,84 @@ function PlanCard({
               </div>
             )}
           </div>
-
-          {/* Descrição sutil do plano */}
-          <p
-            className={`fluid-caption font-medium leading-relaxed mt-1 ${
-              isDarkText ? "text-zinc-800" : "text-white/90"
-            }`}
-          >
-            Recursos 100% liberados para alavancar sua operação.
-          </p>
         </div>
 
-        {/* 2. Botão de Ação Centralizado no Header com Fundo Escuro */}
-        <button
-          type="button"
-          onClick={handleContractClick}
-          data-target={fullFunnelFormId ? `#popup-${fullFunnelFormId}` : undefined}
-          data-form-id={fullFunnelFormId || undefined}
-          data-layout-iframe-id={fullFunnelFormId ? `popup-${fullFunnelFormId}` : undefined}
-          data-popup-trigger={fullFunnelFormId ? `popup-${fullFunnelFormId}` : undefined}
-          className="mt-4 sm:mt-5 w-full h-11 sm:h-12 rounded-full bg-zinc-950 hover:bg-black text-white font-bold fluid-btn tracking-wide transition-all duration-300 shadow-sm hover:shadow-md active:scale-[0.98] flex items-center justify-center gap-2 group/btn cursor-pointer"
-        >
-          <span>Contratar Agora</span>
-          <ArrowRight
-            size={16}
-            className="transition-transform duration-300 group-hover/btn:translate-x-1"
-          />
-        </button>
-      </div>
-
-      {/* 3. Corpo Inferior do Card (Lista de Características Consistente) */}
-      <div className="pt-4 sm:pt-5 pb-3 sm:pb-4 px-2.5 sm:px-3.5 flex-1 flex flex-col justify-start space-y-3 sm:space-y-3.5">
-        {/* Item: Faturamento */}
-        <div className="flex items-start gap-2.5">
-          <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#454545] dark:text-zinc-400" />
-          <span className="fluid-caption font-semibold text-foreground leading-snug">
-            {formatRevenue(plan.revenueLimit)}
-          </span>
-        </div>
-
-        {/* Item: Terminais / PDVs */}
-        <div className="flex items-start gap-2.5">
-          <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#454545] dark:text-zinc-400" />
-          <span className="fluid-caption font-semibold text-foreground leading-snug">
-            Terminais / PDVs: {plan.pdvCount.startsWith("PDVs ") ? plan.pdvCount.replace("PDVs ", "") : plan.pdvCount}
-          </span>
-        </div>
-
-        {/* Item: Acompanhamento Exclusivo (apenas onde já existe) */}
-        {plan.vipBonus ? (
-          <div className="flex items-start gap-2.5">
-            <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-[#454545] dark:text-zinc-400" />
-            <span className="fluid-caption font-semibold text-foreground leading-snug">
-              {plan.vipBonus}
-            </span>
+        {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
+        {isAnnual && !plan.isCustomPrice ? (
+          <div className="bg-[#2f2f2f] text-white py-2 sm:py-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide">
+            Até 12X No cartão
           </div>
         ) : null}
+      </div>
+
+      {/* 2. Corpo do Card (Botão + Lista de Características + Ver mais +) */}
+      <div className="pt-4 sm:pt-5 pb-1 flex-1 flex flex-col justify-between">
+        {/* Botão Contrate Agora */}
+        <div>
+          <button
+            type="button"
+            onClick={handleContractClick}
+            onMouseEnter={() => setIsBtnHovered(true)}
+            onMouseLeave={() => setIsBtnHovered(false)}
+            data-target={fullFunnelFormId ? `#popup-${fullFunnelFormId}` : undefined}
+            data-form-id={fullFunnelFormId || undefined}
+            data-layout-iframe-id={fullFunnelFormId ? `popup-${fullFunnelFormId}` : undefined}
+            data-popup-trigger={fullFunnelFormId ? `popup-${fullFunnelFormId}` : undefined}
+            style={{
+              borderColor: meta.color,
+              backgroundColor: isBtnHovered ? meta.color : "transparent",
+              color: isBtnHovered
+                ? isDarkText
+                  ? "#09090b"
+                  : "#ffffff"
+                : meta.color,
+            }}
+            className="w-full h-11 sm:h-12 rounded-full border-2 font-bold fluid-btn tracking-wide transition-all duration-300 shadow-xs hover:shadow-md active:scale-[0.98] flex items-center justify-center cursor-pointer"
+          >
+            <span>Contrate Agora</span>
+          </button>
+        </div>
+
+        {/* Lista de Características */}
+        <div className="mt-4 sm:mt-5 space-y-3 sm:space-y-3.5 flex-1">
+          {/* Item: Faturamento */}
+          <div className="flex items-start gap-2.5">
+            <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
+            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+              {formatRevenue(plan.revenueLimit)}
+            </span>
+          </div>
+
+          {/* Item: Terminais / PDVs */}
+          <div className="flex items-start gap-2.5">
+            <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
+            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+              Terminais / PDVs: {plan.pdvCount.startsWith("PDVs ") ? plan.pdvCount.replace("PDVs ", "") : plan.pdvCount}
+            </span>
+          </div>
+
+          {/* Item: Acompanhamento Exclusivo (apenas onde já existe) */}
+          {plan.vipBonus ? (
+            <div className="flex items-start gap-2.5">
+              <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
+              <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+                {plan.vipBonus}
+              </span>
+            </div>
+          ) : null}
+        </div>
+
+        {/* Ver mais + link para a seção de recursos */}
+        <div className="pt-4 sm:pt-5">
+          <button
+            type="button"
+            onClick={handleScrollToFeatures}
+            style={{ color: meta.color }}
+            className="font-bold fluid-caption hover:underline cursor-pointer transition-opacity hover:opacity-80 text-left inline-flex items-center self-start"
+          >
+            ver mais +
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1359,7 +1389,10 @@ function PlanosPage() {
         {/* ========================================================================= */}
         {/* 5. RECURSOS ESPECÍFICOS POR SEGMENTO (GRID DETALHADO COM CHECKLISTS)       */}
         {/* ========================================================================= */}
-        <section className="w-full py-12 sm:py-16 lg:py-20 bg-background border-t border-border">
+        <section
+          id="recursos-planos"
+          className="w-full py-12 sm:py-16 lg:py-20 bg-background border-t border-border scroll-mt-24"
+        >
           <div className="fluid-container">
             <div className="max-w-3xl mx-auto text-center mb-8 sm:mb-12 px-2">
               <div
