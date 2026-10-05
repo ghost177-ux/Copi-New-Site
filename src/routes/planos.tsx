@@ -15,6 +15,8 @@ import {
   Utensils,
   Wrench,
   Zap,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -760,6 +762,38 @@ function PlanosPage() {
   const plans = plansData[selectedSegment];
   const featureModules = segmentFeaturesData[selectedSegment];
 
+  const [activeMobileCardIndex, setActiveMobileCardIndex] = useState(0);
+  const mobileCarouselRef = useRef<HTMLDivElement>(null);
+
+  const handleMobileScroll = () => {
+    if (!mobileCarouselRef.current) return;
+    const { scrollLeft, clientWidth } = mobileCarouselRef.current;
+    if (clientWidth === 0) return;
+    const index = Math.round(scrollLeft / (clientWidth * 0.75));
+    setActiveMobileCardIndex(Math.min(Math.max(index, 0), plans.length - 1));
+  };
+
+  const scrollCarouselTo = (index: number) => {
+    if (!mobileCarouselRef.current) return;
+    const cards = mobileCarouselRef.current.children;
+    if (cards[index]) {
+      (cards[index] as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+      setActiveMobileCardIndex(index);
+    }
+  };
+
+  const scrollCarouselPrev = () => {
+    scrollCarouselTo(Math.max(0, activeMobileCardIndex - 1));
+  };
+
+  const scrollCarouselNext = () => {
+    scrollCarouselTo(Math.min(plans.length - 1, activeMobileCardIndex + 1));
+  };
+
   function handleOpenPlanOffer(planName: string) {
     const cycleLabel = billingCycle === "anual" ? "Anual" : "Mensal";
     setSelectedPlanForModal(`${planName} (${meta.name} - ${cycleLabel})`);
@@ -917,8 +951,8 @@ function PlanosPage() {
         {/* ========================================================================= */}
         <section className="w-full py-6 sm:py-8 lg:py-14 bg-surface-subtle/50">
           <div className="fluid-container">
-            {/* Grid Progressivo de Planos Oficiais */}
-            <div className="grid grid-cols-1 min-[540px]:grid-cols-2 min-[960px]:grid-cols-4 gap-4 sm:gap-5 xl:gap-6 items-stretch w-full">
+            {/* VERSÃO DESKTOP: Grid 4 colunas estático */}
+            <div className="hidden lg:grid lg:grid-cols-4 gap-3.5 xl:gap-6 items-stretch">
               {plans.map((plan) => (
                 <PlanCard
                   key={plan.id}
@@ -928,6 +962,85 @@ function PlanosPage() {
                   onSelect={handleOpenPlanOffer}
                 />
               ))}
+            </div>
+
+            {/* VERSÃO MOBILE E TABLET: Carrossel Horizontal Nativo com Swipe */}
+            <div className="lg:hidden">
+              <p className="text-center fluid-caption text-muted-foreground mb-3 flex items-center justify-center gap-1.5">
+                <span>← Deslize para visualizar os planos →</span>
+              </p>
+
+              {/* Container de Scroll com Snap */}
+              <div
+                ref={mobileCarouselRef}
+                onScroll={handleMobileScroll}
+                className="flex items-stretch gap-3.5 sm:gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 pt-2 px-3 sm:px-4 no-scrollbar touch-pan-x"
+                style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
+              >
+                {plans.map((plan) => (
+                  <div
+                    key={plan.id}
+                    className="w-[84vw] sm:w-[65vw] md:w-[45vw] max-w-[320px] shrink-0 snap-center h-full flex flex-col"
+                  >
+                    <PlanCard
+                      plan={plan}
+                      meta={meta}
+                      isAnnual={billingCycle === "anual"}
+                      onSelect={handleOpenPlanOffer}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* Controles de Navegação do Carrossel (Setas e Bolinhas) */}
+              <div className="mt-4 sm:mt-5 flex items-center justify-center gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={scrollCarouselPrev}
+                  disabled={activeMobileCardIndex === 0}
+                  className="size-9 sm:size-10 rounded-full border-border cursor-pointer disabled:opacity-30 transition-all flex items-center justify-center"
+                  aria-label="Plano anterior"
+                >
+                  <ChevronLeft size={16} />
+                </Button>
+
+                {/* Bolinhas Indicadoras de Paginação */}
+                <div className="flex items-center gap-1.5 px-2">
+                  {plans.map((plan, index) => {
+                    const isActive = activeMobileCardIndex === index;
+                    return (
+                      <button
+                        key={plan.id}
+                        type="button"
+                        onClick={() => scrollCarouselTo(index)}
+                        className={`h-2 sm:h-2.5 rounded-full transition-all cursor-pointer ${
+                          isActive
+                            ? "w-6"
+                            : "w-2 sm:w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
+                        }`}
+                        style={{
+                          backgroundColor: isActive ? meta.color : undefined,
+                        }}
+                        aria-label={`Ir para ${plan.name}`}
+                      />
+                    );
+                  })}
+                </div>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={scrollCarouselNext}
+                  disabled={activeMobileCardIndex === plans.length - 1}
+                  className="size-9 sm:size-10 rounded-full border-border cursor-pointer disabled:opacity-30 transition-all flex items-center justify-center"
+                  aria-label="Próximo plano"
+                >
+                  <ChevronRight size={16} />
+                </Button>
+              </div>
             </div>
           </div>
         </section>
