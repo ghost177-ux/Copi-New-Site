@@ -776,9 +776,8 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display fluid-h3 font-black tracking-tight leading-tight ${
-              isDarkText ? "text-zinc-950" : "text-white"
-            }`}
+            className={`font-display fluid-h3 font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+              }`}
           >
             {plan.name}
           </h3>
@@ -788,17 +787,15 @@ function PlanCard({
             {isAnnual && plan.annualOriginalPrice && !plan.isCustomPrice ? (
               <>
                 <div
-                  className={`flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold mb-0.5 leading-tight ${
-                    isDarkText ? "text-zinc-800" : "text-white/80"
-                  }`}
+                  className={`flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold mb-0.5 leading-tight ${isDarkText ? "text-zinc-800" : "text-white/80"
+                    }`}
                 >
                   <span>De</span>
                   <span
-                    className={`line-through font-semibold ${
-                      isDarkText
+                    className={`line-through font-semibold ${isDarkText
                         ? "decoration-zinc-700 text-zinc-700"
                         : "decoration-white/60 text-white/75"
-                    }`}
+                      }`}
                   >
                     {plan.annualOriginalPrice}
                   </span>
@@ -806,16 +803,14 @@ function PlanCard({
                 </div>
                 <div className="flex items-baseline gap-1 flex-wrap">
                   <span
-                    className={`font-display fluid-h2 font-black tracking-tight leading-none ${
-                      isDarkText ? "text-zinc-950" : "text-white"
-                    }`}
+                    className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                      }`}
                   >
                     {plan.annualPrice}
                   </span>
                   <span
-                    className={`fluid-secondary font-bold ${
-                      isDarkText ? "text-zinc-800" : "text-white/90"
-                    }`}
+                    className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                      }`}
                   >
                     {plan.annualPeriodText || "/Mês"}
                   </span>
@@ -824,16 +819,14 @@ function PlanCard({
             ) : !plan.isCustomPrice ? (
               <div className="flex items-baseline gap-1 flex-wrap">
                 <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${
-                    isDarkText ? "text-zinc-950" : "text-white"
-                  }`}
+                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                    }`}
                 >
                   {plan.price}
                 </span>
                 <span
-                  className={`fluid-secondary font-bold ${
-                    isDarkText ? "text-zinc-800" : "text-white/90"
-                  }`}
+                  className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                    }`}
                 >
                   {plan.periodText}
                 </span>
@@ -841,17 +834,15 @@ function PlanCard({
             ) : (
               <div className="flex items-baseline gap-1 flex-wrap">
                 <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${
-                    isDarkText ? "text-zinc-950" : "text-white"
-                  }`}
+                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                    }`}
                 >
                   Consulte
                 </span>
                 {plan.periodText ? (
                   <span
-                    className={`fluid-secondary font-bold ${
-                      isDarkText ? "text-zinc-800" : "text-white/90"
-                    }`}
+                    className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                      }`}
                   >
                     {plan.periodText}
                   </span>
@@ -1225,19 +1216,17 @@ function PlanosPage() {
                       key={segmentKey}
                       type="button"
                       onClick={() => setSelectedSegment(segmentKey)}
-                      className={`flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-xl fluid-btn font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
-                        isActive
+                      className={`flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-xl fluid-btn font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${isActive
                           ? `bg-background shadow-md border ${item.borderColor} text-foreground`
                           : "text-[#454545] dark:text-zinc-400 hover:text-foreground hover:bg-background/50 border border-transparent"
-                      }`}
+                        }`}
                       style={{
                         color: isActive ? item.color : undefined,
                       }}
                     >
                       <div
-                        className={`size-6 sm:size-7 rounded-lg flex items-center justify-center transition-colors shrink-0 ${
-                          isActive ? item.bgAccent : "bg-muted text-[#454545] dark:text-zinc-400"
-                        }`}
+                        className={`size-6 sm:size-7 rounded-lg flex items-center justify-center transition-colors shrink-0 ${isActive ? item.bgAccent : "bg-muted text-[#454545] dark:text-zinc-400"
+                          }`}
                       >
                         <Icon size={15} />
                       </div>
@@ -1262,22 +1251,20 @@ function PlanosPage() {
                   <button
                     type="button"
                     onClick={() => setBillingCycle("mensal")}
-                    className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full fluid-btn font-bold transition-all cursor-pointer ${
-                      billingCycle === "mensal"
+                    className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full fluid-btn font-bold transition-all cursor-pointer ${billingCycle === "mensal"
                         ? "bg-foreground text-background shadow-xs"
                         : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     Plano Mensal
                   </button>
                   <button
                     type="button"
                     onClick={() => setBillingCycle("anual")}
-                    className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full fluid-btn font-bold transition-all cursor-pointer ${
-                      billingCycle === "anual"
+                    className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full fluid-btn font-bold transition-all cursor-pointer ${billingCycle === "anual"
                         ? "bg-foreground text-background shadow-xs"
                         : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     Plano Anual
                   </button>
@@ -1356,11 +1343,10 @@ function PlanosPage() {
                         key={plan.id}
                         type="button"
                         onClick={() => scrollCarouselTo(index)}
-                        className={`h-2 sm:h-2.5 rounded-full transition-all cursor-pointer ${
-                          isActive
+                        className={`h-2 sm:h-2.5 rounded-full transition-all cursor-pointer ${isActive
                             ? "w-6"
                             : "w-2 sm:w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                        }`}
+                          }`}
                         style={{
                           backgroundColor: isActive ? meta.color : undefined,
                         }}
