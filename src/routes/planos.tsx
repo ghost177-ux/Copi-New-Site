@@ -768,14 +768,10 @@ function PlanCard({
       className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-1 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
     >
       {/* 1. Header do Card: Caixa Colorida + Faixa Anual (se aplicável) */}
-      <div className="overflow-hidden rounded-[18px] sm:rounded-[22px] border border-black/[0.04] dark:border-white/[0.06] shadow-xs shrink-0">
+      <div className="shrink-0 flex flex-col">
         {/* Caixa colorida com ALTURA FIXA/IDÊNTICA para MENSAL e ANUAL */}
         <div
-          className={`h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300 ${
-            isAnnual && !plan.isCustomPrice
-              ? "rounded-t-[18px] sm:rounded-t-[22px] rounded-b-none"
-              : "rounded-[18px] sm:rounded-[22px]"
-          }`}
+          className="h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300 rounded-[18px] sm:rounded-[22px] relative z-10"
           style={{ backgroundColor: meta.color }}
         >
           {/* Nome do Plano */}
@@ -858,7 +854,7 @@ function PlanCard({
 
         {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
         {isAnnual && !plan.isCustomPrice ? (
-          <div className="bg-[#2f2f2f] text-white py-2 sm:py-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide rounded-b-[18px] sm:rounded-b-[22px] rounded-t-none">
+          <div className="bg-[#2f2f2f] text-white pt-7 sm:pt-8 pb-2 sm:pb-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide rounded-b-[18px] sm:rounded-b-[22px] -mt-[20px] sm:-mt-[22px] relative z-0">
             Até 12X No cartão
           </div>
         ) : null}
