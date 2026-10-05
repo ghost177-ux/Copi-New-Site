@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ClipboardList,
-  Flame,
   Layers,
   Receipt,
   ShieldCheck,
@@ -24,6 +23,10 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SpecialistDialog } from "@/components/SpecialistDialog";
+
+import promoVarejoImg from "@/assets/Super Promoção para Sua Loja.png";
+import promoFoodImg from "@/assets/Super Promoção para Restaurantes.png";
+import promoAutocenterImg from "@/assets/Super Promoção para Auto-Center.png";
 
 export const Route = createFileRoute("/planos")({
   head: () => ({
@@ -124,6 +127,21 @@ const segmentMeta: Record<SegmentType, SegmentMetaItem> = {
     cardBorderHover: "hover:border-[#FCC42C]/70",
     icon: Wrench,
     samplePdvTerm: "PDVs / Terminais O.S.",
+  },
+};
+
+const promoBannerImages: Record<SegmentType, { src: string; alt: string }> = {
+  varejo: {
+    src: promoVarejoImg,
+    alt: "Super Promoção para Sua Loja",
+  },
+  food: {
+    src: promoFoodImg,
+    alt: "Super Promoção para Restaurantes",
+  },
+  autocenter: {
+    src: promoAutocenterImg,
+    alt: "Super Promoção para Auto-Center",
   },
 };
 
@@ -456,205 +474,7 @@ function formatRevenue(limit: string): string {
   return `Faturamento de ${trimmed}`;
 }
 
-interface PromoPlanOffer {
-  id: string;
-  name: string;
-  promoPrice: string;
-  periodText: string;
-  originalPrice: string;
-  cutPriceText: string;
-  discountBadge: string;
-  tagline: string;
-  popular?: boolean;
-  isCustomPrice?: boolean;
-}
 
-interface SegmentPromoConfig {
-  badgeLabel: string;
-  heading: string;
-  description: string;
-  accentColor: string;
-  bgGradient: string;
-  borderClass: string;
-  borderHoverClass: string;
-  badgeBorderClass: string;
-  badgeBgClass: string;
-  badgeTextClass: string;
-  glowEffect: string;
-  plans: PromoPlanOffer[];
-}
-
-const segmentPromos: Record<SegmentType, SegmentPromoConfig> = {
-  varejo: {
-    badgeLabel: "OFERTA DE LANÇAMENTO VAREJO • 3 PRIMEIROS MESES COM DESCONTO ESPECIAL",
-    heading: "Economize até 65% nos seus 3 Primeiros Meses no Varejo",
-    description:
-      "Contrate qualquer plano Dominus Varejo hoje e desfrute de valores promocionais reduzidos no primeiro trimestre:",
-    accentColor: "#3BBCEC",
-    bgGradient: "from-[#3BBCEC]/10 via-[#3BBCEC]/5 to-transparent",
-    borderClass: "border-[#3BBCEC]/30",
-    borderHoverClass: "hover:border-[#3BBCEC]/60",
-    badgeBorderClass: "border-[#3BBCEC]/40",
-    badgeBgClass: "bg-[#3BBCEC]/15",
-    badgeTextClass: "text-[#2390ba] dark:text-[#3BBCEC]",
-    glowEffect: "rgba(59, 188, 236, 0.15)",
-    plans: [
-      {
-        id: "promo-fit-varejo",
-        name: "Plano Fit",
-        promoPrice: "R$ 79,00",
-        periodText: "/mês",
-        originalPrice: "R$ 199",
-        cutPriceText: "por R$ 79",
-        discountBadge: "60% OFF",
-        tagline: "Ideal para começar com tudo",
-      },
-      {
-        id: "promo-basic-varejo",
-        name: "Plano Basic",
-        promoPrice: "R$ 99,00",
-        periodText: "/mês",
-        originalPrice: "R$ 399",
-        cutPriceText: "por R$ 99",
-        discountBadge: "75% OFF",
-        tagline: "O preferido dos lojistas",
-      },
-      {
-        id: "promo-full-varejo",
-        name: "Plano Full",
-        promoPrice: "R$ 129,00",
-        periodText: "/mês",
-        originalPrice: "R$ 599",
-        cutPriceText: "por R$ 129",
-        discountBadge: "78% OFF",
-        tagline: "Expansão de caixas e estoque",
-      },
-      {
-        id: "promo-vip-varejo",
-        name: "Plano Vip",
-        promoPrice: "R$ 269,00",
-        periodText: "/mês*",
-        originalPrice: "R$ 799",
-        cutPriceText: "por R$ 269",
-        discountBadge: "66% OFF",
-        tagline: "Operação e PDVs ilimitados",
-      },
-    ],
-  },
-  food: {
-    badgeLabel: "OFERTA DE LANÇAMENTO FOOD • 3 PRIMEIROS MESES COM DESCONTO ESPECIAL",
-    heading: "Economize até 65% nos seus 3 Primeiros Meses no Food",
-    description:
-      "Contrate qualquer plano Dominus Food hoje e acelere sua operação gastronômica com desconto no primeiro trimestre:",
-    accentColor: "#FC4242",
-    bgGradient: "from-[#FC4242]/10 via-[#FC4242]/5 to-transparent",
-    borderClass: "border-[#FC4242]/30",
-    borderHoverClass: "hover:border-[#FC4242]/60",
-    badgeBorderClass: "border-[#FC4242]/40",
-    badgeBgClass: "bg-[#FC4242]/15",
-    badgeTextClass: "text-[#FC4242] dark:text-[#FC4242]",
-    glowEffect: "rgba(252, 66, 66, 0.15)",
-    plans: [
-      {
-        id: "promo-fit-food",
-        name: "Plano Fit",
-        promoPrice: "R$ 79,00",
-        periodText: "/mês",
-        originalPrice: "R$ 199",
-        cutPriceText: "por R$ 79",
-        discountBadge: "60% OFF",
-        tagline: "Comandas e balcão ágil",
-      },
-      {
-        id: "promo-basic-food",
-        name: "Plano Basic",
-        promoPrice: "R$ 99,00",
-        periodText: "/mês",
-        originalPrice: "R$ 399",
-        cutPriceText: "por R$ 99",
-        discountBadge: "75% OFF",
-        tagline: "Mais vendido da gastronomia",
-      },
-      {
-        id: "promo-full-food",
-        name: "Plano Full",
-        promoPrice: "R$ 129,00",
-        periodText: "/mês",
-        originalPrice: "R$ 449",
-        cutPriceText: "por R$ 129",
-        discountBadge: "71% OFF",
-        tagline: "Múltiplas praças e KDS",
-      },
-      {
-        id: "promo-vip-food",
-        name: "Plano Vip",
-        promoPrice: "Condição VIP",
-        periodText: "",
-        originalPrice: "Personalizado",
-        cutPriceText: "Condição Especial VIP",
-        discountBadge: "",
-        tagline: "Atendimento dedicado e alta demanda",
-        isCustomPrice: true,
-      },
-    ],
-  },
-  autocenter: {
-    badgeLabel: "OFERTA DE LANÇAMENTO AUTO-CENTER • 3 PRIMEIROS MESES COM DESCONTO ESPECIAL",
-    heading: "Economize até 65% nos seus 3 Primeiros Meses no Auto-center",
-    description:
-      "Contrate qualquer plano Dominus Auto-center hoje e desfrute de valores promocionais reduzidos no primeiro trimestre:",
-    accentColor: "#FCC42C",
-    bgGradient: "from-[#FCC42C]/10 via-[#FCC42C]/5 to-transparent",
-    borderClass: "border-[#FCC42C]/30",
-    borderHoverClass: "hover:border-[#FCC42C]/60",
-    badgeBorderClass: "border-[#FCC42C]/40",
-    badgeBgClass: "bg-[#FCC42C]/15",
-    badgeTextClass: "text-[#9e7605] dark:text-[#FCC42C]",
-    glowEffect: "rgba(252, 196, 44, 0.15)",
-    plans: [
-      {
-        id: "promo-fit-autocenter",
-        name: "Plano Fit",
-        promoPrice: "R$ 79,00",
-        periodText: "/mês",
-        originalPrice: "R$ 199",
-        cutPriceText: "por R$ 79",
-        discountBadge: "60% OFF",
-        tagline: "Ordens de serviço essenciais",
-      },
-      {
-        id: "promo-basic-autocenter",
-        name: "Plano Basic",
-        promoPrice: "R$ 99,00",
-        periodText: "/mês",
-        originalPrice: "R$ 399",
-        cutPriceText: "por R$ 99",
-        discountBadge: "75% OFF",
-        tagline: "Ideal para oficinas e centros",
-      },
-      {
-        id: "promo-full-autocenter",
-        name: "Plano Full",
-        promoPrice: "R$ 129,00",
-        periodText: "/mês",
-        originalPrice: "R$ 599",
-        cutPriceText: "por R$ 129",
-        discountBadge: "78% OFF",
-        tagline: "Peças, serviços e múltiplos boxes",
-      },
-      {
-        id: "promo-vip-autocenter",
-        name: "Plano Vip",
-        promoPrice: "R$ 269,00",
-        periodText: "/mês*",
-        originalPrice: "R$ 799",
-        cutPriceText: "por R$ 269",
-        discountBadge: "66% OFF",
-        tagline: "Redes, frotas e suporte VIP",
-      },
-    ],
-  },
-};
 
 function openFullFunnelPopup(formId: string) {
   const iframeId = `popup-${formId}`;
@@ -1034,160 +854,27 @@ function PlanosPage() {
         <section className="w-full pt-2 pb-5 sm:pb-6 bg-background">
           <div className="fluid-container">
             {(["varejo", "food", "autocenter"] as const).map((segKey) => {
-              const promo = segmentPromos[segKey];
               const isVisible = selectedSegment === segKey;
+              const banner = promoBannerImages[segKey];
 
               return (
                 <div
                   key={segKey}
                   id={`banner-promo-${segKey}`}
                   style={{ display: isVisible ? "block" : "none" }}
-                  className={`relative rounded-2xl sm:rounded-3xl lg:rounded-[32px] border ${promo.borderClass} bg-gradient-to-b ${promo.bgGradient} p-4 sm:p-6 md:p-8 lg:p-10 text-center shadow-[0_12px_40px_-15px_rgba(0,0,0,0.07)] transition-all duration-300 animate-in fade-in overflow-hidden max-w-[1240px] mx-auto`}
+                  className="max-w-[1240px] mx-auto"
                 >
-                  {/* Firula visual de fundo: Glow suave */}
-                  <div
-                    className="absolute -top-24 left-1/2 -translate-x-1/2 w-64 sm:w-96 max-w-full h-36 sm:h-48 rounded-full blur-3xl pointer-events-none opacity-50 dark:opacity-30"
-                    style={{ backgroundColor: promo.glowEffect }}
-                    aria-hidden="true"
+                  <img
+                    src={banner.src}
+                    alt={banner.alt}
+                    className="w-full h-auto block mx-auto"
                   />
-
-                  {/* Badge Chamativo Superior / Aviso Explicativo no Modo Anual */}
-                  {billingCycle === "anual" ? (
-                    <div className="relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-amber-500/40 bg-amber-500/15 px-3.5 sm:px-4 py-1 sm:py-1.5 fluid-caption font-bold text-amber-900 dark:text-amber-200 mb-2.5 sm:mb-3.5 shadow-xs max-w-full flex-wrap justify-center animate-in fade-in">
-                      <span className="tracking-wide text-center">
-                        ⚡ CONDIÇÃO ESPECIAL VÁLIDA EXCLUSIVAMENTE PARA PLANOS MENSAIS
-                      </span>
-                    </div>
-                  ) : (
-                    <div
-                      className={`relative inline-flex items-center gap-1.5 sm:gap-2 rounded-full border ${promo.badgeBorderClass} ${promo.badgeBgClass} px-3 sm:px-4 py-1 sm:py-1.5 fluid-caption font-bold ${promo.badgeTextClass} mb-2.5 sm:mb-3.5 shadow-xs max-w-full flex-wrap justify-center`}
-                    >
-                      <Flame size={13} className="animate-pulse shrink-0 fill-current" />
-                      <span className="tracking-wide text-center">{promo.badgeLabel}</span>
-                    </div>
-                  )}
-
-                  {/* Título de Alto Impacto com Tipografia Fluida */}
-                  <h2 className="relative font-display fluid-h2 font-black tracking-tight text-foreground max-w-3xl mx-auto leading-snug sm:leading-tight">
-                    {promo.heading}
-                  </h2>
-
-                  {/* Subtítulo Fluido */}
-                  <p className="relative mt-2 sm:mt-2.5 fluid-body text-muted-foreground max-w-2xl mx-auto leading-relaxed font-medium px-1 sm:px-2">
-                    Condição especial válida exclusivamente para o plano mensal. No plano anual, aplicam-se os valores oficiais da tabela abaixo:
-                  </p>
-
-                  {/* Vitrine de Mini-Cards Flutuantes com Valores Responsivos */}
-                  <div className="relative mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5 text-left items-stretch">
-                    {promo.plans.map((item) => (
-                      <div
-                        key={item.id}
-                        className={`relative rounded-xl sm:rounded-2xl lg:rounded-[22px] bg-white dark:bg-zinc-900/95 p-3.5 sm:p-4.5 lg:p-5 flex flex-col justify-between border border-slate-200/90 dark:border-zinc-800 ${promo.borderHoverClass} transition-all duration-300 shadow-[0_10px_28px_-6px_rgba(0,0,0,0.06),0_4px_10px_-4px_rgba(0,0,0,0.03)] hover:shadow-[0_22px_45px_-10px_rgba(0,0,0,0.13)] hover:-translate-y-1 sm:hover:-translate-y-1.5 group h-full`}
-                      >
-                        {/* Linha sutil de brilho superior no hover */}
-                        <div
-                          className="absolute top-0 inset-x-6 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full"
-                          style={{
-                            background: `linear-gradient(90deg, transparent, ${promo.accentColor}, transparent)`,
-                          }}
-                        />
-
-                        {/* Topo do Mini-Card */}
-                        <div>
-                          {/* Linha Superior: Nome do Plano e Tag */}
-                          <div className="flex items-center justify-between gap-2">
-                            <h3 className="font-display fluid-h4 font-black text-zinc-950 dark:text-zinc-50 tracking-tight leading-tight">
-                              {item.name}
-                            </h3>
-                            {item.discountBadge && !item.name.toLowerCase().includes("vip") ? (
-                              <span
-                                className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 fluid-caption font-black tracking-wider uppercase shrink-0"
-                                style={{
-                                  backgroundColor: `${promo.accentColor}18`,
-                                  color: promo.accentColor,
-                                }}
-                              >
-                                <Sparkles size={10} />
-                                <span>{item.discountBadge}</span>
-                              </span>
-                            ) : null}
-                          </div>
-                          {/* Linha Inferior: Descrição Ocupando Toda a Largura */}
-                          <div className="fluid-caption font-semibold text-[#454545] dark:text-zinc-400 block mt-1 sm:mt-1.5 w-full leading-normal">
-                            {item.tagline}
-                          </div>
-
-                          {/* Elemento em Destaque: Valor Promocional */}
-                          <div className="my-3 sm:my-3.5">
-                            <span className="fluid-caption font-bold uppercase tracking-wider text-muted-foreground block mb-1">
-                              1º Trimestre (3 Meses)
-                            </span>
-                            <div className="flex items-baseline gap-1 flex-wrap">
-                              {!item.isCustomPrice ? (
-                                <>
-                                  <span className="font-display metric-value font-black text-zinc-950 dark:text-white tracking-tight leading-none">
-                                    {item.promoPrice}
-                                  </span>
-                                  {item.periodText ? (
-                                    <span className="fluid-caption font-bold text-zinc-500 dark:text-zinc-400">
-                                      {item.periodText}
-                                    </span>
-                                  ) : null}
-                                </>
-                              ) : (
-                                <>
-                                  <span className="font-display fluid-h3 font-black text-zinc-950 dark:text-white tracking-tight leading-none">
-                                    {item.promoPrice}
-                                  </span>
-                                  {item.periodText ? (
-                                    <span className="fluid-caption font-bold text-zinc-500 dark:text-zinc-400">
-                                      {item.periodText}
-                                    </span>
-                                  ) : null}
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Rodapé: Valor Original Cortado (De / Por) */}
-                        <div className="pt-2.5 sm:pt-3 border-t border-slate-100 dark:border-zinc-800/80 flex items-center justify-between gap-1 fluid-caption flex-wrap mt-2">
-                          {!item.isCustomPrice ? (
-                            <>
-                              <div className="flex items-center gap-1.5 font-medium text-muted-foreground">
-                                <span>De</span>
-                                <span className="line-through decoration-zinc-400 dark:decoration-zinc-600 font-semibold text-zinc-500 dark:text-zinc-400">
-                                  {item.originalPrice}
-                                </span>
-                                <span>por</span>
-                              </div>
-                              <span className="font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-500/20 px-2 py-0.5 rounded-md flex items-center gap-0.5">
-                                {item.cutPriceText}
-                              </span>
-                            </>
-                          ) : (
-                            <span className="font-bold text-amber-600 dark:text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md">
-                              {item.cutPriceText}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Rodapé informativo sutil */}
-                  <div className="mt-4 sm:mt-6 text-center">
-                    <p className="fluid-caption text-muted-foreground px-2">
-                      {billingCycle === "anual"
-                        ? "* A promoção do 1º trimestre aplica-se exclusivamente ao ciclo mensal. Abaixo, na tabela principal, são apresentados os planos e valores anuais regulares."
-                        : "* Condição especial válida nos 3 primeiros meses de assinatura. Após o período, vigora o valor integral de tabela."}
-                    </p>
-                  </div>
                 </div>
               );
             })}
           </div>
         </section>
+
 
         {/* ========================================================================= */}
         {/* 3. SELETOR DE SEGMENTOS E CICLO (MENSAL/ANUAL) NA MESMA LINHA             */}
