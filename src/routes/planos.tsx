@@ -765,89 +765,73 @@ function PlanCard({
 
   return (
     <div
-      className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-3.5 sm:p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
+      className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
     >
-      {/* 1. Header do Card: Caixa Colorida + Faixa Anual (se aplicável) */}
-      <div className="overflow-hidden rounded-[18px] sm:rounded-[22px] border border-black/[0.04] dark:border-white/[0.06] shadow-xs shrink-0">
-        {/* Caixa colorida com ALTURA FIXA/IDÊNTICA para MENSAL e ANUAL */}
-        <div
-          className="h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300"
-          style={{ backgroundColor: meta.color }}
-        >
-          {/* Nome do Plano */}
-          <h3
-            className={`font-display fluid-h3 font-black tracking-tight leading-tight ${
-              isDarkText ? "text-zinc-950" : "text-white"
-            }`}
+      {/* DIV 1: Área Superior com padding menor */}
+      <div className="p-3.5 sm:p-4">
+        {/* Header do Card: Caixa Colorida + Faixa Anual (se aplicável) */}
+        <div className="overflow-hidden rounded-[18px] sm:rounded-[22px] border border-black/[0.04] dark:border-white/[0.06] shadow-xs shrink-0">
+          {/* Caixa colorida com ALTURA FIXA/IDÊNTICA para MENSAL e ANUAL */}
+          <div
+            className="h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300"
+            style={{ backgroundColor: meta.color }}
           >
-            {plan.name}
-          </h3>
+            {/* Nome do Plano */}
+            <h3
+              className={`font-display fluid-h3 font-black tracking-tight leading-tight ${
+                isDarkText ? "text-zinc-950" : "text-white"
+              }`}
+            >
+              {plan.name}
+            </h3>
 
-          {/* Preço com escala H2 e comparação no modo anual */}
-          <div>
-            {isAnnual && plan.annualOriginalPrice && !plan.isCustomPrice ? (
-              <>
-                <div
-                  className={`flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold mb-0.5 leading-tight ${
-                    isDarkText ? "text-zinc-800" : "text-white/80"
-                  }`}
-                >
-                  <span>De</span>
-                  <span
-                    className={`line-through font-semibold ${
-                      isDarkText
-                        ? "decoration-zinc-700 text-zinc-700"
-                        : "decoration-white/60 text-white/75"
+            {/* Preço com escala H2 e comparação no modo anual */}
+            <div>
+              {isAnnual && plan.annualOriginalPrice && !plan.isCustomPrice ? (
+                <>
+                  <div
+                    className={`flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold mb-0.5 leading-tight ${
+                      isDarkText ? "text-zinc-800" : "text-white/80"
                     }`}
                   >
-                    {plan.annualOriginalPrice}
-                  </span>
-                  <span>por</span>
-                </div>
+                    <span>De</span>
+                    <span
+                      className={`line-through font-semibold ${
+                        isDarkText
+                          ? "decoration-zinc-700 text-zinc-700"
+                          : "decoration-white/60 text-white/75"
+                      }`}
+                    >
+                      {plan.annualOriginalPrice}
+                    </span>
+                    <span>por</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 flex-wrap">
+                    <span
+                      className={`font-display fluid-h2 font-black tracking-tight leading-none ${
+                        isDarkText ? "text-zinc-950" : "text-white"
+                      }`}
+                    >
+                      {plan.annualPrice}
+                    </span>
+                    <span
+                      className={`fluid-secondary font-bold ${
+                        isDarkText ? "text-zinc-800" : "text-white/90"
+                      }`}
+                    >
+                      {plan.annualPeriodText || "/Mês"}
+                    </span>
+                  </div>
+                </>
+              ) : !plan.isCustomPrice ? (
                 <div className="flex items-baseline gap-1 flex-wrap">
                   <span
                     className={`font-display fluid-h2 font-black tracking-tight leading-none ${
                       isDarkText ? "text-zinc-950" : "text-white"
                     }`}
                   >
-                    {plan.annualPrice}
+                    {plan.price}
                   </span>
-                  <span
-                    className={`fluid-secondary font-bold ${
-                      isDarkText ? "text-zinc-800" : "text-white/90"
-                    }`}
-                  >
-                    {plan.annualPeriodText || "/Mês"}
-                  </span>
-                </div>
-              </>
-            ) : !plan.isCustomPrice ? (
-              <div className="flex items-baseline gap-1 flex-wrap">
-                <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${
-                    isDarkText ? "text-zinc-950" : "text-white"
-                  }`}
-                >
-                  {plan.price}
-                </span>
-                <span
-                  className={`fluid-secondary font-bold ${
-                    isDarkText ? "text-zinc-800" : "text-white/90"
-                  }`}
-                >
-                  {plan.periodText}
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-baseline gap-1 flex-wrap">
-                <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${
-                    isDarkText ? "text-zinc-950" : "text-white"
-                  }`}
-                >
-                  Consulte
-                </span>
-                {plan.periodText ? (
                   <span
                     className={`fluid-secondary font-bold ${
                       isDarkText ? "text-zinc-800" : "text-white/90"
@@ -855,22 +839,41 @@ function PlanCard({
                   >
                     {plan.periodText}
                   </span>
-                ) : null}
-              </div>
-            )}
+                </div>
+              ) : (
+                <div className="flex items-baseline gap-1 flex-wrap">
+                  <span
+                    className={`font-display fluid-h2 font-black tracking-tight leading-none ${
+                      isDarkText ? "text-zinc-950" : "text-white"
+                    }`}
+                  >
+                    Consulte
+                  </span>
+                  {plan.periodText ? (
+                    <span
+                      className={`fluid-secondary font-bold ${
+                        isDarkText ? "text-zinc-800" : "text-white/90"
+                      }`}
+                    >
+                      {plan.periodText}
+                    </span>
+                  ) : null}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
-        {isAnnual && !plan.isCustomPrice ? (
-          <div className="bg-[#2f2f2f] text-white py-2 sm:py-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide">
-            Até 12X No cartão
-          </div>
-        ) : null}
+          {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
+          {isAnnual && !plan.isCustomPrice ? (
+            <div className="bg-[#2f2f2f] text-white py-2 sm:py-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide">
+              Até 12X No cartão
+            </div>
+          ) : null}
+        </div>
       </div>
 
-      {/* 2. Corpo do Card (Botão + Lista de Características + Ver mais +) */}
-      <div className="pt-3 sm:pt-4 pb-1 flex-1 flex flex-col justify-between">
+      {/* DIV 2: Conteúdo Inferior com padding lateral maior */}
+      <div className="px-5 sm:px-6 pb-4 sm:pb-5 flex-1 flex flex-col justify-between">
         {/* Botão Contrate Agora */}
         <div>
           <button
