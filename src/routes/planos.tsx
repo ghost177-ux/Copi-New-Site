@@ -771,7 +771,11 @@ function PlanCard({
       <div className="overflow-hidden rounded-[18px] sm:rounded-[22px] border border-black/[0.04] dark:border-white/[0.06] shadow-xs shrink-0">
         {/* Caixa colorida com ALTURA FIXA/IDÊNTICA para MENSAL e ANUAL */}
         <div
-          className="h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300"
+          className={`h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300 ${
+            isAnnual && !plan.isCustomPrice
+              ? "rounded-t-[18px] sm:rounded-t-[22px] rounded-b-none"
+              : "rounded-[18px] sm:rounded-[22px]"
+          }`}
           style={{ backgroundColor: meta.color }}
         >
           {/* Nome do Plano */}
@@ -854,7 +858,7 @@ function PlanCard({
 
         {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
         {isAnnual && !plan.isCustomPrice ? (
-          <div className="bg-[#2f2f2f] text-white py-2 sm:py-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide">
+          <div className="bg-[#2f2f2f] text-white py-2 sm:py-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide rounded-b-[18px] sm:rounded-b-[22px] rounded-t-none">
             Até 12X No cartão
           </div>
         ) : null}
