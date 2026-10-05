@@ -1088,27 +1088,27 @@ function PlanosPage() {
 
             {/* Card Único Envolvendo Todas as Categorias de Recursos */}
             <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-subtle/50 p-5 sm:p-8 lg:p-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-6 sm:gap-y-7 lg:gap-y-8">
                 {featureModules.map((module) => {
                   const Icon = module.icon;
 
                   return (
                     <div key={module.title} className="flex flex-col">
-                      <div className="flex items-center gap-3 sm:gap-3.5 mb-4 sm:mb-5 pb-3.5 sm:pb-4 border-b border-border/70">
+                      <div className="flex items-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5 pb-2.5 sm:pb-3 border-b border-border/70">
                         <div
-                          className="size-10 sm:size-11 rounded-xl flex items-center justify-center shrink-0"
+                          className="size-8 sm:size-9 rounded-lg flex items-center justify-center shrink-0"
                           style={{
                             backgroundColor: `${meta.color}20`,
                             color: meta.color,
                           }}
                         >
-                          <Icon size={20} />
+                          <Icon size={17} />
                         </div>
                         <div>
-                          <h3 className="font-display fluid-h3 font-bold text-foreground">
+                          <h3 className="font-display fluid-h4 font-bold text-foreground leading-snug">
                             {module.title}
                           </h3>
-                          <p className="fluid-caption text-muted-foreground mt-0.5">{module.subtitle}</p>
+                          <p className="fluid-caption text-muted-foreground leading-tight mt-0.5">{module.subtitle}</p>
                         </div>
                       </div>
 
