@@ -151,19 +151,6 @@ export function Header({ currentPath = "/" }: HeaderProps) {
       }
     }
 
-    if (target === "/planos") {
-      const el =
-        document.getElementById("solucoes-segmentos") ||
-        document.getElementById("banner-demonstracao");
-      if (el) {
-        e.preventDefault();
-        setMenuOpen(false);
-        setMegaMenuOpen(false);
-        el.scrollIntoView({ behavior: "smooth" });
-        return;
-      }
-    }
-
     if (target === "/blog") {
       const el = document.getElementById("blog-conteudos");
       if (el) {
@@ -344,9 +331,8 @@ export function Header({ currentPath = "/" }: HeaderProps) {
             Seja um Parceiro
           </button>
 
-          <a
-            href="/planos"
-            onClick={(e) => handleNavClick(e, "/planos")}
+          <Link
+            to="/planos"
             className={`nav-link fluid-nav font-semibold ${
               currentPath === "/planos"
                 ? "text-primary font-bold"
@@ -354,7 +340,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
             }`}
           >
             Planos
-          </a>
+          </Link>
           <a
             href="/blog"
             onClick={(e) => handleNavClick(e, "/blog", "blog-conteudos")}
@@ -436,36 +422,36 @@ export function Header({ currentPath = "/" }: HeaderProps) {
               className="w-full animate-in fade-in-50 duration-150"
             >
               {megaMenuTab === "food" ? (
-                /* Food: 12 itens distribuídos em 2 colunas com 6 itens cada, mantendo rigorosamente a mesma largura e alinhamento do grid de 3 colunas */
+                /* Food: 12 itens distribuídos em 2 colunas com 6 itens cada */
                 <div className="grid grid-cols-3 gap-x-4 xl:gap-x-5 w-full">
                   <div className="flex flex-col gap-y-1.5">
                     {foodSegments.slice(0, 6).map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href="/planos"
-                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        to="/planos"
+                        onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#FC4242] hover:bg-rose-50/80 dark:hover:bg-rose-950/25 transition-all duration-150 hover:translate-x-1"
                       >
                         <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#FC4242]/15 group-hover:text-[#FC4242] flex items-center justify-center shrink-0 transition-colors">
                           <item.icon size={14} />
                         </div>
                         <span className="truncate">Sistema para {item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                   <div className="flex flex-col gap-y-1.5">
                     {foodSegments.slice(6, 12).map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href="/planos"
-                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        to="/planos"
+                        onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#FC4242] hover:bg-rose-50/80 dark:hover:bg-rose-950/25 transition-all duration-150 hover:translate-x-1"
                       >
                         <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#FC4242]/15 group-hover:text-[#FC4242] flex items-center justify-center shrink-0 transition-colors">
                           <item.icon size={14} />
                         </div>
                         <span className="truncate">Sistema para {item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                   {/* 3ª Coluna vazia para garantir correspondência idêntica de largura com a aba de Varejo */}
@@ -476,47 +462,47 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                 <div className="grid grid-cols-3 gap-x-4 xl:gap-x-5 w-full">
                   <div className="flex flex-col gap-y-1.5">
                     {retailSegments.slice(0, 6).map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href="/planos"
-                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        to="/planos"
+                        onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#0092ca] dark:hover:text-[#3BBCEC] hover:bg-sky-50/80 dark:hover:bg-sky-950/25 transition-all duration-150 hover:translate-x-1"
                       >
                         <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#3BBCEC]/15 group-hover:text-[#0092ca] dark:group-hover:text-[#3BBCEC] flex items-center justify-center shrink-0 transition-colors">
                           <item.icon size={14} />
                         </div>
                         <span className="truncate">Sistema para {item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                   <div className="flex flex-col gap-y-1.5">
                     {retailSegments.slice(6, 12).map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href="/planos"
-                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        to="/planos"
+                        onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#0092ca] dark:hover:text-[#3BBCEC] hover:bg-sky-50/80 dark:hover:bg-sky-950/25 transition-all duration-150 hover:translate-x-1"
                       >
                         <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#3BBCEC]/15 group-hover:text-[#0092ca] dark:group-hover:text-[#3BBCEC] flex items-center justify-center shrink-0 transition-colors">
                           <item.icon size={14} />
                         </div>
                         <span className="truncate">Sistema para {item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                   <div className="flex flex-col gap-y-1.5">
                     {retailSegments.slice(12, 17).map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href="/planos"
-                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        to="/planos"
+                        onClick={() => setMegaMenuOpen(false)}
                         className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#0092ca] dark:hover:text-[#3BBCEC] hover:bg-sky-50/80 dark:hover:bg-sky-950/25 transition-all duration-150 hover:translate-x-1"
                       >
                         <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#3BBCEC]/15 group-hover:text-[#0092ca] dark:group-hover:text-[#3BBCEC] flex items-center justify-center shrink-0 transition-colors">
                           <item.icon size={14} />
                         </div>
                         <span className="truncate">Sistema para {item.name}</span>
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
@@ -524,7 +510,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
             </div>
           </div>
 
-          {/* 3. RODAPÉ DO MENU (RESPIRO INFERIOR CONFORTÁVEL E SEM CORTES) */}
+          {/* 3. RODAPÉ DO MENU */}
           <div className="mt-2 pt-4 border-t border-slate-100 dark:border-border/60 flex items-center justify-between gap-3 fluid-caption text-muted-foreground shrink-0">
             <div className="flex items-center gap-2">
               <Sparkles size={14} className="text-[#FCC42C] shrink-0" />
@@ -602,15 +588,15 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                     <div className="animate-in fade-in-50 duration-200">
                       <div className="grid grid-cols-2 gap-1.5">
                         {foodSegments.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
-                            href="/planos"
-                            onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                            to="/planos"
+                            onClick={() => setMenuOpen(false)}
                             className="flex items-center gap-2 py-1.5 px-2.5 fluid-caption text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors"
                           >
                             <item.icon size={13} className="text-[#FC4242] shrink-0" />
                             <span className="truncate">Sistema para {item.name}</span>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -618,15 +604,15 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                     <div className="animate-in fade-in-50 duration-200">
                       <div className="grid grid-cols-2 gap-1.5">
                         {retailSegments.map((item) => (
-                          <a
+                          <Link
                             key={item.name}
-                            href="/planos"
-                            onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                            to="/planos"
+                            onClick={() => setMenuOpen(false)}
                             className="flex items-center gap-2 py-1.5 px-2.5 fluid-caption text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors"
                           >
                             <item.icon size={13} className="text-[#3BBCEC] shrink-0" />
                             <span className="truncate">Sistema para {item.name}</span>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -649,15 +635,15 @@ export function Header({ currentPath = "/" }: HeaderProps) {
                 {item}
               </button>
             ))}
-            <a
-              href="/planos"
+            <Link
+              to="/planos"
               className={`mobile-nav-link fluid-nav font-semibold ${
                 currentPath === "/planos" ? "text-primary font-bold" : ""
               }`}
-              onClick={(e) => handleNavClick(e, "/planos")}
+              onClick={() => setMenuOpen(false)}
             >
               Planos
-            </a>
+            </Link>
             <a
               href="/blog"
               className={`mobile-nav-link fluid-nav ${
