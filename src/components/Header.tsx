@@ -1,7 +1,7 @@
+import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ChevronDown,
-  ChevronRight,
   Facebook,
   Headset,
   Instagram,
@@ -56,7 +56,7 @@ interface SegmentMenuItem {
   icon: LucideIcon;
 }
 
-// 12 Segmentos de Alimentação (Food)
+// 12 Segmentos de Alimentação (Food) - 2 colunas com 6 itens cada
 const foodSegments: SegmentMenuItem[] = [
   { name: "Boteco", icon: Wine },
   { name: "Cafeteria", icon: Coffee },
@@ -72,7 +72,7 @@ const foodSegments: SegmentMenuItem[] = [
   { name: "Sushibar", icon: Soup },
 ];
 
-// 17 Segmentos de Varejo em Geral
+// 17 Segmentos de Varejo em Geral (Colunas: 6 na primeira, 6 na segunda e 5 na terceira)
 const retailSegments: SegmentMenuItem[] = [
   { name: "Bicicletaria", icon: Bike },
   { name: "Hortifruti", icon: Apple },
@@ -138,21 +138,63 @@ export function Header({ currentPath = "/" }: HeaderProps) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [megaMenuOpen]);
 
-  const scrollToAnchor = (id: string) => {
-    setMenuOpen(false);
-    setMegaMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+  // Tratamento suave para navegação in-page preservando destinos existentes na Home
+  const handleNavClick = (e: React.MouseEvent, target: string, anchorId?: string) => {
+    if (anchorId) {
+      const el = document.getElementById(anchorId);
+      if (el) {
+        e.preventDefault();
+        setMenuOpen(false);
+        setMegaMenuOpen(false);
+        el.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+
+    if (target === "/planos") {
+      const el =
+        document.getElementById("solucoes-segmentos") ||
+        document.getElementById("banner-demonstracao");
+      if (el) {
+        e.preventDefault();
+        setMenuOpen(false);
+        setMegaMenuOpen(false);
+        el.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+
+    if (target === "/blog") {
+      const el = document.getElementById("blog-conteudos");
+      if (el) {
+        e.preventDefault();
+        setMenuOpen(false);
+        setMegaMenuOpen(false);
+        el.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+    }
+
+    if (target === "/suporte" || target === "/ajuda" || target === "/faq") {
+      const el =
+        document.getElementById("diferencial-suporte") ||
+        document.getElementById("avaliacoes-google");
+      if (el) {
+        e.preventDefault();
+        setMenuOpen(false);
+        setMegaMenuOpen(false);
+        el.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
     }
   };
 
   return (
-    <header className="relative z-50 w-full border-b border-border bg-background">
-      {/* BARRA SUPERIOR DE UTILIDADES (100% FLUIDA) */}
-      <div className="w-full bg-surface-subtle">
-        <div className="fluid-container hidden items-center justify-between py-2 lg:flex">
-          {/* LADO ESQUERDO: CONTATO */}
+    <header className="relative z-50 border-b border-border bg-background">
+      {/* BARRA SUPERIOR DE UTILIDADES */}
+      <div className="bg-surface-subtle">
+        <div className="mx-auto hidden max-w-[1440px] items-center justify-between px-6 py-2 lg:flex xl:px-12">
+          {/* LADO ESQUERDO: CONTATO (TELEFONE E E-MAIL) */}
           <div className="flex items-center gap-6 fluid-caption text-muted-foreground">
             <a className="utility-link flex items-center gap-2" href="tel:+5521975812676">
               <Headset size={14} className="shrink-0" /> (21) 97581-2676
@@ -167,27 +209,33 @@ export function Header({ currentPath = "/" }: HeaderProps) {
 
           {/* LADO DIREITO: LINKS DE APOIO + REDES SOCIAIS */}
           <div className="flex items-center gap-5 fluid-caption text-muted-foreground">
-            <button
-              type="button"
-              onClick={() => scrollToAnchor("avaliacoes-google")}
-              className="utility-link font-medium cursor-pointer"
+            <a
+              href="/faq"
+              onClick={(e) => handleNavClick(e, "/faq")}
+              className={`utility-link font-medium ${
+                currentPath === "/faq" ? "text-primary font-semibold" : ""
+              }`}
             >
-              Avaliações
-            </button>
-            <button
-              type="button"
-              onClick={() => scrollToAnchor("diferencial-suporte")}
-              className="utility-link font-medium cursor-pointer"
-            >
-              Suporte
-            </button>
-            <button
-              type="button"
-              onClick={() => setSpecialistOpen(true)}
-              className="utility-link font-medium cursor-pointer"
+              FAQ
+            </a>
+            <a
+              href="/ajuda"
+              onClick={(e) => handleNavClick(e, "/ajuda")}
+              className={`utility-link font-medium ${
+                currentPath === "/ajuda" ? "text-primary font-semibold" : ""
+              }`}
             >
               Central de Ajuda
-            </button>
+            </a>
+            <a
+              href="/suporte"
+              onClick={(e) => handleNavClick(e, "/suporte")}
+              className={`utility-link font-medium ${
+                currentPath === "/suporte" ? "text-primary font-semibold" : ""
+              }`}
+            >
+              Suporte
+            </a>
             <div className="ml-1 flex items-center gap-2">
               <a
                 className="social-link"
@@ -229,14 +277,10 @@ export function Header({ currentPath = "/" }: HeaderProps) {
         </div>
       </div>
 
-      {/* BARRA PRINCIPAL (100% FLUIDA) */}
-      <div className="fluid-container flex h-[76px] items-center justify-between lg:h-[88px] relative">
-        <a
-          href="#hero"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToAnchor("hero");
-          }}
+      {/* BARRA PRINCIPAL */}
+      <div className="mx-auto grid h-[76px] max-w-[1440px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 sm:flex sm:justify-between lg:h-[88px] lg:px-6 xl:px-12 relative">
+        <Link
+          to="/"
           aria-label="Waybit — início"
           className="min-w-0 transition-opacity hover:opacity-90"
         >
@@ -247,7 +291,7 @@ export function Header({ currentPath = "/" }: HeaderProps) {
             width={250}
             height={100}
           />
-        </a>
+        </Link>
 
         {/* NAVEGAÇÃO DESKTOP */}
         <nav className="hidden items-center gap-6 xl:gap-8 lg:flex fluid-nav" aria-label="Menu principal">
@@ -276,38 +320,52 @@ export function Header({ currentPath = "/" }: HeaderProps) {
             />
           </button>
 
-          {/* DEMAIS ITENS DE NAVEGAÇÃO IN-PAGE */}
+          {/* DEMAIS ITENS DE NAVEGAÇÃO */}
           <button
             type="button"
-            onClick={() => scrollToAnchor("ciclo-operacional")}
+            onClick={() => {
+              setMegaMenuOpen(false);
+              setSpecialistOpen(true);
+            }}
             className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
           >
-            Ciclo Operacional
+            Integrações
+            <ChevronDown size={15} />
           </button>
 
           <button
             type="button"
-            onClick={() => scrollToAnchor("solucoes-segmentos")}
+            onClick={() => {
+              setMegaMenuOpen(false);
+              setSpecialistOpen(true);
+            }}
             className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
           >
-            Soluções
+            Seja um Parceiro
           </button>
 
-          <button
-            type="button"
-            onClick={() => scrollToAnchor("depoimentos")}
-            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
+          <a
+            href="/planos"
+            onClick={(e) => handleNavClick(e, "/planos")}
+            className={`nav-link fluid-nav font-semibold ${
+              currentPath === "/planos"
+                ? "text-primary font-bold"
+                : "text-foreground/80 hover:text-primary"
+            }`}
           >
-            Depoimentos
-          </button>
-
-          <button
-            type="button"
-            onClick={() => scrollToAnchor("blog-conteudos")}
-            className="nav-link flex items-center gap-1 cursor-pointer bg-transparent border-none p-0 fluid-nav font-semibold text-foreground/80 hover:text-primary"
+            Planos
+          </a>
+          <a
+            href="/blog"
+            onClick={(e) => handleNavClick(e, "/blog", "blog-conteudos")}
+            className={`nav-link fluid-nav ${
+              currentPath === "/blog"
+                ? "text-primary font-bold"
+                : "text-foreground/80 hover:text-primary"
+            }`}
           >
             Blog
-          </button>
+          </a>
         </nav>
 
         {/* BOTÃO CTA E MENU MOBILE */}
@@ -334,211 +392,360 @@ export function Header({ currentPath = "/" }: HeaderProps) {
         <div
           ref={megaMenuRef}
           className="hidden lg:flex flex-col absolute left-1/2 -translate-x-1/2 top-[120px] mt-0 w-[880px] xl:w-[920px] max-w-[calc(100vw-2rem)] rounded-3xl bg-white dark:bg-card border border-slate-100 dark:border-border/80 shadow-2xl p-6 pb-7 sm:pb-8 z-50 animate-in fade-in-0 zoom-in-95 duration-150"
+          style={{ marginTop: 0, top: "120px" }}
           role="dialog"
           aria-label="Menu de Soluções por Segmento"
         >
-          {/* SELETOR DE ABAS */}
+          {/* 1. SELETOR DE ABAS NO TOPO (ALINHADO À ESQUERDA) */}
           <div className="flex items-center justify-start pb-4 border-b border-slate-100 dark:border-border/60 shrink-0">
             <div className="inline-flex items-center p-1 rounded-xl bg-slate-100/90 dark:bg-zinc-800/90 border border-slate-200/80 dark:border-zinc-700/60 shadow-2xs">
               <button
                 type="button"
                 onClick={() => setMegaMenuTab("food")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all duration-150 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg fluid-caption font-bold transition-all duration-150 cursor-pointer ${
                   megaMenuTab === "food"
                     ? "bg-[#FC4242] text-white shadow-xs"
-                    : "text-slate-600 dark:text-zinc-300 hover:text-slate-900"
+                    : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
+                aria-pressed={megaMenuTab === "food"}
               >
                 <UtensilsCrossed size={14} />
-                <span>Waybit Food</span>
+                <span>Alimentação (Food)</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setMegaMenuTab("varejo")}
-                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-bold transition-all duration-150 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg fluid-caption font-bold transition-all duration-150 cursor-pointer ${
                   megaMenuTab === "varejo"
                     ? "bg-[#3BBCEC] text-white shadow-xs"
-                    : "text-slate-600 dark:text-zinc-300 hover:text-slate-900"
+                    : "text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
+                aria-pressed={megaMenuTab === "varejo"}
               >
                 <ShoppingBag size={14} />
-                <span>Waybit Varejo</span>
+                <span>Varejo em Geral</span>
               </button>
             </div>
           </div>
 
-          {/* CONTEÚDO DA ABA SELECIONADA */}
-          <div className="pt-5">
-            {megaMenuTab === "food" ? (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-[#FC4242]" />
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
-                      Soluções para Gastronomia & Food Service (12 nichos)
-                    </h4>
+          {/* 2. ÁREA DE CONTEÚDO (ESTRUTURA DE GRADE DE 3 COLUNAS FIXAS E PROPORCIONAIS ENTRE AS ABAS) */}
+          <div className="py-4">
+            <div
+              key={megaMenuTab}
+              className="w-full animate-in fade-in-50 duration-150"
+            >
+              {megaMenuTab === "food" ? (
+                /* Food: 12 itens distribuídos em 2 colunas com 6 itens cada, mantendo rigorosamente a mesma largura e alinhamento do grid de 3 colunas */
+                <div className="grid grid-cols-3 gap-x-4 xl:gap-x-5 w-full">
+                  <div className="flex flex-col gap-y-1.5">
+                    {foodSegments.slice(0, 6).map((item) => (
+                      <a
+                        key={item.name}
+                        href="/planos"
+                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#FC4242] hover:bg-rose-50/80 dark:hover:bg-rose-950/25 transition-all duration-150 hover:translate-x-1"
+                      >
+                        <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#FC4242]/15 group-hover:text-[#FC4242] flex items-center justify-center shrink-0 transition-colors">
+                          <item.icon size={14} />
+                        </div>
+                        <span className="truncate">Sistema para {item.name}</span>
+                      </a>
+                    ))}
                   </div>
-                  <span className="text-[11px] text-muted-foreground font-medium">
-                    Atendimento de mesa, balcão e delivery
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
-                  {foodSegments.map((item) => (
-                    <button
-                      key={item.name}
-                      type="button"
-                      onClick={() => {
-                        setMegaMenuOpen(false);
-                        setSpecialistOpen(true);
-                      }}
-                      className="group flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-100 dark:border-border/60 bg-slate-50/50 dark:bg-zinc-800/30 hover:bg-[#FC4242]/10 hover:border-[#FC4242]/30 transition-all duration-150 text-left cursor-pointer"
-                    >
-                      <div className="size-8 rounded-lg bg-white dark:bg-card border border-slate-200/60 dark:border-border flex items-center justify-center text-[#FC4242] group-hover:bg-[#FC4242] group-hover:text-white transition-colors shrink-0 shadow-2xs">
-                        <item.icon size={15} />
-                      </div>
-                      <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300 group-hover:text-[#FC4242] transition-colors truncate">
-                        {item.name}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-[#3BBCEC]" />
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
-                      Soluções para Varejo em Geral (17 nichos)
-                    </h4>
+                  <div className="flex flex-col gap-y-1.5">
+                    {foodSegments.slice(6, 12).map((item) => (
+                      <a
+                        key={item.name}
+                        href="/planos"
+                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#FC4242] hover:bg-rose-50/80 dark:hover:bg-rose-950/25 transition-all duration-150 hover:translate-x-1"
+                      >
+                        <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#FC4242]/15 group-hover:text-[#FC4242] flex items-center justify-center shrink-0 transition-colors">
+                          <item.icon size={14} />
+                        </div>
+                        <span className="truncate">Sistema para {item.name}</span>
+                      </a>
+                    ))}
                   </div>
-                  <span className="text-[11px] text-muted-foreground font-medium">
-                    Frente de caixa ágil, estoque e fiscal
-                  </span>
+                  {/* 3ª Coluna vazia para garantir correspondência idêntica de largura com a aba de Varejo */}
+                  <div aria-hidden="true" />
                 </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
-                  {retailSegments.map((item) => (
-                    <button
-                      key={item.name}
-                      type="button"
-                      onClick={() => {
-                        setMegaMenuOpen(false);
-                        setSpecialistOpen(true);
-                      }}
-                      className="group flex items-center gap-2.5 p-2.5 rounded-xl border border-slate-100 dark:border-border/60 bg-slate-50/50 dark:bg-zinc-800/30 hover:bg-[#3BBCEC]/10 hover:border-[#3BBCEC]/30 transition-all duration-150 text-left cursor-pointer"
-                    >
-                      <div className="size-8 rounded-lg bg-white dark:bg-card border border-slate-200/60 dark:border-border flex items-center justify-center text-[#3BBCEC] group-hover:bg-[#3BBCEC] group-hover:text-white transition-colors shrink-0 shadow-2xs">
-                        <item.icon size={15} />
-                      </div>
-                      <span className="text-xs font-semibold text-slate-700 dark:text-zinc-300 group-hover:text-[#3BBCEC] transition-colors truncate">
-                        {item.name}
-                      </span>
-                    </button>
-                  ))}
+              ) : (
+                /* Varejo: 17 itens em 3 colunas (6 na 1ª, 6 na 2ª e 5 na 3ª) */
+                <div className="grid grid-cols-3 gap-x-4 xl:gap-x-5 w-full">
+                  <div className="flex flex-col gap-y-1.5">
+                    {retailSegments.slice(0, 6).map((item) => (
+                      <a
+                        key={item.name}
+                        href="/planos"
+                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#0092ca] dark:hover:text-[#3BBCEC] hover:bg-sky-50/80 dark:hover:bg-sky-950/25 transition-all duration-150 hover:translate-x-1"
+                      >
+                        <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#3BBCEC]/15 group-hover:text-[#0092ca] dark:group-hover:text-[#3BBCEC] flex items-center justify-center shrink-0 transition-colors">
+                          <item.icon size={14} />
+                        </div>
+                        <span className="truncate">Sistema para {item.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-y-1.5">
+                    {retailSegments.slice(6, 12).map((item) => (
+                      <a
+                        key={item.name}
+                        href="/planos"
+                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#0092ca] dark:hover:text-[#3BBCEC] hover:bg-sky-50/80 dark:hover:bg-sky-950/25 transition-all duration-150 hover:translate-x-1"
+                      >
+                        <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#3BBCEC]/15 group-hover:text-[#0092ca] dark:group-hover:text-[#3BBCEC] flex items-center justify-center shrink-0 transition-colors">
+                          <item.icon size={14} />
+                        </div>
+                        <span className="truncate">Sistema para {item.name}</span>
+                      </a>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-y-1.5">
+                    {retailSegments.slice(12, 17).map((item) => (
+                      <a
+                        key={item.name}
+                        href="/planos"
+                        onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                        className="group flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl fluid-caption font-semibold text-slate-700 dark:text-zinc-200 hover:text-[#0092ca] dark:hover:text-[#3BBCEC] hover:bg-sky-50/80 dark:hover:bg-sky-950/25 transition-all duration-150 hover:translate-x-1"
+                      >
+                        <div className="size-7 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 group-hover:bg-[#3BBCEC]/15 group-hover:text-[#0092ca] dark:group-hover:text-[#3BBCEC] flex items-center justify-center shrink-0 transition-colors">
+                          <item.icon size={14} />
+                        </div>
+                        <span className="truncate">Sistema para {item.name}</span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
-          {/* RODAPÉ DO MEGA MENU */}
-          <div className="mt-6 pt-4 border-t border-slate-100 dark:border-border/60 flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
-              Não encontrou seu nicho? Atendemos sob medida para sua operação.
-            </span>
+          {/* 3. RODAPÉ DO MENU (RESPIRO INFERIOR CONFORTÁVEL E SEM CORTES) */}
+          <div className="mt-2 pt-4 border-t border-slate-100 dark:border-border/60 flex items-center justify-between gap-3 fluid-caption text-muted-foreground shrink-0">
+            <div className="flex items-center gap-2">
+              <Sparkles size={14} className="text-[#FCC42C] shrink-0" />
+              <span>
+                Não encontrou seu ramo específico?{" "}
+                <strong className="text-foreground">O Dominus se adapta à sua operação.</strong>
+              </span>
+            </div>
             <button
               type="button"
               onClick={() => {
                 setMegaMenuOpen(false);
                 setSpecialistOpen(true);
               }}
-              className="font-bold text-[#71BE44] hover:underline flex items-center gap-1 cursor-pointer"
+              className="font-bold text-[#0092ca] hover:text-primary hover:underline cursor-pointer flex items-center gap-1.5 shrink-0 fluid-caption transition-colors"
             >
-              Consultar Especialista <ArrowRight size={13} />
+              Falar com um Consultor
+              <ArrowRight size={13} />
             </button>
           </div>
         </div>
       )}
 
-      {/* MENU MOBILE EXPANSÍVEL */}
-      {menuOpen && (
-        <div className="lg:hidden border-t border-border bg-background px-5 py-6 space-y-4 animate-in slide-in-from-top-4 duration-200">
-          <button
-            type="button"
-            onClick={() => setMobileSistemaOpen(!mobileSistemaOpen)}
-            className="flex items-center justify-between w-full py-2.5 font-display text-base font-semibold text-foreground border-b border-border text-left"
-          >
-            <span>Segmentos Atendidos</span>
-            <ChevronDown
-              size={18}
-              className={`transition-transform ${mobileSistemaOpen ? "rotate-180" : ""}`}
-            />
-          </button>
+      {/* GAVETA DE MENU MÓVEL */}
+      {menuOpen ? (
+        <div className="absolute inset-x-0 top-full border-b border-border bg-background px-5 py-5 shadow-menu lg:hidden max-h-[85vh] overflow-y-auto">
+          <nav className="mx-auto grid max-w-[1440px] gap-1" aria-label="Menu móvel">
+            {/* ITEM SISTEMA MOBILE COM ACCORDION */}
+            <div className="border-b border-border/40 pb-2">
+              <button
+                type="button"
+                onClick={() => setMobileSistemaOpen((prev) => !prev)}
+                className="mobile-nav-link fluid-nav text-left bg-transparent border-none cursor-pointer w-full text-foreground/80 hover:text-primary flex items-center justify-between py-2"
+              >
+                <span className="font-semibold">Sistema por Segmento</span>
+                <ChevronDown
+                  size={16}
+                  className={`transition-transform duration-200 ${mobileSistemaOpen ? "rotate-180" : ""}`}
+                />
+              </button>
 
-          {mobileSistemaOpen && (
-            <div className="pl-3 py-2 space-y-2 border-l-2 border-primary/40 bg-surface-subtle/50 rounded-r-xl p-3 text-sm">
-              <p className="text-xs font-bold text-muted-foreground uppercase">Gastronomia (Food)</p>
-              <div className="grid grid-cols-2 gap-1.5 text-xs text-foreground/80">
-                {foodSegments.slice(0, 6).map((item) => (
-                  <span key={item.name} className="truncate">• {item.name}</span>
-                ))}
-              </div>
-              <p className="text-xs font-bold text-muted-foreground uppercase pt-2">Varejo & Comércio</p>
-              <div className="grid grid-cols-2 gap-1.5 text-xs text-foreground/80">
-                {retailSegments.slice(0, 6).map((item) => (
-                  <span key={item.name} className="truncate">• {item.name}</span>
-                ))}
-              </div>
+              {mobileSistemaOpen && (
+                <div className="pt-2 pb-2 space-y-3">
+                  {/* Seletor de Abas Mobile */}
+                  <div className="flex items-center justify-center py-1">
+                    <div className="inline-flex items-center p-1 rounded-xl bg-slate-100 dark:bg-zinc-800 border border-slate-200/80 dark:border-zinc-700/60 w-full max-w-xs">
+                      <button
+                        type="button"
+                        onClick={() => setMegaMenuTab("food")}
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg fluid-caption font-bold transition-all cursor-pointer ${
+                          megaMenuTab === "food"
+                            ? "bg-[#FC4242] text-white shadow-xs"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <UtensilsCrossed size={13} />
+                        Food
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setMegaMenuTab("varejo")}
+                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg fluid-caption font-bold transition-all cursor-pointer ${
+                          megaMenuTab === "varejo"
+                            ? "bg-[#3BBCEC] text-white shadow-xs"
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <ShoppingBag size={13} />
+                        Varejo
+                      </button>
+                    </div>
+                  </div>
+
+                  {megaMenuTab === "food" ? (
+                    <div className="animate-in fade-in-50 duration-200">
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {foodSegments.map((item) => (
+                          <a
+                            key={item.name}
+                            href="/planos"
+                            onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                            className="flex items-center gap-2 py-1.5 px-2.5 fluid-caption text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors"
+                          >
+                            <item.icon size={13} className="text-[#FC4242] shrink-0" />
+                            <span className="truncate">Sistema para {item.name}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="animate-in fade-in-50 duration-200">
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {retailSegments.map((item) => (
+                          <a
+                            key={item.name}
+                            href="/planos"
+                            onClick={(e) => handleNavClick(e, "/planos", "solucoes-segmentos")}
+                            className="flex items-center gap-2 py-1.5 px-2.5 fluid-caption text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50 transition-colors"
+                          >
+                            <item.icon size={13} className="text-[#3BBCEC] shrink-0" />
+                            <span className="truncate">Sistema para {item.name}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          )}
 
-          <button
-            type="button"
-            onClick={() => scrollToAnchor("ciclo-operacional")}
-            className="block w-full py-2.5 font-display text-base font-semibold text-foreground border-b border-border text-left"
-          >
-            Ciclo Operacional
-          </button>
+            {/* DEMAIS LINKS MOBILE */}
+            {["Integrações", "Seja um Parceiro"].map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => {
+                  setMenuOpen(false);
+                  setSpecialistOpen(true);
+                }}
+                className="mobile-nav-link fluid-nav text-left bg-transparent border-none cursor-pointer w-full text-foreground/80 hover:text-primary"
+              >
+                {item}
+              </button>
+            ))}
+            <a
+              href="/planos"
+              className={`mobile-nav-link fluid-nav font-semibold ${
+                currentPath === "/planos" ? "text-primary font-bold" : ""
+              }`}
+              onClick={(e) => handleNavClick(e, "/planos")}
+            >
+              Planos
+            </a>
+            <a
+              href="/blog"
+              className={`mobile-nav-link fluid-nav ${
+                currentPath === "/blog" ? "text-primary font-bold" : ""
+              }`}
+              onClick={(e) => handleNavClick(e, "/blog", "blog-conteudos")}
+            >
+              Blog
+            </a>
+            <a
+              href="/faq"
+              className={`mobile-nav-link fluid-nav ${
+                currentPath === "/faq" ? "text-primary font-bold" : ""
+              }`}
+              onClick={(e) => handleNavClick(e, "/faq")}
+            >
+              FAQ
+            </a>
+            <a
+              href="/ajuda"
+              className={`mobile-nav-link fluid-nav ${
+                currentPath === "/ajuda" ? "text-primary font-bold" : ""
+              }`}
+              onClick={(e) => handleNavClick(e, "/ajuda")}
+            >
+              Central de Ajuda
+            </a>
+            <a
+              href="/suporte"
+              className={`mobile-nav-link fluid-nav ${
+                currentPath === "/suporte" ? "text-primary font-bold" : ""
+              }`}
+              onClick={(e) => handleNavClick(e, "/suporte")}
+            >
+              Suporte
+            </a>
 
-          <button
-            type="button"
-            onClick={() => scrollToAnchor("solucoes-segmentos")}
-            className="block w-full py-2.5 font-display text-base font-semibold text-foreground border-b border-border text-left"
-          >
-            Soluções Especializadas
-          </button>
+            <div className="mt-4 grid gap-2 border-t border-border pt-4 fluid-secondary text-muted-foreground">
+              <a href="tel:+5521975812676" className="flex items-center gap-2">
+                <Phone size={15} /> (21) 97581-2676
+              </a>
+              <a href="mailto:comercial@waybit.com.br" className="flex items-center gap-2">
+                <Mail size={15} /> comercial@waybit.com.br
+              </a>
+            </div>
 
-          <button
-            type="button"
-            onClick={() => scrollToAnchor("depoimentos")}
-            className="block w-full py-2.5 font-display text-base font-semibold text-foreground border-b border-border text-left"
-          >
-            Depoimentos & Cases
-          </button>
+            <div className="mt-4 flex items-center gap-4">
+              <a
+                className="social-link"
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
+                <Facebook size={17} />
+              </a>
+              <a
+                className="social-link"
+                href="https://www.instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
+                <Instagram size={17} />
+              </a>
+              <a
+                className="social-link"
+                href="https://www.linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={17} />
+              </a>
+            </div>
 
-          <button
-            type="button"
-            onClick={() => scrollToAnchor("blog-conteudos")}
-            className="block w-full py-2.5 font-display text-base font-semibold text-foreground border-b border-border text-left"
-          >
-            Blog & Artigos
-          </button>
-
-          <div className="pt-2">
             <Button
               onClick={() => {
                 setMenuOpen(false);
                 setSpecialistOpen(true);
               }}
-              className="w-full h-11 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold rounded-xl fluid-btn"
+              className="mt-4 h-12 w-full sm:hidden bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer fluid-btn"
             >
               Falar com Especialista
             </Button>
-          </div>
+          </nav>
         </div>
-      )}
+      ) : null}
 
       <SpecialistDialog open={specialistOpen} onOpenChange={setSpecialistOpen} />
     </header>
