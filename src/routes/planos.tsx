@@ -765,7 +765,7 @@ function PlanCard({
 
   return (
     <div
-      className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-3.5 sm:p-4 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
+      className={`relative rounded-[22px] sm:rounded-[28px] bg-white dark:bg-card border border-slate-200/90 dark:border-zinc-800 transition-all duration-300 flex flex-col justify-between p-1 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12)] hover:-translate-y-1 ${meta.cardBorderHover} h-full group`}
     >
       {/* 1. Header do Card: Caixa Colorida + Faixa Anual (se aplicável) */}
       <div className="overflow-hidden rounded-[18px] sm:rounded-[22px] border border-black/[0.04] dark:border-white/[0.06] shadow-xs shrink-0">
@@ -861,7 +861,7 @@ function PlanCard({
       </div>
 
       {/* 2. Corpo do Card (Botão + Lista de Características + Ver mais +) */}
-      <div className="pt-3 sm:pt-4 pb-1 flex-1 flex flex-col justify-between">
+      <div className="p-4 flex-1 flex flex-col justify-between">
         {/* Botão Contrate Agora */}
         <div>
           <button
