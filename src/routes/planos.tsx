@@ -24,9 +24,9 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { SpecialistDialog } from "@/components/SpecialistDialog";
 
-import promoVarejoImg from "@/assets/Super Promoção para Sua Loja.png";
-import promoFoodImg from "@/assets/Super Promoção para Restaurantes.png";
-import promoAutocenterImg from "@/assets/Super Promoção para Auto-Center.png";
+import promoVarejoImg from "@/assets/varejo copy.png";
+import promoFoodImg from "@/assets/food copy.png";
+import promoAutocenterImg from "@/assets/Autocenters.png";
 
 export const Route = createFileRoute("/planos")({
   head: () => ({
