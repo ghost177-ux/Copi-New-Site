@@ -870,7 +870,7 @@ function PlanCard({
       </div>
 
       {/* 2. Corpo do Card (Botão + Lista de Características + Ver mais +) */}
-      <div className="pt-4 sm:pt-5 pb-1 flex-1 flex flex-col justify-between">
+      <div className="pt-3 sm:pt-4 pb-1 flex-1 flex flex-col justify-between">
         {/* Botão Contrate Agora */}
         <div>
           <button
