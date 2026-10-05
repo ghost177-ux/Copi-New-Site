@@ -4,8 +4,6 @@ import {
   ArrowRight,
   Award,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
   ClipboardList,
   Layers,
   Receipt,
@@ -612,8 +610,8 @@ function PlanCard({
                   <span>De</span>
                   <span
                     className={`line-through font-semibold ${isDarkText
-                        ? "decoration-zinc-700 text-zinc-700"
-                        : "decoration-white/60 text-white/75"
+                      ? "decoration-zinc-700 text-zinc-700"
+                      : "decoration-white/60 text-white/75"
                       }`}
                   >
                     {plan.annualOriginalPrice}
@@ -758,10 +756,6 @@ function PlanosPage() {
   const [specialistOpen, setSpecialistOpen] = useState(false);
   const [selectedPlanForModal, setSelectedPlanForModal] = useState<string>("");
 
-  // Estado e ref do carrossel mobile
-  const [activeMobileCardIndex, setActiveMobileCardIndex] = useState(0);
-  const mobileCarouselRef = useRef<HTMLDivElement>(null);
-
   const meta = segmentMeta[selectedSegment];
   const plans = plansData[selectedSegment];
   const featureModules = segmentFeaturesData[selectedSegment];
@@ -771,48 +765,6 @@ function PlanosPage() {
     setSelectedPlanForModal(`${planName} (${meta.name} - ${cycleLabel})`);
     setSpecialistOpen(true);
   }
-
-  // Monitorar scroll no carrossel mobile para atualizar indicadores de forma dinâmica
-  const handleMobileScroll = useCallback(() => {
-    if (!mobileCarouselRef.current) return;
-    const { scrollLeft, clientWidth } = mobileCarouselRef.current;
-    if (clientWidth === 0) return;
-    const firstCard = mobileCarouselRef.current.children[0] as HTMLElement | undefined;
-    const cardWidth = firstCard?.offsetWidth || clientWidth * 0.85;
-    const newIndex = Math.round(scrollLeft / cardWidth);
-    setActiveMobileCardIndex(Math.min(Math.max(newIndex, 0), plans.length - 1));
-  }, [plans.length]);
-
-  function scrollCarouselTo(index: number) {
-    if (!mobileCarouselRef.current) return;
-    const container = mobileCarouselRef.current;
-    const targetCard = container.children[index] as HTMLElement;
-    if (targetCard) {
-      container.scrollTo({
-        left: targetCard.offsetLeft - 16,
-        behavior: "smooth",
-      });
-      setActiveMobileCardIndex(index);
-    }
-  }
-
-  function scrollCarouselPrev() {
-    const nextIndex = Math.max(0, activeMobileCardIndex - 1);
-    scrollCarouselTo(nextIndex);
-  }
-
-  function scrollCarouselNext() {
-    const nextIndex = Math.min(plans.length - 1, activeMobileCardIndex + 1);
-    scrollCarouselTo(nextIndex);
-  }
-
-  // Resetar scroll do carrossel ao trocar de segmento
-  useEffect(() => {
-    if (mobileCarouselRef.current) {
-      mobileCarouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
-      setActiveMobileCardIndex(0);
-    }
-  }, [selectedSegment]);
 
   // Carrega o script form_embed.js oficial do Full Funnel para gerenciar os popups
   useEffect(() => {
@@ -886,9 +838,9 @@ function PlanosPage() {
               </span>
             </div>
 
-            <div className="relative flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4">
+            <div className="relative flex flex-col min-[960px]:flex-row items-center justify-between gap-3 sm:gap-4">
               {/* [ Espaço Vazio ] na extrema esquerda para manter o centro perfeitamente balanceado no desktop */}
-              <div className="hidden lg:block lg:flex-1" aria-hidden="true" />
+              <div className="hidden min-[960px]:block min-[960px]:flex-1" aria-hidden="true" />
 
               {/* [ Seletor de Segmentos (Meio) ] */}
               <div className="inline-flex p-1 sm:p-1.5 rounded-2xl bg-surface-subtle border border-border shadow-inner max-w-full overflow-x-auto no-scrollbar shrink-0">
@@ -903,8 +855,8 @@ function PlanosPage() {
                       type="button"
                       onClick={() => setSelectedSegment(segmentKey)}
                       className={`flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 rounded-xl fluid-btn font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 ${isActive
-                          ? `bg-background shadow-md border ${item.borderColor} text-foreground`
-                          : "text-[#454545] dark:text-zinc-400 hover:text-foreground hover:bg-background/50 border border-transparent"
+                        ? `bg-background shadow-md border ${item.borderColor} text-foreground`
+                        : "text-[#454545] dark:text-zinc-400 hover:text-foreground hover:bg-background/50 border border-transparent"
                         }`}
                       style={{
                         color: isActive ? item.color : undefined,
@@ -932,14 +884,14 @@ function PlanosPage() {
               </div>
 
               {/* [ Seletor Mensal / Anual (Direita) ] */}
-              <div className="lg:flex-1 lg:flex lg:justify-end shrink-0">
+              <div className="min-[960px]:flex-1 min-[960px]:flex min-[960px]:justify-end shrink-0">
                 <div className="inline-flex items-center p-1 sm:p-1.5 rounded-full bg-surface-subtle border border-border shadow-xs">
                   <button
                     type="button"
                     onClick={() => setBillingCycle("mensal")}
                     className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full fluid-btn font-bold transition-all cursor-pointer ${billingCycle === "mensal"
-                        ? "bg-foreground text-background shadow-xs"
-                        : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
+                      ? "bg-foreground text-background shadow-xs"
+                      : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
                       }`}
                   >
                     Plano Mensal
@@ -948,8 +900,8 @@ function PlanosPage() {
                     type="button"
                     onClick={() => setBillingCycle("anual")}
                     className={`px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full fluid-btn font-bold transition-all cursor-pointer ${billingCycle === "anual"
-                        ? "bg-foreground text-background shadow-xs"
-                        : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
+                      ? "bg-foreground text-background shadow-xs"
+                      : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
                       }`}
                   >
                     Plano Anual
@@ -965,8 +917,8 @@ function PlanosPage() {
         {/* ========================================================================= */}
         <section className="w-full py-6 sm:py-8 lg:py-14 bg-surface-subtle/50">
           <div className="fluid-container">
-            {/* VERSÃO DESKTOP: Grid 4 colunas estático */}
-            <div className="hidden lg:grid lg:grid-cols-4 gap-3.5 xl:gap-6 items-stretch">
+            {/* Grid Progressivo de Planos Oficiais */}
+            <div className="grid grid-cols-1 min-[540px]:grid-cols-2 min-[960px]:grid-cols-4 gap-4 sm:gap-5 xl:gap-6 items-stretch w-full">
               {plans.map((plan) => (
                 <PlanCard
                   key={plan.id}
@@ -976,84 +928,6 @@ function PlanosPage() {
                   onSelect={handleOpenPlanOffer}
                 />
               ))}
-            </div>
-
-            {/* VERSÃO MOBILE E TABLET: Carrossel Horizontal Nativo com Swipe */}
-            <div className="lg:hidden">
-              <p className="text-center fluid-caption text-muted-foreground mb-3 flex items-center justify-center gap-1.5">
-                <span>← Deslize para visualizar os planos →</span>
-              </p>
-
-              {/* Container de Scroll com Snap */}
-              <div
-                ref={mobileCarouselRef}
-                onScroll={handleMobileScroll}
-                className="flex items-stretch gap-3.5 sm:gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 pt-2 px-3 sm:px-4 no-scrollbar touch-pan-x"
-                style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
-              >
-                {plans.map((plan) => (
-                  <div
-                    key={plan.id}
-                    className="w-[84vw] sm:w-[65vw] md:w-[45vw] max-w-[320px] shrink-0 snap-center h-full flex flex-col"
-                  >
-                    <PlanCard
-                      plan={plan}
-                      meta={meta}
-                      isAnnual={billingCycle === "anual"}
-                      onSelect={handleOpenPlanOffer}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Controles de Navegação do Carrossel (Setas e Bolinhas) */}
-              <div className="mt-4 sm:mt-5 flex items-center justify-center gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={scrollCarouselPrev}
-                  disabled={activeMobileCardIndex === 0}
-                  className="size-9 sm:size-10 rounded-full border-border cursor-pointer disabled:opacity-30 transition-all flex items-center justify-center"
-                  aria-label="Plano anterior"
-                >
-                  <ChevronLeft size={16} />
-                </Button>
-
-                {/* Bolinhas Indicadoras de Paginação */}
-                <div className="flex items-center gap-1.5 px-2">
-                  {plans.map((plan, index) => {
-                    const isActive = activeMobileCardIndex === index;
-                    return (
-                      <button
-                        key={plan.id}
-                        type="button"
-                        onClick={() => scrollCarouselTo(index)}
-                        className={`h-2 sm:h-2.5 rounded-full transition-all cursor-pointer ${isActive
-                            ? "w-6"
-                            : "w-2 sm:w-2.5 bg-muted-foreground/30 hover:bg-muted-foreground/60"
-                          }`}
-                        style={{
-                          backgroundColor: isActive ? meta.color : undefined,
-                        }}
-                        aria-label={`Ir para ${plan.name}`}
-                      />
-                    );
-                  })}
-                </div>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={scrollCarouselNext}
-                  disabled={activeMobileCardIndex === plans.length - 1}
-                  className="size-9 sm:size-10 rounded-full border-border cursor-pointer disabled:opacity-30 transition-all flex items-center justify-center"
-                  aria-label="Próximo plano"
-                >
-                  <ChevronRight size={16} />
-                </Button>
-              </div>
             </div>
           </div>
         </section>
