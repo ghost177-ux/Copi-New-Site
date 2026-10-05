@@ -9,7 +9,6 @@ import {
   ClipboardList,
   Layers,
   Receipt,
-  ShieldCheck,
   Smartphone,
   Sparkles,
   Store,
@@ -1087,17 +1086,14 @@ function PlanosPage() {
               </p>
             </div>
 
-            {/* Grid dos Módulos Específicos do Segmento Selecionado */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
-              {featureModules.map((module) => {
-                const Icon = module.icon;
+            {/* Card Único Envolvendo Todas as Categorias de Recursos */}
+            <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-subtle/50 p-5 sm:p-8 lg:p-10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
+                {featureModules.map((module) => {
+                  const Icon = module.icon;
 
-                return (
-                  <div
-                    key={module.title}
-                    className="rounded-2xl border border-border bg-surface-subtle/50 p-4.5 sm:p-6 lg:p-8 hover:bg-background hover:shadow-md transition-all flex flex-col justify-between"
-                  >
-                    <div>
+                  return (
+                    <div key={module.title} className="flex flex-col">
                       <div className="flex items-center gap-3 sm:gap-3.5 mb-4 sm:mb-5 pb-3.5 sm:pb-4 border-b border-border/70">
                         <div
                           className="size-10 sm:size-11 rounded-xl flex items-center justify-center shrink-0"
@@ -1129,19 +1125,9 @@ function PlanosPage() {
                         ))}
                       </ul>
                     </div>
-
-                    <div className="mt-5 sm:mt-6 pt-3.5 sm:pt-4 border-t border-border/60 flex items-center justify-between fluid-caption text-muted-foreground">
-                      <span className="flex items-center gap-1.5 font-medium">
-                        <ShieldCheck size={14} className="text-[#71BE44]" />
-                        Liberado em todos os planos
-                      </span>
-                      <span className="font-bold" style={{ color: meta.color }}>
-                        Dominus {meta.name}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
