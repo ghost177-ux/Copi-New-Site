@@ -862,12 +862,12 @@ function PlanosPage() {
                   key={segKey}
                   id={`banner-promo-${segKey}`}
                   style={{ display: isVisible ? "block" : "none" }}
-                  className="max-w-[1240px] mx-auto"
+                  className="w-full overflow-hidden rounded-[20px]"
                 >
                   <img
                     src={banner.src}
                     alt={banner.alt}
-                    className="w-full h-auto block mx-auto"
+                    className="block w-full h-auto"
                   />
                 </div>
               );
