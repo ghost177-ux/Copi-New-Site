@@ -44,7 +44,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import logoAsset from "@/assets/waybit-logo.png.asset.json";
+import logoImg from "@/assets/logo.png";
 import { SpecialistDialog } from "@/components/SpecialistDialog";
 
 interface HeaderProps {
@@ -285,9 +285,9 @@ export function Header({ currentPath = "/" }: HeaderProps) {
           className="min-w-0 transition-opacity hover:opacity-90"
         >
           <img
-            src={logoAsset.url}
+            src={logoImg}
             alt="Waybit Software"
-            className="h-11 w-auto sm:h-12"
+            className="h-11 w-auto sm:h-12 object-contain"
             width={250}
             height={100}
           />
