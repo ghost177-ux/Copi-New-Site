@@ -767,9 +767,9 @@ function PlanosPage() {
 
   const handleMobileScroll = () => {
     if (!mobileCarouselRef.current) return;
-    const { scrollLeft, clientWidth } = mobileCarouselRef.current;
-    if (clientWidth === 0) return;
-    const index = Math.round(scrollLeft / (clientWidth * 0.75));
+    const { scrollLeft } = mobileCarouselRef.current;
+    const cardStep = 267 + 16;
+    const index = Math.round(scrollLeft / cardStep);
     setActiveMobileCardIndex(Math.min(Math.max(index, 0), plans.length - 1));
   };
 
@@ -780,7 +780,7 @@ function PlanosPage() {
       (cards[index] as HTMLElement).scrollIntoView({
         behavior: "smooth",
         block: "nearest",
-        inline: "center",
+        inline: "start",
       });
       setActiveMobileCardIndex(index);
     }
@@ -980,7 +980,7 @@ function PlanosPage() {
                 {plans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="w-[84vw] sm:w-[65vw] md:w-[45vw] max-w-[320px] shrink-0 snap-center h-full flex flex-col"
+                    className="w-[267px] max-w-[calc(100vw-6%)] shrink-0 snap-start h-full flex flex-col"
                   >
                     <PlanCard
                       plan={plan}
