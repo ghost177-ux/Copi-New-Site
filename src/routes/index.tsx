@@ -223,7 +223,7 @@ const testimonialCases: TestimonialCase[] = [
     segment: "Varejo & Empório",
     segmentIcon: ShoppingBag,
     segmentColor: "text-[#00ADEF]",
-    segmentBg: "bg-[#00ADEF]/10 border-[#00ADEF]/25 text-[#00ADEF]",
+    segmentBg: "bg-[#00ADEF] border-[#00ADEF] text-white",
     borderColor: "hover:border-[#00ADEF]/50",
     hoverBorderClass: "group-hover:border-[#00ADEF]/60",
     glowColor: "rgba(0, 173, 239, 0.16)",
@@ -239,7 +239,7 @@ const testimonialCases: TestimonialCase[] = [
     segment: "Auto-Center & Mecânica",
     segmentIcon: Wrench,
     segmentColor: "text-[#d99b00] dark:text-[#FCC42C]",
-    segmentBg: "bg-[#FFB800]/15 border-[#FFB800]/30 text-[#d99b00] dark:text-[#FCC42C]",
+    segmentBg: "bg-[#FFB800] border-[#FFB800] text-white",
     borderColor: "hover:border-[#FCC42C]/50",
     hoverBorderClass: "group-hover:border-[#FFB800]/60",
     glowColor: "rgba(255, 184, 0, 0.16)",
@@ -255,7 +255,7 @@ const testimonialCases: TestimonialCase[] = [
     segment: "Food & Gastronomia",
     segmentIcon: Utensils,
     segmentColor: "text-[#EF4444]",
-    segmentBg: "bg-[#EF4444]/10 border-[#EF4444]/25 text-[#EF4444]",
+    segmentBg: "bg-[#EF4444] border-[#EF4444] text-white",
     borderColor: "hover:border-[#FC4242]/50",
     hoverBorderClass: "group-hover:border-[#EF4444]/60",
     glowColor: "rgba(239, 68, 68, 0.16)",
@@ -1167,7 +1167,7 @@ function Index() {
                       {/* BADGE DO SEGMENTO sobreposto na borda superior da thumbnail */}
                       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border shadow-xs backdrop-blur-md ${item.segmentBg}`}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border shadow-xs ${item.segmentBg}`}
                         >
                           <item.segmentIcon size={13} />
                           {item.segment}
