@@ -190,7 +190,7 @@
   position: relative;
 }
 
-/* Camada da grade colorida dinâmica do segmento no lado direito */
+/* Camada da grade colorida dinâmica do segmento */
 .hero-segment-grid {
   position: absolute;
   inset: 0;
@@ -207,37 +207,68 @@
       transparent 1px
     );
   background-size: 64px 64px;
-  /* Máscara suave que surge no centro e atinge o máximo à direita */
+  /* Layout vertical (< lg): mais visível na parte inferior e esmaecendo para o topo */
   mask-image: linear-gradient(
-    to right,
-    transparent 0%,
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.4) 25%,
     transparent 50%,
-    rgba(0, 0, 0, 0.4) 75%,
-    rgba(0, 0, 0, 1) 100%
+    transparent 100%
   );
   -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.4) 25%,
     transparent 50%,
-    rgba(0, 0, 0, 0.4) 75%,
-    rgba(0, 0, 0, 1) 100%
+    transparent 100%
   );
   transition: opacity 700ms ease;
 }
 
-/* Camada de degradê suave da cor do segmento vindo da direita e sumindo no centro */
+/* Camada de degradê suave da cor do segmento */
 .hero-segment-gradient {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  /* Layout vertical (< lg): cor concentrada embaixo onde estão os cards, esmaecendo para branco no topo */
   background: linear-gradient(
-    to left,
+    to top,
     var(--hero-gradient-color, transparent) 0%,
     var(--hero-gradient-color-mid, transparent) 25%,
     transparent 50%,
     transparent 100%
   );
   transition: background 700ms ease, opacity 700ms ease;
+}
+
+/* Breakpoint exato em que a seção passa para layout horizontal (>= lg) */
+@media (min-width: 1024px) {
+  .hero-segment-grid {
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.4) 75%,
+      rgba(0, 0, 0, 1) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.4) 75%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+
+  .hero-segment-gradient {
+    background: linear-gradient(
+      to left,
+      var(--hero-gradient-color, transparent) 0%,
+      var(--hero-gradient-color-mid, transparent) 25%,
+      transparent 50%,
+      transparent 100%
+    );
+  }
 }
 
 @utility utility-link {
