@@ -249,11 +249,14 @@ const testimonialCases: TestimonialCase[] = [
   },
 ];
 
+const DEFAULT_THUMB_QUALITIES = ["maxresdefault.jpg", "sddefault.jpg", "hqdefault.jpg"] as const;
+const ROSANA_THUMB_QUALITIES = ["sddefault.jpg", "hqdefault.jpg"] as const;
+
 function TestimonialVideoPlayer({ item }: { item: TestimonialCase }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [thumbSrc, setThumbSrc] = useState(
-    `https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg`
-  );
+  const [qualityIndex, setQualityIndex] = useState(0);
+
+  const thumbQualities = item.videoId === "ugzBfW_pkOo" ? ROSANA_THUMB_QUALITIES : DEFAULT_THUMB_QUALITIES;
 
   if (isPlaying) {
     return (
@@ -267,6 +270,8 @@ function TestimonialVideoPlayer({ item }: { item: TestimonialCase }) {
     );
   }
 
+  const thumbSrc = `https://img.youtube.com/vi/${item.videoId}/${thumbQualities[qualityIndex]}`;
+
   return (
     <button
       type="button"
@@ -277,18 +282,18 @@ function TestimonialVideoPlayer({ item }: { item: TestimonialCase }) {
       <img
         src={thumbSrc}
         alt={`Thumbnail do depoimento de ${item.name} (${item.company})`}
-        className="w-full h-full object-cover transition-transform duration-500 group-hover/play:scale-105"
+        className="w-full h-full object-cover"
         loading="lazy"
         onError={() => {
-          if (thumbSrc.includes("maxresdefault.jpg")) {
-            setThumbSrc(`https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`);
+          if (qualityIndex < thumbQualities.length - 1) {
+            setQualityIndex((prev) => prev + 1);
           }
         }}
       />
       {/* Botão de Play centralizado */}
-      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/play:bg-black/10 transition-colors duration-300">
-        <div className="size-14 sm:size-16 rounded-full bg-black/60 group-hover/play:bg-[#71BE44] text-white flex items-center justify-center transition-all duration-300 shadow-lg group-hover/play:scale-110 backdrop-blur-xs">
-          <Play size={24} className="fill-white translate-x-0.5" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="size-14 sm:size-16 rounded-full bg-black/70 text-white flex items-center justify-center shadow-lg transition-transform duration-200 group-hover/play:scale-[1.08]">
+          <Play size={24} className="fill-white text-white translate-x-0.5" />
         </div>
       </div>
     </button>
