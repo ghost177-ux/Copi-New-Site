@@ -1169,7 +1169,17 @@ function Index() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
-              {/* Coluna 1 — Esquerda: Conteúdo textual */}
+              {/* Coluna 1 — Esquerda: Imagem do suporte */}
+              <div className="lg:col-span-6 w-full flex items-center justify-center overflow-hidden rounded-2xl">
+                <img
+                  src={suporteWaybit}
+                  alt="Suporte especializado da Waybit"
+                  className="w-full h-auto object-contain rounded-2xl"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Coluna 2 — Direita: Conteúdo textual */}
               <div className="lg:col-span-6 w-full">
                 <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                   Trocar de sistema dá medo?{" "}
@@ -1211,16 +1221,6 @@ function Index() {
                     </Button>
                   </a>
                 </div>
-              </div>
-
-              {/* Coluna 2 — Direita: Imagem do suporte */}
-              <div className="lg:col-span-6 w-full flex items-center justify-center">
-                <img
-                  src={suporteWaybit}
-                  alt="Suporte especializado da Waybit"
-                  className="w-full h-auto object-contain"
-                  loading="lazy"
-                />
               </div>
             </div>
           </div>
