@@ -1147,7 +1147,7 @@ function Index() {
               <div
                 ref={casesCarouselRef}
                 onScroll={handleCasesScroll}
-                className="flex flex-wrap justify-center lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
+                className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
                 style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
               >
                 {testimonialCases.map((item) => (
@@ -1190,11 +1190,11 @@ function Index() {
                       <div className="flex items-center justify-between gap-2.5 mb-3 sm:mb-3.5">
                         <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                           {/* LOGO EMPRESA */}
-                          <div className="size-10 sm:size-11 rounded-xl overflow-hidden shrink-0 border border-border/60 bg-white flex items-center justify-center p-1 shadow-2xs">
+                          <div className="size-10 sm:size-11 rounded-[2px] overflow-hidden shrink-0 flex items-center justify-center p-0 border-0">
                             <img
                               src={item.companyLogo}
                               alt={item.company}
-                              className="w-full h-full object-contain rounded-lg"
+                              className="w-full h-full object-contain"
                               loading="lazy"
                             />
                           </div>
