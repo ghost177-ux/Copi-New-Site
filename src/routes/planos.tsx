@@ -543,11 +543,13 @@ function PlanCard({
   plan,
   meta,
   isAnnual,
+  isCarousel,
   onSelect,
 }: {
   plan: PlanItem;
   meta: SegmentMetaItem;
   isAnnual?: boolean;
+  isCarousel?: boolean;
   onSelect: (name: string) => void;
 }) {
   const segmentKey = (meta.name.toLowerCase().includes("food")
@@ -595,7 +597,7 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display text-[20.29px] lg:fluid-h3 font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+            className={`font-display ${isCarousel ? "text-[20.29px]" : "fluid-h3"} font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
               }`}
           >
             {plan.name}
@@ -986,6 +988,7 @@ function PlanosPage() {
                       plan={plan}
                       meta={meta}
                       isAnnual={billingCycle === "anual"}
+                      isCarousel={true}
                       onSelect={handleOpenPlanOffer}
                     />
                   </div>
