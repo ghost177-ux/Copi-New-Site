@@ -677,21 +677,29 @@ function Index() {
           className="hero-shell relative overflow-hidden"
           style={
             {
-              "--hero-bg-color": activeSegment === "autocenter"
-                ? "rgba(255, 184, 0, 0.08)"
-                : activeSegment === "food"
-                  ? "rgba(239, 68, 68, 0.06)"
-                  : "rgba(0, 173, 239, 0.06)",
               "--hero-grid-color": activeSegment === "autocenter"
-                ? "rgba(255, 184, 0, 0.20)"
+                ? "rgba(255, 184, 0, 0.22)"
                 : activeSegment === "food"
-                  ? "rgba(239, 68, 68, 0.16)"
-                  : "rgba(0, 173, 239, 0.16)",
+                  ? "rgba(239, 68, 68, 0.2)"
+                  : "rgba(0, 173, 239, 0.2)",
+              "--hero-gradient-color": activeSegment === "autocenter"
+                ? "rgba(255, 184, 0, 0.12)"
+                : activeSegment === "food"
+                  ? "rgba(239, 68, 68, 0.11)"
+                  : "rgba(0, 173, 239, 0.11)",
+              "--hero-gradient-color-mid": activeSegment === "autocenter"
+                ? "rgba(255, 184, 0, 0.05)"
+                : activeSegment === "food"
+                  ? "rgba(239, 68, 68, 0.04)"
+                  : "rgba(0, 173, 239, 0.04)",
             } as React.CSSProperties
           }
         >
-          {/* Grade dinâmica com a cor do segmento ativo em toda a extensão */}
+          {/* Grade dinâmica com a cor do segmento ativo no lado direito */}
           <div className="hero-segment-grid" aria-hidden="true" />
+
+          {/* Degradê suave da cor do segmento ativo da direita até o centro do card */}
+          <div className="hero-segment-gradient" aria-hidden="true" />
 
           <div className="w-full fluid-container grid items-center gap-8 sm:gap-10 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12">
             {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}

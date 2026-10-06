@@ -188,11 +188,9 @@
  * ========================================================================= */
 @utility hero-shell {
   position: relative;
-  background-color: var(--hero-bg-color, var(--background));
-  transition: background-color 700ms ease;
 }
 
-/* Camada da grade colorida dinâmica do segmento em toda a seção */
+/* Camada da grade colorida dinâmica do segmento no lado direito */
 .hero-segment-grid {
   position: absolute;
   inset: 0;
@@ -209,7 +207,37 @@
       transparent 1px
     );
   background-size: 64px 64px;
+  /* Máscara suave que surge no centro e atinge o máximo à direita */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 75%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 75%,
+    rgba(0, 0, 0, 1) 100%
+  );
   transition: opacity 700ms ease;
+}
+
+/* Camada de degradê suave da cor do segmento vindo da direita e sumindo no centro */
+.hero-segment-gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to left,
+    var(--hero-gradient-color, transparent) 0%,
+    var(--hero-gradient-color-mid, transparent) 25%,
+    transparent 50%,
+    transparent 100%
+  );
+  transition: background 700ms ease, opacity 700ms ease;
 }
 
 @utility utility-link {
