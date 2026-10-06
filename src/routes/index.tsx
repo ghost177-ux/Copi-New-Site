@@ -54,6 +54,9 @@ import xpertLogo from "@/assets/xpert.png";
 import certbitLogo from "@/assets/certbit-logo.png";
 import dominusIaLogo from "@/assets/Dominus IA.png";
 import suporteWaybit from "@/assets/Suporte Waybit.png";
+import graosZeroLogo from "@/assets/Grãos&zero.jpg";
+import zumZumLogo from "@/assets/Zum Zum.jpg";
+import daOrlaLogo from "@/assets/DaOrla Cafeteria.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -199,11 +202,14 @@ interface TestimonialCase {
   id: string;
   name: string;
   company: string;
+  companyLogo: string;
   segment: string;
   segmentIcon: React.ElementType;
   segmentColor: string;
   segmentBg: string;
   borderColor: string;
+  hoverBorderClass: string;
+  glowColor: string;
   videoId: string;
   quote: string;
 }
@@ -213,11 +219,14 @@ const testimonialCases: TestimonialCase[] = [
     id: "rosana",
     name: "Rosana",
     company: "Grãos e Zero Açúcar",
+    companyLogo: graosZeroLogo,
     segment: "Varejo & Empório",
     segmentIcon: ShoppingBag,
     segmentColor: "text-[#00ADEF]",
-    segmentBg: "bg-[#00ADEF]/10 border-[#00ADEF]/20",
+    segmentBg: "bg-[#00ADEF]/10 border-[#00ADEF]/25 text-[#00ADEF]",
     borderColor: "hover:border-[#00ADEF]/50",
+    hoverBorderClass: "group-hover:border-[#00ADEF]/60",
+    glowColor: "rgba(0, 173, 239, 0.16)",
     videoId: "ugzBfW_pkOo",
     quote:
       "A facilidade de adaptação da equipe foi surpreendente. Em menos de 2 dias o caixa já rodava com total segurança e o atendimento no balcão ficou infinitamente mais ágil.",
@@ -225,12 +234,15 @@ const testimonialCases: TestimonialCase[] = [
   {
     id: "thiago",
     name: "Thiago",
-    company: "Zum Zum Auto Center (12 anos cliente)",
+    company: "Zum Zum Auto Center",
+    companyLogo: zumZumLogo,
     segment: "Auto-Center & Mecânica",
     segmentIcon: Wrench,
     segmentColor: "text-[#d99b00] dark:text-[#FCC42C]",
-    segmentBg: "bg-[#FFB800]/15 border-[#FFB800]/25",
+    segmentBg: "bg-[#FFB800]/15 border-[#FFB800]/30 text-[#d99b00] dark:text-[#FCC42C]",
     borderColor: "hover:border-[#FCC42C]/50",
+    hoverBorderClass: "group-hover:border-[#FFB800]/60",
+    glowColor: "rgba(255, 184, 0, 0.16)",
     videoId: "5tfA3619NXs",
     quote:
       "Reduzimos o tempo de montagem e cotação de orçamentos de dias para minutos. São 12 anos de parceria sólida e confiabilidade com a Waybit.",
@@ -239,11 +251,14 @@ const testimonialCases: TestimonialCase[] = [
     id: "felippe",
     name: "Felippe",
     company: "DaOrla Café",
+    companyLogo: daOrlaLogo,
     segment: "Food & Gastronomia",
     segmentIcon: Utensils,
     segmentColor: "text-[#EF4444]",
-    segmentBg: "bg-[#EF4444]/10 border-[#EF4444]/20",
+    segmentBg: "bg-[#EF4444]/10 border-[#EF4444]/25 text-[#EF4444]",
     borderColor: "hover:border-[#FC4242]/50",
+    hoverBorderClass: "group-hover:border-[#EF4444]/60",
+    glowColor: "rgba(239, 68, 68, 0.16)",
     videoId: "ea7aOYtaCuA",
     quote:
       "A comanda eletrônica direto na mesa revolucionou nosso atendimento. E o grande diferencial: quando precisamos, o suporte humano atende de pronto, sem robô enrolando.",
@@ -283,9 +298,9 @@ function TestimonialVideoPlayer({
           }
         }}
       />
-      {/* Botão de Play centralizado */}
+      {/* Botão de Play centralizado: círculo transparente com borda branca e triângulo branco */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="size-14 sm:size-16 rounded-full bg-black/70 text-white flex items-center justify-center shadow-lg transition-transform duration-200 group-hover/play:scale-[1.08]">
+        <div className="size-14 sm:size-16 rounded-full bg-black/30 border-2 border-white text-white flex items-center justify-center shadow-lg transition-transform duration-200 group-hover/play:scale-[1.08] backdrop-blur-[2px]">
           <Play size={24} className="fill-white text-white translate-x-0.5" />
         </div>
       </div>
@@ -1138,39 +1153,75 @@ function Index() {
                 {testimonialCases.map((item) => (
                   <div
                     key={item.id}
-                    className={`w-[84vw] max-w-[360px] sm:w-[360px] md:w-[380px] lg:w-auto shrink-0 lg:shrink snap-center lg:snap-align-none rounded-2xl border border-border bg-card/95 backdrop-blur-sm p-4 sm:p-5 lg:p-6 shadow-sm flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${item.borderColor} group`}
+                    className="w-[84vw] max-w-[360px] sm:w-[360px] md:w-[380px] lg:w-auto shrink-0 lg:shrink snap-center lg:snap-align-none flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 group relative pt-4"
                   >
-                    <div>
-                      {/* Vídeo Nativo Incorporado */}
-                      <div className="relative w-full aspect-[9/13.5] rounded-xl overflow-hidden bg-black shadow-inner border border-zinc-800/80 mb-4 sm:mb-5">
-                        <TestimonialVideoPlayer item={item} onOpenVideo={handleOpenVideo} />
-                      </div>
+                    {/* Glow difuso suave atrás do card no hover */}
+                    <div
+                      className="pointer-events-none absolute -inset-2 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl -z-10"
+                      style={{ backgroundColor: item.glowColor }}
+                      aria-hidden="true"
+                    />
 
-                      {/* Tag de Segmento + Avaliação em Estrelas */}
-                      <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-3.5 sm:mb-4">
+                    {/* BLOCO 1 — VÍDEO / THUMBNAIL */}
+                    <div className="relative w-full">
+                      {/* BADGE DO SEGMENTO sobreposto na borda superior da thumbnail */}
+                      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
                         <span
-                          className={`inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border ${item.segmentBg} ${item.segmentColor}`}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold border shadow-xs backdrop-blur-md ${item.segmentBg}`}
                         >
                           <item.segmentIcon size={13} />
                           {item.segment}
                         </span>
-                        <div className="flex items-center text-[#FFB800]">
+                      </div>
+
+                      {/* Container da Thumbnail com cantos arredondados */}
+                      <div
+                        className={`relative w-full aspect-[9/13.5] rounded-2xl overflow-hidden bg-black shadow-sm border border-border/80 transition-colors duration-300 ${item.hoverBorderClass}`}
+                      >
+                        <TestimonialVideoPlayer item={item} onOpenVideo={handleOpenVideo} />
+                      </div>
+                    </div>
+
+                    {/* BLOCO 2 — INFORMAÇÕES */}
+                    <div
+                      className={`mt-3 sm:mt-3.5 rounded-2xl border border-border/80 bg-card/95 backdrop-blur-xs p-4 sm:p-5 shadow-sm transition-colors duration-300 flex flex-col justify-between flex-1 ${item.hoverBorderClass}`}
+                    >
+                      {/* CABEÇALHO: LOGO + NOME/EMPRESA + ESTRELAS */}
+                      <div className="flex items-center justify-between gap-2.5 mb-3 sm:mb-3.5">
+                        <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                          {/* LOGO EMPRESA */}
+                          <div className="size-10 sm:size-11 rounded-xl overflow-hidden shrink-0 border border-border/60 bg-white flex items-center justify-center p-1 shadow-2xs">
+                            <img
+                              src={item.companyLogo}
+                              alt={item.company}
+                              className="w-full h-full object-contain rounded-lg"
+                              loading="lazy"
+                            />
+                          </div>
+
+                          {/* NOME + EMPRESA */}
+                          <div className="min-w-0">
+                            <h4 className="font-display fluid-h4 font-bold text-foreground truncate leading-tight">
+                              {item.name}
+                            </h4>
+                            <p className="fluid-caption text-muted-foreground truncate leading-tight mt-0.5">
+                              {item.company}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* ESTRELAS */}
+                        <div className="flex items-center text-[#FFB800] shrink-0 gap-0.5">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} size={13} fill="#FFB800" stroke="#FFB800" className="sm:w-3.5 sm:h-3.5" />
                           ))}
                         </div>
                       </div>
 
-                      {/* Texto do Depoimento */}
-                      <blockquote className="fluid-body text-foreground/90 font-medium italic leading-relaxed">
+                      {/* DEPOIMENTO CENTRALIZADO */}
+                      <blockquote className="fluid-body text-foreground/90 font-medium italic leading-relaxed text-center my-auto pt-1">
                         &ldquo;{item.quote}&rdquo;
                       </blockquote>
-                    </div>
-
-                    {/* Autor */}
-                    <div className="mt-4 sm:mt-5 pt-3.5 sm:pt-4 border-t border-border/80">
-                      <h4 className="font-display fluid-h4 font-bold text-foreground">{item.name}</h4>
-                      <p className="fluid-caption text-muted-foreground font-medium">{item.company}</p>
                     </div>
                   </div>
                 ))}
@@ -1515,9 +1566,9 @@ function Index() {
           className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-xs"
           onClick={handleCloseVideo}
         >
-          {/* Moldura vertical 9:16 */}
+          {/* Moldura vertical 9:16 com padding interno de 16px (p-4) */}
           <div
-            className="relative aspect-[9/16] h-[82vh] max-h-[850px] max-w-[92vw] w-auto rounded-2xl sm:rounded-3xl overflow-hidden bg-black border border-white/10 shadow-2xl flex items-center justify-center"
+            className="relative aspect-[9/16] h-[82vh] max-h-[850px] max-w-[92vw] w-auto rounded-2xl sm:rounded-3xl bg-black border border-white/10 shadow-2xl p-4 flex flex-col items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Botão Fechar X */}
@@ -1525,19 +1576,21 @@ function Index() {
               type="button"
               onClick={handleCloseVideo}
               aria-label="Fechar vídeo"
-              className="absolute top-3 right-3 z-20 size-9 sm:size-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all duration-200 cursor-pointer border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="absolute top-2 right-2 z-20 size-8 sm:size-9 rounded-full bg-zinc-900/80 hover:bg-zinc-800 text-white flex items-center justify-center transition-all duration-200 cursor-pointer border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary shadow-md"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
-            {/* Player do YouTube (montado apenas quando o modal está aberto) */}
-            <iframe
-              src={`https://www.youtube.com/embed/${activeTestimonialVideo.videoId}?autoplay=1&rel=0&playsinline=1`}
-              title={`Depoimento em vídeo de ${activeTestimonialVideo.name} (${activeTestimonialVideo.company})`}
-              className="w-full h-full border-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+            {/* Container interno do player 9:16 com cantos arredondados e overflow-hidden */}
+            <div className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+              <iframe
+                src={`https://www.youtube.com/embed/${activeTestimonialVideo.videoId}?autoplay=1&rel=0&playsinline=1`}
+                title={`Depoimento em vídeo de ${activeTestimonialVideo.name} (${activeTestimonialVideo.company})`}
+                className="w-full h-full border-0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       )}
