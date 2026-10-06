@@ -672,7 +672,7 @@ function PlanCard({
         </div>
 
         {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
-        {isAnnual && !plan.isCustomPrice ? (
+        {isAnnual ? (
           <div className="bg-[#2f2f2f] text-white pt-7 sm:pt-8 pb-2 sm:pb-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide rounded-b-[18px] sm:rounded-b-[22px] -mt-[20px] sm:-mt-[22px] relative z-0">
             Até 12X No cartão
           </div>
