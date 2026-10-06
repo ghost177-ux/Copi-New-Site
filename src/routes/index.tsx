@@ -1132,7 +1132,7 @@ function Index() {
               <div
                 ref={casesCarouselRef}
                 onScroll={handleCasesScroll}
-                className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
+                className="flex flex-wrap justify-center lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
                 style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
               >
                 {testimonialCases.map((item) => (
