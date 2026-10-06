@@ -33,6 +33,7 @@ import {
   Cake,
   Layers,
   Play,
+  X,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -252,30 +253,22 @@ const testimonialCases: TestimonialCase[] = [
 const DEFAULT_THUMB_QUALITIES = ["maxresdefault.jpg", "sddefault.jpg", "hqdefault.jpg"] as const;
 const ROSANA_THUMB_QUALITIES = ["sddefault.jpg", "hqdefault.jpg"] as const;
 
-function TestimonialVideoPlayer({ item }: { item: TestimonialCase }) {
-  const [isPlaying, setIsPlaying] = useState(false);
+function TestimonialVideoPlayer({
+  item,
+  onOpenVideo,
+}: {
+  item: TestimonialCase;
+  onOpenVideo: (item: TestimonialCase, btnEl: HTMLButtonElement | null) => void;
+}) {
   const [qualityIndex, setQualityIndex] = useState(0);
 
   const thumbQualities = item.videoId === "ugzBfW_pkOo" ? ROSANA_THUMB_QUALITIES : DEFAULT_THUMB_QUALITIES;
-
-  if (isPlaying) {
-    return (
-      <iframe
-        src={`https://www.youtube.com/embed/${item.videoId}?autoplay=1&rel=0&playsinline=1`}
-        title={`Depoimento em vídeo de ${item.name} (${item.company})`}
-        className="w-full h-full border-0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
-    );
-  }
-
   const thumbSrc = `https://img.youtube.com/vi/${item.videoId}/${thumbQualities[qualityIndex]}`;
 
   return (
     <button
       type="button"
-      onClick={() => setIsPlaying(true)}
+      onClick={(e) => onOpenVideo(item, e.currentTarget)}
       aria-label={`Assistir depoimento de ${item.name}`}
       className="group/play relative w-full h-full block cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
     >
@@ -308,6 +301,38 @@ function Index() {
   const [specialistOpen, setSpecialistOpen] = useState(false);
   const casesCarouselRef = useRef<HTMLDivElement>(null);
   const [activeCaseIndex, setActiveCaseIndex] = useState(0);
+  const [activeTestimonialVideo, setActiveTestimonialVideo] = useState<TestimonialCase | null>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const handleOpenVideo = useCallback((item: TestimonialCase, btnEl: HTMLButtonElement | null) => {
+    triggerButtonRef.current = btnEl;
+    setActiveTestimonialVideo(item);
+  }, []);
+
+  const handleCloseVideo = useCallback(() => {
+    setActiveTestimonialVideo(null);
+    triggerButtonRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (!activeTestimonialVideo) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleCloseVideo();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeTestimonialVideo, handleCloseVideo]);
 
   // Refs de performance para Parallax e Tilt sem causar re-render no React
   const heroRef = useRef<HTMLElement>(null);
@@ -1118,7 +1143,7 @@ function Index() {
                     <div>
                       {/* Vídeo Nativo Incorporado */}
                       <div className="relative w-full aspect-[9/13.5] rounded-xl overflow-hidden bg-black shadow-inner border border-zinc-800/80 mb-4 sm:mb-5">
-                        <TestimonialVideoPlayer item={item} />
+                        <TestimonialVideoPlayer item={item} onOpenVideo={handleOpenVideo} />
                       </div>
 
                       {/* Tag de Segmento + Avaliação em Estrelas */}
@@ -1478,6 +1503,44 @@ function Index() {
       </main>
 
       <SpecialistDialog open={specialistOpen} onOpenChange={setSpecialistOpen} />
+
+      {/* ========================================================================= */}
+      {/* MODAL DE DEPOIMENTO EM VÍDEO (PROVA SOCIAL)                               */}
+      {/* ========================================================================= */}
+      {activeTestimonialVideo && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Depoimento em vídeo de ${activeTestimonialVideo.name} (${activeTestimonialVideo.company})`}
+          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-xs"
+          onClick={handleCloseVideo}
+        >
+          {/* Moldura vertical 9:16 */}
+          <div
+            className="relative aspect-[9/16] h-[82vh] max-h-[850px] max-w-[92vw] w-auto rounded-2xl sm:rounded-3xl overflow-hidden bg-black border border-white/10 shadow-2xl flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Botão Fechar X */}
+            <button
+              type="button"
+              onClick={handleCloseVideo}
+              aria-label="Fechar vídeo"
+              className="absolute top-3 right-3 z-20 size-9 sm:size-10 rounded-full bg-black/60 hover:bg-black/90 text-white flex items-center justify-center transition-all duration-200 cursor-pointer border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              <X size={18} />
+            </button>
+
+            {/* Player do YouTube (montado apenas quando o modal está aberto) */}
+            <iframe
+              src={`https://www.youtube.com/embed/${activeTestimonialVideo.videoId}?autoplay=1&rel=0&playsinline=1`}
+              title={`Depoimento em vídeo de ${activeTestimonialVideo.name} (${activeTestimonialVideo.company})`}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
 
       {/* ========================================================================= */}
       {/* MODAL DE AGENDAMENTO / DEMONSTRAÇÃO (FULL FUNNEL)                         */}
