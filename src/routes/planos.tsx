@@ -595,7 +595,7 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display fluid-h3 font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+            className={`font-display text-[1.125rem] sm:text-[1.1875rem] lg:fluid-h3 font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
               }`}
           >
             {plan.name}
@@ -622,13 +622,13 @@ function PlanCard({
                 </div>
                 <div className="flex items-baseline gap-1 flex-wrap">
                   <span
-                    className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                    className={`font-display text-[1.65rem] sm:text-[1.85rem] lg:fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                       }`}
                   >
                     {plan.annualPrice}
                   </span>
                   <span
-                    className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                    className={`text-[0.875rem] lg:fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
                       }`}
                   >
                     {plan.annualPeriodText || "/Mês"}
@@ -638,13 +638,13 @@ function PlanCard({
             ) : !plan.isCustomPrice ? (
               <div className="flex items-baseline gap-1 flex-wrap">
                 <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                  className={`font-display text-[1.65rem] sm:text-[1.85rem] lg:fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                     }`}
                 >
                   {plan.price}
                 </span>
                 <span
-                  className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                  className={`text-[0.875rem] lg:fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
                     }`}
                 >
                   {plan.periodText}
@@ -653,14 +653,14 @@ function PlanCard({
             ) : (
               <div className="flex items-baseline gap-1 flex-wrap">
                 <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                  className={`font-display text-[1.65rem] sm:text-[1.85rem] lg:fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                     }`}
                 >
                   Consulte
                 </span>
                 {plan.periodText ? (
                   <span
-                    className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                    className={`text-[0.875rem] lg:fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
                       }`}
                   >
                     {plan.periodText}
@@ -673,7 +673,7 @@ function PlanCard({
 
         {/* Faixa Até 12X No cartão - SOMENTE NO ANUAL */}
         {isAnnual ? (
-          <div className="bg-[#2f2f2f] text-white pt-7 sm:pt-8 pb-2 sm:pb-2.5 px-3 text-center text-xs sm:text-[13px] font-bold tracking-wide rounded-b-[18px] sm:rounded-b-[22px] -mt-[20px] sm:-mt-[22px] relative z-0">
+          <div className="bg-[#2f2f2f] text-white pt-7 sm:pt-8 pb-2 sm:pb-2.5 px-3 text-center text-[12.5px] sm:text-[13px] font-bold tracking-wide rounded-b-[18px] sm:rounded-b-[22px] -mt-[20px] sm:-mt-[22px] relative z-0">
             Até 12X No cartão
           </div>
         ) : null}
@@ -701,7 +701,7 @@ function PlanCard({
                   : "#ffffff"
                 : meta.color,
             }}
-            className="w-full h-11 sm:h-12 rounded-full border-2 font-bold fluid-btn tracking-wide transition-all duration-300 shadow-xs hover:shadow-md active:scale-[0.98] flex items-center justify-center cursor-pointer"
+            className="w-full h-11 sm:h-12 rounded-full border-2 font-bold text-[0.875rem] lg:fluid-btn tracking-wide transition-all duration-300 shadow-xs hover:shadow-md active:scale-[0.98] flex items-center justify-center cursor-pointer"
           >
             <span>Contrate Agora</span>
           </button>
@@ -712,7 +712,7 @@ function PlanCard({
           {/* Item: Faturamento */}
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
-            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+            <span className="text-[0.7813rem] sm:text-[0.8125rem] lg:fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
               {formatRevenue(plan.revenueLimit)}
             </span>
           </div>
@@ -720,7 +720,7 @@ function PlanCard({
           {/* Item: Terminais / PDVs */}
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
-            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+            <span className="text-[0.7813rem] sm:text-[0.8125rem] lg:fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
               Terminais / PDVs: {plan.pdvCount.startsWith("PDVs ") ? plan.pdvCount.replace("PDVs ", "") : plan.pdvCount}
             </span>
           </div>
@@ -729,7 +729,7 @@ function PlanCard({
           {plan.vipBonus ? (
             <div className="flex items-start gap-2.5">
               <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
-              <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+              <span className="text-[0.7813rem] sm:text-[0.8125rem] lg:fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
                 {plan.vipBonus}
               </span>
             </div>
@@ -742,7 +742,7 @@ function PlanCard({
             type="button"
             onClick={handleScrollToFeatures}
             style={{ color: meta.color }}
-            className="font-bold fluid-caption hover:underline cursor-pointer transition-opacity hover:opacity-80 text-left inline-flex items-center self-start"
+            className="font-bold text-[0.7813rem] sm:text-[0.8125rem] lg:fluid-caption hover:underline cursor-pointer transition-opacity hover:opacity-80 text-left inline-flex items-center self-start"
           >
             ver mais +
           </button>
