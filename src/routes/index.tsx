@@ -51,6 +51,7 @@ import autocenterLogo from "@/assets/autocenter.png";
 import xpertLogo from "@/assets/xpert.png";
 import certbitLogo from "@/assets/certbit-logo.png";
 import dominusIaLogo from "@/assets/Dominus IA.png";
+import suporteWaybit from "@/assets/Suporte Waybit.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -1159,12 +1160,17 @@ function Index() {
         {/* ========================================================================= */}
         <section id="diferencial-suporte" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border relative overflow-hidden w-full">
           <div className="fluid-container">
+            {/* Tag centralizada no topo da seção */}
+            <div className="flex justify-center mb-8 sm:mb-10 lg:mb-12">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-emerald-600">
+                <ShieldCheck size={14} className="text-[#71BE44]" />
+                <span>Diferencial Exclusivo Waybit</span>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+              {/* Coluna 1 — Esquerda: Conteúdo textual */}
               <div className="lg:col-span-6 w-full">
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-emerald-600 mb-3 sm:mb-4">
-                  <ShieldCheck size={14} className="text-[#71BE44]" />
-                  <span>Diferencial Exclusivo Waybit</span>
-                </div>
                 <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                   Trocar de sistema dá medo?{" "}
                   <span className="block sm:inline text-foreground">
@@ -1190,76 +1196,31 @@ function Index() {
                   minutos.
                 </p>
 
-                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full">
-                  <Button
-                    onClick={() => setSpecialistOpen(true)}
-                    className="h-11 sm:h-12 px-6 sm:px-7 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm flex items-center justify-center gap-2 fluid-btn"
+                <div className="mt-6 sm:mt-8 flex items-center">
+                  <a
+                    href="https://wa.me/5521975812676?text=Ol%C3%A1!%20Gostaria%20de%20falar%20com%20um%20especialista%20da%20Waybit."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto"
                   >
-                    <MessageSquare size={17} />
-                    Falar com um Consultor Agora
-                  </Button>
-                  <a href="tel:+5521975812676" className="flex">
                     <Button
-                      variant="outline"
-                      className="h-11 sm:h-12 px-5 sm:px-6 border-border hover:bg-muted font-semibold flex items-center justify-center gap-2 cursor-pointer w-full fluid-btn"
+                      className="h-11 sm:h-12 px-6 sm:px-7 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm flex items-center justify-center gap-2 fluid-btn w-full sm:w-auto"
                     >
-                      <Phone size={16} className="text-[#00ADEF]" />
-                      (21) 97581-2676
+                      <MessageSquare size={17} />
+                      Falar com especialista
                     </Button>
                   </a>
                 </div>
               </div>
 
-              <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4 w-full">
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
-                  <div className="size-9 sm:size-10 rounded-xl bg-[#71BE44]/15 text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4">
-                    <Headset size={20} />
-                  </div>
-                  <h3 className="font-display fluid-h4 font-bold text-foreground">100% Humano</h3>
-                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
-                    Sem filas de chatbots ou robôs engessados. Você conversa direto com um analista
-                    técnico que resolve.
-                  </p>
-                </div>
-
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
-                  <div className="size-9 sm:size-10 rounded-xl bg-[#00ADEF]/15 text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4">
-                    <Clock size={20} />
-                  </div>
-                  <h3 className="font-display fluid-h4 font-bold text-foreground">
-                    Agilidade Real
-                  </h3>
-                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
-                    Tempo médio de resposta abaixo de 5 minutos no WhatsApp. Seu balcão não pode
-                    esperar.
-                  </p>
-                </div>
-
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
-                  <div className="size-9 sm:size-10 rounded-xl bg-[#FFB800]/15 text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4">
-                    <Zap size={20} />
-                  </div>
-                  <h3 className="font-display fluid-h4 font-bold text-foreground">
-                    Plantão nos Picos
-                  </h3>
-                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
-                    Acompanhamento prioritário nos horários de maior fluxo para clientes com alta
-                    intensidade operacional.
-                  </p>
-                </div>
-
-                <div className="p-4 sm:p-5 lg:p-6 rounded-2xl border border-border bg-surface-subtle w-full">
-                  <div className="size-9 sm:size-10 rounded-xl bg-purple-500/15 text-purple-600 flex items-center justify-center mb-3 sm:mb-4">
-                    <Layers size={20} />
-                  </div>
-                  <h3 className="font-display fluid-h4 font-bold text-foreground">
-                    Migração Assistida
-                  </h3>
-                  <p className="mt-1.5 sm:mt-2 fluid-secondary text-muted-foreground leading-relaxed">
-                    Trazemos o cadastro de produtos, clientes e fornecedores do seu sistema antigo
-                    com total precisão.
-                  </p>
-                </div>
+              {/* Coluna 2 — Direita: Imagem do suporte */}
+              <div className="lg:col-span-6 w-full flex items-center justify-center">
+                <img
+                  src={suporteWaybit}
+                  alt="Suporte especializado da Waybit"
+                  className="w-full h-auto object-contain"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
