@@ -671,22 +671,35 @@ function Index() {
         {/* ========================================================================= */}
         {/* SECTION: HERO                                                             */}
         {/* ========================================================================= */}
-        <section id="hero" ref={heroRef} className="hero-shell relative overflow-hidden">
-          {/* Ambient SaaS Glows */}
-          <div
-            className="pointer-events-none absolute -top-32 -left-20 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-20 transition-colors duration-700"
-            style={{ backgroundColor: segmentTheme[activeSegment].color }}
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute top-1/4 -right-24 -z-10 h-72 w-72 sm:h-96 sm:w-96 rounded-full blur-3xl opacity-15 bg-[#00ADEF]"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute top-1/2 right-[10%] -translate-y-1/2 -z-10 h-[420px] w-[420px] rounded-full blur-[110px] opacity-15 transition-colors duration-700 hidden lg:block"
-            style={{ backgroundColor: segmentTheme[activeSegment].color }}
-            aria-hidden="true"
-          />
+        <section
+          id="hero"
+          ref={heroRef}
+          className="hero-shell relative overflow-hidden"
+          style={
+            {
+              "--hero-grid-color": activeSegment === "autocenter"
+                ? "rgba(255, 184, 0, 0.22)"
+                : activeSegment === "food"
+                  ? "rgba(239, 68, 68, 0.2)"
+                  : "rgba(0, 173, 239, 0.2)",
+              "--hero-gradient-color": activeSegment === "autocenter"
+                ? "rgba(255, 184, 0, 0.12)"
+                : activeSegment === "food"
+                  ? "rgba(239, 68, 68, 0.11)"
+                  : "rgba(0, 173, 239, 0.11)",
+              "--hero-gradient-color-mid": activeSegment === "autocenter"
+                ? "rgba(255, 184, 0, 0.05)"
+                : activeSegment === "food"
+                  ? "rgba(239, 68, 68, 0.04)"
+                  : "rgba(0, 173, 239, 0.04)",
+            } as React.CSSProperties
+          }
+        >
+          {/* Grade dinâmica com a cor do segmento ativo no lado direito */}
+          <div className="hero-segment-grid" aria-hidden="true" />
+
+          {/* Degradê suave da cor do segmento ativo da direita até o centro do card */}
+          <div className="hero-segment-gradient" aria-hidden="true" />
 
           <div className="w-full fluid-container grid items-center gap-8 sm:gap-10 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12">
             {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
@@ -796,52 +809,6 @@ function Index() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
-              {/* Microelementos geométricos discretos (sem confetes visuais) */}
-              <div
-                className="pointer-events-none absolute -top-1.5 left-3 hidden sm:flex items-center gap-1.5 opacity-30 select-none"
-                aria-hidden="true"
-              >
-                <span className="size-1 rounded-full bg-foreground/50" />
-                <span className="size-1 rounded-full bg-foreground/25" />
-                <span className="size-1 rounded-full bg-foreground/10" />
-              </div>
-
-              <div
-                className="pointer-events-none absolute bottom-7 -right-2 hidden lg:block opacity-35 select-none"
-                aria-hidden="true"
-              >
-                <div
-                  className="size-2 rounded-[1.5px] rotate-45 border transition-colors duration-500"
-                  style={{ borderColor: segmentTheme[activeSegment].color }}
-                />
-              </div>
-
-              <div
-                className="pointer-events-none absolute top-14 -right-2 hidden lg:block opacity-25 select-none text-[11px] font-mono text-muted-foreground leading-none"
-                aria-hidden="true"
-              >
-                +
-              </div>
-
-              {/* 3 Ícones contextuais do segmento ativo (sem textos, badges ou cápsulas) */}
-              {segmentContextualIcons[activeSegment].map((item, idx) => {
-                const IconComp = item.icon;
-                return (
-                  <div
-                    key={`${activeSegment}-icon-${idx}`}
-                    className={`scene-context-icon size-8 sm:size-9 hidden sm:flex ${item.className} ${item.motionClass}`}
-                    aria-hidden="true"
-                  >
-                    <IconComp
-                      size={16}
-                      strokeWidth={1.8}
-                      className="transition-colors duration-300"
-                      style={{ color: segmentTheme[activeSegment].color }}
-                    />
-                  </div>
-                );
-              })}
-
               <div
                 className={`scene scene-${activeSegment}-active`}
                 aria-label="Slide rotativo dos segmentos atendidos pela Waybit"
