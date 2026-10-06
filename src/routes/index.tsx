@@ -1160,14 +1160,6 @@ function Index() {
         {/* ========================================================================= */}
         <section id="diferencial-suporte" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border relative overflow-hidden w-full">
           <div className="fluid-container">
-            {/* Tag centralizada no topo da seção */}
-            <div className="flex justify-center mb-8 sm:mb-10 lg:mb-12">
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-emerald-600">
-                <ShieldCheck size={14} className="text-[#71BE44]" />
-                <span>Diferencial Exclusivo Waybit</span>
-              </div>
-            </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
               {/* Coluna 1 — Esquerda: Imagem do suporte */}
               <div className="lg:col-span-6 w-full flex items-center justify-center overflow-hidden rounded-2xl">
@@ -1181,6 +1173,10 @@ function Index() {
 
               {/* Coluna 2 — Direita: Conteúdo textual */}
               <div className="lg:col-span-6 w-full">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-emerald-600 mb-3 sm:mb-4">
+                  <ShieldCheck size={14} className="text-[#71BE44]" />
+                  <span>Diferencial Exclusivo Waybit</span>
+                </div>
                 <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                   Trocar de sistema dá medo?{" "}
                   <span className="block sm:inline text-foreground">
