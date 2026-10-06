@@ -977,10 +977,6 @@ function Index() {
 
               {/* A Solução Dominus */}
               <div className="rounded-2xl border border-[#71BE44]/30 bg-gradient-to-br from-[#71BE44]/[0.06] via-transparent to-[#00ADEF]/[0.05] p-5 sm:p-7 lg:p-9 flex flex-col justify-between shadow-sm relative w-full">
-                <div className="absolute top-4 right-4 hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-[#71BE44] text-white">
-                  <Sparkles size={12} />
-                  Recomendado para sua empresa
-                </div>
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full fluid-caption font-semibold bg-[#71BE44]/15 text-[#62a83a] mb-4 sm:mb-6">
                     <span className="size-2 rounded-full bg-[#71BE44]" />
@@ -1024,12 +1020,6 @@ function Index() {
                   <div className="fluid-caption font-semibold text-[#62a83a] text-center sm:text-left">
                     Mais de 2.500 empresários já deram esse salto.
                   </div>
-                  <Button
-                    onClick={() => setSpecialistOpen(true)}
-                    className="h-10 px-5 bg-[#71BE44] hover:bg-[#62a83a] text-white font-semibold cursor-pointer shadow-sm fluid-btn w-full sm:w-auto"
-                  >
-                    Ver Demonstração do Dominus
-                  </Button>
                 </div>
               </div>
             </div>
