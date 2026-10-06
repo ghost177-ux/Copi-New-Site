@@ -597,7 +597,7 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display ${isCarousel ? "text-[20.29px]" : "fluid-h3"} font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+            className={`font-display ${isCarousel ? "text-[28px]" : "fluid-h3"} font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
               }`}
           >
             {plan.name}
