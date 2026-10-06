@@ -908,7 +908,7 @@ function Index() {
               </div>
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                 Conheça o Sistema{" "}
-                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent">
+                <span>
                   DOMINUS
                 </span>
                 : o cérebro operacional do seu negócio
@@ -1038,7 +1038,7 @@ function Index() {
               </div>
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.18]">
                 Quem vive o comércio na prática confia na{" "}
-                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
+                <span className="font-extrabold">
                   Waybit
                 </span>
               </h2>
@@ -1169,11 +1169,11 @@ function Index() {
                   Trocar de sistema dá medo?{" "}
                   <span className="block sm:inline text-foreground">
                     Com a{" "}
-                    <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent font-extrabold">
+                    <span className="font-extrabold">
                       Waybit
                     </span>
                     , você{" "}
-                    <span className="bg-gradient-to-r from-[#71BE44] via-[#00ADEF] to-[#71BE44] bg-clip-text text-transparent font-extrabold">
+                    <span className="font-extrabold">
                       nunca fica na mão
                     </span>
                     .
@@ -1325,7 +1325,7 @@ function Index() {
               </div>
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground leading-[1.2]">
                 Conheça um{" "}
-                <span className="bg-gradient-to-r from-[#00ADEF] via-[#71BE44] to-[#FFB800] bg-clip-text text-transparent">
+                <span>
                   sistema de gestão empresarial completo
                 </span>{" "}
                 com o melhor suporte do mercado!
