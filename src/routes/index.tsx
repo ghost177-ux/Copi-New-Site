@@ -32,6 +32,7 @@ import {
   Clock,
   Cake,
   Layers,
+  Play,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -247,6 +248,52 @@ const testimonialCases: TestimonialCase[] = [
       "A comanda eletrônica direto na mesa revolucionou nosso atendimento. E o grande diferencial: quando precisamos, o suporte humano atende de pronto, sem robô enrolando.",
   },
 ];
+
+function TestimonialVideoPlayer({ item }: { item: TestimonialCase }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [thumbSrc, setThumbSrc] = useState(
+    `https://img.youtube.com/vi/${item.videoId}/maxresdefault.jpg`
+  );
+
+  if (isPlaying) {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${item.videoId}?autoplay=1&rel=0&playsinline=1`}
+        title={`Depoimento em vídeo de ${item.name} (${item.company})`}
+        className="w-full h-full border-0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setIsPlaying(true)}
+      aria-label={`Assistir depoimento de ${item.name}`}
+      className="group/play relative w-full h-full block cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    >
+      <img
+        src={thumbSrc}
+        alt={`Thumbnail do depoimento de ${item.name} (${item.company})`}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover/play:scale-105"
+        loading="lazy"
+        onError={() => {
+          if (thumbSrc.includes("maxresdefault.jpg")) {
+            setThumbSrc(`https://img.youtube.com/vi/${item.videoId}/hqdefault.jpg`);
+          }
+        }}
+      />
+      {/* Botão de Play centralizado */}
+      <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover/play:bg-black/10 transition-colors duration-300">
+        <div className="size-14 sm:size-16 rounded-full bg-black/60 group-hover/play:bg-[#71BE44] text-white flex items-center justify-center transition-all duration-300 shadow-lg group-hover/play:scale-110 backdrop-blur-xs">
+          <Play size={24} className="fill-white translate-x-0.5" />
+        </div>
+      </div>
+    </button>
+  );
+}
 
 function Index() {
   const [query, setQuery] = useState("");
@@ -1066,14 +1113,7 @@ function Index() {
                     <div>
                       {/* Vídeo Nativo Incorporado */}
                       <div className="relative w-full aspect-[9/13.5] rounded-xl overflow-hidden bg-black shadow-inner border border-zinc-800/80 mb-4 sm:mb-5">
-                        <iframe
-                          src={`https://www.youtube.com/embed/${item.videoId}?rel=0&modestbranding=1&playsinline=1`}
-                          title={`Depoimento em vídeo de ${item.name} (${item.company})`}
-                          className="w-full h-full border-0"
-                          loading="lazy"
-                          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                        />
+                        <TestimonialVideoPlayer item={item} />
                       </div>
 
                       {/* Tag de Segmento + Avaliação em Estrelas */}
