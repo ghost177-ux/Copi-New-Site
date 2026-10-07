@@ -53,7 +53,7 @@ import autocenterLogo from "@/assets/autocenter.png";
 import xpertLogo from "@/assets/xpert.png";
 import certbitLogo from "@/assets/certbit-logo.png";
 import dominusIaLogo from "@/assets/Dominus IA.png";
-import suporteWaybit from "@/assets/Suporte Waybit.png";
+import atendimentoWaybit from "@/assets/atendimento waybit.png";
 import graosZeroLogo from "@/assets/Grãos&zero.jpg";
 import zumZumLogo from "@/assets/Zum Zum.jpg";
 import daOrlaLogo from "@/assets/DaOrla Cafeteria.jpg";
@@ -1252,7 +1252,7 @@ function Index() {
               {/* Coluna 1 — Esquerda: Imagem do suporte */}
               <div className="lg:col-span-6 w-full flex items-center justify-center overflow-hidden rounded-2xl">
                 <img
-                  src={suporteWaybit}
+                  src={atendimentoWaybit}
                   alt="Suporte especializado da Waybit"
                   className="w-full h-auto object-contain rounded-2xl"
                   loading="lazy"
