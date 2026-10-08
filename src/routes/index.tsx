@@ -44,9 +44,9 @@ import { BlogCarouselSection } from "@/components/BlogCarouselSection";
 import { CicloOperacionalSideBySide } from "@/components/home/CicloOperacionalSideBySide";
 import { DemonstracaoSection } from "@/components/home/DemonstracaoSection";
 
-import foodImage from "@/assets/food.png";
-import varejoImage from "@/assets/varejo.png";
-import autocenterImage from "@/assets/autoc.png";
+import bnFood from "@/assets/BN_FD.png";
+import bnVarejo from "@/assets/BN_VJ.png";
+import bnAutocenter from "@/assets/BN_AC.png";
 import varejoLogo from "@/assets/varejo-logo.png";
 import foodLogo from "@/assets/food-logo.png";
 import autocenterLogo from "@/assets/autocenter.png";
@@ -80,25 +80,22 @@ const segments = [
     id: "food",
     label: "FOOD",
     descriptor: "Restaurantes e delivery",
-    image: foodImage,
-    className: "scene-food",
-    accentColor: "#EF4444",
+    bannerImage: bnFood,
+    accentColor: "#FC4242",
   },
   {
     id: "varejo",
     label: "VAREJO",
     descriptor: "Lojas e comércio",
-    image: varejoImage,
-    className: "scene-varejo",
-    accentColor: "#00ADEF",
+    bannerImage: bnVarejo,
+    accentColor: "#3BBCEC",
   },
   {
     id: "autocenter",
     label: "AUTOCENTER",
     descriptor: "Oficinas e centros automotivos",
-    image: autocenterImage,
-    className: "scene-auto",
-    accentColor: "#FFB800",
+    bannerImage: bnAutocenter,
+    accentColor: "#FCC42C",
   },
 ] as const;
 
@@ -117,83 +114,20 @@ const segmentTheme: Record<
     textClass: "text-segment-food",
     bgClass: "bg-segment-food",
     buttonTextClass: "text-white",
-    color: "var(--segment-food)",
+    color: "#FC4242",
   },
   varejo: {
     textClass: "text-segment-varejo",
     bgClass: "bg-segment-varejo",
     buttonTextClass: "text-white",
-    color: "var(--segment-varejo)",
+    color: "#3BBCEC",
   },
   autocenter: {
     textClass: "text-segment-auto",
     bgClass: "bg-segment-auto",
     buttonTextClass: "text-zinc-950",
-    color: "var(--segment-auto)",
+    color: "#FCC42C",
   },
-};
-
-interface SegmentIconItem {
-  icon: React.ElementType;
-  className: string;
-  motionClass: string;
-}
-
-const segmentContextualIcons: Record<
-  SegmentId,
-  [SegmentIconItem, SegmentIconItem, SegmentIconItem]
-> = {
-  varejo: [
-    {
-      icon: ShoppingBag,
-      className: "top-[4%] -right-2 sm:-right-4",
-      motionClass: "hero-ambient-float",
-    },
-    {
-      icon: Store,
-      className: "top-[36%] -left-2 sm:-left-4",
-      motionClass: "",
-    },
-    {
-      icon: ShoppingCart,
-      className: "bottom-[16%] -right-1 sm:-right-3",
-      motionClass: "hero-ambient-pulse",
-    },
-  ],
-  food: [
-    {
-      icon: Utensils,
-      className: "top-[4%] -right-2 sm:-right-4",
-      motionClass: "hero-ambient-float",
-    },
-    {
-      icon: Coffee,
-      className: "top-[36%] -left-2 sm:-left-4",
-      motionClass: "",
-    },
-    {
-      icon: ChefHat,
-      className: "bottom-[16%] -right-1 sm:-right-3",
-      motionClass: "hero-ambient-pulse",
-    },
-  ],
-  autocenter: [
-    {
-      icon: Wrench,
-      className: "top-[4%] -right-2 sm:-right-4",
-      motionClass: "hero-ambient-float",
-    },
-    {
-      icon: Car,
-      className: "top-[36%] -left-2 sm:-left-4",
-      motionClass: "",
-    },
-    {
-      icon: Gauge,
-      className: "bottom-[16%] -right-1 sm:-right-3",
-      motionClass: "hero-ambient-pulse",
-    },
-  ],
 };
 
 const AUTO_ROTATE_MS = 5500;
@@ -349,103 +283,7 @@ function Index() {
     };
   }, [activeTestimonialVideo, handleCloseVideo]);
 
-  // Refs de performance para Parallax e Tilt sem causar re-render no React
-  const heroRef = useRef<HTMLElement>(null);
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const targetX = useRef(0);
-  const targetY = useRef(0);
-  const currentX = useRef(0);
-  const currentY = useRef(0);
-  const rafId = useRef<number | null>(null);
 
-  // Parallax suave e Tilt do card ativo via requestAnimationFrame e CSS Custom Properties
-  useEffect(() => {
-    const heroEl = heroRef.current;
-    const sceneEl = sceneRef.current;
-    if (!heroEl || !sceneEl) return;
-
-    // Acessibilidade: respeitar preferência por redução de movimento
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
-
-    let isRunning = false;
-
-    const updateParallax = () => {
-      // Lerp suave (fator 0.08) para amortecimento fluido e orgânico
-      currentX.current += (targetX.current - currentX.current) * 0.08;
-      currentY.current += (targetY.current - currentY.current) * 0.08;
-
-      const diffX = Math.abs(targetX.current - currentX.current);
-      const diffY = Math.abs(targetY.current - currentY.current);
-
-      // Injeta variáveis CSS diretamente na ref da cena — ZERO re-renders React
-      sceneEl.style.setProperty("--parallax-x", currentX.current.toFixed(4));
-      sceneEl.style.setProperty("--parallax-y", currentY.current.toFixed(4));
-      // Tilt sutil nos eixos X e Y limitado estritamente a ~1.8deg
-      sceneEl.style.setProperty("--tilt-x", `${(currentY.current * -1.8).toFixed(3)}deg`);
-      sceneEl.style.setProperty("--tilt-y", `${(currentX.current * 2.0).toFixed(3)}deg`);
-
-      // Continua interpolando enquanto houver movimento pendente
-      if (
-        diffX > 0.0005 ||
-        diffY > 0.0005 ||
-        Math.abs(currentX.current) > 0.0005 ||
-        Math.abs(currentY.current) > 0.0005
-      ) {
-        rafId.current = requestAnimationFrame(updateParallax);
-      } else {
-        isRunning = false;
-        // Posição neutra perfeita ao retornar
-        if (targetX.current === 0 && targetY.current === 0) {
-          sceneEl.style.setProperty("--parallax-x", "0");
-          sceneEl.style.setProperty("--parallax-y", "0");
-          sceneEl.style.setProperty("--tilt-x", "0deg");
-          sceneEl.style.setProperty("--tilt-y", "0deg");
-        }
-      }
-    };
-
-    const startRaf = () => {
-      if (!isRunning) {
-        isRunning = true;
-        rafId.current = requestAnimationFrame(updateParallax);
-      }
-    };
-
-    const handlePointerMove = (e: PointerEvent) => {
-      // Em touch, ignora mousemove para manter a rolagem e o swipe naturais
-      if (e.pointerType === "touch") return;
-
-      const rect = heroEl.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return;
-
-      // Normalizado de -1 a 1 em relação ao centro da Hero
-      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-
-      targetX.current = Math.max(-1, Math.min(1, nx));
-      targetY.current = Math.max(-1, Math.min(1, ny));
-      startRaf();
-    };
-
-    const handlePointerLeave = () => {
-      // Retorno suave e sem salto ao centro neutro (0,0)
-      targetX.current = 0;
-      targetY.current = 0;
-      startRaf();
-    };
-
-    heroEl.addEventListener("pointermove", handlePointerMove);
-    heroEl.addEventListener("pointerleave", handlePointerLeave);
-
-    return () => {
-      heroEl.removeEventListener("pointermove", handlePointerMove);
-      heroEl.removeEventListener("pointerleave", handlePointerLeave);
-      if (rafId.current) {
-        cancelAnimationFrame(rafId.current);
-      }
-    };
-  }, []);
 
   const handleCasesScroll = useCallback(() => {
     if (!casesCarouselRef.current) return;
@@ -673,37 +511,38 @@ function Index() {
         {/* ========================================================================= */}
         <section
           id="hero"
-          ref={heroRef}
           className="hero-shell relative overflow-hidden"
-          style={
-            {
-              "--hero-grid-color": activeSegment === "autocenter"
-                ? "rgba(255, 184, 0, 0.22)"
-                : activeSegment === "food"
-                  ? "rgba(239, 68, 68, 0.2)"
-                  : "rgba(0, 173, 239, 0.2)",
-              "--hero-gradient-color": activeSegment === "autocenter"
-                ? "rgba(255, 184, 0, 0.12)"
-                : activeSegment === "food"
-                  ? "rgba(239, 68, 68, 0.11)"
-                  : "rgba(0, 173, 239, 0.11)",
-              "--hero-gradient-color-mid": activeSegment === "autocenter"
-                ? "rgba(255, 184, 0, 0.05)"
-                : activeSegment === "food"
-                  ? "rgba(239, 68, 68, 0.04)"
-                  : "rgba(0, 173, 239, 0.04)",
-            } as React.CSSProperties
-          }
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
-          {/* Grade dinâmica com a cor do segmento ativo no lado direito */}
-          <div className="hero-segment-grid" aria-hidden="true" />
+          {/* CAMADA 1: CARROSSEL DE BANNERS */}
+          <div className="hero-banner-layer" aria-hidden="true">
+            <div className="hero-banner-viewport">
+              {segments.map((segment) => {
+                const isActive = activeSegment === segment.id;
+                return (
+                  <div
+                    key={segment.id}
+                    className={`hero-banner-slide ${isActive ? "is-active" : ""}`}
+                  >
+                    <img
+                      src={segment.bannerImage}
+                      alt={`Banner Waybit ${segment.label}`}
+                      className="hero-banner-img"
+                      loading={segment.id === "varejo" ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-          {/* Degradê suave da cor do segmento ativo da direita até o centro do card */}
-          <div className="hero-segment-gradient" aria-hidden="true" />
-
-          <div className="w-full fluid-container grid items-center gap-8 sm:gap-10 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12">
-            {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
-            <div className="relative z-20 w-full mx-auto lg:mx-0">
+          {/* CAMADA 2: CONTEÚDO HTML */}
+          <div className="fluid-container hero-content relative z-10 w-full flex items-center">
+            <div className="hero-text-content w-full max-w-xl lg:max-w-[54%] xl:max-w-[50%]">
               <h1 className="font-display fluid-display font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground w-full">
                 A{" "}
                 <span
@@ -798,83 +637,6 @@ function Index() {
                   })}
                 </div>
               </div>
-            </div>
-
-            {/* COLUNA DIREITA: CENA ROTATIVA COM OS 3 SEGMENTOS EM CAMADAS */}
-            <div
-              ref={sceneRef}
-              className="relative w-full max-w-[340px] sm:max-w-[420px] lg:max-w-none mx-auto py-2 sm:py-4 select-none"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-            >
-              <div
-                className={`scene scene-${activeSegment}-active`}
-                aria-label="Slide rotativo dos segmentos atendidos pela Waybit"
-                aria-live="polite"
-              >
-                <div className="scene-track" aria-hidden="true" />
-
-                {segments.map((segment, index) => {
-                  const diff = (index - activeIndex + segments.length) % segments.length;
-                  const isCurrent = diff === 0;
-                  const isNext = diff === 1;
-                  const isPrev = diff === 2;
-
-                  let roleClass = "scene-card-active";
-                  if (isNext) roleClass = "scene-card-next";
-                  if (isPrev) roleClass = "scene-card-prev";
-
-                  return (
-                    <button
-                      key={segment.id}
-                      type="button"
-                      onClick={() => chooseSegment(segment.id)}
-                      className={`scene-card ${segment.className} ${roleClass}`}
-                      style={
-                        {
-                          "--card-color": segmentTheme[segment.id].color,
-                          backgroundColor: segmentTheme[segment.id].color,
-                        } as React.CSSProperties
-                      }
-                      aria-pressed={isCurrent}
-                      aria-label={`Segmento ${segment.label}: ${segment.descriptor} (${isCurrent ? "em destaque" : "clique para girar para este segmento"
-                        })`}
-                    >
-                      <img
-                        src={segment.image}
-                        alt={`Profissional representante do segmento ${segment.label}`}
-                        width={389}
-                        height={469}
-                        className="h-full w-full object-cover"
-                        loading="eager"
-                      />
-
-                      {/* Badge nos cards de fundo (não exibido no card ativo para maior limpeza visual) */}
-                      {!isCurrent && (
-                        <span className="scene-peek-pill">
-                          0{index + 1} {segment.label}
-                        </span>
-                      )}
-
-                      {/* Informações editoriais do segmento */}
-                      <span className="scene-label">
-                        <span className="scene-count">
-                          0{index + 1} • {isCurrent ? "Ativo" : "Alternar"}
-                        </span>
-                        <strong>{segment.label}</strong>
-                        <small>{segment.descriptor}</small>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Dica de interação sutil */}
-              <p className="mt-3 sm:mt-4 text-center text-xs text-muted-foreground/75 hidden sm:block">
-                Passe o mouse para pausar ou clique nos cards laterais para rotacionar
-              </p>
             </div>
           </div>
         </section>
