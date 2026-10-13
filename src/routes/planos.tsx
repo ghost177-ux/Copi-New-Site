@@ -190,7 +190,7 @@ const plansData: Record<SegmentType, PlanItem[]> = {
       annualPrice: "R$ 665,84",
       annualPeriodText: "/Mês",
       revenueLimit: "Acima de 200 mil/mês",
-      pdvCount: "+8 PDVs (Ilimitados)",
+      pdvCount: "+8 PDVs",
       vipBonus: "Acompanhamento Exclusivo",
     },
   ],
@@ -216,7 +216,7 @@ const plansData: Record<SegmentType, PlanItem[]> = {
       annualPrice: "R$ 249,00",
       annualPeriodText: "/Mês",
       revenueLimit: "60 a 120 mil/mês",
-      pdvCount: "PDVs Ilimitados",
+      pdvCount: "PDVs ilimitados",
       popular: true,
       popularBadge: "MAIS ESCOLHIDO",
     },
@@ -229,7 +229,7 @@ const plansData: Record<SegmentType, PlanItem[]> = {
       annualPrice: "R$ 374,00",
       annualPeriodText: "/Mês",
       revenueLimit: "120 a 200 mil/mês",
-      pdvCount: "PDVs Ilimitados",
+      pdvCount: "PDVs ilimitados",
     },
     {
       id: "vip-food",
@@ -239,7 +239,7 @@ const plansData: Record<SegmentType, PlanItem[]> = {
       annualPrice: "Consulte",
       isCustomPrice: true,
       revenueLimit: "Acima de 200 mil/mês",
-      pdvCount: "PDVs Ilimitados",
+      pdvCount: "PDVs ilimitados",
       vipBonus: "Acompanhamento Exclusivo",
     },
   ],
@@ -289,7 +289,7 @@ const plansData: Record<SegmentType, PlanItem[]> = {
       annualPrice: "R$ 665,84",
       annualPeriodText: "/Mês",
       revenueLimit: "Acima de 200 mil/mês",
-      pdvCount: "+8 PDVs (Ilimitados)",
+      pdvCount: "+8 PDVs",
       vipBonus: "Acompanhamento Exclusivo",
     },
   ],
@@ -723,7 +723,7 @@ function PlanCard({
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
             <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
-              Terminais / PDVs: {plan.pdvCount.startsWith("PDVs ") ? plan.pdvCount.replace("PDVs ", "") : plan.pdvCount}
+              {plan.pdvCount}
             </span>
           </div>
 
@@ -1080,28 +1080,8 @@ function PlanosPage() {
             <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-subtle/50 p-5 sm:p-8 lg:p-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-6 sm:gap-y-7 lg:gap-y-8">
                 {featureModules.map((module) => {
-                  const Icon = module.icon;
-
                   return (
                     <div key={module.title} className="flex flex-col">
-                      <div className="flex items-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5 pb-2.5 sm:pb-3 border-b border-border/70">
-                        <div
-                          className="size-8 sm:size-9 rounded-lg flex items-center justify-center shrink-0"
-                          style={{
-                            backgroundColor: `${meta.color}20`,
-                            color: meta.color,
-                          }}
-                        >
-                          <Icon size={17} />
-                        </div>
-                        <div>
-                          <h3 className="font-display fluid-h4 font-bold text-foreground leading-snug">
-                            {module.title}
-                          </h3>
-                          <p className="fluid-caption text-muted-foreground leading-tight mt-0.5">{module.subtitle}</p>
-                        </div>
-                      </div>
-
                       <ul className="space-y-2.5 sm:space-y-3 fluid-secondary text-foreground/90">
                         {module.items.map((item) => (
                           <li key={item} className="flex items-start gap-2.5">
