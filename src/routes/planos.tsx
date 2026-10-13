@@ -597,7 +597,7 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display ${isCarousel ? "text-[28px] planos-carousel-name" : "fluid-h3"} planos-plan-name font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+            className={`font-display ${isCarousel ? "text-[30px] planos-carousel-name" : "fluid-h3"} planos-plan-name font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
               }`}
           >
             {plan.name}
@@ -624,7 +624,7 @@ function PlanCard({
                 </div>
                 <div className="flex items-baseline gap-1 flex-wrap">
                   <span
-                    className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                    className={`font-display fluid-h2 planos-price-value font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                       }`}
                   >
                     {plan.annualPrice}
@@ -640,7 +640,7 @@ function PlanCard({
             ) : !plan.isCustomPrice ? (
               <div className="flex items-baseline gap-1 flex-wrap">
                 <span
-                  className={`font-display fluid-h2 font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                  className={`font-display fluid-h2 planos-price-value font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                     }`}
                 >
                   {plan.price}
@@ -830,7 +830,11 @@ function PlanosPage() {
           }
 
           .planos-plan-name:not(.planos-carousel-name) {
-            font-size: calc(clamp(0.875rem, calc(0.7395rem + 0.5780vw), 1.1875rem) + 4px);
+            font-size: calc(clamp(0.875rem, calc(0.7395rem + 0.5780vw), 1.1875rem) + 6px);
+          }
+
+          .planos-price-value {
+            font-size: calc(clamp(1.3125rem, calc(0.9874rem + 1.3873vw), 2.0625rem) - 2px);
           }
 
           span.planos-benefit-text {
@@ -847,7 +851,11 @@ function PlanosPage() {
             }
 
             .planos-plan-name:not(.planos-carousel-name) {
-              font-size: calc(clamp(1.1875rem, calc(0.6855rem + 0.6477vw), 1.7219rem) + 4px);
+              font-size: calc(clamp(1.1875rem, calc(0.6855rem + 0.6477vw), 1.7219rem) + 6px);
+            }
+
+            .planos-price-value {
+              font-size: calc(clamp(2.0625rem, calc(1.1906rem + 1.1250vw), 2.9906rem) - 2px);
             }
 
             span.planos-benefit-text {
