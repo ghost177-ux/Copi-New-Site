@@ -714,7 +714,7 @@ function PlanCard({
           {/* Item: Faturamento */}
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
-            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug planos-benefit-text">
               {formatRevenue(plan.revenueLimit)}
             </span>
           </div>
@@ -722,7 +722,7 @@ function PlanCard({
           {/* Item: Terminais / PDVs */}
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
-            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+            <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug planos-benefit-text">
               {plan.pdvCount}
             </span>
           </div>
@@ -731,7 +731,7 @@ function PlanCard({
           {plan.vipBonus ? (
             <div className="flex items-start gap-2.5">
               <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
-              <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
+              <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug planos-benefit-text">
                 {plan.vipBonus}
               </span>
             </div>
@@ -820,6 +820,34 @@ function PlanosPage() {
       <Header currentPath="/planos" />
 
       <main className="flex-1 w-full">
+        <style>{`
+          .planos-segment-name {
+            font-size: calc(clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem) + 4px);
+          }
+
+          span.planos-segment-subtitle {
+            font-size: calc(clamp(0.625rem, calc(0.6406rem + 0.0578vw), 0.6875rem) + 4px);
+          }
+
+          span.planos-benefit-text {
+            font-size: calc(clamp(0.6875rem, calc(0.6963rem + 0.0694vw), 0.75rem) + 3px);
+          }
+
+          @media (min-width: 1240px) {
+            .planos-segment-name {
+              font-size: calc(clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem) + 4px);
+            }
+
+            span.planos-segment-subtitle {
+              font-size: calc(clamp(0.6875rem, calc(0.3969rem + 0.375vw), 1rem) + 4px);
+            }
+
+            span.planos-benefit-text {
+              font-size: calc(clamp(0.75rem, calc(0.4330rem + 0.4091vw), 1.0875rem) + 3px);
+            }
+          }
+        `}</style>
+
         {/* ========================================================================= */}
         {/* 1. NAVEGAÇÃO SUPERIOR DISCRETA (BREADCRUMB)                                */}
         {/* ========================================================================= */}
@@ -902,11 +930,11 @@ function PlanosPage() {
                         className={`size-6 sm:size-7 rounded-lg flex items-center justify-center transition-colors shrink-0 ${isActive ? item.bgAccent : "bg-muted text-[#454545] dark:text-zinc-400"
                           }`}
                       >
-                        <Icon size={15} />
+                        <Icon size={19} />
                       </div>
                       <div className="text-left">
-                        <span className="block leading-none">{item.name}</span>
-                        <span className="fluid-legal font-normal text-muted-foreground block mt-0.5">
+                        <span className="block leading-none planos-segment-name">{item.name}</span>
+                        <span className="fluid-legal font-normal text-muted-foreground block mt-0.5 planos-segment-subtitle">
                           {segmentKey === "varejo"
                             ? "Lojas & Comércio"
                             : segmentKey === "food"
@@ -930,7 +958,7 @@ function PlanosPage() {
                       : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
                       }`}
                   >
-                    Plano Mensal
+                    Mensal
                   </button>
                   <button
                     type="button"
@@ -940,7 +968,7 @@ function PlanosPage() {
                       : "text-[#454545] dark:text-zinc-400 hover:text-foreground"
                       }`}
                   >
-                    Plano Anual
+                    Anual
                   </button>
                 </div>
               </div>
