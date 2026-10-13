@@ -597,7 +597,7 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display ${isCarousel ? "text-[24px]" : "fluid-h3"} font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+            className={`font-display ${isCarousel ? "text-[28px] planos-carousel-name" : "fluid-h3"} planos-plan-name font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
               }`}
           >
             {plan.name}
@@ -822,11 +822,15 @@ function PlanosPage() {
       <main className="flex-1 w-full">
         <style>{`
           .planos-segment-name {
-            font-size: calc(clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem) + 4px);
+            font-size: calc(clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem) + 2px);
           }
 
           span.planos-segment-subtitle {
-            font-size: calc(clamp(0.625rem, calc(0.6406rem + 0.0578vw), 0.6875rem) + 4px);
+            font-size: calc(clamp(0.625rem, calc(0.6406rem + 0.0578vw), 0.6875rem) + 2px);
+          }
+
+          .planos-plan-name:not(.planos-carousel-name) {
+            font-size: calc(clamp(0.875rem, calc(0.7395rem + 0.5780vw), 1.1875rem) + 4px);
           }
 
           span.planos-benefit-text {
@@ -835,11 +839,15 @@ function PlanosPage() {
 
           @media (min-width: 1240px) {
             .planos-segment-name {
-              font-size: calc(clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem) + 4px);
+              font-size: calc(clamp(0.875rem, calc(0.5051rem + 0.4773vw), 1.2688rem) + 2px);
             }
 
             span.planos-segment-subtitle {
-              font-size: calc(clamp(0.6875rem, calc(0.3969rem + 0.375vw), 1rem) + 4px);
+              font-size: calc(clamp(0.6875rem, calc(0.3969rem + 0.375vw), 1rem) + 2px);
+            }
+
+            .planos-plan-name:not(.planos-carousel-name) {
+              font-size: calc(clamp(1.1875rem, calc(0.6855rem + 0.6477vw), 1.7219rem) + 4px);
             }
 
             span.planos-benefit-text {
