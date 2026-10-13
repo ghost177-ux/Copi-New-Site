@@ -594,7 +594,7 @@ function PlanCard({
       <div className="shrink-0 flex flex-col">
         {/* Caixa colorida com ALTURA FIXA/IDÊNTICA para MENSAL e ANUAL */}
         <div
-          className="h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300 rounded-[18px] sm:rounded-[22px] relative z-10"
+          className="planos-card-header h-[136px] sm:h-[144px] p-4 sm:p-5 flex flex-col justify-between transition-colors duration-300 rounded-[18px] sm:rounded-[22px] relative z-10"
           style={{ backgroundColor: meta.color }}
         >
           {/* Nome do Plano */}
@@ -624,15 +624,15 @@ function PlanCard({
                   </span>
                   <span>por</span>
                 </div>
-                <div className="flex items-baseline gap-1 flex-wrap">
+                <div className="planos-price-row flex items-baseline gap-1 flex-nowrap">
                   <span
-                    className={`font-display fluid-h2 planos-price-value font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                    className={`font-display fluid-h2 planos-price-value whitespace-nowrap font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                       }`}
                   >
                     {plan.annualPrice}
                   </span>
                   <span
-                    className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                    className={`fluid-secondary whitespace-nowrap font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
                       }`}
                   >
                     {plan.annualPeriodText || "/Mês"}
@@ -640,15 +640,15 @@ function PlanCard({
                 </div>
               </>
             ) : !plan.isCustomPrice ? (
-              <div className="flex items-baseline gap-1 flex-wrap">
+              <div className="planos-price-row flex items-baseline gap-1 flex-nowrap">
                 <span
-                  className={`font-display fluid-h2 planos-price-value font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
+                  className={`font-display fluid-h2 planos-price-value whitespace-nowrap font-black tracking-tight leading-none ${isDarkText ? "text-zinc-950" : "text-white"
                     }`}
                 >
                   {plan.price}
                 </span>
                 <span
-                  className={`fluid-secondary font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
+                  className={`fluid-secondary whitespace-nowrap font-bold ${isDarkText ? "text-zinc-800" : "text-white/90"
                     }`}
                 >
                   {plan.periodText}
@@ -793,16 +793,15 @@ function PlanosPage() {
   };
 
   const scrollCarouselTo = (index: number) => {
-    if (!mobileCarouselRef.current) return;
-    const cards = mobileCarouselRef.current.children;
-    if (cards[index]) {
-      (cards[index] as HTMLElement).scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "start",
-      });
-      setActiveMobileCardIndex(index);
-    }
+    const carousel = mobileCarouselRef.current;
+    const card = carousel?.children[index] as HTMLElement | undefined;
+    if (!carousel || !card) return;
+
+    const scrollportLeft = carousel.getBoundingClientRect().left + carousel.clientLeft;
+    const cardLeft =
+      card.getBoundingClientRect().left - scrollportLeft + carousel.scrollLeft;
+    carousel.scrollTo({ left: cardLeft, behavior: "smooth" });
+    setActiveMobileCardIndex(index);
   };
 
   const scrollCarouselPrev = () => {
@@ -838,6 +837,20 @@ function PlanosPage() {
 
       <main className="flex-1 w-full">
         <style>{`
+          .planos-card-header .planos-plan-name {
+            font-size: 20px;
+            line-height: 1.2;
+          }
+
+          .planos-card-header .planos-price-value {
+            font-size: 30px;
+            line-height: 1.1;
+          }
+
+          .planos-card-layout {
+            container: planos-cards / inline-size;
+          }
+
           .planos-segment-name {
             font-size: calc(clamp(0.7813rem, calc(0.7856rem + 0.1156vw), 0.875rem) + 2px);
           }
@@ -846,17 +859,20 @@ function PlanosPage() {
             font-size: calc(clamp(0.625rem, calc(0.6406rem + 0.0578vw), 0.6875rem) + 2px);
           }
 
-          .planos-plan-name {
-            font-size: clamp(1.125rem, calc(0.9375rem + 0.5vw), 1.375rem);
-          }
-
           .planos-card-grid {
-            grid-template-columns: repeat(4, 267px);
+            display: none;
+            grid-template-columns: repeat(4, 300px);
             justify-content: center;
           }
 
-          .planos-price-value {
-            font-size: calc(clamp(1.3125rem, calc(0.9874rem + 1.3873vw), 2.0625rem) - 2px);
+          .planos-card-slot {
+            width: 300px;
+            min-width: 300px;
+            max-width: 300px;
+          }
+
+          .planos-price-row {
+            min-width: 0;
           }
 
           span.planos-benefit-text {
@@ -872,18 +888,18 @@ function PlanosPage() {
               font-size: calc(clamp(0.6875rem, calc(0.3969rem + 0.375vw), 1rem) + 2px);
             }
 
-            .planos-price-value {
-              font-size: calc(clamp(2.0625rem, calc(1.1906rem + 1.1250vw), 2.9906rem) - 2px);
-            }
-
             span.planos-benefit-text {
               font-size: calc(clamp(0.75rem, calc(0.4330rem + 0.4091vw), 1.0875rem) + 3px);
             }
           }
 
-          @media (min-width: 1280px) {
+          @container planos-cards (min-width: 1272px) {
             .planos-card-grid {
-              gap: 1.5rem;
+              display: grid;
+            }
+
+            .planos-card-carousel {
+              display: none;
             }
           }
         `}</style>
@@ -1020,22 +1036,23 @@ function PlanosPage() {
         {/* 4. TABELA / CARDS DE PLANOS OFICIAIS                                      */}
         {/* ========================================================================= */}
         <section className="w-full py-6 sm:py-8 lg:py-14 bg-surface-subtle/50">
-          <div className="fluid-container">
+          <div className="fluid-container planos-card-layout">
             {/* VERSÃO DESKTOP: Grid com largura fixa e cards centralizados */}
-            <div className="hidden min-[1282px]:grid gap-3.5 items-stretch planos-card-grid">
+            <div className="gap-3.5 xl:gap-6 items-stretch planos-card-grid">
               {plans.map((plan) => (
-                <PlanCard
-                  key={plan.id}
-                  plan={plan}
-                  meta={meta}
-                  isAnnual={billingCycle === "anual"}
-                  onSelect={handleOpenPlanOffer}
-                />
+                <div key={plan.id} className="planos-card-slot">
+                  <PlanCard
+                    plan={plan}
+                    meta={meta}
+                    isAnnual={billingCycle === "anual"}
+                    onSelect={handleOpenPlanOffer}
+                  />
+                </div>
               ))}
             </div>
 
             {/* VERSÃO MOBILE E TABLET: Carrossel Horizontal Nativo com Swipe */}
-            <div className="min-[1282px]:hidden">
+            <div className="planos-card-carousel">
               <p className="text-center fluid-caption text-muted-foreground mb-3 flex items-center justify-center gap-1.5">
                 <span>← Deslize para visualizar os planos →</span>
               </p>
@@ -1050,7 +1067,7 @@ function PlanosPage() {
                 {plans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="w-[267px] max-w-full shrink-0 snap-start flex flex-col"
+                    className="planos-card-slot shrink-0 snap-start flex flex-col"
                   >
                     <PlanCard
                       plan={plan}
