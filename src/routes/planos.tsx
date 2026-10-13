@@ -543,13 +543,11 @@ function PlanCard({
   plan,
   meta,
   isAnnual,
-  isCarousel,
   onSelect,
 }: {
   plan: PlanItem;
   meta: SegmentMetaItem;
   isAnnual?: boolean;
-  isCarousel?: boolean;
   onSelect: (name: string) => void;
 }) {
   const segmentKey = (meta.name.toLowerCase().includes("food")
@@ -583,6 +581,10 @@ function PlanCard({
       el.scrollIntoView({ behavior: "smooth" });
     }
   };
+  const revenueText = formatRevenue(plan.revenueLimit);
+  const revenuePrefixLength = revenueText.startsWith("Faturamento acima de ")
+    ? "Faturamento acima de".length
+    : "Faturamento de".length;
 
   return (
     <div
@@ -597,7 +599,7 @@ function PlanCard({
         >
           {/* Nome do Plano */}
           <h3
-            className={`font-display ${isCarousel ? "text-[30px] planos-carousel-name" : "fluid-h3"} planos-plan-name font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
+            className={`font-display fluid-h3 planos-plan-name font-black tracking-tight leading-tight ${isDarkText ? "text-zinc-950" : "text-white"
               }`}
           >
             {plan.name}
@@ -715,7 +717,9 @@ function PlanCard({
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-zinc-600 dark:text-zinc-400" />
             <span className="fluid-caption font-semibold text-zinc-800 dark:text-zinc-200 leading-snug planos-benefit-text">
-              {formatRevenue(plan.revenueLimit)}
+              {revenueText.slice(0, revenuePrefixLength)}
+              <br />
+              {revenueText.slice(revenuePrefixLength).trimStart()}
             </span>
           </div>
 
@@ -768,10 +772,23 @@ function PlanosPage() {
   const mobileCarouselRef = useRef<HTMLDivElement>(null);
 
   const handleMobileScroll = () => {
-    if (!mobileCarouselRef.current) return;
-    const { scrollLeft } = mobileCarouselRef.current;
-    const cardStep = 267 + 16;
-    const index = Math.round(scrollLeft / cardStep);
+    const carousel = mobileCarouselRef.current;
+    if (!carousel) return;
+
+    const scrollportLeft = carousel.getBoundingClientRect().left + carousel.clientLeft;
+    let index = 0;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+    Array.from(carousel.children).forEach((card, cardIndex) => {
+      const cardLeft =
+        (card as HTMLElement).getBoundingClientRect().left -
+        scrollportLeft +
+        carousel.scrollLeft;
+      const distance = Math.abs(cardLeft - carousel.scrollLeft);
+      if (distance < nearestDistance) {
+        index = cardIndex;
+        nearestDistance = distance;
+      }
+    });
     setActiveMobileCardIndex(Math.min(Math.max(index, 0), plans.length - 1));
   };
 
@@ -829,8 +846,13 @@ function PlanosPage() {
             font-size: calc(clamp(0.625rem, calc(0.6406rem + 0.0578vw), 0.6875rem) + 2px);
           }
 
-          .planos-plan-name:not(.planos-carousel-name) {
-            font-size: calc(clamp(0.875rem, calc(0.7395rem + 0.5780vw), 1.1875rem) + 6px);
+          .planos-plan-name {
+            font-size: clamp(1.125rem, calc(0.9375rem + 0.5vw), 1.375rem);
+          }
+
+          .planos-card-grid {
+            grid-template-columns: repeat(4, 267px);
+            justify-content: center;
           }
 
           .planos-price-value {
@@ -850,16 +872,18 @@ function PlanosPage() {
               font-size: calc(clamp(0.6875rem, calc(0.3969rem + 0.375vw), 1rem) + 2px);
             }
 
-            .planos-plan-name:not(.planos-carousel-name) {
-              font-size: calc(clamp(1.1875rem, calc(0.6855rem + 0.6477vw), 1.7219rem) + 6px);
-            }
-
             .planos-price-value {
               font-size: calc(clamp(2.0625rem, calc(1.1906rem + 1.1250vw), 2.9906rem) - 2px);
             }
 
             span.planos-benefit-text {
               font-size: calc(clamp(0.75rem, calc(0.4330rem + 0.4091vw), 1.0875rem) + 3px);
+            }
+          }
+
+          @media (min-width: 1280px) {
+            .planos-card-grid {
+              gap: 1.5rem;
             }
           }
         `}</style>
@@ -997,8 +1021,8 @@ function PlanosPage() {
         {/* ========================================================================= */}
         <section className="w-full py-6 sm:py-8 lg:py-14 bg-surface-subtle/50">
           <div className="fluid-container">
-            {/* VERSÃO DESKTOP: Grid 4 colunas estático */}
-            <div className="hidden lg:grid lg:grid-cols-4 gap-3.5 xl:gap-6 items-stretch">
+            {/* VERSÃO DESKTOP: Grid com largura fixa e cards centralizados */}
+            <div className="hidden min-[1282px]:grid gap-3.5 items-stretch planos-card-grid">
               {plans.map((plan) => (
                 <PlanCard
                   key={plan.id}
@@ -1011,7 +1035,7 @@ function PlanosPage() {
             </div>
 
             {/* VERSÃO MOBILE E TABLET: Carrossel Horizontal Nativo com Swipe */}
-            <div className="lg:hidden">
+            <div className="min-[1282px]:hidden">
               <p className="text-center fluid-caption text-muted-foreground mb-3 flex items-center justify-center gap-1.5">
                 <span>← Deslize para visualizar os planos →</span>
               </p>
@@ -1020,19 +1044,18 @@ function PlanosPage() {
               <div
                 ref={mobileCarouselRef}
                 onScroll={handleMobileScroll}
-                className="flex items-stretch gap-3.5 sm:gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 pt-2 px-3 sm:px-4 no-scrollbar touch-pan-x"
+                className="flex min-w-0 max-w-full items-stretch gap-3.5 sm:gap-4 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 pt-2 px-3 sm:px-4 no-scrollbar touch-pan-x"
                 style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
               >
                 {plans.map((plan) => (
                   <div
                     key={plan.id}
-                    className="w-[267px] max-w-[calc(100vw-6%)] shrink-0 snap-start flex flex-col"
+                    className="w-[267px] max-w-full shrink-0 snap-start flex flex-col"
                   >
                     <PlanCard
                       plan={plan}
                       meta={meta}
                       isAnnual={billingCycle === "anual"}
-                      isCarousel={true}
                       onSelect={handleOpenPlanOffer}
                     />
                   </div>
