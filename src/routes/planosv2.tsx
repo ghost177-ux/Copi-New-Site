@@ -337,7 +337,7 @@ function PlanCard({
 
   return (
     <article className="flex h-full min-h-[clamp(390px,34vw,440px)] flex-col overflow-hidden rounded-tl-[36px] rounded-tr-[12px] rounded-br-[36px] rounded-bl-[12px] border border-[#D8D8D8] bg-white text-[#242424]">
-      <div className={`plan-header ${billingCycle === "anual" ? "bg-[#2F2F2F]" : ""}`}>
+      <div className={`plan-header ${billingCycle === "anual" ? "rounded-[10px] bg-[#2F2F2F]" : ""}`}>
         <div
           className="plan-header-main flex min-h-[clamp(148px,14vw,180px)] flex-col items-center justify-center gap-[clamp(8px,1.1vw,16px)] rounded-tl-[35px] rounded-tr-[11px] rounded-br-[36px] rounded-bl-none px-[clamp(10px,1.2vw,20px)] py-[clamp(12px,1.4vw,20px)] text-center text-white"
           style={{ backgroundColor: color }}
@@ -349,7 +349,7 @@ function PlanCard({
         </div>
 
         {billingCycle === "anual" && (
-          <div className="plan-installments rounded-b-[10px] bg-[#2F2F2F] px-3 py-[clamp(7px,0.7vw,10px)] text-center text-[clamp(0.75rem,0.95vw,0.9375rem)] font-bold tracking-wide text-white">
+          <div className="plan-installments rounded-bl-[10px] rounded-br-[10px] bg-[#2F2F2F] px-3 py-[clamp(7px,0.7vw,10px)] text-center text-[clamp(0.75rem,0.95vw,0.9375rem)] font-bold tracking-wide text-white">
             Até 12X no cartão
           </div>
         )}
@@ -474,7 +474,7 @@ function PlanosV2Page() {
               <div
                 role="group"
                 aria-label="Selecione um segmento"
-                className="grid w-full grid-cols-3 items-center gap-2 min-[960px]:w-auto"
+                className="inline-flex w-full min-w-0 items-center rounded-xl border border-border bg-surface-subtle p-1 min-[960px]:w-auto"
               >
                 {segmentOrder.map((key) => {
                   const option = segments[key];
@@ -486,10 +486,11 @@ function PlanosV2Page() {
                       type="button"
                       aria-pressed={active}
                       onClick={() => chooseSegment(key)}
-                      className="flex min-h-11 items-center justify-center gap-1.5 rounded-xl border px-2 py-2 text-[clamp(0.65rem,1vw,0.875rem)] font-bold transition-colors min-[540px]:gap-2 min-[540px]:px-3 sm:min-h-12"
+                      className={`flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[clamp(0.65rem,1vw,0.875rem)] font-semibold transition-colors min-[540px]:gap-2 min-[540px]:px-3 min-[960px]:flex-none ${
+                        active ? "" : "text-muted-foreground hover:text-foreground"
+                      }`}
                       style={{
-                        borderColor: option.color,
-                        color: active ? "#FFFFFF" : option.color,
+                        color: active ? "#FFFFFF" : undefined,
                         backgroundColor: active ? option.color : "transparent",
                       }}
                     >
