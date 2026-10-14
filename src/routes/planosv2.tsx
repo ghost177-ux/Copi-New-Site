@@ -30,6 +30,7 @@ interface Plan {
   name: string;
   monthlyPrice: string;
   annualPrice: string;
+  annualOriginalPrice?: string;
   revenue: string;
   terminals: string;
 }
@@ -57,6 +58,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "FIT VAREJO",
         monthlyPrice: "199,00",
         annualPrice: "165,84",
+        annualOriginalPrice: "2.388,00",
         revenue: "Faturamento até 30 mil por mês",
         terminals: "2 PDVs",
       },
@@ -65,6 +67,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "BASIC VAREJO",
         monthlyPrice: "399,00",
         annualPrice: "332,50",
+        annualOriginalPrice: "4.788,00",
         revenue: "Faturamento de 30 a 100 mil por mês",
         terminals: "4 PDVs",
       },
@@ -73,6 +76,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "FULL VAREJO",
         monthlyPrice: "599,00",
         annualPrice: "499,17",
+        annualOriginalPrice: "7.188,00",
         revenue: "Faturamento de 100 a 200 mil por mês",
         terminals: "8 PDVs",
       },
@@ -81,6 +85,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "VIP VAREJO",
         monthlyPrice: "799,00",
         annualPrice: "665,84",
+        annualOriginalPrice: "9.588,00",
         revenue: "Faturamento acima de 200 mil por mês",
         terminals: "+ de 8 PDVs",
       },
@@ -132,6 +137,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "FIT FOOD",
         monthlyPrice: "199,00",
         annualPrice: "165,00",
+        annualOriginalPrice: "3.388,00",
         revenue: "Faturamento até 60 mil por mês",
         terminals: "2 PDVs",
       },
@@ -140,6 +146,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "BASIC FOOD",
         monthlyPrice: "299,00",
         annualPrice: "249,00",
+        annualOriginalPrice: "3.588,00",
         revenue: "Faturamento de 60 a 120 mil por mês",
         terminals: "PDVs Ilimitados",
       },
@@ -148,6 +155,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "FULL FOOD",
         monthlyPrice: "449,00",
         annualPrice: "374,00",
+        annualOriginalPrice: "5.388,00",
         revenue: "Faturamento de 120 a 200 mil por mês",
         terminals: "PDVs Ilimitados",
       },
@@ -207,6 +215,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "FIT AUTO-CENTER",
         monthlyPrice: "199,00",
         annualPrice: "165,84",
+        annualOriginalPrice: "2.388,00",
         revenue: "Faturamento até 30 mil por mês",
         terminals: "2 PDVs",
       },
@@ -215,6 +224,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "BASIC AUTO-CENTER",
         monthlyPrice: "399,00",
         annualPrice: "332,50",
+        annualOriginalPrice: "4.788,00",
         revenue: "Faturamento de 30 a 100 mil por mês",
         terminals: "4 PDVs",
       },
@@ -223,6 +233,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "FULL AUTO-CENTER",
         monthlyPrice: "599,00",
         annualPrice: "499,17",
+        annualOriginalPrice: "7.188,00",
         revenue: "Faturamento de 100 a 200 mil por mês",
         terminals: "8 PDVs",
       },
@@ -231,6 +242,7 @@ const segments: Record<SegmentKey, Segment> = {
         name: "VIP AUTO-CENTER",
         monthlyPrice: "799,00",
         annualPrice: "665,84",
+        annualOriginalPrice: "9.588,00",
         revenue: "Faturamento acima de 200 mil por mês",
         terminals: "+ de 8 PDVs",
       },
@@ -272,27 +284,36 @@ function formatPrice(price: string) {
   return { whole, cents };
 }
 
-function PlanPrice({ price }: { price: string }) {
+function PlanPrice({ price, originalPrice }: { price: string; originalPrice?: string }) {
   const amount = formatPrice(price);
   if (!amount) {
     return (
-      <span className="font-display text-[clamp(2rem,3.2vw,3rem)] font-bold leading-none">
+      <span className="font-display text-[clamp(2.25rem,3vw,3.25rem)] font-bold leading-none">
         Consulte
       </span>
     );
   }
 
   return (
-    <span className="flex items-baseline gap-1 whitespace-nowrap">
-      <span className="text-[clamp(0.95rem,1.4vw,1.15rem)] font-semibold">R$</span>
-      <span className="font-display text-[clamp(2.6rem,4.1vw,3.6rem)] font-bold leading-[0.9] tracking-tight">
-        {amount.whole}
+    <div className="flex flex-col items-center gap-[clamp(1px,0.25vw,4px)]">
+      {originalPrice && (
+        <span className="text-[clamp(0.75rem,0.9vw,0.9375rem)] font-medium leading-tight text-white/90 line-through decoration-white/80">
+          R$ {originalPrice}
+        </span>
+      )}
+      <span className="flex items-baseline gap-[clamp(2px,0.35vw,6px)] whitespace-nowrap">
+        <span className="text-[clamp(0.95rem,1.4vw,1.15rem)] font-semibold">R$</span>
+        <span className="font-display text-[clamp(2.6rem,4.1vw,3.6rem)] font-bold leading-[0.9] tracking-tight">
+          {amount.whole}
+        </span>
+        <span className="flex flex-col items-start self-center leading-none">
+          <span className="text-[clamp(0.9rem,1.3vw,1.15rem)] font-bold">{amount.cents}</span>
+          <span className="mt-[clamp(2px,0.2vw,4px)] text-[clamp(0.75rem,1vw,0.9rem)] font-medium">
+            /Mês
+          </span>
+        </span>
       </span>
-      <span className="flex flex-col items-start self-center leading-none">
-        <span className="text-[clamp(0.9rem,1.3vw,1.15rem)] font-bold">{amount.cents}</span>
-        <span className="mt-1 text-[clamp(0.75rem,1vw,0.9rem)] font-medium">/Mês</span>
-      </span>
-    </span>
+    </div>
   );
 }
 
@@ -308,30 +329,33 @@ function PlanCard({
   onSelect: (planName: string) => void;
 }) {
   const price = billingCycle === "anual" ? plan.annualPrice : plan.monthlyPrice;
+  const originalPrice = billingCycle === "anual" ? plan.annualOriginalPrice : undefined;
 
   return (
-    <article className="flex h-full min-h-[390px] flex-col overflow-hidden rounded-tl-[36px] rounded-tr-[12px] rounded-br-[36px] rounded-bl-[12px] border border-[#D8D8D8] bg-white text-[#242424]">
-      <div
-        className="flex min-h-[150px] flex-col items-center justify-center gap-5 rounded-tl-[35px] rounded-tr-[11px] rounded-br-[36px] rounded-bl-none px-3 py-5 text-center text-white sm:min-h-[155px]"
-        style={{ backgroundColor: color }}
-      >
-        <h3 className="font-display text-[clamp(1.125rem,2.1vw,1.75rem)] font-bold uppercase leading-tight">
-          {plan.name}
-        </h3>
-        <PlanPrice price={price} />
+    <article className="flex h-full min-h-[clamp(390px,34vw,440px)] flex-col overflow-hidden rounded-tl-[36px] rounded-tr-[12px] rounded-br-[36px] rounded-bl-[12px] border border-[#D8D8D8] bg-white text-[#242424]">
+      <div className="plan-header">
+        <div
+          className="plan-header-main flex min-h-[clamp(148px,14vw,180px)] flex-col items-center justify-center gap-[clamp(8px,1.1vw,16px)] rounded-tl-[35px] rounded-tr-[11px] rounded-br-[36px] rounded-bl-none px-[clamp(10px,1.2vw,20px)] py-[clamp(12px,1.4vw,20px)] text-center text-white"
+          style={{ backgroundColor: color }}
+        >
+          <h3 className="font-display text-[clamp(1.125rem,2.1vw,1.75rem)] font-bold uppercase leading-tight">
+            {plan.name}
+          </h3>
+          <PlanPrice price={price} originalPrice={originalPrice} />
+        </div>
+
+        {billingCycle === "anual" && (
+          <div className="plan-installments rounded-b-[10px] bg-[#2F2F2F] px-3 py-[clamp(7px,0.7vw,10px)] text-center text-[clamp(0.75rem,0.95vw,0.9375rem)] font-bold tracking-wide text-white">
+            Até 12X no cartão
+          </div>
+        )}
       </div>
 
-      {billingCycle === "anual" && (
-        <p className="bg-[#2F2F2F] px-3 py-2 text-center text-xs font-bold tracking-wide text-white sm:text-sm">
-          Até 12X no cartão
-        </p>
-      )}
-
-      <div className="flex flex-1 flex-col px-5 pb-5 pt-5 sm:px-7 sm:pb-6">
+      <div className="flex flex-1 flex-col px-[clamp(12px,1.5vw,24px)] pb-[clamp(16px,1.5vw,24px)] pt-[clamp(16px,1.5vw,24px)]">
         <button
           type="button"
           onClick={() => onSelect(plan.name)}
-          className="mx-auto flex min-h-12 w-full max-w-[250px] items-center justify-center rounded-[9px] border-2 px-3 text-center font-display text-base font-bold transition-colors hover:bg-[var(--plan-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="mx-auto flex min-h-[clamp(42px,3.2vw,48px)] w-full max-w-[clamp(180px,90%,280px)] items-center justify-center rounded-[9px] border-2 px-[clamp(8px,1vw,16px)] text-center font-display text-[clamp(0.875rem,1vw,1rem)] font-bold transition-colors hover:bg-[var(--plan-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
           style={
             {
               borderColor: color,
@@ -343,12 +367,12 @@ function PlanCard({
           Contrate Agora
         </button>
 
-        <div className="mt-5 space-y-3 text-[clamp(0.875rem,1.15vw,1rem)] leading-snug">
+        <div className="mt-[clamp(16px,1.5vw,22px)] flex flex-1 flex-col text-[clamp(0.875rem,1vw,1rem)] leading-snug">
           <p className="min-h-10 border-b border-[#D8D8D8] pb-2">{plan.revenue}</p>
-          <p className="border-b border-[#D8D8D8] pb-2">{plan.terminals}</p>
+          <p className="min-h-9 border-b border-[#D8D8D8] py-2">{plan.terminals}</p>
           <a
             href="#recursos-planos"
-            className="inline-flex min-h-10 items-center pt-2 text-sm font-medium hover:underline"
+            className="mt-auto inline-flex min-h-10 items-end pt-2 text-[clamp(0.875rem,1vw,1rem)] font-medium hover:underline"
             style={{ color }}
           >
             Saiba Mais +
@@ -370,14 +394,21 @@ function PlanosV2Page() {
   const chooseSegment = (key: SegmentKey) => {
     setSelectedSegment(key);
     setActiveCard(0);
-    carouselRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft = 0;
+    }
   };
 
   const scrollToCard = (index: number) => {
     const carousel = carouselRef.current;
     const card = carousel?.children[index] as HTMLElement | undefined;
     if (!carousel || !card) return;
-    const left = card.offsetLeft - carousel.offsetLeft;
+    const scrollportLeft = carousel.getBoundingClientRect().left + carousel.clientLeft;
+    const left =
+      card.getBoundingClientRect().left -
+      scrollportLeft +
+      carousel.scrollLeft -
+      (carousel.clientWidth - card.clientWidth) / 2;
     carousel.scrollTo({ left, behavior: "smooth" });
     setActiveCard(index);
   };
@@ -385,13 +416,26 @@ function PlanosV2Page() {
   const handleCardScroll = () => {
     const carousel = carouselRef.current;
     if (!carousel) return;
+    if (carousel.scrollLeft <= 1) {
+      setActiveCard(0);
+      return;
+    }
+    if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 1) {
+      setActiveCard(segment.plans.length - 1);
+      return;
+    }
+    const scrollportLeft = carousel.getBoundingClientRect().left + carousel.clientLeft;
     const center = carousel.scrollLeft + carousel.clientWidth / 2;
     let nearestIndex = 0;
     let nearestDistance = Number.POSITIVE_INFINITY;
 
     Array.from(carousel.children).forEach((card, index) => {
       const item = card as HTMLElement;
-      const cardCenter = item.offsetLeft + item.offsetWidth / 2;
+      const cardCenter =
+        item.getBoundingClientRect().left -
+        scrollportLeft +
+        carousel.scrollLeft +
+        item.offsetWidth / 2;
       const distance = Math.abs(center - cardCenter);
       if (distance < nearestDistance) {
         nearestIndex = index;
@@ -485,13 +529,13 @@ function PlanosV2Page() {
             <div
               ref={carouselRef}
               onScroll={handleCardScroll}
-              className="no-scrollbar flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto scroll-smooth px-1 pb-2 md:auto-rows-fr md:grid md:grid-cols-2 md:gap-4 md:overflow-visible md:px-0 md:pb-0 xl:grid-cols-4 xl:gap-3"
+              className="no-scrollbar flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto scroll-smooth px-1 pb-2 min-[1025px]:grid min-[1025px]:grid-cols-4 min-[1025px]:gap-[clamp(12px,1vw,24px)] min-[1025px]:overflow-visible min-[1025px]:px-0 min-[1025px]:pb-0"
               style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
             >
               {segment.plans.map((plan) => (
                 <div
                   key={plan.id}
-                  className="w-[min(84vw,320px)] shrink-0 snap-center md:w-auto md:shrink"
+                  className="w-[86%] shrink-0 snap-center min-[540px]:w-[72%] min-[768px]:w-[64%] min-[960px]:w-[62%] min-[1025px]:w-auto min-[1025px]:shrink"
                 >
                   <PlanCard
                     plan={plan}
@@ -503,7 +547,7 @@ function PlanosV2Page() {
               ))}
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-3 md:hidden">
+            <div className="mt-4 flex items-center justify-center gap-3 min-[1025px]:hidden">
               <button
                 type="button"
                 aria-label="Plano anterior"
