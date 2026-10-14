@@ -1161,12 +1161,15 @@ function PlanosPage() {
             </div>
 
             {/* Card Único Envolvendo Todas as Categorias de Recursos */}
-            <div className="rounded-2xl sm:rounded-3xl border border-border bg-surface-subtle/50 p-5 sm:p-8 lg:p-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-12 gap-y-6 sm:gap-y-7 lg:gap-y-8">
+            <div className="rounded-2xl sm:rounded-3xl border border-[#DCE2E6] bg-[#F7FBFC] p-5 sm:p-8 lg:p-10 dark:border-border dark:bg-surface-subtle/50">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 sm:gap-x-10 lg:gap-x-6 gap-y-6 sm:gap-y-7 lg:gap-y-3.5">
                 {featureModules.map((module) => {
                   return (
                     <div key={module.title} className="flex flex-col">
-                      <ul className="space-y-2.5 sm:space-y-3 fluid-secondary text-foreground/90">
+                      <ul
+                        className="space-y-2.5 sm:space-y-3 lg:space-y-3.5 fluid-secondary text-[#172028] dark:text-foreground/90"
+                        style={{ fontSize: "clamp(0.7813rem, calc(0.43rem + 0.7vw), 1.0625rem)" }}
+                      >
                         {module.items.map((item) => (
                           <li key={item} className="flex items-start gap-2.5">
                             <CheckCircle2
@@ -1174,7 +1177,7 @@ function PlanosPage() {
                               className="shrink-0 mt-0.5"
                               style={{ color: meta.color }}
                             />
-                            <span className="leading-snug">{item}</span>
+                            <span className="leading-[1.4]">{item}</span>
                           </li>
                         ))}
                       </ul>
