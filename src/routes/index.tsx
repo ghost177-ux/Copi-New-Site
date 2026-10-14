@@ -851,13 +851,6 @@ function Index() {
                         loading="eager"
                       />
 
-                      {/* Badge nos cards de fundo (não exibido no card ativo para maior limpeza visual) */}
-                      {!isCurrent && (
-                        <span className="scene-peek-pill">
-                          0{index + 1} {segment.label}
-                        </span>
-                      )}
-
                       {/* Informações editoriais do segmento */}
                       <span className="scene-label">
                         <span className="scene-count">
