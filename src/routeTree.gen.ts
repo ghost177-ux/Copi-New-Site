@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PlanosRouteImport } from './routes/planos'
+import { Route as Planosv2RouteImport } from './routes/planosv2'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const PlanosRoute = PlanosRouteImport.update({
   path: '/planos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Planosv2Route = Planosv2RouteImport.update({
+  id: '/planosv2',
+  path: '/planosv2',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/planos': typeof PlanosRoute
+  '/planosv2': typeof Planosv2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/planos': typeof PlanosRoute
+  '/planosv2': typeof Planosv2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/planos': typeof PlanosRoute
+  '/planosv2': typeof Planosv2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/planos'
+  fullPaths: '/' | '/planos' | '/planosv2'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/planos'
-  id: '__root__' | '/' | '/planos'
+  to: '/' | '/planos' | '/planosv2'
+  id: '__root__' | '/' | '/planos' | '/planosv2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PlanosRoute: typeof PlanosRoute
+  Planosv2Route: typeof Planosv2Route
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/planosv2': {
+      id: '/planosv2'
+      path: '/planosv2'
+      fullPath: '/planosv2'
+      preLoaderRoute: typeof Planosv2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PlanosRoute: PlanosRoute,
+  Planosv2Route: Planosv2Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
