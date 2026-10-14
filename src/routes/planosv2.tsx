@@ -286,33 +286,37 @@ function formatPrice(price: string) {
 
 function PlanPrice({ price, originalPrice }: { price: string; originalPrice?: string }) {
   const amount = formatPrice(price);
-  if (!amount) {
-    return (
-      <span className="font-display text-[clamp(2.25rem,3vw,3.25rem)] font-bold leading-none">
-        Consulte
-      </span>
-    );
-  }
 
   return (
     <div className="flex flex-col items-center gap-[clamp(1px,0.25vw,4px)]">
-      {originalPrice && (
-        <span className="text-[clamp(0.75rem,0.9vw,0.9375rem)] font-medium leading-tight text-white/90 line-through decoration-white/80">
-          R$ {originalPrice}
-        </span>
-      )}
-      <span className="flex items-baseline gap-[clamp(2px,0.35vw,6px)] whitespace-nowrap">
-        <span className="text-[clamp(0.95rem,1.4vw,1.15rem)] font-semibold">R$</span>
-        <span className="font-display text-[clamp(2.6rem,4.1vw,3.6rem)] font-bold leading-[0.9] tracking-tight">
-          {amount.whole}
-        </span>
-        <span className="flex flex-col items-start self-center leading-none">
-          <span className="text-[clamp(0.9rem,1.3vw,1.15rem)] font-bold">{amount.cents}</span>
-          <span className="mt-[clamp(2px,0.2vw,4px)] text-[clamp(0.75rem,1vw,0.9rem)] font-medium">
-            /Mês
+      <span
+        aria-hidden={!originalPrice}
+        className="min-h-[1em] text-[clamp(0.75rem,0.9vw,0.9375rem)] font-medium leading-tight text-white/90 line-through decoration-white/80"
+        style={{
+          fontSize: "clamp(calc(0.75rem + 2px), calc(0.9vw + 2px), calc(0.9375rem + 2px))",
+          visibility: originalPrice ? "visible" : "hidden",
+        }}
+      >
+        R$ {originalPrice}
+      </span>
+      {amount ? (
+        <span className="flex items-baseline gap-[clamp(2px,0.35vw,6px)] whitespace-nowrap">
+          <span className="text-[clamp(0.95rem,1.4vw,1.15rem)] font-semibold">R$</span>
+          <span className="font-display text-[clamp(2.6rem,4.1vw,3.6rem)] font-bold leading-[0.9] tracking-tight">
+            {amount.whole}
+          </span>
+          <span className="flex flex-col items-start self-center leading-none">
+            <span className="text-[clamp(0.9rem,1.3vw,1.15rem)] font-bold">{amount.cents}</span>
+            <span className="mt-[clamp(2px,0.2vw,4px)] text-[clamp(0.75rem,1vw,0.9rem)] font-medium">
+              /Mês
+            </span>
           </span>
         </span>
-      </span>
+      ) : (
+        <span className="font-display text-[clamp(2.25rem,3vw,3.25rem)] font-bold leading-none">
+          Consulte
+        </span>
+      )}
     </div>
   );
 }
@@ -333,7 +337,7 @@ function PlanCard({
 
   return (
     <article className="flex h-full min-h-[clamp(390px,34vw,440px)] flex-col overflow-hidden rounded-tl-[36px] rounded-tr-[12px] rounded-br-[36px] rounded-bl-[12px] border border-[#D8D8D8] bg-white text-[#242424]">
-      <div className="plan-header">
+      <div className={`plan-header ${billingCycle === "anual" ? "bg-[#2F2F2F]" : ""}`}>
         <div
           className="plan-header-main flex min-h-[clamp(148px,14vw,180px)] flex-col items-center justify-center gap-[clamp(8px,1.1vw,16px)] rounded-tl-[35px] rounded-tr-[11px] rounded-br-[36px] rounded-bl-none px-[clamp(10px,1.2vw,20px)] py-[clamp(12px,1.4vw,20px)] text-center text-white"
           style={{ backgroundColor: color }}
@@ -535,7 +539,7 @@ function PlanosV2Page() {
               {segment.plans.map((plan) => (
                 <div
                   key={plan.id}
-                  className="w-[86%] shrink-0 snap-center min-[540px]:w-[72%] min-[768px]:w-[64%] min-[960px]:w-[62%] min-[1025px]:w-auto min-[1025px]:shrink"
+                  className="min-w-0 w-full shrink-0 snap-start min-[540px]:basis-[calc((100%_-_12px)/2)] min-[540px]:w-auto min-[769px]:basis-[calc((100%_-_24px)/3)] min-[1025px]:basis-auto min-[1025px]:w-auto min-[1025px]:shrink"
                 >
                   <PlanCard
                     plan={plan}
