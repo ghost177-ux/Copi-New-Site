@@ -936,6 +936,24 @@
   }
 }
 
+#metricas .metric-value {
+  font-size: clamp(1rem, calc(0.8374rem + 0.6936vw), 1.375rem);
+}
+
+#metricas .fluid-caption {
+  font-size: clamp(0.8125rem, calc(0.8213rem + 0.0694vw), 0.875rem);
+}
+
+@media (min-width: 1240px) {
+  #metricas .metric-value {
+    font-size: clamp(1.375rem, calc(0.7409rem + 0.8182vw), 2.05rem);
+  }
+
+  #metricas .fluid-caption {
+    font-size: clamp(0.875rem, calc(0.558rem + 0.4091vw), 1.2125rem);
+  }
+}
+
 
 /* =========================================================================
  * TIPOGRAFIA FLUIDA — FOOTER INSTITUCIONAL (ESCALA 45% DESKTOP)
@@ -1003,5 +1021,4 @@
 @utility demonstracao-notebook {
   width: clamp(25%, calc(383px + 23.4cqw), 100%);
 }
-
 
