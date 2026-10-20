@@ -380,11 +380,10 @@ function PlanCard({
         <button
           type="button"
           onClick={() => onSelect(plan.name)}
-          className="mx-auto flex min-h-[clamp(42px,3.2vw,48px)] w-full max-w-[clamp(180px,90%,280px)] items-center justify-center rounded-[9px] border-2 px-[clamp(8px,1vw,16px)] text-center font-display text-[clamp(0.875rem,1vw,1rem)] font-bold transition-colors hover:bg-[var(--plan-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="mx-auto flex min-h-[clamp(42px,3.2vw,48px)] w-full max-w-[clamp(180px,90%,280px)] items-center justify-center rounded-[9px] border-2 px-[clamp(8px,1vw,16px)] text-center font-display text-[clamp(0.875rem,1vw,1rem)] font-bold text-[color:var(--plan-accent)] transition-colors hover:bg-[var(--plan-accent)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
           style={
             {
               borderColor: color,
-              color,
               "--plan-accent": color,
             } as CSSProperties
           }
