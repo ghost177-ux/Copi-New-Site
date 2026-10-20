@@ -436,7 +436,7 @@ function PlanosV2Page() {
     if (reducedMotion || isBannerHovered || isBannerInteractionPaused) return;
 
     const intervalId = window.setInterval(() => {
-      setActiveBanner((current) => (current === 0 ? 1 : current + 1));
+      setActiveBanner((current) => (current === 0 ? 1 : Math.min(current + 1, 3)));
     }, 3000);
 
     return () => window.clearInterval(intervalId);
@@ -566,12 +566,14 @@ function PlanosV2Page() {
                     setBannerTransitionEnabled(false);
                     setActiveBanner(activeBanner === 3 ? 1 : 2);
                   }}
-                  className={`flex w-[400%] ${
+                  className={`grid w-full grid-flow-col auto-cols-[100%] gap-3 ${
                     bannerTransitionEnabled
                       ? "transition-transform duration-[2000ms] ease-in-out motion-reduce:transition-none"
                       : "transition-none"
                   }`}
-                  style={{ transform: `translateX(-${(activeBanner * 100) / 4}%)` }}
+                  style={{
+                    transform: `translateX(calc(-${activeBanner * 100}% - ${activeBanner * 12}px))`,
+                  }}
                 >
                   {[1, 0, 1, 0].map((bannerIndex, index) => {
                     const desktopImage = segment.banners.desktop[bannerIndex];
@@ -582,14 +584,14 @@ function PlanosV2Page() {
                       <picture
                         key={`${selectedSegment}-${index}`}
                         aria-hidden={!isActive}
-                        className="block w-1/4 shrink-0"
+                        className="block w-full overflow-hidden rounded-[20px]"
                       >
                         <source media="(max-width: 539px)" srcSet={mobileImage} />
                         <source media="(min-width: 540px)" srcSet={desktopImage} />
                         <img
                           src={desktopImage}
                           alt={isActive ? segment.bannerAlt : ""}
-                          className="block h-auto w-full"
+                          className="block h-auto w-full rounded-[20px]"
                         />
                       </picture>
                     );
