@@ -1,13 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, ChevronLeft, ChevronRight, Store, Utensils, Wrench } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { SpecialistDialog } from "@/components/SpecialistDialog";
-import promoAutocenterImg from "@/assets/Autocenters.png";
-import promoFoodImg from "@/assets/food copy.png";
-import promoVarejoImg from "@/assets/varejo copy.png";
+import promoAutocenterDesktop1 from "@/assets/prom_ct1.png";
+import promoAutocenterDesktop2 from "@/assets/prom_ct3.png";
+import promoAutocenterMobile1 from "@/assets/prom_ct2.png";
+import promoAutocenterMobile2 from "@/assets/prom_ct4.png";
+import promoFoodDesktop1 from "@/assets/prom_fd1.png";
+import promoFoodDesktop2 from "@/assets/prom_fd3.png";
+import promoFoodMobile1 from "@/assets/prom_fd2.png";
+import promoFoodMobile2 from "@/assets/prom_fd4.png";
+import promoVarejoDesktop1 from "@/assets/prom_vj1.png";
+import promoVarejoDesktop2 from "@/assets/prom_vj3.png";
+import promoVarejoMobile1 from "@/assets/prom_vj2.png";
+import promoVarejoMobile2 from "@/assets/prom_vj4.png";
 
 export const Route = createFileRoute("/planosv2")({
   head: () => ({
@@ -39,7 +48,10 @@ interface Segment {
   label: string;
   color: string;
   icon: typeof Store;
-  banner: string;
+  banners: {
+    desktop: [string, string];
+    mobile: [string, string];
+  };
   bannerAlt: string;
   plans: Plan[];
   resources: string[];
@@ -50,7 +62,10 @@ const segments: Record<SegmentKey, Segment> = {
     label: "VAREJO",
     color: "#3BBCEC",
     icon: Store,
-    banner: promoVarejoImg,
+    banners: {
+      desktop: [promoVarejoDesktop1, promoVarejoDesktop2],
+      mobile: [promoVarejoMobile1, promoVarejoMobile2],
+    },
     bannerAlt: "Super Promoção para Sua Loja",
     plans: [
       {
@@ -129,7 +144,10 @@ const segments: Record<SegmentKey, Segment> = {
     label: "FOOD",
     color: "#FC4242",
     icon: Utensils,
-    banner: promoFoodImg,
+    banners: {
+      desktop: [promoFoodDesktop1, promoFoodDesktop2],
+      mobile: [promoFoodMobile1, promoFoodMobile2],
+    },
     bannerAlt: "Super Promoção para Restaurantes",
     plans: [
       {
@@ -207,7 +225,10 @@ const segments: Record<SegmentKey, Segment> = {
     label: "AUTO-CENTER",
     color: "#FCC42C",
     icon: Wrench,
-    banner: promoAutocenterImg,
+    banners: {
+      desktop: [promoAutocenterDesktop1, promoAutocenterDesktop2],
+      mobile: [promoAutocenterMobile1, promoAutocenterMobile2],
+    },
     bannerAlt: "Super Promoção para Auto-Center",
     plans: [
       {
@@ -389,14 +410,53 @@ function PlanCard({
 
 function PlanosV2Page() {
   const [selectedSegment, setSelectedSegment] = useState<SegmentKey>("varejo");
+  const [activeBanner, setActiveBanner] = useState(0);
+  const [bannerTransitionEnabled, setBannerTransitionEnabled] = useState(true);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const [billingCycle, setBillingCycle] = useState<BillingCycle>("mensal");
   const [specialistOpen, setSpecialistOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("");
   const [activeCard, setActiveCard] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const segment = segments[selectedSegment];
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateReducedMotion = () => setReducedMotion(mediaQuery.matches);
+
+    updateReducedMotion();
+    mediaQuery.addEventListener("change", updateReducedMotion);
+    return () => mediaQuery.removeEventListener("change", updateReducedMotion);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const intervalId = window.setInterval(() => {
+      setActiveBanner((current) => (current === 0 ? 1 : 2));
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [selectedSegment, reducedMotion]);
+
+  useEffect(() => {
+    if (!reducedMotion) return;
+
+    setBannerTransitionEnabled(false);
+    setActiveBanner(0);
+  }, [reducedMotion]);
+
+  useEffect(() => {
+    if (bannerTransitionEnabled) return;
+
+    const frameId = window.requestAnimationFrame(() => setBannerTransitionEnabled(true));
+    return () => window.cancelAnimationFrame(frameId);
+  }, [bannerTransitionEnabled]);
+
   const chooseSegment = (key: SegmentKey) => {
     setSelectedSegment(key);
+    setBannerTransitionEnabled(false);
+    setActiveBanner(0);
     setActiveCard(0);
     if (carouselRef.current) {
       carouselRef.current.scrollLeft = 0;
@@ -463,7 +523,44 @@ function PlanosV2Page() {
         <section className="w-full py-5 sm:py-7">
           <div className="fluid-container">
             <div className="overflow-hidden rounded-[20px]">
-              <img src={segment.banner} alt={segment.bannerAlt} className="block h-auto w-full" />
+              <div className="relative">
+                <div
+                  onTransitionEnd={(event) => {
+                    if (event.target !== event.currentTarget || activeBanner !== 2) return;
+
+                    setBannerTransitionEnabled(false);
+                    setActiveBanner(0);
+                  }}
+                  className={`flex w-[300%] ${
+                    bannerTransitionEnabled
+                      ? "transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                      : "transition-none"
+                  }`}
+                  style={{ transform: `translateX(-${(activeBanner * 100) / 3}%)` }}
+                >
+                  {[0, 1, 0].map((bannerIndex, index) => {
+                    const desktopImage = segment.banners.desktop[bannerIndex];
+                    const isActive = activeBanner === index;
+                    const mobileImage = segment.banners.mobile[bannerIndex];
+
+                    return (
+                      <picture
+                        key={`${selectedSegment}-${index}`}
+                        aria-hidden={!isActive}
+                        className="block w-1/3 shrink-0"
+                      >
+                        <source media="(max-width: 539px)" srcSet={mobileImage} />
+                        <source media="(min-width: 540px)" srcSet={desktopImage} />
+                        <img
+                          src={desktopImage}
+                          alt={isActive ? segment.bannerAlt : ""}
+                          className="block h-auto w-full"
+                        />
+                      </picture>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
           </div>
         </section>
