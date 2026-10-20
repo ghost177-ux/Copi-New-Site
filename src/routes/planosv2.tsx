@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, ChevronLeft, ChevronRight, Store, Utensils, Wrench } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Crown, Store, Utensils, Wrench } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { Footer } from "@/components/Footer";
@@ -735,20 +735,59 @@ function PlanosV2Page() {
                 O que está disponível nos planos {segment.label}?
               </h2>
             </div>
-            <div className="grid grid-cols-1 gap-x-8 gap-y-3 rounded-2xl border border-border bg-background p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4 lg:p-9">
-              {segment.resources.map((resource) => (
+            <div className="rounded-2xl border border-border bg-background p-5 sm:p-7 lg:p-9">
+              <div className="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4">
+                {segment.resources
+                  .filter((resource) => !/(vip|exclusiv)/i.test(resource))
+                  .map((resource) => (
+                    <div
+                      key={resource}
+                      className="flex items-start gap-2.5 text-[clamp(0.875rem,calc(0.8125rem+0.25vw),1rem)] leading-relaxed"
+                    >
+                      <Check
+                        aria-hidden="true"
+                        className="mt-0.5 size-[clamp(17px,1.48vw,19px)] shrink-0"
+                        style={{ color: segment.color }}
+                      />
+                      <span>{resource}</span>
+                    </div>
+                  ))}
+              </div>
+              {segment.resources.some((resource) => /(vip|exclusiv)/i.test(resource)) && (
                 <div
-                  key={resource}
-                  className="flex items-start gap-2.5 text-[clamp(0.875rem,calc(0.8125rem+0.25vw),1rem)] leading-relaxed"
+                  className="mt-5 flex min-w-0 items-start gap-3 rounded-xl border px-4 py-3 sm:px-5"
+                  style={{
+                    borderColor: `${segment.color}55`,
+                    backgroundColor: `${segment.color}0D`,
+                  }}
                 >
-                  <Check
+                  <Crown
                     aria-hidden="true"
-                    className="mt-0.5 size-[clamp(17px,1.48vw,19px)] shrink-0"
+                    className="mt-0.5 size-5 shrink-0"
                     style={{ color: segment.color }}
                   />
-                  <span>{resource}</span>
+                  <div className="min-w-0">
+                    <p
+                      className="text-[clamp(0.875rem,calc(0.8125rem+0.25vw),1rem)] font-semibold leading-relaxed"
+                      style={{ color: segment.color }}
+                    >
+                      Benefícios exclusivos do plano VIP
+                    </p>
+                    <ul className="mt-1.5 space-y-1">
+                      {segment.resources
+                        .filter((resource) => /(vip|exclusiv)/i.test(resource))
+                        .map((resource) => (
+                          <li
+                            key={resource}
+                            className="break-words text-[clamp(0.875rem,calc(0.8125rem+0.25vw),1rem)] leading-relaxed text-foreground"
+                          >
+                            {resource}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
