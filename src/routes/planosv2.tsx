@@ -410,14 +410,17 @@ function PlanCard({
 
 function PlanosV2Page() {
   const [selectedSegment, setSelectedSegment] = useState<SegmentKey>("varejo");
-  const [activeBanner, setActiveBanner] = useState(0);
+  const [activeBanner, setActiveBanner] = useState(1);
   const [bannerTransitionEnabled, setBannerTransitionEnabled] = useState(true);
+  const [isBannerHovered, setIsBannerHovered] = useState(false);
+  const [isBannerInteractionPaused, setIsBannerInteractionPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [billingCycle, setBillingCycle] = useState<BillingCycle>("mensal");
   const [specialistOpen, setSpecialistOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("");
   const [activeCard, setActiveCard] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const bannerPointerStartX = useRef<number | null>(null);
   const segment = segments[selectedSegment];
 
   useEffect(() => {
@@ -430,20 +433,20 @@ function PlanosV2Page() {
   }, []);
 
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || isBannerHovered || isBannerInteractionPaused) return;
 
     const intervalId = window.setInterval(() => {
-      setActiveBanner((current) => (current === 0 ? 1 : 2));
+      setActiveBanner((current) => (current === 0 ? 1 : current + 1));
     }, 3000);
 
     return () => window.clearInterval(intervalId);
-  }, [selectedSegment, reducedMotion]);
+  }, [selectedSegment, reducedMotion, isBannerHovered, isBannerInteractionPaused]);
 
   useEffect(() => {
     if (!reducedMotion) return;
 
     setBannerTransitionEnabled(false);
-    setActiveBanner(0);
+    setActiveBanner(1);
   }, [reducedMotion]);
 
   useEffect(() => {
@@ -455,8 +458,9 @@ function PlanosV2Page() {
 
   const chooseSegment = (key: SegmentKey) => {
     setSelectedSegment(key);
+    setIsBannerInteractionPaused(false);
     setBannerTransitionEnabled(false);
-    setActiveBanner(0);
+    setActiveBanner(1);
     setActiveCard(0);
     if (carouselRef.current) {
       carouselRef.current.scrollLeft = 0;
@@ -523,22 +527,53 @@ function PlanosV2Page() {
         <section className="w-full py-5 sm:py-7">
           <div className="fluid-container">
             <div className="overflow-hidden rounded-[20px]">
-              <div className="relative">
+              <div
+                className="relative touch-pan-y"
+                onMouseEnter={() => setIsBannerHovered(true)}
+                onMouseLeave={() => setIsBannerHovered(false)}
+                onPointerDown={(event) => {
+                  setIsBannerInteractionPaused(true);
+                  bannerPointerStartX.current = event.clientX;
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                }}
+                onPointerUp={(event) => {
+                  const pointerStartX = bannerPointerStartX.current;
+                  bannerPointerStartX.current = null;
+                  if (pointerStartX === null) return;
+
+                  const dragDistance = event.clientX - pointerStartX;
+                  if (Math.abs(dragDistance) < 40) return;
+
+                  setActiveBanner((current) => {
+                    if (dragDistance < 0) return Math.min(current + 1, 3);
+                    return Math.max(current - 1, 0);
+                  });
+                }}
+                onPointerCancel={() => {
+                  bannerPointerStartX.current = null;
+                }}
+              >
                 <div
                   onTransitionEnd={(event) => {
-                    if (event.target !== event.currentTarget || activeBanner !== 2) return;
+                    if (
+                      event.target !== event.currentTarget ||
+                      event.propertyName !== "transform" ||
+                      (activeBanner !== 0 && activeBanner !== 3)
+                    ) {
+                      return;
+                    }
 
                     setBannerTransitionEnabled(false);
-                    setActiveBanner(0);
+                    setActiveBanner(activeBanner === 3 ? 1 : 2);
                   }}
-                  className={`flex w-[300%] ${
+                  className={`flex w-[400%] ${
                     bannerTransitionEnabled
-                      ? "transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+                      ? "transition-transform duration-[2000ms] ease-in-out motion-reduce:transition-none"
                       : "transition-none"
                   }`}
-                  style={{ transform: `translateX(-${(activeBanner * 100) / 3}%)` }}
+                  style={{ transform: `translateX(-${(activeBanner * 100) / 4}%)` }}
                 >
-                  {[0, 1, 0].map((bannerIndex, index) => {
+                  {[1, 0, 1, 0].map((bannerIndex, index) => {
                     const desktopImage = segment.banners.desktop[bannerIndex];
                     const isActive = activeBanner === index;
                     const mobileImage = segment.banners.mobile[bannerIndex];
@@ -547,7 +582,7 @@ function PlanosV2Page() {
                       <picture
                         key={`${selectedSegment}-${index}`}
                         aria-hidden={!isActive}
-                        className="block w-1/3 shrink-0"
+                        className="block w-1/4 shrink-0"
                       >
                         <source media="(max-width: 539px)" srcSet={mobileImage} />
                         <source media="(min-width: 540px)" srcSet={desktopImage} />
