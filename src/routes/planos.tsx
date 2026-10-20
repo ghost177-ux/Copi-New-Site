@@ -581,7 +581,7 @@ function PlanosV2Page() {
 
                     return (
                       <picture
-                        key={`${selectedSegment}-${index}`}
+                        key={index}
                         aria-hidden={!isActive}
                         className="block w-full overflow-hidden rounded-[20px]"
                       >
