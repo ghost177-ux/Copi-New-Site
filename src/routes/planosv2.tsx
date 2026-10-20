@@ -568,7 +568,7 @@ function PlanosV2Page() {
                   }}
                   className={`grid w-full grid-flow-col auto-cols-[100%] gap-3 ${
                     bannerTransitionEnabled
-                      ? "transition-transform duration-[2000ms] ease-in-out motion-reduce:transition-none"
+                      ? "transition-transform duration-[5000ms] ease-in-out motion-reduce:transition-none"
                       : "transition-none"
                   }`}
                   style={{
