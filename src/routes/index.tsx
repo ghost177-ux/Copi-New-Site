@@ -879,11 +879,11 @@ function Index() {
           <div className="fluid-container">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch gap-4 sm:gap-6 lg:gap-8">
               {/* Card 1: Economia de tempo */}
-              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-[#00ADEF]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#00ADEF]/10 text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#00ADEF]/10 border border-[#00ADEF]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+                <div className="text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Clock size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8" strokeWidth={2.2} />
                 </div>
-                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                <div className="flex flex-col items-center justify-center w-full">
                   <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
                     <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
                       + De 30 % <br /> de economia
@@ -896,11 +896,11 @@ function Index() {
               </div>
 
               {/* Card 2: Clientes atendidos */}
-              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-[#71BE44]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#71BE44]/10 text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#71BE44]/10 border border-[#71BE44]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+                <div className="text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Users size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8" strokeWidth={2.2} />
                 </div>
-                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                <div className="flex flex-col items-center justify-center w-full">
                   <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
                     <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
                       + De 1.000 <br /> clientes
@@ -913,11 +913,11 @@ function Index() {
               </div>
 
               {/* Card 3: Nota de satisfação */}
-              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-[#FFB800]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#FFB800]/15 text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#FFB800]/15 border border-[#FFB800]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+                <div className="text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Star size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8 fill-[#FFB800]" strokeWidth={2.2} />
                 </div>
-                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                <div className="flex flex-col items-center justify-center w-full">
                   <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
                     <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
                       + De 9.6 / 10 <br /> em nota
@@ -930,11 +930,11 @@ function Index() {
               </div>
 
               {/* Card 4: Experiência no mercado */}
-              <div className="h-full flex flex-col items-center text-center justify-start p-4 sm:p-5 xl:p-7 rounded-2xl bg-white dark:bg-card border border-[#EF4444]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 xl:w-16 xl:h-16 rounded-2xl bg-[#EF4444]/10 text-[#EF4444] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
+              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#EF4444]/10 border border-[#EF4444]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+                <div className="text-[#EF4444] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Cake size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8 text-[#EF4444]" strokeWidth={2.2} />
                 </div>
-                <div className="flex-1 flex flex-col items-center justify-start w-full">
+                <div className="flex flex-col items-center justify-center w-full">
                   <div className="min-h-[2.75rem] sm:min-h-[3.25rem] flex items-center justify-center w-full">
                     <span className="metric-value font-display font-extrabold text-foreground tracking-tight leading-snug">
                       + De 15 anos de <br /> experiência
