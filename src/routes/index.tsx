@@ -877,9 +877,9 @@ function Index() {
         {/* ========================================================================= */}
         <section id="metricas" className="border-y border-border bg-surface-subtle/80 py-8 sm:py-10 lg:py-12 relative overflow-hidden w-full">
           <div className="fluid-container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch gap-4 sm:gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-stretch justify-items-center gap-4 sm:gap-6 lg:gap-8">
               {/* Card 1: Economia de tempo */}
-              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#00ADEF]/10 border border-[#00ADEF]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+              <div className="h-full w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#00ADEF]/10 border border-[#00ADEF]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#00ADEF] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Clock size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8" strokeWidth={2.2} />
                 </div>
@@ -896,7 +896,7 @@ function Index() {
               </div>
 
               {/* Card 2: Clientes atendidos */}
-              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#71BE44]/10 border border-[#71BE44]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+              <div className="h-full w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#71BE44]/10 border border-[#71BE44]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#71BE44] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Users size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8" strokeWidth={2.2} />
                 </div>
@@ -913,7 +913,7 @@ function Index() {
               </div>
 
               {/* Card 3: Nota de satisfação */}
-              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#FFB800]/15 border border-[#FFB800]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+              <div className="h-full w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#FFB800]/15 border border-[#FFB800]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#FFB800] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Star size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8 fill-[#FFB800]" strokeWidth={2.2} />
                 </div>
@@ -930,7 +930,7 @@ function Index() {
               </div>
 
               {/* Card 4: Experiência no mercado */}
-              <div className="h-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#EF4444]/10 border border-[#EF4444]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 sm:aspect-square">
+              <div className="h-full w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center justify-center p-4 sm:p-5 xl:p-7 rounded-2xl bg-[#EF4444]/10 border border-[#EF4444]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#EF4444] flex items-center justify-center mb-3 sm:mb-4 shrink-0">
                   <Cake size={28} className="w-6 h-6 sm:w-7 sm:h-7 xl:w-8 xl:h-8 text-[#EF4444]" strokeWidth={2.2} />
                 </div>
