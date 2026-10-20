@@ -737,11 +737,13 @@ function PlanosV2Page() {
             </div>
             <div className="grid grid-cols-1 gap-x-8 gap-y-3 rounded-2xl border border-border bg-background p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-3 lg:gap-x-10 lg:gap-y-4 lg:p-9">
               {segment.resources.map((resource) => (
-                <div key={resource} className="flex items-start gap-2.5 text-sm leading-relaxed">
+                <div
+                  key={resource}
+                  className="flex items-start gap-2.5 text-[clamp(0.875rem,calc(0.8125rem+0.25vw),1rem)] leading-relaxed"
+                >
                   <Check
                     aria-hidden="true"
-                    size={17}
-                    className="mt-0.5 shrink-0"
+                    className="mt-0.5 size-[clamp(17px,1.48vw,19px)] shrink-0"
                     style={{ color: segment.color }}
                   />
                   <span>{resource}</span>
