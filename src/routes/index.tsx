@@ -664,7 +664,7 @@ function Index() {
   }
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-background text-foreground flex flex-col justify-between selection:bg-primary/20">
+    <div className="home-page min-h-screen overflow-x-clip bg-background text-foreground flex flex-col justify-between selection:bg-primary/20">
       <Header currentPath="/" />
 
       <main className="flex-1 w-full">
@@ -877,11 +877,11 @@ function Index() {
         {/* ========================================================================= */}
         <section id="metricas" className="border-y border-border bg-surface-subtle/80 py-8 sm:py-10 lg:py-12 relative overflow-hidden w-full">
           <div className="fluid-container">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-start justify-items-center gap-4 sm:gap-6 lg:gap-8">
+            <div className="metric-grid grid grid-cols-2 auto-rows-fr lg:grid-cols-4 items-start justify-items-center gap-3 sm:gap-4 lg:gap-8">
               {/* Card 1: Economia de tempo */}
-              <div className="w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center p-6 rounded-2xl bg-[#00ADEF]/10 border border-[#00ADEF]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div className="metric-card w-full h-full max-w-[360px] min-w-0 max-lg:justify-self-end lg:justify-self-center flex flex-col items-center text-center p-3 sm:p-4 lg:p-6 rounded-2xl bg-[#00ADEF]/10 border border-[#00ADEF]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#00ADEF] flex items-center justify-center mb-4 shrink-0">
-                  <Clock size={40} className="size-8 sm:size-10" strokeWidth={2.2} />
+                  <Clock size={40} className="metric-icon" strokeWidth={2.2} />
                 </div>
                 <div className="flex flex-col items-center w-full">
                   <div className="flex items-center justify-center w-full">
@@ -890,15 +890,15 @@ function Index() {
                     </span>
                   </div>
                   <span className="mt-2 fluid-caption text-muted-foreground font-medium w-full">
-                    de tempo em nossos clientes.
+                    de tempo para nossos clientes.
                   </span>
                 </div>
               </div>
 
               {/* Card 2: Clientes atendidos */}
-              <div className="w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center p-6 rounded-2xl bg-[#71BE44]/10 border border-[#71BE44]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div className="metric-card w-full h-full max-w-[360px] min-w-0 max-lg:justify-self-start lg:justify-self-center flex flex-col items-center text-center p-3 sm:p-4 lg:p-6 rounded-2xl bg-[#71BE44]/10 border border-[#71BE44]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#71BE44] flex items-center justify-center mb-4 shrink-0">
-                  <Users size={40} className="size-8 sm:size-10" strokeWidth={2.2} />
+                  <Users size={40} className="metric-icon" strokeWidth={2.2} />
                 </div>
                 <div className="flex flex-col items-center w-full">
                   <div className="flex items-center justify-center w-full">
@@ -907,15 +907,15 @@ function Index() {
                     </span>
                   </div>
                   <span className="mt-2 fluid-caption text-muted-foreground font-medium w-full">
-                    atendidos pelo Brasil.
+                    atendidos por todo o nosso Brasil.
                   </span>
                 </div>
               </div>
 
               {/* Card 3: Nota de satisfação */}
-              <div className="w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center p-6 rounded-2xl bg-[#FFB800]/15 border border-[#FFB800]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div className="metric-card w-full h-full max-w-[360px] min-w-0 max-lg:justify-self-end lg:justify-self-center flex flex-col items-center text-center p-3 sm:p-4 lg:p-6 rounded-2xl bg-[#FFB800]/15 border border-[#FFB800]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#FFB800] flex items-center justify-center mb-4 shrink-0">
-                  <Star size={40} className="size-8 fill-[#FFB800] sm:size-10" strokeWidth={2.2} />
+                  <Star size={40} className="metric-icon fill-[#FFB800]" strokeWidth={2.2} />
                 </div>
                 <div className="flex flex-col items-center w-full">
                   <div className="flex items-center justify-center w-full">
@@ -924,15 +924,15 @@ function Index() {
                     </span>
                   </div>
                   <span className="mt-2 fluid-caption text-muted-foreground font-medium w-full">
-                    de satisfação de clientes.
+                    de satisfação de nossos clientes.
                   </span>
                 </div>
               </div>
 
               {/* Card 4: Experiência no mercado */}
-              <div className="w-[80%] max-w-[360px] sm:w-full flex flex-col items-center text-center p-6 rounded-2xl bg-[#EF4444]/10 border border-[#EF4444]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <div className="metric-card w-full h-full max-w-[360px] min-w-0 max-lg:justify-self-start lg:justify-self-center flex flex-col items-center text-center p-3 sm:p-4 lg:p-6 rounded-2xl bg-[#EF4444]/10 border border-[#EF4444]/70 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
                 <div className="text-[#EF4444] flex items-center justify-center mb-4 shrink-0">
-                  <Cake size={40} className="size-8 text-[#EF4444] sm:size-10" strokeWidth={2.2} />
+                  <Cake size={40} className="metric-icon text-[#EF4444]" strokeWidth={2.2} />
                 </div>
                 <div className="flex flex-col items-center w-full">
                   <div className="flex items-center justify-center w-full">
@@ -941,7 +941,7 @@ function Index() {
                     </span>
                   </div>
                   <span className="mt-2 fluid-caption text-muted-foreground font-medium w-full">
-                    em sistema de gestão
+                    no mercado de sistemas de gestão.
                   </span>
                 </div>
               </div>
@@ -1240,10 +1240,10 @@ function Index() {
         {/* SECTION: 4. DIFERENCIAL SUPORTE HUMANO                                    */}
         {/* ========================================================================= */}
         <section id="diferencial-suporte" className="py-12 sm:py-16 lg:py-24 bg-background border-t border-border relative overflow-hidden w-full">
-          <div className="fluid-container">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+          <div className="fluid-container support-container">
+            <div className="support-layout grid grid-cols-1 gap-8 lg:gap-12 items-center w-full">
               {/* Coluna 1 — Esquerda: Imagem do suporte */}
-              <div className="lg:col-span-6 w-full flex items-center justify-center overflow-hidden rounded-2xl">
+              <div className="support-image min-w-0 w-full flex items-center justify-center overflow-hidden rounded-2xl">
                 <img
                   src={atendimentoWaybit}
                   alt="Suporte especializado da Waybit"
@@ -1253,7 +1253,7 @@ function Index() {
               </div>
 
               {/* Coluna 2 — Direita: Conteúdo textual */}
-              <div className="lg:col-span-6 w-full">
+              <div className="min-w-0 w-full">
                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3.5 sm:px-4 py-1.5 fluid-caption font-semibold text-emerald-600 mb-3 sm:mb-4">
                   <ShieldCheck size={14} className="text-[#71BE44]" />
                   <span>Diferencial Exclusivo Waybit</span>

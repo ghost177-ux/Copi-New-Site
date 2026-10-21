@@ -179,6 +179,12 @@
   padding-inline: var(--page-gutter);
 }
 
+.home-page > main .fluid-container {
+  box-sizing: border-box;
+  max-width: 1970px;
+  margin-inline: auto;
+}
+
 @utility fluid-gutter {
   padding-inline: var(--page-gutter);
 }
@@ -937,16 +943,55 @@
 }
 
 #metricas .metric-value {
-  font-size: clamp(1rem, calc(0.8374rem + 0.6936vw), 1.375rem);
+  font-size: clamp(14px, calc(11.913px + 0.6522vw), 20px);
+}
+
+#metricas .metric-icon {
+  width: clamp(28px, calc(26.2222px + 1.1111vw), 42px);
+  height: clamp(28px, calc(26.2222px + 1.1111vw), 42px);
 }
 
 #metricas .fluid-caption {
-  font-size: clamp(0.8125rem, calc(0.8213rem + 0.0694vw), 0.875rem);
+  font-size: clamp(12px, calc(11.3043px + 0.2174vw), 14px);
+}
+
+@media (min-width: 769px) {
+  #diferencial-suporte .support-layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  #diferencial-suporte .support-image img {
+    width: clamp(50%, calc(100% * (1 - (100vw - 1024px) / 3072px)), 100%);
+  }
+}
+
+@media (max-width: 768px) {
+  #diferencial-suporte .support-container {
+    container: support / inline-size;
+  }
+
+  #diferencial-suporte .support-image {
+    width: clamp(50%, calc(100% - 115.92cqw + 446.74px), 100%);
+    justify-self: center;
+  }
+}
+
+@media (min-width: 578px) and (max-width: 1023px) {
+  #metricas .metric-grid {
+    width: clamp(80%, calc(100% - (42.2vw - 243.92px)), 100%);
+    margin-inline: auto;
+  }
+
+  #metricas .metric-card {
+    width: clamp(70%, calc(100% - (23.92vw - 134.67px)), 100%);
+  }
 }
 
 @media (min-width: 1240px) {
   #metricas .metric-value {
-    font-size: clamp(1.375rem, calc(0.7409rem + 0.8182vw), 2.05rem);
+    font-size: clamp(20px, calc(9.8544px + 0.8182vw), 30.8px);
   }
 
   #metricas .fluid-caption {
@@ -1021,4 +1066,3 @@
 @utility demonstracao-notebook {
   width: clamp(25%, calc(383px + 23.4cqw), 100%);
 }
-
