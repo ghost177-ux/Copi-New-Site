@@ -701,7 +701,7 @@ function Index() {
           {/* Degradê suave da cor do segmento ativo da direita até o centro do card */}
           <div className="hero-segment-gradient" aria-hidden="true" />
 
-          <div className="w-full fluid-container grid items-center gap-8 sm:gap-10 py-8 sm:py-12 md:py-14 lg:min-h-[calc(100vh-125px)] lg:grid-cols-2 lg:gap-12">
+          <div className="w-full fluid-container grid items-center gap-8 sm:gap-10 py-8 sm:py-12 md:py-14 lg:grid-cols-2 lg:gap-12">
             {/* COLUNA ESQUERDA: TEXTOS, BUSCA E CONTROLES */}
             <div className="relative z-20 w-full mx-auto lg:mx-0">
               <h1 className="font-display fluid-display font-extrabold leading-[1.14] sm:leading-[1.12] tracking-tight text-foreground w-full">
@@ -1107,7 +1107,7 @@ function Index() {
               <div
                 ref={casesCarouselRef}
                 onScroll={handleCasesScroll}
-                className="flex lg:grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
+                className="flex lg:grid lg:grid-cols-3 lg:justify-items-center gap-4 sm:gap-6 lg:gap-8 overflow-x-auto lg:overflow-visible snap-x snap-mandatory lg:snap-none scroll-smooth pb-4 lg:pb-0 px-4 sm:px-6 lg:px-0 -mx-4 sm:-mx-6 lg:mx-0 no-scrollbar touch-pan-x items-stretch w-full"
                 style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}
               >
                 {testimonialCases.map((item) => (
