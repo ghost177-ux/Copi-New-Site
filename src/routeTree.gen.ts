@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DominusFoodRouteImport } from './routes/dominus-food'
 import { Route as PlanosRouteImport } from './routes/planos'
 import { Route as Planosv2RouteImport } from './routes/planosv2'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DominusFoodRoute = DominusFoodRouteImport.update({
+  id: '/dominus-food',
+  path: '/dominus-food',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlanosRoute = PlanosRouteImport.update({
@@ -31,30 +37,34 @@ const Planosv2Route = Planosv2RouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dominus-food': typeof DominusFoodRoute
   '/planos': typeof PlanosRoute
   '/planosv2': typeof Planosv2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dominus-food': typeof DominusFoodRoute
   '/planos': typeof PlanosRoute
   '/planosv2': typeof Planosv2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dominus-food': typeof DominusFoodRoute
   '/planos': typeof PlanosRoute
   '/planosv2': typeof Planosv2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/planos' | '/planosv2'
+  fullPaths: '/' | '/dominus-food' | '/planos' | '/planosv2'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/planos' | '/planosv2'
-  id: '__root__' | '/' | '/planos' | '/planosv2'
+  to: '/' | '/dominus-food' | '/planos' | '/planosv2'
+  id: '__root__' | '/' | '/dominus-food' | '/planos' | '/planosv2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DominusFoodRoute: typeof DominusFoodRoute
   PlanosRoute: typeof PlanosRoute
   Planosv2Route: typeof Planosv2Route
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dominus-food': {
+      id: '/dominus-food'
+      path: '/dominus-food'
+      fullPath: '/dominus-food'
+      preLoaderRoute: typeof DominusFoodRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/planos': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DominusFoodRoute: DominusFoodRoute,
   PlanosRoute: PlanosRoute,
   Planosv2Route: Planosv2Route,
 }

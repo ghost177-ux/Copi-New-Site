@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Check, ChevronLeft, ChevronRight, Crown, Store, Utensils, Wrench } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, Check, ChevronLeft, ChevronRight, Crown, Store, Utensils, Wrench } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { Footer } from "@/components/Footer";
@@ -18,16 +18,44 @@ import promoVarejoDesktop2 from "@/assets/prom_vj3.png";
 import promoVarejoMobile1 from "@/assets/prom_vj2.png";
 import promoVarejoMobile2 from "@/assets/prom_vj4.png";
 
+// ─── Tipos de search params aceitos pela rota ─────────────────────────────────
+// Quando ?segmento=food está presente, a página entra em modo exclusivo Food.
+// Sem o parâmetro (acesso normal), todos os segmentos ficam disponíveis.
+interface PlanosSearch {
+  segmento?: "food" | "varejo" | "autocenter";
+}
+
 export const Route = createFileRoute("/planos")({
-  head: () => ({
-    meta: [
-      { title: "Planos e Preços Dominus ERP | Waybit" },
-      {
-        name: "description",
-        content: "Conheça os planos do Dominus para Varejo, Food e Auto-Center.",
-      },
-    ],
-  }),
+  validateSearch: (search: Record<string, unknown>): PlanosSearch => {
+    const segmento = search["segmento"];
+    if (segmento === "food" || segmento === "varejo" || segmento === "autocenter") {
+      return { segmento };
+    }
+    return {};
+  },
+  head: ({ match }) => {
+    const segmento = (match.search as PlanosSearch)?.segmento;
+    if (segmento === "food") {
+      return {
+        meta: [
+          { title: "Planos Dominus Food | Waybit" },
+          {
+            name: "description",
+            content: "Conheça os planos do Dominus Food para botecos, restaurantes e delivery.",
+          },
+        ],
+      };
+    }
+    return {
+      meta: [
+        { title: "Planos e Preços Dominus ERP | Waybit" },
+        {
+          name: "description",
+          content: "Conheça os planos do Dominus para Varejo, Food e Auto-Center.",
+        },
+      ],
+    };
+  },
   component: PlanosV2Page,
 });
 
@@ -305,7 +333,7 @@ function formatPrice(price: string) {
   return { whole, cents };
 }
 
-function PlanPrice({ price, originalPrice }: { price: string; originalPrice?: string }) {
+function PlanPrice({ price, originalPrice }: { price: string; originalPrice?: string | undefined }) {
   const amount = formatPrice(price);
 
   return (
@@ -408,7 +436,35 @@ function PlanCard({
 }
 
 function PlanosV2Page() {
-  const [selectedSegment, setSelectedSegment] = useState<SegmentKey>("varejo");
+  // Lê o parâmetro ?segmento da URL para inicializar o segmento ativo.
+  // A derivação vem direto da URL, garantindo persistência no reload e em links compartilhados.
+  const search = Route.useSearch() as PlanosSearch;
+  const segmentoFromUrl = search.segmento;
+
+  // Modo exclusivo: quando ?segmento=food está presente, a página exibe
+  // apenas os planos Food e oculta os seletores de Varejo e Autocenter.
+  const isFoodOnlyMode = segmentoFromUrl === "food";
+
+  const initialSegment: SegmentKey =
+    segmentoFromUrl === "food"
+      ? "food"
+      : segmentoFromUrl === "autocenter"
+        ? "autocenter"
+        : segmentoFromUrl === "varejo"
+          ? "varejo"
+          : "varejo";
+
+  const [selectedSegment, setSelectedSegment] = useState<SegmentKey>(initialSegment);
+
+  useEffect(() => {
+    if (segmentoFromUrl === "food") {
+      setSelectedSegment("food");
+    } else if (segmentoFromUrl === "autocenter") {
+      setSelectedSegment("autocenter");
+    } else if (segmentoFromUrl === "varejo") {
+      setSelectedSegment("varejo");
+    }
+  }, [segmentoFromUrl]);
   const [activeBanner, setActiveBanner] = useState(1);
   const [bannerTransitionEnabled, setBannerTransitionEnabled] = useState(true);
   const [isBannerHovered, setIsBannerHovered] = useState(false);
@@ -604,35 +660,58 @@ function PlanosV2Page() {
         <section className="w-full pb-5 sm:pb-7">
           <div className="fluid-container">
             <div className="flex flex-col items-center justify-between gap-3 sm:gap-4 min-[960px]:flex-row">
-              <div
-                role="group"
-                aria-label="Selecione um segmento"
-                className="inline-flex w-full min-w-0 items-center rounded-xl border border-border bg-surface-subtle p-1 min-[960px]:w-auto"
-              >
-                {segmentOrder.map((key) => {
-                  const option = segments[key];
-                  const Icon = option.icon;
-                  const active = selectedSegment === key;
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      aria-pressed={active}
-                      onClick={() => chooseSegment(key)}
-                      className={`flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[clamp(0.65rem,1vw,0.875rem)] font-semibold transition-colors min-[540px]:gap-2 min-[540px]:px-3 min-[960px]:flex-none ${
-                        active ? "" : "text-muted-foreground hover:text-foreground"
-                      }`}
-                      style={{
-                        color: active ? "#FFFFFF" : undefined,
-                        backgroundColor: active ? option.color : "transparent",
-                      }}
-                    >
-                      <Icon aria-hidden="true" className="size-4 shrink-0 sm:size-[18px]" />
-                      <span className="whitespace-nowrap">{option.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
+              {/* Seletor de segmentos: oculto no modo Food exclusivo (?segmento=food) */}
+              {!isFoodOnlyMode && (
+                <div
+                  role="group"
+                  aria-label="Selecione um segmento"
+                  className="inline-flex w-full min-w-0 items-center rounded-xl border border-border bg-surface-subtle p-1 min-[960px]:w-auto"
+                >
+                  {segmentOrder.map((key) => {
+                    const option = segments[key];
+                    const Icon = option.icon;
+                    const active = selectedSegment === key;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => chooseSegment(key)}
+                        className={`flex min-h-9 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[clamp(0.65rem,1vw,0.875rem)] font-semibold transition-colors min-[540px]:gap-2 min-[540px]:px-3 min-[960px]:flex-none ${
+                          active ? "" : "text-muted-foreground hover:text-foreground"
+                        }`}
+                        style={{
+                          color: active ? "#FFFFFF" : undefined,
+                          backgroundColor: active ? option.color : "transparent",
+                        }}
+                      >
+                        <Icon aria-hidden="true" className="size-4 shrink-0 sm:size-[18px]" />
+                        <span className="whitespace-nowrap">{option.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* No modo Food exclusivo, exibe um badge contextual e botão de retorno para a LP */}
+              {isFoodOnlyMode && (
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                  <Link
+                    to="/dominus-food"
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-surface-subtle px-3 py-1.5 text-xs font-semibold text-muted-foreground transition-all duration-200 hover:border-[#FC4242]/40 hover:text-[#FC4242] active:scale-[0.98]"
+                  >
+                    <ArrowLeft size={13} aria-hidden="true" />
+                    <span>Voltar para Dominus Food</span>
+                  </Link>
+                  <div
+                    className="inline-flex items-center gap-2 rounded-xl border px-3.5 py-1.5 text-xs font-semibold"
+                    style={{ borderColor: "#FC424255", backgroundColor: "#FC42420D", color: "#FC4242" }}
+                  >
+                    <Utensils size={14} className="shrink-0" aria-hidden="true" />
+                    <span>Exclusivo: Planos Dominus Food</span>
+                  </div>
+                </div>
+              )}
 
               <div
                 role="group"
@@ -732,7 +811,9 @@ function PlanosV2Page() {
           <div className="fluid-container">
             <div className="mb-6 text-center sm:mb-8">
               <h2 className="font-display text-[clamp(1.5rem,2.5vw,2.25rem)] font-bold tracking-tight text-foreground">
-                O que está disponível nos planos {segment.label}?
+                {isFoodOnlyMode
+                  ? "O que está disponível nos planos Dominus Food?"
+                  : `O que está disponível nos planos ${segment.label}?`}
               </h2>
             </div>
             <div className="rounded-2xl border border-border bg-background p-5 sm:p-7 lg:p-9">
