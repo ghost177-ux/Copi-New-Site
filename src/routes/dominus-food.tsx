@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ClipboardList,
   Wifi,
+  WifiOff,
   Truck,
   BarChart3,
   Smartphone,
@@ -36,6 +37,13 @@ import { FullFunnelBookingModal } from "@/components/FullFunnelBookingModal";
 import foodLogo from "@/assets/food-logo.png";
 import dominusIaLogo from "@/assets/Dominus IA.png";
 import daOrlaLogo from "@/assets/DaOrla Cafeteria.jpg";
+import dominusFoodEcosystemImage from "@/assets/Dominus-Food-1.avif";
+import tableManagementImage from "@/assets/Tela de mesas.avif";
+import kitchenDisplayImage from "@/assets/KDS.avif";
+import pointOfSaleImage from "@/assets/PDV Rápido.png";
+import inventoryImage from "@/assets/Controle de estoque.avif";
+import dashboardImage from "@/assets/Dashboard.avif";
+import bitfoodImage from "@/assets/BITFOOD COMPUTADOR.png";
 
 export const Route = createFileRoute("/dominus-food")({
   head: () => ({
@@ -65,51 +73,39 @@ export const Route = createFileRoute("/dominus-food")({
 const dores = [
   {
     id: "dor-comandas",
-    problema: "Comanda de papel se perde ou fica confusa no rush",
-    resposta: "Comanda eletrônica no app do garçom com registro e consumo em tempo real",
-    detalhe: "Menos papel, menos pedidos perdidos e muito mais agilidade no salão.",
+    icon: ClipboardList,
+    titulo: "Comandas confusas",
+    problema: "Pedidos anotados no papel se perdem na correria.",
+    resposta: "Comandas digitais com consumo atualizado em tempo real.",
   },
   {
     id: "dor-cozinha",
-    problema: "Pedido vai para a cozinha no grito e sai com erro",
-    resposta: "Envio automático do salão para a tela da cozinha (KDS)",
-    detalhe: "Conexão direta entre salão e cozinha com observações personalizadas por item.",
+    icon: ChefHat,
+    titulo: "Erros na cozinha",
+    problema: "Pedidos desencontrados atrasam o atendimento.",
+    resposta: "Envio direto dos pedidos para a cozinha pelo KDS.",
   },
   {
-    id: "dor-caixa",
-    problema: "PDV lento trava fila e gera furos no fechamento do caixa",
-    resposta: "PDV rápido e intuitivo integrado com comandas e maquininhas",
-    detalhe: "Fechamento de contas sem atrito com divisão facilitada por cliente.",
-  },
-  {
-    id: "dor-internet",
-    problema: "Internet cai na sexta-feira à noite e para toda a operação",
-    resposta: "PDV offline para registro de vendas e contingência fiscal",
-    detalhe: "Operação contínua mesmo sem conexão em determinadas configurações homologadas.",
+    id: "dor-operacao",
+    icon: WifiOff,
+    titulo: "Operação parada",
+    problema: "Internet instável ou PDV lento atrapalham as vendas.",
+    resposta: "PDV ágil com recursos para operar offline.",
+    observacao: "A disponibilidade offline depende da configuração técnica homologada.",
   },
   {
     id: "dor-estoque",
-    problema: "Perdas de insumos, compras no improviso e falta de cerveja gelada",
-    resposta: "Controle de estoque automatizado, combos e alertas de reposição",
-    detalhe: "Baixa por receita e alertas de estoque mínimo para não faltar nenhum produto.",
-  },
-  {
-    id: "dor-delivery",
-    problema: "Pedidos de delivery digitados à mão em cada plataforma",
-    resposta: "Integração com iFood e plataforma própria Bitfood no mesmo painel",
-    detalhe: "Centralize os canais de venda online sem retrabalho manual da equipe.",
+    icon: Package,
+    titulo: "Estoque descontrolado",
+    problema: "Faltam produtos e aumentam os desperdícios.",
+    resposta: "Controle de insumos e alertas de reposição.",
   },
   {
     id: "dor-gestao",
-    problema: "Falta de visão sobre lucros, CMV e saídas financeiras",
-    resposta: "Relatórios operacionais e dashboard financeiro em tempo real",
-    detalhe: "Dados claros para tomar decisões com as informações do negócio à mão.",
-  },
-  {
-    id: "dor-suporte",
-    problema: "Dúvidas durante o expediente e ninguém para ajudar",
-    resposta: "Suporte multicanal especializado com atendimento anunciado 24h",
-    detalhe: "Apoio via WhatsApp, telefone, chat e e-mail sempre que a operação precisar.",
+    icon: BarChart3,
+    titulo: "Falta de visão financeira",
+    problema: "É difícil acompanhar custos, caixa e resultados.",
+    resposta: "Relatórios e indicadores para apoiar a gestão.",
   },
 ];
 
@@ -120,45 +116,22 @@ const pilares = [
     icon: ChefHat,
     numero: "01",
     titulo: "Atendimento Organizado",
-    subtitulo: "Salão, comandas e cozinha no mesmo fluxo",
-    descricao:
-      "O garçom lança o pedido no smartphone ou tablet, a cozinha recebe na tela KDS instantaneamente e a conta fica sempre atualizada.",
-    destaques: [
-      "Mapa visual de mesas e balcão em tempo real",
-      "Comanda eletrônica individual ou por mesa",
-      "KDS (Kitchen Display System) para produção",
-      "Divisão de contas simplificada no fechamento",
-    ],
+    descricao: "Comandas no celular, cozinha integrada e pedidos sempre atualizados.",
   },
   {
     id: "pilar-controle",
     icon: ClipboardList,
     numero: "02",
     titulo: "Controle do Negócio",
-    subtitulo: "Estoque, caixa e finanças na ponta do lápis",
     descricao:
-      "Saiba exatamente o que entra, o que sai e qual é a margem de cada prato e bebida vendida, com apoio do Dominus IA para gestão de estoque.",
-    destaques: [
-      "Baixa automática de insumos e controle de combos",
-      "Alertas inteligentes de reposição mínima",
-      "Fechamento de caixa cego e auditoria segura",
-      "Relatórios gerenciais de vendas e DRE em tempo real",
-    ],
+      "Acompanhe estoque, caixa e finanças em tempo real e tome decisões com mais segurança.",
   },
   {
     id: "pilar-operacao",
     icon: Zap,
     numero: "03",
     titulo: "Operação Conectada",
-    subtitulo: "Delivery, pagamentos e suporte integrados",
-    descricao:
-      "Centralize delivery do iFood e Bitfood, conecte maquininhas de cartão sem digitação dupla e conte com suporte técnico preparado.",
-    destaques: [
-      "Integração oficial com iFood e plataforma Bitfood",
-      "TEF integrado com Stone, Cielo, Rede, Getnet e PagSeguro",
-      "PDV com modo offline e emissão NFC-e em contingência",
-      "Suporte técnico multicanal anunciado como 24h",
-    ],
+    descricao: "Delivery, pagamentos e integrações em um só sistema, sem complicação.",
   },
 ];
 
@@ -168,94 +141,58 @@ const funcionalidades = [
     id: "func-mesas",
     icon: TableProperties,
     badge: "Salão & Balcão",
+    image: tableManagementImage,
     titulo: "Mesas e Comandas Digitais",
     descricao:
       "Organize o atendimento com mapa de mesas interativo e comandas eletrônicas ágeis. Seu garçom atende mais mesas com menos passos.",
-    itens: [
-      "Controle visual de mesas livres, ocupadas e em fechamento",
-      "Comanda eletrônica via aplicativo do garçom no celular",
-      "Transferência ágil de pedidos entre mesas ou clientes",
-      "Visualização do tempo de permanência e consumo acumulado",
-      "Fechamento de contas integrado ao caixa com divisão de valor",
-    ],
   },
   {
     id: "func-cozinha",
     icon: ChefHat,
     badge: "Produção",
+    image: kitchenDisplayImage,
     titulo: "Comunicação Salão–Cozinha (KDS)",
     descricao:
       "Elimine a gritaria e a troca de papéis engordurados. Os pedidos lançados chegam direto na tela da cozinha ou impressora térmica.",
-    itens: [
-      "Envio de pedidos em tempo real por ordem cronológica",
-      "Observações de preparo destacadas (ex: sem cebola, gelo e limão)",
-      "Separação automática entre pedidos de bar e pratos quentes",
-      "Controle do tempo de preparo para evitar atrasos no rush",
-      "Sinalização de pratos prontos para retirada imediata",
-    ],
   },
   {
     id: "func-caixa",
     icon: CreditCard,
     badge: "Frente de Caixa",
+    image: pointOfSaleImage,
     titulo: "PDV Rápido e Operação Offline",
     descricao:
       "Pensado para a rotina acelerada do boteco. Registra vendas com rapidez, integra com maquininhas e não para mesmo se a internet cair.",
-    itens: [
-      "PDV intuitivo com atalhos de teclado e toque na tela",
-      "Funcionamento offline para registro de vendas sem internet*",
-      "Integração com maquininhas Stone, Rede, Getnet, Cielo e PagSeguro",
-      "Emissão de NFC-e e NF-e em modo normal ou contingência",
-      "Sangria, suprimento e fechamento de caixa cego",
-    ],
     nota: "* O funcionamento offline e a sincronização dependem da configuração técnica instalada.",
   },
   {
     id: "func-estoque",
     icon: Package,
     badge: "Suprimentos",
+    image: inventoryImage,
     titulo: "Estoque Inteligente & Dominus IA",
     descricao:
       "Monitore entradas, saídas e estoque mínimo. Crie combos promocionais de cervejas e petiscos com baixa automática por ficha técnica.",
-    itens: [
-      "Acompanhamento em tempo real de entradas, saídas e desperdícios",
-      "Criação e gestão simplificada de combos de petiscos e bebidas",
-      "Alertas automáticos de reposição para evitar ruptura",
-      "Ficha técnica com cálculo do custo de mercadoria vendida (CMV)",
-      "Apoio do módulo Dominus IA para contagem e notas fiscais*",
-    ],
     nota: "* Dominus IA é uma solução avançada de IA; consulte condições e disponibilidade por plano.",
   },
   {
     id: "func-delivery",
     icon: Truck,
     badge: "Canais Digitais",
+    image: bitfoodImage,
     titulo: "Delivery Unificado: iFood & Bitfood",
     descricao:
       "Venda delivery sem bagunça de telas. Centralize pedidos do iFood e do seu cardápio próprio Bitfood no mesmo sistema.",
-    itens: [
-      "Integração anunciada com iFood para recebimento automático*",
-      "Plataforma Bitfood para cardápio digital próprio sem comissão",
-      "Roteirização de entregas e controle de taxas de motoboys",
-      "Atualização sincronizada de cardápio, preços e disponibilidade",
-      "Controle financeiro do delivery consolidado no caixa diário",
-    ],
     nota: "* Condições de integração e planos de parceiros devem ser confirmados com a equipe comercial.",
   },
   {
     id: "func-relatorios",
     icon: BarChart3,
     badge: "Gestão Estratégica",
+    image: dashboardImage,
     titulo: "Relatórios e Indicadores em Tempo Real",
     descricao:
       "Tenha clareza total dos números da sua empresa. Acompanhe vendas, faturamento por turno e produtos mais lucrativos pelo celular ou PC.",
-    itens: [
-      "Dashboard operacional com vendas e tíquete médio em tempo real",
-      "Relatórios de faturamento por garçom, mesa e período",
-      "Curva ABC de produtos (quais itens trazem o maior lucro)",
-      "Fluxo de caixa previsto x realizado e gestão de contas",
-      "Acesso web seguro para acompanhar de onde estiver",
-    ],
   },
 ];
 
@@ -565,9 +502,9 @@ function DominusFoodPage() {
         {/* ─── 1. HERO SECTION ─── */}
         <section
           id="hero-dominus-food"
-          className="relative w-full pt-4 pb-14 sm:pt-6 sm:pb-20 lg:pt-8 lg:pb-28"
+          className="relative w-full pt-[60px] pb-14 sm:pb-20 lg:pb-28"
         >
-          <div className="fluid-container relative z-10">
+          <div className="landing-page-container relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
               {/* Lado Esquerdo: Mensagem e Ação */}
               <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -581,15 +518,13 @@ function DominusFoodPage() {
 
                 {/* Headline Oficial Dominus Food */}
                 <h1 className="font-display fluid-h1 font-extrabold tracking-tight text-white leading-[1.1]">
-                  Quem está no controle:{" "}
-                  <span style={{ color: "#FC4242" }} className="text-[#FC4242]">
-                    você ou seu boteco?
-                  </span>
+                  <span className="block text-white">Quem está no controle:</span>
+                  <span className="block text-[#FC4242]">você ou seu boteco?</span>
                 </h1>
 
                 {/* Subtítulo orientativo */}
                 <p className="mt-5 sm:mt-6 fluid-body-lg text-white/80 leading-relaxed max-w-2xl">
-                  Seu boteco precisa funcionar para você, e não o contrário. Com o Dominus Food, tenha mais controle sobre pedidos, comandas, estoque e caixa, sem deixar a correria comandar seu negócio.
+                  Se a correria do dia a dia dita suas decisões, está na hora de virar esse jogo. Com o Dominus Food, tenha mais controle sobre pedidos, comandas, estoque e caixa, sem deixar a correria comandar seu negócio.
                 </p>
 
                 {/* Micro-prova / Badges de confiança (Desktop) */}
@@ -614,10 +549,10 @@ function DominusFoodPage() {
               </div>
 
               {/* Lado Direito: Formulário Oficial Full Funnel Dominus Food */}
-              <div className="lg:col-span-5 relative flex flex-col items-center justify-center w-full">
+              <div className="lg:col-span-5 relative flex w-full flex-col items-center justify-center lg:self-stretch">
                 {/* Card branco com bordas de 30px e sombra externa vermelha baseada em #FC4242 */}
                 <div
-                  className="relative w-full max-w-[500px] min-h-[520px] rounded-[30px] overflow-hidden border-0"
+                  className="relative w-full max-w-[500px] rounded-[30px] overflow-hidden border-0 pt-[25px]"
                   style={{
                     backgroundColor: "#FFFFFF",
                     boxShadow: "0px 0px 10px 5px #FC4242",
@@ -627,8 +562,7 @@ function DominusFoodPage() {
                     src="https://links.fullfunnel.app/widget/form/CXAOoyZbuAZR4FXznTAR"
                     style={{
                       width: "100%",
-                      height: "100%",
-                      minHeight: "520px",
+                      height: "519px",
                       border: "none",
                       display: "block",
                     }}
@@ -670,64 +604,146 @@ function DominusFoodPage() {
       </div>
 
       <main className="flex-1 w-full">
-
-        {/* ─── 2. DORES DO GESTOR DE BOTECO (Problemas x Respostas) ─── */}
-        <section id="dores-dominus-food" className="w-full py-16 sm:py-20 bg-background">
-          <div className="fluid-container">
-            <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+        {/* ─── 2. APRESENTAÇÃO DO ECOSSISTEMA DOMINUS FOOD ─── */}
+        <section id="solucao-dominus-food" className="w-full bg-background py-14 sm:py-20 lg:py-24">
+          <div className="landing-page-container">
+            <div className="mx-auto mb-8 w-full max-w-7xl text-center sm:mb-10">
               <div
-                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-caption font-bold mb-3 sm:mb-4"
+                className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-secondary font-bold sm:mb-4"
                 style={{ backgroundColor: "#FC42420D", color: "#FC4242" }}
               >
-                <span>Reconhece essas situações no seu boteco?</span>
+                <Layers size={13} aria-hidden="true" />
+                <span>DOMINUS FOOD</span>
+              </div>
+              <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
+                Tudo o que seu boteco precisa, em um só sistema.
+              </h2>
+              <p className="mx-auto mt-3.5 w-full max-w-4xl fluid-body leading-relaxed text-muted-foreground">
+                Do atendimento ao caixa, acompanhe sua operação com ferramentas que trabalham juntas
+                para facilitar a gestão do seu negócio.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
+              <div className="relative mx-auto flex w-full max-w-[1020px] items-center justify-center overflow-hidden">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(252,66,66,0.12) 0%, rgba(252,66,66,0.06) 42%, transparent 72%)",
+                  }}
+                />
+                <img
+                  src={dominusFoodEcosystemImage}
+                  alt="Ecossistema Dominus Food em computadores, telas de operação e dispositivos móveis"
+                  className="relative z-10 block h-auto w-full object-contain"
+                  decoding="async"
+                />
+              </div>
+
+              <div className="flex w-full flex-col gap-4 sm:gap-5">
+                {pilares.map((pilar) => {
+                  const Icon = pilar.icon;
+                  return (
+                    <div
+                      key={pilar.id}
+                      className="flex min-h-28 w-full items-center gap-4 rounded-2xl border border-[#FC4242]/20 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#FC4242]/50 hover:shadow-md sm:gap-5 sm:p-5"
+                    >
+                      <div
+                        className="flex size-12 shrink-0 items-center justify-center rounded-xl sm:size-14"
+                        style={{ backgroundColor: "#FC424215" }}
+                      >
+                        <Icon size={25} style={{ color: "#FC4242" }} aria-hidden="true" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="font-display fluid-h3 font-bold leading-tight text-foreground">
+                          {pilar.titulo}
+                        </h3>
+                        <p className="mt-1 fluid-secondary leading-relaxed text-muted-foreground">
+                          {pilar.descricao}
+                        </p>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        className="shrink-0 font-display text-3xl font-extrabold text-[#FC4242]/20 sm:text-4xl"
+                      >
+                        {pilar.numero}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 3. DORES DO GESTOR DE BOTECO (Problemas x Respostas) ─── */}
+        <section id="dores-dominus-food" className="w-full py-16 sm:py-20 bg-background">
+          <div className="landing-page-container">
+            <div className="max-w-7xl mx-auto text-center mb-12 sm:mb-16">
+              <div
+                className="mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-secondary font-bold sm:mb-4"
+                style={{ backgroundColor: "#FC42420D", color: "#FC4242" }}
+              >
+                <span>Os desafios do dia a dia</span>
               </div>
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
                 O que trava a operação do seu boteco
               </h2>
-              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-4xl mx-auto">
                 Quem atende balcão e salão movimentados sabe: ferramentas improvisadas geram perdas,
                 pedidos trocados e fechamento de caixa com dor de cabeça.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-              {dores.map((dor) => (
-                <div
-                  key={dor.id}
-                  className="flex flex-col justify-between rounded-2xl border border-border bg-surface-subtle/50 p-5 sm:p-6 transition-all duration-300 hover:border-[#FC4242]/40 hover:shadow-lg hover:-translate-y-1"
-                >
-                  <div>
-                    {/* Bloco Dor */}
-                    <div className="flex items-start gap-2.5 mb-3">
+            <div
+              role="region"
+              aria-label="Desafios e soluções do Dominus Food"
+              className="w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain pb-4 [scrollbar-color:rgba(252,66,66,0.35)_rgba(252,66,66,0.06)] [scrollbar-width:thin] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FC4242]/60 focus-visible:ring-offset-2"
+              tabIndex={0}
+              style={{ scrollbarWidth: "thin" }}
+            >
+              <div className="flex w-max gap-4 min-[1850px]:w-full">
+                {dores.map((dor) => {
+                  const Icon = dor.icon;
+                  return (
+                    <article
+                      key={dor.id}
+                      className="flex min-h-[320px] w-[min(84vw,320px)] shrink-0 snap-start flex-col rounded-2xl border border-border bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FC4242]/40 hover:shadow-md min-[1850px]:min-w-[250px] min-[1850px]:flex-1 min-[1850px]:basis-0"
+                    >
                       <div
-                        className="mt-1 flex size-4 shrink-0 items-center justify-center rounded-full"
-                        style={{ backgroundColor: "#FC424220" }}
+                        className="mb-4 flex size-12 shrink-0 items-center justify-center rounded-xl"
+                        style={{ backgroundColor: "#FC424218" }}
                       >
-                        <span
-                          className="block size-1.5 rounded-full"
-                          style={{ backgroundColor: "#FC4242" }}
-                        />
+                        <Icon size={23} style={{ color: "#FC4242" }} aria-hidden="true" />
                       </div>
-                      <h3 className="font-bold text-sm sm:text-base text-foreground leading-snug">
-                        {dor.problema}
+
+                      <h3 className="font-display fluid-h3 font-bold leading-tight text-foreground">
+                        {dor.titulo}
                       </h3>
-                    </div>
-
-                    {/* Resposta do Produto */}
-                    <div className="rounded-xl border border-[#FC4242]/20 bg-[#FC4242]/05 p-3 text-xs leading-relaxed text-foreground/90">
-                      <p className="font-semibold text-[#FC4242] flex items-center gap-1.5 mb-1">
-                        <CheckCircle2 size={13} className="shrink-0" />
-                        Com o Dominus Food:
+                      <p className="mt-2 fluid-secondary leading-relaxed text-muted-foreground">
+                        {dor.problema}
                       </p>
-                      <p className="text-muted-foreground">{dor.resposta}</p>
-                    </div>
-                  </div>
 
-                  <p className="mt-3 text-[11px] text-muted-foreground/75 leading-tight pt-2 border-t border-border/60">
-                    {dor.detalhe}
-                  </p>
-                </div>
-              ))}
+                      <div className="mt-auto border-t border-border pt-4">
+                        <p className="mb-1.5 flex items-center gap-1.5 fluid-caption font-bold text-[#FC4242]">
+                          <CheckCircle2 size={14} className="shrink-0" aria-hidden="true" />
+                          Com o Dominus Food:
+                        </p>
+                        <p className="fluid-secondary leading-relaxed text-foreground">
+                          {dor.resposta}
+                        </p>
+                        {dor.observacao && (
+                          <p className="mt-2 fluid-legal leading-relaxed text-muted-foreground">
+                            {dor.observacao}
+                          </p>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Chamada para demonstração rápida */}
@@ -735,89 +751,13 @@ function DominusFoodPage() {
               <button
                 type="button"
                 onClick={() => setSpecialistOpen(true)}
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#FC4242] hover:underline"
+                className="inline-flex min-h-14 w-full max-w-full items-center justify-center gap-2 rounded-xl bg-[#FC4242] px-6 py-3.5 font-bold fluid-body text-white shadow-md transition-all duration-300 hover:bg-[#e53636] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FC4242]/60 focus-visible:ring-offset-2 sm:w-auto sm:px-8"
               >
-                <span>Descubra como eliminar esses gargalos na sua operação</span>
-                <ArrowRight size={14} />
+                <span className="text-center">
+                  Descubra como eliminar esses gargalos na sua operação
+                </span>
+                <ArrowRight size={16} className="shrink-0" aria-hidden="true" />
               </button>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── 3. TRÊS PILARES DA OPERAÇÃO INTEGRADA ─── */}
-        <section
-          id="solucao-dominus-food"
-          className="w-full py-16 sm:py-24 border-t border-border"
-          style={{ background: "linear-gradient(180deg, #fff5f5 0%, #ffffff 100%)" }}
-        >
-          <div className="fluid-container">
-            <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
-              <div
-                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-caption font-bold mb-3 sm:mb-4"
-                style={{ backgroundColor: "#FC42420D", color: "#FC4242" }}
-              >
-                <Layers size={13} aria-hidden="true" />
-                <span>Uma Solução Integrada</span>
-              </div>
-              <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
-                Do pedido à gestão:{" "}
-                <span style={{ color: "#FC4242" }}>tudo mais conectado</span>
-              </h2>
-              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-                O Dominus Food não é apenas um app isolado de comanda. É a integração completa entre
-                salão, cozinha, estoque, caixa e financeiro para quem busca visibilidade e controle.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-              {pilares.map((pilar) => {
-                const Icon = pilar.icon;
-                return (
-                  <div
-                    key={pilar.id}
-                    className="relative flex flex-col justify-between rounded-2xl border border-[#FC4242]/20 bg-white p-7 sm:p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#FC4242]/50 hover:-translate-y-1"
-                  >
-                    <div>
-                      {/* Topo do Card com Número e Ícone */}
-                      <div className="flex items-center justify-between mb-5">
-                        <div
-                          className="flex size-14 items-center justify-center rounded-2xl"
-                          style={{ backgroundColor: "#FC424215" }}
-                        >
-                          <Icon size={26} style={{ color: "#FC4242" }} aria-hidden="true" />
-                        </div>
-                        <span className="font-display font-extrabold text-2xl text-[#FC4242]/25">
-                          {pilar.numero}
-                        </span>
-                      </div>
-
-                      <h3 className="font-display fluid-h3 font-bold text-foreground">
-                        {pilar.titulo}
-                      </h3>
-                      <p className="text-xs font-semibold uppercase tracking-wider text-[#FC4242] mt-1 mb-3">
-                        {pilar.subtitulo}
-                      </p>
-                      <p className="fluid-secondary text-muted-foreground leading-relaxed mb-6">
-                        {pilar.descricao}
-                      </p>
-
-                      {/* Lista de destaques */}
-                      <ul className="flex flex-col gap-2.5 pt-4 border-t border-border">
-                        {pilar.destaques.map((item) => (
-                          <li key={item} className="flex items-start gap-2 text-xs text-foreground">
-                            <CheckCircle2
-                              size={14}
-                              className="mt-0.5 shrink-0 text-[#FC4242]"
-                              aria-hidden="true"
-                            />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </div>
         </section>
@@ -827,10 +767,10 @@ function DominusFoodPage() {
           id="funcionalidades-dominus-food"
           className="w-full py-16 sm:py-24 bg-background border-t border-border"
         >
-          <div className="fluid-container">
-            <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+          <div className="landing-page-container">
+            <div className="max-w-7xl mx-auto text-center mb-12 sm:mb-16">
               <div
-                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-caption font-bold mb-3 sm:mb-4"
+                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-secondary font-bold mb-3 sm:mb-4"
                 style={{ backgroundColor: "#FC42420D", color: "#FC4242" }}
               >
                 <Utensils size={13} aria-hidden="true" />
@@ -839,64 +779,74 @@ function DominusFoodPage() {
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
                 Recursos pensados para cada momento da sua rotina
               </h2>
-              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-                Tudo o que sua equipe precisa para operar com rapidez no atendimento e o que o gestor
-                precisa para tomar decisões fundamentadas.
+              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-4xl mx-auto">
+                Tudo o que sua equipe precisa para operar com rapidez no atendimento e o que o
+                gestor precisa para tomar decisões fundamentadas.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-              {funcionalidades.map((func) => {
-                const Icon = func.icon;
-                return (
-                  <div
-                    key={func.id}
-                    className="flex flex-col justify-between rounded-2xl border border-border bg-surface-subtle/40 p-6 sm:p-7 transition-all duration-300 hover:border-[#FC4242]/40 hover:shadow-lg"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-3 mb-4">
-                        <div
-                          className="flex size-12 shrink-0 items-center justify-center rounded-xl"
-                          style={{ backgroundColor: "#FC424218" }}
-                        >
-                          <Icon size={24} style={{ color: "#FC4242" }} aria-hidden="true" />
+            <div
+              aria-label="Funcionalidades do Dominus Food"
+              className="w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain pb-4 [scrollbar-color:rgba(252,66,66,0.35)_rgba(252,66,66,0.06)] [scrollbar-width:thin] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FC4242]/60 focus-visible:ring-offset-2 lg:overflow-visible lg:pb-0 lg:ring-0"
+              role="region"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+                  event.preventDefault();
+                  event.currentTarget.scrollBy({
+                    left: event.key === "ArrowRight" ? 320 : -320,
+                    behavior: "smooth",
+                  });
+                }
+              }}
+            >
+              <div className="flex w-max gap-6 lg:grid lg:w-full lg:grid-cols-3 lg:gap-6">
+                {funcionalidades.map((func) => {
+                  const Icon = func.icon;
+                  return (
+                    <div
+                      key={func.id}
+                      className="flex w-[min(84vw,360px)] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border bg-surface-subtle/40 p-0 transition-all duration-300 hover:border-[#FC4242]/40 hover:shadow-lg lg:w-auto"
+                    >
+                      <div className="relative aspect-[16/9] w-full bg-white">
+                        <img
+                          src={func.image}
+                          alt={`Tela do Dominus Food: ${func.titulo}`}
+                          className="block h-full w-full object-contain"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <div className="absolute inset-x-4 top-4 z-10 flex items-start justify-between gap-2">
+                          <div
+                            className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/95 shadow-sm"
+                            style={{ color: "#FC4242" }}
+                          >
+                            <Icon size={24} aria-hidden="true" />
+                          </div>
+                          <span className="max-w-[calc(100%-4rem)] rounded-full border border-[#FC4242]/20 bg-white/95 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-[#FC4242] shadow-sm">
+                            {func.badge}
+                          </span>
                         </div>
-                        <span className="text-[11px] font-bold uppercase tracking-wider rounded-md border border-[#FC4242]/30 bg-[#FC4242]/08 px-2.5 py-1 text-[#FC4242]">
-                          {func.badge}
-                        </span>
                       </div>
 
-                      <h3 className="font-display fluid-h3 font-bold text-foreground leading-tight mb-2">
-                        {func.titulo}
-                      </h3>
-                      <p className="fluid-secondary text-muted-foreground leading-relaxed mb-5">
-                        {func.descricao}
-                      </p>
+                      <div className="flex flex-1 flex-col p-6 sm:p-7">
+                        <h3 className="mb-3 font-display fluid-h3 font-bold leading-tight text-foreground">
+                          {func.titulo}
+                        </h3>
+                        <p className="fluid-secondary leading-relaxed text-muted-foreground">
+                          {func.descricao}
+                        </p>
 
-                      <ul className="flex flex-col gap-2 pt-3 border-t border-border/80">
-                        {func.itens.map((item) => (
-                          <li key={item} className="flex items-start gap-2.5">
-                            <CheckCircle2
-                              size={14}
-                              className="mt-0.5 shrink-0 text-[#FC4242]"
-                              aria-hidden="true"
-                            />
-                            <span className="fluid-secondary text-foreground leading-snug">
-                              {item}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                        {func.nota && (
+                          <p className="mt-4 fluid-legal italic text-muted-foreground/75">
+                            {func.nota}
+                          </p>
+                        )}
+                      </div>
                     </div>
-
-                    {func.nota && (
-                      <p className="fluid-legal text-muted-foreground/75 italic border-t border-border pt-3 mt-4">
-                        {func.nota}
-                      </p>
-                    )}
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
@@ -909,7 +859,7 @@ function DominusFoodPage() {
             background: "linear-gradient(135deg, #160404 0%, #200707 50%, #160404 100%)",
           }}
         >
-          <div className="fluid-container">
+          <div className="landing-page-container">
             <div className="max-w-4xl mx-auto rounded-3xl border border-[#FC4242]/30 bg-black/40 p-6 sm:p-10 lg:p-12 text-white backdrop-blur-md">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                 <div className="md:col-span-8 flex flex-col gap-4">
@@ -982,12 +932,12 @@ function DominusFoodPage() {
           id="integracoes-dominus-food"
           className="w-full py-14 sm:py-20 border-t border-border bg-surface-subtle/30"
         >
-          <div className="fluid-container">
-            <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-14">
+          <div className="landing-page-container">
+            <div className="max-w-7xl mx-auto text-center mb-10 sm:mb-14">
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
                 Conectado às ferramentas que o seu boteco já utiliza
               </h2>
-              <p className="mt-3 fluid-body text-muted-foreground leading-relaxed">
+              <p className="mx-auto mt-3 max-w-4xl fluid-body text-muted-foreground leading-relaxed">
                 Integrações homologadas com os principais players de pagamento, delivery e hardware
                 fiscal do mercado.
               </p>
@@ -1070,7 +1020,7 @@ function DominusFoodPage() {
           id="prova-social-dominus-food"
           className="w-full py-16 sm:py-24 border-t border-border bg-background"
         >
-          <div className="fluid-container">
+          <div className="landing-page-container">
             {/* Números oficiais divulgados pela Waybit */}
             <div className="max-w-4xl mx-auto rounded-2xl border border-border bg-surface-subtle/50 p-6 sm:p-10 mb-14">
               <p className="fluid-caption font-bold uppercase tracking-wider text-muted-foreground text-center mb-8">
@@ -1102,11 +1052,11 @@ function DominusFoodPage() {
             </div>
 
             {/* Depoimentos e Cases Documentados */}
-            <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
+            <div className="max-w-7xl mx-auto text-center mb-10 sm:mb-12">
               <h3 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
                 Quem já confia na tecnologia da Waybit
               </h3>
-              <p className="mt-3 fluid-body text-muted-foreground leading-relaxed">
+              <p className="mx-auto mt-3 max-w-4xl fluid-body text-muted-foreground leading-relaxed">
                 Depoimentos e relatos de clientes do segmento de alimentação que transformaram a sua operação.
               </p>
             </div>
@@ -1182,11 +1132,11 @@ function DominusFoodPage() {
             }}
           />
 
-          <div className="fluid-container relative z-10">
-            <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-14">
+          <div className="landing-page-container relative z-10">
+            <div className="max-w-7xl mx-auto text-center mb-10 sm:mb-14">
               <div className="inline-flex items-center gap-2 rounded-full border border-[#FC4242]/40 bg-[#FC4242]/15 px-4 py-1.5 mb-4">
                 <Star size={13} className="text-[#FC4242]" aria-hidden="true" />
-                <span className="fluid-caption font-bold uppercase tracking-wider text-[#FC4242]">
+                <span className="fluid-secondary font-bold uppercase tracking-wider text-[#FC4242]">
                   Investimento Transparente
                 </span>
               </div>
@@ -1195,7 +1145,7 @@ function DominusFoodPage() {
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-white leading-tight">
                 Conheça os planos do Dominus Food
               </h2>
-              <p className="mt-4 fluid-body text-white/80 leading-relaxed max-w-2xl mx-auto">
+              <p className="mt-4 fluid-body text-white/80 leading-relaxed max-w-4xl mx-auto">
                 Encontre uma opção para a realidade do seu boteco e descubra como começar a organizar
                 sua gestão com o Dominus Food.
               </p>
@@ -1368,10 +1318,10 @@ function DominusFoodPage() {
           id="faq-dominus-food"
           className="w-full py-16 sm:py-24 bg-background border-t border-border"
         >
-          <div className="fluid-container">
-            <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+          <div className="landing-page-container">
+            <div className="max-w-7xl mx-auto text-center mb-12 sm:mb-16">
               <div
-                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-caption font-bold mb-3 sm:mb-4"
+                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 fluid-secondary font-bold mb-3 sm:mb-4"
                 style={{ backgroundColor: "#FC42420D", color: "#FC4242" }}
               >
                 <HelpCircle size={13} aria-hidden="true" />
@@ -1380,7 +1330,7 @@ function DominusFoodPage() {
               <h2 className="font-display fluid-h2 font-extrabold tracking-tight text-foreground">
                 Perguntas frequentes de gestores de boteco
               </h2>
-              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+              <p className="mt-3.5 fluid-body text-muted-foreground leading-relaxed max-w-4xl mx-auto">
                 Respostas diretas e responsáveis sobre funcionalidades, funcionamento offline,
                 equipamentos, maquininhas, preços e suporte.
               </p>
@@ -1419,7 +1369,7 @@ function DominusFoodPage() {
           id="cta-final-dominus-food"
           className="w-full py-16 sm:py-24 border-t border-border bg-surface-subtle/40"
         >
-          <div className="fluid-container">
+          <div className="landing-page-container">
             <div className="max-w-2xl mx-auto text-center flex flex-col items-center gap-5 sm:gap-6">
               <div
                 className="flex size-16 sm:size-20 items-center justify-center rounded-2xl shadow-md"
@@ -1432,7 +1382,7 @@ function DominusFoodPage() {
                 Pronto para ter seu boteco cheio e sua gestão sob controle?
               </h2>
 
-              <p className="fluid-body text-muted-foreground leading-relaxed max-w-xl">
+              <p className="fluid-body text-muted-foreground leading-relaxed max-w-4xl">
                 Agende uma demonstração gratuita com nossos consultores. Veja na prática como o
                 Dominus Food organiza o atendimento, acelera a cozinha e coloca seu financeiro nos
                 trilhos.
@@ -1473,7 +1423,7 @@ function DominusFoodPage() {
 
       {/* Rodapé discreto sem elementos institucionais */}
       <footer className="w-full py-6 border-t border-border bg-surface-subtle/60 text-center text-xs text-muted-foreground">
-        <div className="fluid-container flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="landing-page-container flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>© {new Date().getFullYear()} Dominus Food • Waybit Software. Todos os direitos reservados.</p>
           <p className="text-[11px] text-muted-foreground/70">Tecnologia para uma gestão mais leve.</p>
         </div>

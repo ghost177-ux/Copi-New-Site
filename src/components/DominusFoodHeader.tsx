@@ -12,7 +12,7 @@ export function DominusFoodHeader({
 }: DominusFoodHeaderProps) {
   return (
     <header className="relative z-30 w-full bg-transparent">
-      <div className="fluid-container flex min-h-[68px] sm:min-h-[76px] lg:min-h-[84px] items-center justify-between gap-2 sm:gap-4 py-2.5 sm:py-3">
+      <div className="landing-page-container flex min-h-[68px] sm:min-h-[76px] lg:min-h-[84px] items-center justify-between gap-2 sm:gap-4 py-2.5 sm:py-3">
         {/* Lado esquerdo: Logotipo oficial Dominus Food mantendo proporção original */}
         <a
           href="/dominus-food"
